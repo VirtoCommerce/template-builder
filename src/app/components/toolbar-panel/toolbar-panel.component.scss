@@ -1,0 +1,12 @@
+:host {
+    stroke: #ececec;
+    .active {
+        stroke: black;
+    }
+
+    @apply flex justify-around mx-3
+}
+
+button {
+    @apply mx-3
+}
