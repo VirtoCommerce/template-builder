@@ -1,0 +1,15 @@
+<div class="panel-title">
+    <div>{{ template.name }}</div>
+    <div>
+        <app-toolbar-button icon="settings"></app-toolbar-button>
+    </div>
+</div>
+<div class="panel-body">
+    <app-section-item *ngFor="let section of template.sections" (click)="onItemClick()" [section]="section"></app-section-item>
+</div>
+<div class="footer">
+    <button class="bg-primary" type="button" (click)="addButtonClick()">
+        <img src="assets/icons/plus.svg" />
+        Add section
+    </button>
+</div>

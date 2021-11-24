@@ -1,7 +1,0 @@
-:host {
-    @apply absolute h-full bg-white inset-y-0 left-8 -right-8 flex flex-col w-96;
-}
-
-.items {
-    @apply flex-grow overflow-y-auto flex flex-col;
-}

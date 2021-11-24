@@ -1,0 +1,13 @@
+@import '../../../styles.scss';
+
+:host {
+    @apply h-full bg-white flex flex-col;
+    box-shadow: 0 0 4.187rem rgba(36, 36, 36, .1);
+}
+
+.back {
+    @apply absolute;
+    top: 2.6875rem;
+    left: 0;
+    transform: translate(-50%, -50%);
+}

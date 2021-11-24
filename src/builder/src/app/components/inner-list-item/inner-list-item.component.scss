@@ -1,0 +1,9 @@
+:host {
+    @apply pr-4;
+    &:hover {
+        cursor: pointer;
+    }
+}
+img {
+    @apply px-1;
+}

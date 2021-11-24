@@ -1,0 +1,13 @@
+:host {
+    position: relative;
+    z-index: 1;
+    @apply flex py-3 px-11 bg-white justify-between shadow-md;
+}
+
+button {
+    @apply px-11 rounded-lg text-base font-semibold;
+}
+
+.central-place {
+    @apply flex-grow flex justify-center;
+}
