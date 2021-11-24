@@ -1,0 +1,10 @@
+<app-collapsible-item [title]="section.name" [closable]="!!section.blocks" [icon]="section.icon">
+    <app-inner-list-item *ngFor="let block of section.blocks" [icon]="block.icon" [title]="block.name"></app-inner-list-item>
+
+    <app-separator></app-separator>
+
+    <button class="flex items-center py-2">
+        <img class="mr-1" src="assets/icons/round-plus.svg" />
+        <span>Add block</span>
+    </button>
+</app-collapsible-item>
