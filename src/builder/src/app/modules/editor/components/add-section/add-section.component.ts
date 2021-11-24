@@ -39,7 +39,8 @@ export class AddSectionComponent implements OnInit {
             this.groupItems();
         }
         const result = this.helper.groupSections(this.schemas);
-        const groups = result.map(x => ({ ...x, items: x.items.filter(_ => _.name.indexOf(filter) != -1) }));
+        const f = filter.toLowerCase();
+        const groups = result.map(x => ({ ...x, items: x.items.filter(_ => _.name.toLowerCase().indexOf(f) != -1) }));
         this.setGroups(groups);
     }
 
