@@ -1,6 +1,5 @@
-import { ItemsGroup } from '@app/models/items-group';
-import { SectionSchema } from './../models/section.schema';
 import { Injectable } from "@angular/core";
+import { SectionSchema, ItemsGroup } from '@shared/models';
 
 @Injectable({
     providedIn: 'root'

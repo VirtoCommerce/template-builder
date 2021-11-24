@@ -25,6 +25,15 @@
         "paths": {
             "@app/*": [
                 "src/app/*"
+            ],
+            "@shared/*": [
+                "src/app/modules/shared/*"
+            ],
+            "@editor/*": [
+                "src/app/modules/editor/*"
+            ],
+            "@theme/*": [
+                "src/app/modules/theme/*"
             ]
         }
     },

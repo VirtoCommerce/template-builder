@@ -1,4 +1,4 @@
-import { ButtonDescriptor } from '@app/models';
+import { ButtonDescriptor } from '@shared/models';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
