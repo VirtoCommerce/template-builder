@@ -4,9 +4,6 @@
 @import 'tailwindcss/utilities';
 @import './layout/variables.scss';
 
-$primary-color: #FEBD3E;
-$primary-color-light: #FFE8BB;
-
 .bg-primary {
     background-color: $primary-color;
     color: white;

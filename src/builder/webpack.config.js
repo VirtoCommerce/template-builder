@@ -8,8 +8,10 @@ module.exports = {
                     postcssOptions: {
                         ident: 'postcss',
                         syntax: 'postcss-scss',
-                        plugins: [
-                            require('postcss-import'),
+                        plugins:  (loader) => [
+                            require('postcss-import')({
+                                root: loader.resourcePath
+                            }),
                             require('tailwindcss'),
                             require('autoprefixer')
                         ]

@@ -1,7 +1,7 @@
 input {
     @apply mb-6 w-full bg-gray-200 rounded-lg border-transparent;
     &::placeholder {
-        background: url( src/assets/icons/search.svg) no-repeat left center;
+        background: url('../../../../../assets/icons/search.svg') no-repeat left center;
         // background: url('');
         padding-left: 25px;
     }
