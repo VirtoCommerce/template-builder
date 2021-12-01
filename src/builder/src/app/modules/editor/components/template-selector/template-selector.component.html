@@ -1,5 +1,57 @@
-<select>
-    <option>Page</option>
-    <option>Catalog</option>
-    <option>Product</option>
-</select>
+<button (click)="openPopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">{{ currentTemplateName }}</button>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen"
+    (detach)="close()"
+    (overlayOutsideClick)="close()">
+    <div class="templates-container py-4 rounded-lg shadow-md pb-2 flex flex-col overflow-hidden">
+        <div class="px-4">
+            <input [value]="currentFilter" [placeholder]="placeholder" (keyup)="updateFilter($event)" class="w-full border border-gray-100 p-1 rounded-lg mb-2" />
+        </div>
+        <div *ngIf="!displayPages" class="max-h-80">
+            <div class="flex flex-col h-full">
+                <div class="px-4 mb-2 text-gray-400">
+                    <h3>Templates</h3>
+                </div>
+                <app-separator></app-separator>
+                <ul class="flex-grow overflow-y-auto">
+                    <li *ngFor="let item of filteredTemplates">
+                        <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
+                            (click)="templateButtonClick(item)">
+                            {{item.name}}
+                            <img *ngIf="item.hasChildren" class="more" src="assets/icons/chevron.svg" />
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div *ngIf="displayPages" class="max-h-80">
+            <div class="flex flex-col h-full">
+                <div class="px-4 mb-2 text-gray-400 flex cursor-pointer" (click)="back()">
+                    <img class="less mr-2" src="assets/icons/chevron.svg" /><h3>Pages</h3>
+                </div>
+                <app-separator></app-separator>
+                <ul class="flex-grow overflow-y-auto">
+                    <li *ngFor="let item of filteredPages">
+                        <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
+                            (click)="pageButtonClick(item)">
+                            {{item.name}}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- <mat-menu #templatesMenu="matMenu">
+    <ng-container *ngFor="let item of templates">
+        <button mat-menu-item *ngIf="item.hasChildren" (click)="cancelClick($event)" [matMenuTriggerFor]="pagesMenu"
+            class="">{{ item.name }}</button>
+        <button mat-menu-item *ngIf="!item.hasChildren" class="">{{ item.name }}</button>
+    </ng-container>
+</mat-menu>
+
+<mat-menu #pagesMenu="matMenu" xPosition="after">
+    <button mat-menu-item *ngFor="let item of pages" class="">{{ item.name }}</button>
+</mat-menu> -->
