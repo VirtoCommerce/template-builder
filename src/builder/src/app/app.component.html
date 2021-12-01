@@ -1,8 +1,11 @@
 <div class="flex flex-col h-screen">
-    <app-toolbar></app-toolbar>
+    <app-toolbar>
+        <app-template-selector></app-template-selector>
+    </app-toolbar>
     <div class="flex flex-grow">
         <app-sidebar>
-            <app-template-editor [inactive]="panelOpened || editOpened" (addSectionClick)="openPanel()" (editItem)="openEdit()"></app-template-editor>
+            <app-template-editor [inactive]="panelOpened || editOpened" (addSectionClick)="openPanel()"
+                (editItem)="openEdit()"></app-template-editor>
             <app-add-section (backClick)="closePanels()" *ngIf="panelOpened"></app-add-section>
             <app-edit-section (backClick)="closePanels()" *ngIf="editOpened"></app-edit-section>
         </app-sidebar>
