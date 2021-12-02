@@ -1,0 +1,21 @@
+<div [formGroup]="currentForm">
+    <ng-container *ngFor="let control of descriptors">
+        <!-- Header or Paragraph -->
+        <!-- <h2 class="form-t" *ngIf="control.type === 'header'">{{ getContent(control) }}</h2>
+        <p class="form-text" *ngIf="control.type === 'paragraph'">{{ getContent(control) }}</p> -->
+        <!-- Simple control -->
+        <!-- <app-control-holder *ngIf="displayEditor(control)" [descriptor]="control" [group]="group"
+            [context]="context" [formControlName]="control.id"></app-control-holder> -->
+        <!-- Info -->
+        <!-- <p *ngIf="control.type !== 'image' && getInfo(control) !== undefined" class="form-help">
+            {{getInfo(control)}}</p> -->
+
+        <app-control-holder
+            [descriptor]="control"
+            [currentForm]="currentForm"
+            [context]="context"
+            [formControlName]="control.id">
+        </app-control-holder>
+
+    </ng-container>
+</div>

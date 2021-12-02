@@ -1,3 +1,16 @@
+export * from './controls.factory';
+export * from './base-control.directive';
+
+export * from './text/text.component';
+export * from './string/string.component';
+export * from './select/select.component';
+export * from './number/number.component';
+export * from './images/images.component';
+export * from './files/files.component';
+export * from './color/color.component';
+export * from './checkbox/checkbox.component';
+export * from './calendar/calendar.component';
+
 import { TextComponent } from './text/text.component';
 import { StringComponent } from './string/string.component';
 import { SelectComponent } from './select/select.component';

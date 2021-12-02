@@ -1,9 +1,9 @@
-<button (click)="openPopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">{{ currentTemplateName }}</button>
+<button (click)="togglePopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">{{ currentTemplateName }}</button>
 
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="isOpen"
     (detach)="close()"
-    (overlayOutsideClick)="close()">
+    (overlayOutsideClick)="outsideClick($event)">
     <div class="templates-container py-4 rounded-lg shadow-md pb-2 flex flex-col overflow-hidden">
         <div class="px-4">
             <input [value]="currentFilter" [placeholder]="placeholder" (keyup)="updateFilter($event)" class="w-full border border-gray-100 p-1 rounded-lg mb-2" />
@@ -43,15 +43,3 @@
         </div>
     </div>
 </ng-template>
-
-<!-- <mat-menu #templatesMenu="matMenu">
-    <ng-container *ngFor="let item of templates">
-        <button mat-menu-item *ngIf="item.hasChildren" (click)="cancelClick($event)" [matMenuTriggerFor]="pagesMenu"
-            class="">{{ item.name }}</button>
-        <button mat-menu-item *ngIf="!item.hasChildren" class="">{{ item.name }}</button>
-    </ng-container>
-</mat-menu>
-
-<mat-menu #pagesMenu="matMenu" xPosition="after">
-    <button mat-menu-item *ngFor="let item of pages" class="">{{ item.name }}</button>
-</mat-menu> -->

@@ -2,5 +2,9 @@
     <div title-content class="block">
         {{ section.name }}
     </div>
-    <app-dynamic-form></app-dynamic-form>
+    <app-dynamic-form
+        [sectionModel]="section"
+        [context]="context"
+        [descriptors]="descriptors"
+    ></app-dynamic-form>
 </app-overlap-panel>

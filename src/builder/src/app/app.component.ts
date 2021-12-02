@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     panelOpened = false;
-    editOpened = false;
+    editOpened = true;
 
     openPanel() {
         this.panelOpened = true;

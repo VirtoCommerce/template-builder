@@ -1,1 +1,9 @@
-<ng-template appControlHost></ng-template>
+<div *ngIf="form">
+    <form [formGroup]="form">
+        <app-controls-list
+            [currentForm]="form"
+            [descriptors]="descriptors"
+            [context]="context">
+        </app-controls-list>
+    </form>
+</div>

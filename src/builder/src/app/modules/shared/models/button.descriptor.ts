@@ -1,3 +1,5 @@
+
+// todo: temporary solution
 export interface ButtonDescriptor {
     icon: string;
     hint: string;

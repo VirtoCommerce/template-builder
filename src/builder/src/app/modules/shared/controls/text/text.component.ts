@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { BaseControlDirective } from '@shared/controls';
+import { Component } from '@angular/core';
+import { TextDescriptor } from '@shared/models';
 
 @Component({
-  selector: 'app-text',
-  templateUrl: './text.component.html',
-  styleUrls: ['./text.component.scss']
+    selector: 'app-text',
+    templateUrl: './text.component.html',
+    styleUrls: ['./text.component.scss']
 })
-export class TextComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class TextComponent extends BaseControlDirective<TextDescriptor> {
 
 }

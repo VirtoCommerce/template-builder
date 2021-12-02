@@ -105,7 +105,7 @@ export class TemplateSelectorComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    openPopover() {
+    togglePopover() {
         this.isOpen = !this.isOpen
     }
 
@@ -134,6 +134,11 @@ export class TemplateSelectorComponent implements OnInit {
 
     close() {
         this.isOpen = false;
+    }
+
+    outsideClick(event: MouseEvent) {
+        event.stopPropagation();
+        this.close();
     }
 
     updateFilter(event: Event) {

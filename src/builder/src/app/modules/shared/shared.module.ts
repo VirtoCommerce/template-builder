@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
@@ -14,8 +15,10 @@ const ALL_COMPONENTS = [
 @NgModule({
     declarations: ALL_COMPONENTS,
     exports: ALL_COMPONENTS,
+    entryComponents: [...CONTROLS],
     imports: [
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule
     ]
 })
 export class SharedModule { }
