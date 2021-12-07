@@ -4,11 +4,20 @@
         <div class="text-center block">{{ title }}</div>
     </div>
 </ng-container>
+<div class="panel-body">
+    <ng-content></ng-content>
+</div>
+<ng-container *ngIf="false; else panelFooter"></ng-container>
+
+
 <ng-template #panelTitle>
     <div class="panel-title">
         <ng-content select="[title-content]"></ng-content>
     </div>
 </ng-template>
-<div class="panel-body">
-    <ng-content></ng-content>
-</div>
+
+<ng-template #panelFooter>
+    <div class="panel-footer">
+        <ng-content select="[footer-content]"></ng-content>
+    </div>
+</ng-template>

@@ -1,1 +1,8 @@
-<p>text: {{ controlValue }}</p>
+<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<ckeditor
+    editorUrl="external/ckeditor/ckeditor.js"
+    [data]="controlValue"
+    [type]="editorType"
+    [config]="descriptor.config || config"
+    (dataChange)="onValueChanged($event)"
+></ckeditor>

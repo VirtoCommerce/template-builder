@@ -12,8 +12,8 @@ export class ControlsFactory {
         this.controls['calendar'] = editors.CalendarComponent;
         this.controls['checkbox'] = editors.CheckboxComponent;
         this.controls['color'] = editors.ColorComponent;
-        this.controls['file'] = editors.FilesComponent; // todo: files
-        this.controls['image'] = editors.ImagesComponent; // todo: images
+        this.controls['files'] = editors.FilesComponent; // todo: files
+        this.controls['images'] = editors.ImagesComponent; // todo: images
         this.controls['number'] = editors.NumberComponent;
         this.controls['select'] = editors.SelectComponent;
         this.controls['string'] = editors.StringComponent;

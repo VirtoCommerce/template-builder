@@ -24,6 +24,8 @@
     "@ngrx/effects": "^13.0.1",
     "@ngrx/store": "^13.0.1",
     "@ngrx/store-devtools": "^13.0.1",
+    "ckeditor4": "^4.17.1",
+    "ckeditor4-angular": "^2.3.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"

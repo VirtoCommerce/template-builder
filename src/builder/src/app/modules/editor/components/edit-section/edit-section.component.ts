@@ -1,6 +1,6 @@
 import { ControlContext } from './../../../shared/models/control.context';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SectionModel, BaseControlDescriptor } from '@shared/models';
+import { SectionModel, SectionPropertyDescriptor } from '@shared/models';
 
 @Component({
     selector: 'app-edit-section',
@@ -19,14 +19,79 @@ export class EditSectionComponent implements OnInit {
     };
 
     @Input() context: ControlContext = {};
-    @Input() descriptors: BaseControlDescriptor[] = [
+    @Input() descriptors: SectionPropertyDescriptor[] = [
         {
             id: 'title',
-            type: 'string'
+            label: 'Title',
+            type: 'string',
+            placeholder: 'Enter title'
+        },
+        {
+            id: 'extendedTitle',
+            label: 'Extended title',
+            type: 'string',
+            multiline: true
         },
         {
             id: 'content',
-            type: 'text'
+            type: 'text',
+            label: 'Content'
+        },
+        {
+            id: 'singleValue',
+            type: 'select'
+        },
+        {
+            id: 'multipleValues',
+            type: 'calendar'
+        },
+        {
+            id: 'date',
+            type: 'calendar'
+        },
+        {
+            id: 'datetime',
+            type: 'calendar'
+        },
+        {
+            id: 'time',
+            type: 'calendar'
+        },
+        {
+            id: 'isChecked',
+            type: 'checkbox'
+        },
+        {
+            id: 'color',
+            type: 'color'
+        },
+        {
+            id: 'singleFile',
+            type: 'files'
+        },
+        {
+            id: 'multipleFiles',
+            type: 'files'
+        },
+        {
+            id: 'singleImage',
+            type: 'images'
+        },
+        {
+            id: 'multipleImages',
+            type: 'images'
+        },
+        {
+            id: 'singleInlineImage',
+            type: 'images'
+        },
+        {
+            id: 'multipleInlineImages',
+            type: 'images'
+        },
+        {
+            id: 'number',
+            type: 'number'
         }
     ];
 

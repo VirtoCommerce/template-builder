@@ -2,9 +2,18 @@
     <div title-content class="block">
         {{ section.name }}
     </div>
-    <app-dynamic-form
-        [sectionModel]="section"
-        [context]="context"
-        [descriptors]="descriptors"
-    ></app-dynamic-form>
+
+    <app-dynamic-form [context]="context" [descriptors]="descriptors" [sectionModel]="section"></app-dynamic-form>
+
+    <div footer-content>
+        <div class="flex justify-evenly h-16 items-stretch">
+            <button class="" type="button">
+                Delete
+            </button>
+            <button class="flex items-center" type="button">
+                <img src="assets/icons/duplicate.svg" />
+                Duplicate
+            </button>
+        </div>
+    </div>
 </app-overlap-panel>
