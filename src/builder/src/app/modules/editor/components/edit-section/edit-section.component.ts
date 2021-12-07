@@ -39,11 +39,12 @@ export class EditSectionComponent implements OnInit {
         },
         {
             id: 'singleValue',
-            type: 'select'
+            type: 'select',
+            label: 'Select value'
         },
         {
             id: 'multipleValues',
-            type: 'calendar'
+            type: 'select'
         },
         {
             id: 'date',

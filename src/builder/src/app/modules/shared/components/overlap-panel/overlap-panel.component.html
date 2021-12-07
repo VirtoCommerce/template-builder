@@ -7,7 +7,7 @@
 <div class="panel-body">
     <ng-content></ng-content>
 </div>
-<ng-container *ngIf="false; else panelFooter"></ng-container>
+<ng-container *ngIf="hideFooter; else panelFooter"></ng-container>
 
 
 <ng-template #panelTitle>
@@ -17,7 +17,7 @@
 </ng-template>
 
 <ng-template #panelFooter>
-    <div class="panel-footer">
+    <div class="panel-footer" #panelFooterRef>
         <ng-content select="[footer-content]"></ng-content>
     </div>
 </ng-template>
