@@ -9,5 +9,7 @@ import { CheckboxDescriptor } from '@shared/models';
   styleUrls: ['./checkbox.component.scss']
 })
 export class CheckboxComponent extends BaseControlDirective<CheckboxDescriptor> {
-
+    raiseValueChanged(value: boolean) {
+        this.onValueChanged(value);
+    }
 }

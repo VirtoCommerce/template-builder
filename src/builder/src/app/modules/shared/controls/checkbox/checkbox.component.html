@@ -1,2 +1,5 @@
-<p>checkbox in progress</p>
-<p>{{ descriptor | json }}</p>
+<mat-checkbox
+    [checked]="controlValue"
+    (change)="raiseValueChanged($event.checked)">
+    {{descriptor.label}}
+</mat-checkbox>
