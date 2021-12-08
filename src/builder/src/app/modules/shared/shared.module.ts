@@ -3,6 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatSelectModule } from '@angular/material/select';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatCheckboxModule } from '@angular/material/checkbox'
+
+import {
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
 
 import { CKEditorModule } from 'ckeditor4-angular';
 
@@ -25,6 +35,14 @@ const ALL_COMPONENTS = [
         ReactiveFormsModule,
 
         MatSelectModule,
+        // MatFormFieldModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        MatCheckboxModule,
+
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+        NgxMatNativeDateModule,
 
         CKEditorModule
     ]

@@ -1,2 +1,29 @@
-<p>calendar in progress</p>
-<p>{{ descriptor | json }}</p>
+<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<!-- <ng-container *ngIf="false">
+    <div class="flex">
+        <input class="flex-grow" matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    </div>
+    <mat-datepicker #picker></mat-datepicker>
+</ng-container> -->
+<ng-container [formGroup]="form" [ngSwitch]="true">
+    <ngx-mat-timepicker *ngSwitchCase="descriptor.mode === 'time'"
+        [showSpinners]="!descriptor.hideSpinners"
+        [stepMinute]="descriptor.stepMinute || 1" [enableMeridian]="!!descriptor.showAmPm"
+        [showSeconds]="!!descriptor.showSeconds"
+        formControlName="time"
+    >
+    </ngx-mat-timepicker>
+    <ng-container *ngSwitchDefault>
+        <div class="flex">
+            <input formControlName="date" class="flex-grow" matInput [min]="descriptor.minDate" [max]="descriptor.maxDate"
+                [ngxMatDatetimePicker]="picker" placeholder="Choose a date">
+            <!-- todo: remove $any function when it will be possible -->
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+        </div>
+        <ngx-mat-datetime-picker (selectedChanged)="raiseValueChanged($event)" #picker [showSeconds]="!!descriptor.showSeconds"
+            [showSpinners]="!descriptor.hideSpinners" [enableMeridian]="!!descriptor.showAmPm"
+            [stepMinute]="descriptor.stepMinute || 1" [hideTime]="descriptor.mode !== 'datetime'">
+        </ngx-mat-datetime-picker>
+    </ng-container>
+</ng-container>

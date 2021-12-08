@@ -80,19 +80,27 @@ export class EditSectionComponent implements OnInit {
         },
         {
             id: 'date',
-            type: 'calendar'
+            type: 'calendar',
+            label: 'Choose a date'
         },
         {
             id: 'datetime',
-            type: 'calendar'
+            type: 'calendar',
+            label: 'Choose a date and time',
+            mode: 'datetime',
+            showAmPm: true
         },
         {
             id: 'time',
-            type: 'calendar'
+            type: 'calendar',
+            label: 'Choose a time',
+            mode: 'time',
+            showSeconds: true
         },
         {
             id: 'isChecked',
-            type: 'checkbox'
+            type: 'checkbox',
+            label: 'Check item'
         },
         {
             id: 'color',

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { BaseControlDirective } from '@shared/controls';
 import { SelectDescriptor } from '@shared/models';
 
@@ -10,6 +11,10 @@ import { SelectDescriptor } from '@shared/models';
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     options: { options: any[], groups: any[] } = { options: [], groups: [] };
+
+    raiseValueChanged(event: MatSelectChange) {
+        this.onValueChanged(event.value);
+    }
 
     override initContent() {
         super.initContent();
