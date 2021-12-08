@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { MatSelectModule } from '@angular/material/select';
+
 import { CKEditorModule } from 'ckeditor4-angular';
 
 import { COMPONENTS } from './components';
@@ -20,8 +22,11 @@ const ALL_COMPONENTS = [
     entryComponents: [...CONTROLS],
     imports: [
         CommonModule,
-        CKEditorModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+
+        MatSelectModule,
+
+        CKEditorModule
     ]
 })
 export class SharedModule { }

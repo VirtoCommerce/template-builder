@@ -40,11 +40,43 @@ export class EditSectionComponent implements OnInit {
         {
             id: 'singleValue',
             type: 'select',
-            label: 'Select value'
+            label: 'Select value',
+            placeholder: 'Please select value',
+            options: [
+                { label: '[none]' },
+                { label: 'First', value: 'first' },
+                { label: 'Second', value: 'second' },
+                { label: 'Third', value: 'third' },
+                { label: 'Fourth', value: 'fourth' }
+            ]
+        },
+        {
+            id: 'valueInGroup',
+            type: 'select',
+            label: 'Select value (group)',
+            options: [
+                { label: '[none]' },
+                { label: 'First', value: 'first', group: 'Units' },
+                { label: 'Second', value: 'second', group: 'Units' },
+                { label: 'Third', value: 'third', group: 'Units' },
+                { label: 'Fourth', value: 'fourth', group: 'Units' },
+                { label: 'First ten', value: 10, group: 'Dozens' },
+                { label: 'Second dozen', value: 20, group: 'Dozens' },
+                { label: 'Third dozen', value: 30, group: 'Dozens' },
+                { label: 'Fourth dozen', value: 40, group: 'Dozens' }
+            ]
         },
         {
             id: 'multipleValues',
-            type: 'select'
+            type: 'select',
+            label: 'Select values',
+            multiple: true,
+            options: [
+                { label: 'First', value: { id: 1, name: 'first' } },
+                { label: 'Second', value: { id: 2, name: 'second' } },
+                { label: 'Third', value: { id: 3, name: 'third' } },
+                { label: 'Fourth', value: { id: 4, name: 'fourth' } }
+            ]
         },
         {
             id: 'date',

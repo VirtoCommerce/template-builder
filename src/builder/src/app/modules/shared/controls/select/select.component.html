@@ -1,1 +1,9 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<mat-select [multiple]="descriptor.multiple" [placeholder]="descriptor.placeholder || ''">
+    <mat-option *ngFor="let item of options.options" [value]="item.value">{{ item.label }}</mat-option>
+    <mat-optgroup *ngFor="let group of options.groups" [label]="group.group">
+        <mat-option *ngFor="let item of group.options" [value]="item.value">
+            {{item.label}}
+        </mat-option>
+    </mat-optgroup>
+</mat-select>
