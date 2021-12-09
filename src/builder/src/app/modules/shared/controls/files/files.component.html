@@ -1,2 +1,4 @@
-<p>files in progress</p>
-<p>{{ descriptor | json }}</p>
+<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<div>
+    <file-upload [multiple]="!!descriptor.multiple"></file-upload>
+</div>

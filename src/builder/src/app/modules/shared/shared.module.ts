@@ -14,6 +14,7 @@ import {
     NgxMatTimepickerModule
 } from '@angular-material-components/datetime-picker';
 
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { CKEditorModule } from 'ckeditor4-angular';
 
@@ -45,6 +46,7 @@ const ALL_COMPONENTS = [
         NgxMatTimepickerModule,
         NgxMatNativeDateModule,
 
+        FileUploadModule,
         ColorPickerModule,
         CKEditorModule
     ]
