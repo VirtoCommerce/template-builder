@@ -15,7 +15,8 @@ export class EditSectionComponent implements OnInit {
         name: 'Edit section',
         type: 'headline',
         title: 'Headline',
-        content: 'Section content'
+        content: 'Section content',
+        color: '#43ebaa'
     };
 
     @Input() context: ControlContext = {};
@@ -104,7 +105,8 @@ export class EditSectionComponent implements OnInit {
         },
         {
             id: 'color',
-            type: 'color'
+            type: 'color',
+            label: 'Choose color'
         },
         {
             id: 'singleFile',
