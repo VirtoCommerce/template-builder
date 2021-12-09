@@ -109,6 +109,11 @@ export class EditSectionComponent implements OnInit {
             label: 'Choose color'
         },
         {
+            id: 'number',
+            type: 'number',
+            label: 'Enter current number'
+        },
+        {
             id: 'singleFile',
             type: 'files'
         },
@@ -131,10 +136,6 @@ export class EditSectionComponent implements OnInit {
         {
             id: 'multipleInlineImages',
             type: 'images'
-        },
-        {
-            id: 'number',
-            type: 'number'
         }
     ];
 

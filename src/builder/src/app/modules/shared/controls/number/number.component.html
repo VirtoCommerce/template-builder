@@ -1,2 +1,14 @@
-<p>number in progress</p>
-<p>{{ descriptor | json }}</p>
+<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+
+<input #control
+    type="number"
+    [min]="descriptor.min"
+    [max]="descriptor.max"
+    [step]="descriptor.step"
+    [value]="controlValue"
+    [placeholder]="descriptor.placeholder || ''"
+    (paste)="onPaste($event)"
+    (keyup)="raiseOnChange($event.target)"
+    (change)="raiseOnChange($event.target)"
+    (blur)="raiseOnTouched($event.target)"
+/>

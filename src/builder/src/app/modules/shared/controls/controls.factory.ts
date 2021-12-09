@@ -23,6 +23,7 @@ export class ControlsFactory {
         // this.controls['popup-list'] = editors.PopupListItemComponent;
         // this.controls['search'] = editors.SearchItemComponent;
         // this.controls['url'] = editors.UrlItemComponent;
+        // this.controls['slider'] = editors.SliderItemComponent;
     }
 
     resolve(type: string): Type<any> {
