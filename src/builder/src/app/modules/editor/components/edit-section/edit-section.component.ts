@@ -109,6 +109,27 @@ export class EditSectionComponent implements OnInit {
             label: 'Choose color'
         },
         {
+            id: 'inlineColor',
+            type: 'color',
+            label: 'Choose color inline',
+            inline: true
+        },
+        {
+            id: 'grayColor',
+            type: 'color',
+            label: 'Choose gray color inline',
+            colorMode: 'grayscale',
+            inline: true
+        },
+        {
+            id: 'presetColor',
+            type: 'color',
+            label: 'Choose from colors',
+            alpha: 'disabled',
+            colorMode: 'presets',
+            presets: ['#ff0000', '#00ff00', '#0000ff', '#ffa500', '#00ffff', '#ffffff', '#000000']
+        },
+        {
             id: 'number',
             type: 'number',
             label: 'Enter current number'
@@ -119,7 +140,8 @@ export class EditSectionComponent implements OnInit {
         },
         {
             id: 'multipleFiles',
-            type: 'files'
+            type: 'files',
+            multiple: true
         },
         {
             id: 'singleImage',

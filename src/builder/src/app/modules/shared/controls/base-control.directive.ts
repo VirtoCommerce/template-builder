@@ -45,7 +45,10 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     }
 
     registerOnValueChanged(fn: (_: any) => void) {
-        this.onValueChanged = fn;
+        this.onValueChanged = (value) => {
+            this.controlValue = value;
+            fn(value);
+        }
     }
 
     registerOnControlTouched(fn: (_: any) => void) {

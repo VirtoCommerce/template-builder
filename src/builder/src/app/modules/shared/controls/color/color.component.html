@@ -1,11 +1,31 @@
-<div class="flex items-center" [colorPicker]="controlValue"
-    [cpOutputFormat]="descriptor.outputFormat || 'auto'"
-    [cpOKButton]="true"
-    [cpCancelButton]="true"
-    cpCancelButtonText="Clear"
-    (colorPickerCancel)="clearColor()"
-    (colorPickerChange)="changeColor($event)"
-    >
-    <div class="border rounded-full w-4 h-4 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
+<ng-container *ngIf="!descriptor.inline; else inlinePicker">
+    <div class="flex items-center"
+        [colorPicker]="controlValue"
+        [cpOutputFormat]="descriptor.outputFormat || 'auto'"
+        [cpColorMode]="descriptor.colorMode || 'color'"
+        [cpPresetColors]="descriptor.presets || []"
+        [cpAlphaChannel]="descriptor.alpha || 'enabled'"
+        [cpOKButton]="true"
+        [cpCancelButton]="true"
+        cpCancelButtonText="Clear"
+        (colorPickerCancel)="clearColor()"
+        (colorPickerChange)="changeColor($event)">
+        <div class="border rounded-full w-4 h-4 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
+        <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+    </div>
+</ng-container>
+<ng-template #inlinePicker>
     <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-</div>
+    <div [colorPicker]="controlValue"
+        [cpOutputFormat]="descriptor.outputFormat || 'auto'"
+        [cpColorMode]="descriptor.colorMode || 'color'"
+        [cpPresetColors]="descriptor.presets || []"
+        [cpOKButton]="false"
+        [cpCancelButton]="true"
+        [cpDialogDisplay]="'inline'"
+        [cpToggle]="true"
+        cpCancelButtonText="Clear"
+        (colorPickerCancel)="clearColor()"
+        (colorPickerChange)="changeColor($event)">
+    </div>
+</ng-template>
