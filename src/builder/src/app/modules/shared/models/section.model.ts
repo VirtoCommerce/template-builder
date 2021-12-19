@@ -6,5 +6,5 @@ export interface SectionModel {
     name: string;
     type: string;
 
-    [key: string]: SectionPropertyType;
+    [key: string]: SectionPropertyType|SectionPropertyType[];
 }

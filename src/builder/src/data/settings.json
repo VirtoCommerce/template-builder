@@ -1,0 +1,7 @@
+{
+    "templatesUrl": "/demo/templates.json",
+    "sectionsUrl": "/demo/sections.json",
+    "blocksUrl": "/demo/blocks.json",
+    "pagesUrl": "",
+    "searchPageUrl": ""
+}

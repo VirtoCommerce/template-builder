@@ -1,4 +1,19 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<div>
-    <file-upload [multiple]="!!descriptor.multiple"></file-upload>
+<div *ngIf="control">
+    <file-upload class="flex flex-col bg-white" [control]="control">
+        <ng-template let-i="index" let-file="file" let-control="control" #item>
+            <div class="flex flex-row">
+                <span class="flex-grow file-name">
+                    <a [href]="file.webkitRelativePath" download>
+                        {{ file.name }}
+                    </a>
+                </span>
+                <button (click)="control.removeFile(file)">X</button>
+            </div>
+        </ng-template>
+        <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+            <span *ngIf="isFileDragDropAvailable">drop or click</span>
+            <span *ngIf="!isFileDragDropAvailable">click</span>
+        </ng-template>
+    </file-upload>
 </div>

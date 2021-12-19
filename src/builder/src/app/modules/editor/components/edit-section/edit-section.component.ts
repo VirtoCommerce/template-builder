@@ -16,7 +16,14 @@ export class EditSectionComponent implements OnInit {
         type: 'headline',
         title: 'Headline',
         content: 'Section content',
-        color: '#43ebaa'
+        color: '#43ebaa',
+        singleFile: 'path/to/file/single-file-name.txt',
+        multipleFiles: [
+            "different/urls/for/files/filename-1.ext",
+            "different/urls/for/files/filename-2.ext",
+            "different/urls/for/files/filename-3.ext",
+            "different/urls/for/files/filename-4.ext"
+        ]
     };
 
     @Input() context: ControlContext = {};
@@ -37,6 +44,33 @@ export class EditSectionComponent implements OnInit {
             id: 'content',
             type: 'text',
             label: 'Content'
+        },
+        {
+            id: 'singleFile',
+            type: 'files',
+            label: 'Upload a single file'
+        },
+        {
+            id: 'multipleFiles',
+            type: 'files',
+            label: 'Upload several files',
+            multiple: true
+        },
+        {
+            id: 'singleImage',
+            type: 'images'
+        },
+        {
+            id: 'multipleImages',
+            type: 'images'
+        },
+        {
+            id: 'singleInlineImage',
+            type: 'images'
+        },
+        {
+            id: 'multipleInlineImages',
+            type: 'images'
         },
         {
             id: 'singleValue',
@@ -133,31 +167,6 @@ export class EditSectionComponent implements OnInit {
             id: 'number',
             type: 'number',
             label: 'Enter current number'
-        },
-        {
-            id: 'singleFile',
-            type: 'files'
-        },
-        {
-            id: 'multipleFiles',
-            type: 'files',
-            multiple: true
-        },
-        {
-            id: 'singleImage',
-            type: 'images'
-        },
-        {
-            id: 'multipleImages',
-            type: 'images'
-        },
-        {
-            id: 'singleInlineImage',
-            type: 'images'
-        },
-        {
-            id: 'multipleInlineImages',
-            type: 'images'
         }
     ];
 
