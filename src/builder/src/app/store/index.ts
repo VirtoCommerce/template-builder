@@ -1,5 +1,3 @@
-export * from './config.effects';
 export * from './errors.effects';
-
-export { configReducer } from './config.reducers';
-
+export * from './app.effects';
+export * as actions from './app.actions';

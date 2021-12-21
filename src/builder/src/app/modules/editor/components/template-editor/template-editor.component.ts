@@ -1,3 +1,4 @@
+import { TemplateModel } from '@editor/models';
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -7,39 +8,7 @@ import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@an
 })
 export class TemplateEditorComponent implements OnInit {
 
-    @Input() template = {
-        name: 'Homepage',
-        sections: [
-            {
-                name: 'Cover with image',
-                icon: 'blocks',
-                blocks: [
-                    { name: 'Image', icon: 'image' },
-                    { name: 'text', icon: 'text' }
-                ]
-            },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' },
-            { name: 'Cover with variations', icon: 'blocks' }
-        ]
-    };
+    @Input() template!: TemplateModel;
 
     @HostBinding('class.inactive')
     @Input() inactive: boolean = false;
@@ -58,4 +27,10 @@ export class TemplateEditorComponent implements OnInit {
         this.editItem.emit();
     }
 
+    getTemplateName(): string {
+        if (this.template && this.template.settings) {
+            return this.template.settings.name;
+        }
+        return '[no name]';
+    }
 }

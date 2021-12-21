@@ -21,7 +21,7 @@ import { ColorDescriptor } from './color.descriptor';
 import { CheckboxDescriptor } from './checkbox.descriptor';
 import { CalendarDescriptor } from './calendar.descriptor';
 
-export type SectionPropertyDescriptor = StringDescriptor
+export type ControlDescriptor = StringDescriptor
     | TextDescriptor
     | SelectDescriptor
     | NumberDescriptor
@@ -30,3 +30,5 @@ export type SectionPropertyDescriptor = StringDescriptor
     | ColorDescriptor
     | CheckboxDescriptor
     | CalendarDescriptor;
+
+export type SectionPropertyDescriptor = ControlDescriptor;

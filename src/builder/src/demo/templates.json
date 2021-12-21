@@ -1,7 +1,38 @@
 {
     "product": {
-        "settings": {},
-        "content": []
+        "settings": {
+            "name": "Product"
+        },
+        "content": [
+            {
+                "name": "Cover with image",
+                "icon": "blocks",
+                "blocks": [
+                    { "name": "Image", "icon": "image" },
+                    { "name": "text", "icon": "text" }
+                ]
+            },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" },
+            { "name": "Cover with variations", "icon": "blocks" }
+        ]
     },
     "catalog": {
         "settings": {},

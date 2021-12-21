@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TemplateModelDescriptor, PageModelDescriptor } from '@editor/models';
+import { PageModelDescriptor, TemplateModel, TemplatesList } from '@editor/models';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
@@ -41,20 +41,7 @@ export class TemplateSelectorComponent implements OnInit {
     isOpen = false;
     displayPages = false;
 
-    @Input() templates: TemplateModelDescriptor[] = [
-        {
-            name: 'Page',
-            filename: 'page.json',
-            hasChildren: true
-        },
-        { name: 'Catalog', filename: 'catalog.json' },
-        { name: 'Product', filename: 'product.json' },
-        { name: 'Collections', filename: 'product.json' },
-        { name: 'Cart', filename: 'product.json' },
-        { name: 'Checkout', filename: 'product.json' },
-        { name: 'Blog', filename: 'product.json' },
-        { name: 'Article', filename: 'product.json' }
-    ];
+    @Input() templates!: TemplatesList;
 
     @Input() pages: PageModelDescriptor[] = [
         {
@@ -67,10 +54,14 @@ export class TemplateSelectorComponent implements OnInit {
         },
     ];
 
-    get filteredTemplates(): TemplateModelDescriptor[] {
-        return !this.templatesFilter
+    get filteredTemplates(): TemplatesList | null {
+        return !this.templatesFilter || !this.templates
             ? this.templates
-            : this.templates.filter(x => x.name.toUpperCase().indexOf(this.templatesFilter.toUpperCase()) !== -1);
+            : Object.keys(this.templates)
+                .filter(key => this.getTemplateName(this.templates[key], key)
+                                .toUpperCase()
+                                .indexOf(this.templatesFilter.toUpperCase()) !== -1
+                ).reduce((acc, key) => ({...acc, [key]: this.templates[key]}), {});
     }
 
     get filteredPages(): PageModelDescriptor[] {
@@ -109,23 +100,24 @@ export class TemplateSelectorComponent implements OnInit {
         this.isOpen = !this.isOpen
     }
 
-    templateButtonClick(item: TemplateModelDescriptor) {
-        if (item.hasChildren) {
+    templateButtonClick(item: TemplateModel, key: string) {
+        if (key === 'page') {
             this.displayPages = true;
         } else {
-            this.selectItem(item);
+            this.selectItem();
+            this.currentTemplateName = this.getTemplateName(item, key);
         }
     }
 
     pageButtonClick(item: PageModelDescriptor) {
-        this.selectItem(item);
+        this.selectItem();
+        this.currentTemplateName = item.name;
     }
 
-    private selectItem(item: PageModelDescriptor | TemplateModelDescriptor) {
+    private selectItem() {
         this.close();
         this.pagesFilter = '';
         this.templatesFilter = '';
-        this.currentTemplateName = item.name;
     }
 
     back() {
@@ -150,4 +142,10 @@ export class TemplateSelectorComponent implements OnInit {
         }
     }
 
+    getTemplateName(item: TemplateModel, key: string): string {
+        if (item && item.settings && item.settings.name) {
+            return item.settings.name;
+        }
+        return key || '[no name]';
+    }
 }

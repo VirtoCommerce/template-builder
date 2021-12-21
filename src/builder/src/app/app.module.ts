@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,11 +9,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { SharedModule } from '@shared/shared.module';
 import { EditorModule } from '@editor/editor.module';
+import { EDITOR_SERVICE } from '@editor/di';
 
-import { ConfigEffects, configReducer } from '@app/store';
+import { PlatformService } from '@app/services';
+import { AppEffects } from '@app/store';
 
 import {
-    // AppConfig,
+    AppConfig,
     RefreshTokenInterceptor
 } from '@app/services';
 
@@ -29,9 +31,11 @@ import { AppComponent } from './app.component';
         HttpClientModule,
 
         StoreModule.forRoot({
-            config: configReducer
+            // config: configReducer
         }),
-        EffectsModule.forRoot([ConfigEffects]),
+        EffectsModule.forRoot(
+            [AppEffects]
+        ),
         StoreDevtoolsModule.instrument({
             name: 'Builder',
             maxAge: 25,
@@ -49,13 +53,14 @@ import { AppComponent } from './app.component';
             provide: HTTP_INTERCEPTORS,
             useClass: RefreshTokenInterceptor, multi: true
         },
-        // {
-        //     provide: APP_INITIALIZER,
-        //     useFactory: (config: AppConfig) =>
-        //         () => config.init(),
-        //     deps: [AppConfig],
-        //     multi: true
-        // }
+        { provide: EDITOR_SERVICE, useClass: PlatformService },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (config: AppConfig) =>
+                () => config.init(),
+            deps: [AppConfig],
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

@@ -1,6 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 
+import { TemplatesList } from '@editor/models';
+
+export const initEditorFeature = createAction('[editor] init editor feature');
+
+export const loadAvailableTemplates = createAction('[editor] load available templates');
+export const loadAvailableTemplatesSuccess = createAction('[editor] load available templates success', props<{ templates: TemplatesList }>());
+export const loadAvailableTemplatesFails = createAction('[editor] load available templates fails', props<{ error: HttpErrorResponse }>());
+
 // import { BlockValuesModel } from '@shared/models';
 // import { BlockSchema, BlocksSchema } from '@shared/models';
 

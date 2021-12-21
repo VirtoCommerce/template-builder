@@ -15,11 +15,11 @@
                 </div>
                 <app-separator></app-separator>
                 <ul class="flex-grow overflow-y-auto">
-                    <li *ngFor="let item of filteredTemplates">
+                    <li *ngFor="let item of filteredTemplates | keyvalue">
                         <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
-                            (click)="templateButtonClick(item)">
-                            {{item.name}}
-                            <img *ngIf="item.hasChildren" class="more" src="assets/icons/chevron.svg" />
+                            (click)="templateButtonClick(item.value, item.key)">
+                            {{ getTemplateName(item.value, item.key)}}
+                            <!-- <img *ngIf="item.hasChildren" class="more" src="assets/icons/chevron.svg" /> -->
                         </button>
                     </li>
                 </ul>
