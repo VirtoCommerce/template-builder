@@ -9,6 +9,10 @@ export const loadAvailableTemplates = createAction('[editor] load available temp
 export const loadAvailableTemplatesSuccess = createAction('[editor] load available templates success', props<{ templates: TemplatesList }>());
 export const loadAvailableTemplatesFails = createAction('[editor] load available templates fails', props<{ error: HttpErrorResponse }>());
 
+export const templateSelected = createAction('[editor] template selected', props<{ templateKey: string }>());
+
+export const editItem = createAction('[editor] edit item', props<{ sectionIndex: number | null, blockIndex: number | null }>());
+
 // import { BlockValuesModel } from '@shared/models';
 // import { BlockSchema, BlocksSchema } from '@shared/models';
 

@@ -9,7 +9,10 @@ export interface EditorState {
     showTemplateSelector: boolean;
 
     availableTemplates: TemplatesList;
-    loadedTemplates: { [key: string]: TemplateModel }
+    currentTemplate: string | null;
+
+    sectionIndex: number | null;
+    blockIndex: number | null;
 }
 
 export const initialState: EditorState = {
@@ -21,5 +24,8 @@ export const initialState: EditorState = {
     showTemplateSelector: true,
 
     availableTemplates: {},
-    loadedTemplates: {}
+    currentTemplate: null,
+
+    sectionIndex: null,
+    blockIndex: null
 };

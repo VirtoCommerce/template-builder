@@ -1,5 +1,12 @@
-<app-collapsible-list-item [title]="section.name" [closable]="!!section.blocks" [icon]="section.icon">
-    <app-inner-list-item *ngFor="let block of section.blocks" [icon]="block.icon" [title]="block.name"></app-inner-list-item>
+<app-collapsible-list-item [title]="section.name"
+                           [closable]="!!section.blocks"
+                           [icon]="section.icon"
+                           (itemClick)="onItemClick()">
+    <app-inner-list-item *ngFor="let block of section.blocks"
+                         [icon]="block.icon"
+                         [title]="block.name"
+                         (itemClick)="onItemClick(block.__index)">
+    </app-inner-list-item>
 
     <app-separator></app-separator>
 

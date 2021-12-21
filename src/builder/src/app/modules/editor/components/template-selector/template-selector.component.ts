@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { PageModelDescriptor, TemplateModel, TemplatesList } from '@editor/models';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+
+import { helpers } from '@editor/services';
 
 @Component({
     selector: 'app-template-selector',
@@ -38,11 +40,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 })
 export class TemplateSelectorComponent implements OnInit {
 
+    private _currentTemplateName: string | null = null;
+
+    pagesFilter: string = '';
+    templatesFilter: string = '';
     isOpen = false;
     displayPages = false;
 
     @Input() templates!: TemplatesList;
-
     @Input() pages: PageModelDescriptor[] = [
         {
             name: 'Homepage',
@@ -53,6 +58,16 @@ export class TemplateSelectorComponent implements OnInit {
             filename: ''
         },
     ];
+    @Input() get currentTemplateName(): string {
+        return this._currentTemplateName || 'Select template';
+    }
+
+    set currentTemplateName(value: string | null) {
+        this._currentTemplateName = value;
+    }
+
+    @Output() templateSelected = new EventEmitter<string>();
+    @Output() pageSelected = new EventEmitter<string>();
 
     get filteredTemplates(): TemplatesList | null {
         return !this.templatesFilter || !this.templates
@@ -70,25 +85,12 @@ export class TemplateSelectorComponent implements OnInit {
             : this.pages.filter(x => x.name.toUpperCase().indexOf(this.pagesFilter.toUpperCase()) !== -1);
     }
 
-    private _currentTemplateName: string = '';
-
-    pagesFilter: string = '';
-    templatesFilter: string = '';
-
     get currentFilter(): string {
         return this.displayPages ? this.pagesFilter : this.templatesFilter;
     }
 
     get placeholder(): string {
         return this.displayPages ? 'Enter page name' : 'Enter template name';
-    }
-
-    @Input() get currentTemplateName(): string {
-        return this._currentTemplateName || 'Select template';
-    }
-
-    set currentTemplateName(value: string) {
-        this._currentTemplateName = value;
     }
 
     constructor() { }
@@ -105,7 +107,7 @@ export class TemplateSelectorComponent implements OnInit {
             this.displayPages = true;
         } else {
             this.selectItem();
-            this.currentTemplateName = this.getTemplateName(item, key);
+            this.templateSelected.emit(key);
         }
     }
 
@@ -143,9 +145,6 @@ export class TemplateSelectorComponent implements OnInit {
     }
 
     getTemplateName(item: TemplateModel, key: string): string {
-        if (item && item.settings && item.settings.name) {
-            return item.settings.name;
-        }
-        return key || '[no name]';
+        return helpers.getTemplateName(item, key);
     }
 }

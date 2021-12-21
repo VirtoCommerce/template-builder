@@ -2,6 +2,7 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 
 import * as fromEditor from '@editor/store';
+import { editorActions } from '@editor/store';
 
 import { actions } from './store';
 
@@ -11,10 +12,9 @@ import { actions } from './store';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    panelOpened = false;
-    editOpened = false;
-
     availableTemplates$ = this.store$.select(fromEditor.selectAvailableTemplates);
+    currentTemplate$ = this.store$.select(fromEditor.selectCurrentTemplate);
+    currentTemplateName$ = this.store$.select(fromEditor.selectCurrentTemplateName);
 
     constructor(private store$: Store) { }
 
@@ -22,12 +22,20 @@ export class AppComponent implements OnInit {
         this.store$.dispatch(actions.initApp());
     }
 
-    openPanel() {
-        this.panelOpened = true;
+    templateSelected(templateKey: string) {
+        this.store$.dispatch(editorActions.templateSelected({ templateKey }));
     }
 
-    openEdit() {
-        this.editOpened = true;
+    editItem(event: { sectionIndex: number, blockIndex: number | null }) {
+        this.store$.dispatch(editorActions.editItem(event));
+    }
+
+    panelOpened = false;
+    editOpened = false;
+
+
+    openPanel() {
+        this.panelOpened = true;
     }
 
     closePanels() {

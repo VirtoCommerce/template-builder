@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -19,10 +19,15 @@ export class SectionItemComponent implements OnInit {
 
     @Input() section: any;
 
+    @Output() itemClick = new EventEmitter<number | null>();
+
     constructor() { }
 
     ngOnInit(): void {
 
     }
 
+    onItemClick(itemId: number | null = null) {
+        this.itemClick.emit(itemId);
+    }
 }

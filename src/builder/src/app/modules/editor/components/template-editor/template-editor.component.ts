@@ -8,12 +8,12 @@ import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@an
 })
 export class TemplateEditorComponent implements OnInit {
 
-    @Input() template!: TemplateModel;
+    @Input() template!: TemplateModel | null;
 
     @HostBinding('class.inactive')
     @Input() inactive: boolean = false;
     @Output() addSectionClick = new EventEmitter<any>();
-    @Output() editItem = new EventEmitter<any>();
+    @Output() editItem = new EventEmitter<{ sectionIndex: number, blockIndex: number | null }>();
 
     constructor() { }
 
@@ -23,8 +23,8 @@ export class TemplateEditorComponent implements OnInit {
         this.addSectionClick.emit();
     }
 
-    onItemClick() {
-        this.editItem.emit();
+    onItemClick(sectionIndex: number, blockIndex: number | null) {
+        this.editItem.emit({ sectionIndex, blockIndex });
     }
 
     getTemplateName(): string {
