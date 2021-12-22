@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { PageModelDescriptor, TemplateModel, TemplatesList } from '@editor/models';
+import { /* PageModelDescriptor, */ TemplateSchema, TemplatesSchemasList } from '@editor/models';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { helpers } from '@editor/services';
@@ -47,8 +47,8 @@ export class TemplateSelectorComponent implements OnInit {
     isOpen = false;
     displayPages = false;
 
-    @Input() templates!: TemplatesList;
-    @Input() pages: PageModelDescriptor[] = [
+    @Input() templates!: TemplatesSchemasList;
+    @Input() pages: any[] = [
         {
             name: 'Homepage',
             filename: ''
@@ -69,7 +69,7 @@ export class TemplateSelectorComponent implements OnInit {
     @Output() templateSelected = new EventEmitter<string>();
     @Output() pageSelected = new EventEmitter<string>();
 
-    get filteredTemplates(): TemplatesList | null {
+    get filteredTemplates(): TemplatesSchemasList | null {
         return !this.templatesFilter || !this.templates
             ? this.templates
             : Object.keys(this.templates)
@@ -79,7 +79,7 @@ export class TemplateSelectorComponent implements OnInit {
                 ).reduce((acc, key) => ({...acc, [key]: this.templates[key]}), {});
     }
 
-    get filteredPages(): PageModelDescriptor[] {
+    get filteredPages(): any[] {
         return !this.pagesFilter
             ? this.pages
             : this.pages.filter(x => x.name.toUpperCase().indexOf(this.pagesFilter.toUpperCase()) !== -1);
@@ -102,7 +102,7 @@ export class TemplateSelectorComponent implements OnInit {
         this.isOpen = !this.isOpen
     }
 
-    templateButtonClick(item: TemplateModel, key: string) {
+    templateButtonClick(item: TemplateSchema, key: string) {
         if (key === 'page') {
             this.displayPages = true;
         } else {
@@ -111,7 +111,7 @@ export class TemplateSelectorComponent implements OnInit {
         }
     }
 
-    pageButtonClick(item: PageModelDescriptor) {
+    pageButtonClick(item: any) {
         this.selectItem();
         this.currentTemplateName = item.name;
     }
@@ -144,7 +144,7 @@ export class TemplateSelectorComponent implements OnInit {
         }
     }
 
-    getTemplateName(item: TemplateModel, key: string): string {
+    getTemplateName(item: TemplateSchema, key: string): string {
         return helpers.getTemplateName(item, key);
     }
 }

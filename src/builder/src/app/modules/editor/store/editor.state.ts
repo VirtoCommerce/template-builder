@@ -1,4 +1,4 @@
-import { TemplateModel, TemplatesList } from '@editor/models';
+import { TemplateModel, TemplatesList, TemplatesSchemasList } from '@editor/models';
 
 export interface EditorState {
     templatesLoading: boolean; // list of available templates
@@ -8,7 +8,8 @@ export interface EditorState {
     showSectionsSelector: boolean;
     showTemplateSelector: boolean;
 
-    availableTemplates: TemplatesList;
+    availableTemplates: TemplatesSchemasList;
+    templates: TemplatesList;
     currentTemplate: string | null;
 
     sectionIndex: number | null;
@@ -24,6 +25,7 @@ export const initialState: EditorState = {
     showTemplateSelector: true,
 
     availableTemplates: {},
+    templates: {},
     currentTemplate: null,
 
     sectionIndex: null,

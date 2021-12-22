@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 
 import { HttpWrapper, AppConfig } from '@app/services';
 
-import { TemplatesList, TemplateModel, PageModel } from '@editor/models';
+import { SectionsSchemasList, TemplateModel, TemplatesSchemasList } from '@editor/models';
 import { IEditorService } from '@editor/di';
 import { Injectable } from '@angular/core';
 
@@ -13,17 +13,29 @@ export class PlatformService implements IEditorService {
 
     constructor(private appConfig: AppConfig, private http: HttpWrapper) { }
 
-    downloadTemplatesList(): Observable<TemplatesList> {
-        return this.http.get<TemplatesList>(this.appConfig.config.templatesUrl);
+    downloadTemplatesSchemasList(): Observable<TemplatesSchemasList> {
+        return this.http.get<TemplatesSchemasList>(this.appConfig.config.templatesUrl);
+    }
+
+    downloadSectionsSchemasList(): Observable<SectionsSchemasList> {
+        return this.http.get<SectionsSchemasList>(this.appConfig.config.sectionsUrl);
+    }
+
+    downloadBlocksSchemasList(): Observable<SectionsSchemasList> {
+        return this.http.get<SectionsSchemasList>(this.appConfig.config.blocksUrl);
+    }
+
+    downloadTemplate(templateKey: string): Observable<TemplateModel> {
+        return this.http.get<TemplateModel>(`${this.appConfig.config.loadTemplateUrl}${templateKey}.json`);
     }
 
     uploadTemplate(name: string, template: TemplateModel): Observable<any> {
         throw new Error('Method not implemented.');
     }
 
-    uploadPage(path: string, page: PageModel): Observable<any> {
-        throw new Error('Method not implemented.');
-    }
+    // uploadPage(path: string, page: PageModel): Observable<any> {
+    //     throw new Error('Method not implemented.');
+    // }
 
     onTemplateChanged(template: TemplateModel): Observable<unknown> {
         throw new Error('Method not implemented.');

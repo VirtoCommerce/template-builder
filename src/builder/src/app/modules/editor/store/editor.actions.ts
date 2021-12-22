@@ -1,17 +1,34 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 
-import { TemplatesList } from '@editor/models';
+import {
+    SectionsSchemasList,
+    TemplatesSchemasList,
+    TemplateModel
+} from '@editor/models';
 
 export const initEditorFeature = createAction('[editor] init editor feature');
 
 export const loadAvailableTemplates = createAction('[editor] load available templates');
-export const loadAvailableTemplatesSuccess = createAction('[editor] load available templates success', props<{ templates: TemplatesList }>());
+export const loadAvailableTemplatesSuccess = createAction('[editor] load available templates success', props<{ templates: TemplatesSchemasList }>());
 export const loadAvailableTemplatesFails = createAction('[editor] load available templates fails', props<{ error: HttpErrorResponse }>());
+
+export const loadAvailableSections = createAction('[editor] load available sections');
+export const loadAvailableSectionsSuccess = createAction('[editor] load available sections success', props<{ sections: SectionsSchemasList }>());
+export const loadAvailableSectionsFails = createAction('[editor] load available sections fails', props<{ error: HttpErrorResponse }>());
+
+export const loadAvailableBlocks = createAction('[editor] load available blocks');
+export const loadAvailableBlocksSuccess = createAction('[editor] load available blocks success', props<{ blocks: SectionsSchemasList }>());
+export const loadAvailableBlocksFails = createAction('[editor] load available blocks fails', props<{ error: HttpErrorResponse }>());
 
 export const templateSelected = createAction('[editor] template selected', props<{ templateKey: string }>());
 
+export const loadTemplate = createAction('[editor] load template', props<{ templateKey: string }>());
+export const loadTemplateSuccess = createAction('[editor] load template success', props<{ template: TemplateModel, templateKey: string }>());
+export const loadTemplateFails = createAction('[editor] load template fails', props<{ error: HttpErrorResponse }>());
+
 export const editItem = createAction('[editor] edit item', props<{ sectionIndex: number | null, blockIndex: number | null }>());
+export const completeEditItem = createAction('[editor] complete edit item');
 
 // import { BlockValuesModel } from '@shared/models';
 // import { BlockSchema, BlocksSchema } from '@shared/models';

@@ -1,37 +1,25 @@
 {
     "product": {
-        "settings": {
-            "name": "Product"
-        },
-        "content": [
+        "name": "Product",
+        "icon": "product",
+        "sections": ["product-info", "product-price", "product-description"],
+        "settings": [
             {
-                "name": "Cover with image",
-                "icon": "blocks",
-                "blocks": [
-                    { "name": "Image", "icon": "image" },
-                    { "name": "text", "icon": "text" }
+                "id": "displayType",
+                "type": "select",
+                "label": "Display type",
+                "default": "standart",
+                "options": [
+                    {
+                        "value": "standart",
+                        "label": "Standart"
+                    },
+                    {
+                        "value": "promo",
+                        "label": "Promo"
+                    }
                 ]
-            },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" },
-            { "name": "Cover with variations", "icon": "blocks" }
+            }
         ]
     },
     "catalog": {

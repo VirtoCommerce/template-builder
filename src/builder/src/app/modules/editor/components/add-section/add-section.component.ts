@@ -11,12 +11,12 @@ export class AddSectionComponent implements OnInit {
 
     @Input() title: string = 'Add section';
     @Input() schemas: SectionSchema[] = [
-        { type: 'text', icon: 'text', name: 'Simple text', group: 'Simple blocks are grouped in a single group with long name', groupIcon: 'text' },
-        { type: 'image', icon: 'image', name: 'Simple image', group: 'Simple blocks are grouped in a single group with long name' },
-        { type: 'carousel', icon: 'image', name: 'Carousel', group: 'Complex blocks', groupIcon: 'image' },
-        { type: 'cards', icon: 'text', name: 'Cards (block name may be long or short)', group: 'Complex blocks' },
-        { type: 'texts-list', icon: 'text', name: 'Texts list' },
-        { type: 'table', icon: 'text', name: 'Table' }
+        { type: 'text', icon: 'text', name: 'Simple text', group: 'Simple blocks are grouped in a single group with long name', groupIcon: 'text', settings: [] },
+        { type: 'image', icon: 'image', name: 'Simple image', group: 'Simple blocks are grouped in a single group with long name', settings: [] },
+        { type: 'carousel', icon: 'image', name: 'Carousel', group: 'Complex blocks', groupIcon: 'image', settings: [] },
+        { type: 'cards', icon: 'text', name: 'Cards (block name may be long or short)', group: 'Complex blocks', settings: [] },
+        { type: 'texts-list', icon: 'text', name: 'Texts list', settings: [] },
+        { type: 'table', icon: 'text', name: 'Table', settings: [] }
     ];
 
     @Output() backClick = new EventEmitter<any>();

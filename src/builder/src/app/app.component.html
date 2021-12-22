@@ -14,7 +14,10 @@
                                  (addSectionClick)="openPanel()"
                                  (editItem)="editItem($event)"></app-template-editor>
             <app-add-section (backClick)="closePanels()" *ngIf="panelOpened"></app-add-section>
-            <app-edit-section (backClick)="closePanels()" *ngIf="editOpened"></app-edit-section>
+            <ng-container *ngIf="false">
+                <app-edit-section (backClick)="closePanels()"
+                                  ></app-edit-section>
+            </ng-container>
         </app-sidebar>
         <app-preview></app-preview>
     </div>
