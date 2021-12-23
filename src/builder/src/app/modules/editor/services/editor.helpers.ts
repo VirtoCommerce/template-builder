@@ -1,6 +1,6 @@
 import { appHelpers } from '@shared/services';
 import { SectionModel } from '@shared/models';
-import { TemplateModel, TemplatesList, TemplateSchema } from '@editor/models';
+import { TemplateModel, TemplatesList, TemplateSchema, SectionsSchemasList } from '@editor/models';
 
 export function getTemplateName(templateSchema: TemplateSchema | null, key: string | null = null) {
     return templateSchema?.name || key || 'Select template';
@@ -20,6 +20,14 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
             }))
         }))
     };
+}
+
+export function prepareSections(sections: SectionsSchemasList): SectionsSchemasList {
+    return Object.keys(sections).reduce((acc, key) => ({ ...acc, [key]: { ...sections[key], type: key }}), {})
+}
+
+export function prepareBlocks(blocks: SectionsSchemasList): SectionsSchemasList {
+    return Object.keys(blocks).reduce((acc, key) => ({ ...acc, [key]: { ...blocks[key], type: key }}), {})
 }
 
 function generateItemId(item: SectionModel, force: boolean = false): string {

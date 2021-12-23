@@ -24,7 +24,6 @@ export class ListHelpers {
                 return acc;
             }, <any>{});
             const result = Object.keys(groups).map(key => groups[key]);
-            console.log(result);
             return result;
         }
         return [];

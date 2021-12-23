@@ -5,17 +5,11 @@
     "content": [
         {
             "type": "cover-with-image",
-            "name": "Cover with image",
-            "icon": "blocks",
-            "blocks": [
-                { "name": "Image", "icon": "image" },
-                { "name": "text", "icon": "text" }
-            ]
+            "name": "Cover with image"
         },
         {
             "type": "cover-with-variations",
             "name": "Cover with variations",
-            "icon": "blocks",
             "title": "Headline",
             "content": "Section content",
             "color": "#43ebaa",
@@ -27,24 +21,15 @@
                 "different/urls/for/files/filename-4.ext"
             ]
         },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" },
-        { "type": "cover-with-variations", "name": "Cover with variations", "icon": "blocks" }
+        { "type": "cover-with-variations", "name": "Cover with variations" },
+        { "type": "cover-with-variations", "name": "Cover with variations" },
+        {
+            "type": "product-info",
+            "name": "Product info",
+            "blocks": [
+                { "name": "Image", "type": "image" },
+                { "name": "text", "type": "text" }
+            ]
+        }
     ]
 }

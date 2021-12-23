@@ -1,4 +1,4 @@
-import { TemplateModel } from '@editor/models';
+import { SectionsSchemasList, TemplateModel } from '@editor/models';
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -9,10 +9,12 @@ import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@an
 export class TemplateEditorComponent implements OnInit {
 
     @Input() template!: TemplateModel | null;
+    @Input() sectionSchemas!: SectionsSchemasList | null;
+    @Input() blocksSchemas!: SectionsSchemasList | null;
 
     @HostBinding('class.inactive')
-    @Input() inactive: boolean = false;
-    @Output() addSectionClick = new EventEmitter<any>();
+    @Input() inactive: boolean | null = false;
+    @Output() addSectionClick = new EventEmitter<number | boolean>();
     @Output() editItem = new EventEmitter<{ sectionIndex: number, blockIndex: number | null }>();
 
     constructor() { }
@@ -20,7 +22,11 @@ export class TemplateEditorComponent implements OnInit {
     ngOnInit(): void { }
 
     addButtonClick() {
-        this.addSectionClick.emit();
+        this.addSectionClick.emit(true);
+    }
+
+    addBlockClick(sectionId: number) {
+        this.addSectionClick.emit(sectionId);
     }
 
     onItemClick(sectionIndex: number, blockIndex: number | null) {
@@ -29,7 +35,7 @@ export class TemplateEditorComponent implements OnInit {
 
     getTemplateName(): string {
         if (this.template && this.template.settings) {
-            return this.template.settings.name;
+            return <string>this.template.settings['name'];
         }
         return '[no name]';
     }

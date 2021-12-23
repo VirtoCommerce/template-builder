@@ -2,7 +2,7 @@
     "product": {
         "name": "Product",
         "icon": "product",
-        "sections": ["product-info", "product-price", "product-description"],
+        "sections": ["product-info", "product-price", "product-description", "text", "image"],
         "settings": [
             {
                 "id": "displayType",
@@ -23,11 +23,38 @@
         ]
     },
     "catalog": {
-        "settings": {},
-        "content": []
+        "name": "Catalog",
+        "icon": "catalog",
+        "sections": ["text", "image", "products-list"],
+        "settings": [
+            {
+                "id": "displayType",
+                "type": "select",
+                "label": "Display type",
+                "default": "list",
+                "options": [
+                    {
+                        "value": "table",
+                        "label": "Table"
+                    },
+                    {
+                        "value": "list",
+                        "label": "List"
+                    }
+                ]
+            }
+        ]
     },
     "page": {
-        "settings": {},
-        "content": []
+        "name": "Page",
+        "icon": "page",
+        "sections": ["text", "image", "gallery", "cover-with-image", "cover-with-variations"],
+        "settings": [
+            {
+                "id": "metaTitle",
+                "type": "string",
+                "label": "Page title"
+            }
+        ]
     }
 }

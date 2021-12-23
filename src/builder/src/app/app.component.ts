@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 import * as fromEditor from '@editor/store';
 import { editorActions } from '@editor/store';
@@ -16,10 +16,22 @@ export class AppComponent implements OnInit {
 
     currentTemplate$ = this.store$.select(fromEditor.selectCurrentTemplate);
     currentTemplateName$ = this.store$.select(fromEditor.selectCurrentTemplateName);
-    // currentItem$ = this.store$.select(fromEditor.selectItemToEdit);
-    // itemDescriptors$ = this.store$.select(fromEditor.selectCurrentDescriptors);
+    currentItem$ = this.store$.select(fromEditor.selectItemToEdit);
+    itemDescriptors$ = this.store$.select(fromEditor.selectCurrentDescriptors);
+    anyPanelOpened$ = this.store$.select(fromEditor.isAnyPanelOpened)
+    addSectionOpened$ = this.store$.select(fromEditor.addSectionOpened);
+    itemsForAdding$ = this.store$.select(fromEditor.selectAvailableSectionsForAdding);
+    allSectionsSchemas$ = this.store$.select(fromEditor.selectAllSectionsSchemas);
+    allBlocksSchemas$ = this.store$.select(fromEditor.selectAllBlocksSchemas);
 
     constructor(private store$: Store) { }
+
+    @HostListener('window:keyup', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        if (event.key === 'Escape') {
+            this.store$.dispatch(actions.closeAllPanels());
+        }
+    }
 
     ngOnInit() {
         this.store$.dispatch(actions.initApp());
@@ -33,15 +45,15 @@ export class AppComponent implements OnInit {
         this.store$.dispatch(editorActions.editItem(event));
     }
 
-    closePanels() {
+    closeEditPanel() {
         this.store$.dispatch(editorActions.completeEditItem());
     }
 
-    panelOpened = false;
-    editOpened = false;
+    closeAddPanel() {
+        this.store$.dispatch(editorActions.cancelAdding())
+    }
 
-
-    openPanel() {
-        this.panelOpened = true;
+    openAddSectionPanel(sectionIndex: number | boolean) {
+        this.store$.dispatch(editorActions.showAddItemPanel({ sectionIndex }))
     }
 }

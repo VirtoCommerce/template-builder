@@ -8,6 +8,9 @@
     <ng-container *ngIf="template">
         <app-section-item *ngFor="let section of template.content"
                           [section]="section"
+                          [sectionsSchemas]="sectionSchemas!"
+                          [blocksSchemas]="blocksSchemas!"
+                          (addClick)="addBlockClick(section.__index)"
                           (itemClick)="onItemClick(section.__index, $event)">
         </app-section-item>
     </ng-container>

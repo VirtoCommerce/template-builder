@@ -16,4 +16,11 @@ export class AppEffects {
         ofType(actions.initApp),
         switchMap(() => [ editors.initEditorFeature() ])
     ));
+
+    closeAllPanels$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.closeAllPanels),
+        switchMap(() => [
+            editors.closeAllPanels()
+        ])
+    ));
 }

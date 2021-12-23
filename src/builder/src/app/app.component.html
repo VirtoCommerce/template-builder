@@ -9,14 +9,21 @@
     </app-toolbar>
     <div class="flex flex-grow">
         <app-sidebar>
-            <app-template-editor [inactive]="panelOpened || editOpened"
+            <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"
-                                 (addSectionClick)="openPanel()"
+                                 [sectionSchemas]="allSectionsSchemas$|async"
+                                 [blocksSchemas]="allBlocksSchemas$|async"
+                                 (addSectionClick)="openAddSectionPanel($event)"
                                  (editItem)="editItem($event)"></app-template-editor>
-            <app-add-section (backClick)="closePanels()" *ngIf="panelOpened"></app-add-section>
-            <ng-container *ngIf="false">
-                <app-edit-section (backClick)="closePanels()"
-                                  ></app-edit-section>
+            <app-add-section *ngIf="addSectionOpened$ | async"
+                             [schemas]="itemsForAdding$ | async"
+                             (backClick)="closeAddPanel()"></app-add-section>
+            <ng-container *ngIf="itemDescriptors$|async as descriptors">
+                <ng-container *ngIf="currentItem$|async as currentItem">
+                    <app-edit-section (backClick)="closeEditPanel()"
+                                      [section]="currentItem"
+                                      [descriptors]="descriptors"></app-edit-section>
+                </ng-container>
             </ng-container>
         </app-sidebar>
         <app-preview></app-preview>

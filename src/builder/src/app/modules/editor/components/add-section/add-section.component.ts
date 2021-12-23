@@ -10,14 +10,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class AddSectionComponent implements OnInit {
 
     @Input() title: string = 'Add section';
-    @Input() schemas: SectionSchema[] = [
-        { type: 'text', icon: 'text', name: 'Simple text', group: 'Simple blocks are grouped in a single group with long name', groupIcon: 'text', settings: [] },
-        { type: 'image', icon: 'image', name: 'Simple image', group: 'Simple blocks are grouped in a single group with long name', settings: [] },
-        { type: 'carousel', icon: 'image', name: 'Carousel', group: 'Complex blocks', groupIcon: 'image', settings: [] },
-        { type: 'cards', icon: 'text', name: 'Cards (block name may be long or short)', group: 'Complex blocks', settings: [] },
-        { type: 'texts-list', icon: 'text', name: 'Texts list', settings: [] },
-        { type: 'table', icon: 'text', name: 'Table', settings: [] }
-    ];
+    @Input() schemas: SectionSchema[] | null = [ ];
 
     @Output() backClick = new EventEmitter<any>();
 
@@ -38,14 +31,14 @@ export class AddSectionComponent implements OnInit {
         if (!filter) {
             this.groupItems();
         }
-        const result = this.helper.groupSections(this.schemas);
+        const result = this.helper.groupSections(this.schemas || []);
         const f = filter.toLowerCase();
         const groups = result.map(x => ({ ...x, items: x.items.filter(_ => _.name.toLowerCase().indexOf(f) != -1) }));
         this.setGroups(groups);
     }
 
     private groupItems() {
-        const result = this.helper.groupSections(this.schemas);
+        const result = this.helper.groupSections(this.schemas || []);
         this.setGroups(result);
     }
 

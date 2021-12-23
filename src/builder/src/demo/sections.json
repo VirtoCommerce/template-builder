@@ -41,7 +41,14 @@
     "cover-with-image": {
         "name": "Cover with image",
         "icon": "image",
-        "settings": []
+        "settings": [
+            {
+                "id": "title",
+                "label": "Title",
+                "type": "string",
+                "placeholder": "Enter title"
+            }
+        ]
     },
     "cover-with-variations": {
         "name": "Cover with image",
@@ -188,5 +195,41 @@
                 "label": "Enter current number"
             }
         ]
+    },
+    "product-price": {
+        "name": "Product price",
+        "icon": "price",
+        "blocks": [],
+        "settings": []
+    },
+    "product-description": {
+        "name": "Description",
+        "icon": "text",
+        "blocks": [],
+        "settings": []
+    },
+    "text": {
+        "name": "Text",
+        "icon": "text",
+        "blocks": [],
+        "settings": []
+    },
+    "image": {
+        "name": "Image",
+        "icon": "image",
+        "blocks": [],
+        "settings": []
+    },
+    "products-list": {
+        "name": "Products collection",
+        "icon": "collection",
+        "blocks": ["category-description"],
+        "settings": []
+    },
+    "gallery": {
+        "name": "Gallery",
+        "icon": "gallery",
+        "blocks": [],
+        "settings": []
     }
 }

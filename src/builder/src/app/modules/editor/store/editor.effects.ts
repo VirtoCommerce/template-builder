@@ -65,26 +65,27 @@ export class EditorEffects { // implements OnInitEffects {
     loadTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplate),
         switchMap(({ templateKey }) => this.service.downloadTemplate(templateKey).pipe(
+            map(template => helpers.prepareTemplate(template)),
             map(template => actions.loadTemplateSuccess({ template, templateKey })),
             catchError(error => of(actions.loadTemplateFails({ error })))
         ))
     ));
 
-    // loadAvailableSections$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.loadAvailableSections),
-    //     switchMap(() => this.service.downloadSectionsList().pipe(
-    //         // map(sections => helpers.prepareSections(sections)),
-    //         map(sections => actions.loadAvailableSectionsSuccess({ sections })),
-    //         catchError(error => of(actions.loadAvailableSectionsFails({ error })))
-    //     ))
-    // ));
+    loadAvailableSections$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadAvailableSections),
+        switchMap(() => this.service.downloadSectionsSchemasList().pipe(
+            map(sections => helpers.prepareSections(sections)),
+            map(sections => actions.loadAvailableSectionsSuccess({ sections })),
+            catchError(error => of(actions.loadAvailableSectionsFails({ error })))
+        ))
+    ));
 
-    // loadAvailableTemplates$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.loadAvailableTemplates),
-    //     switchMap(() => this.service.downloadTemplatesList().pipe(
-    //         map(templates => helpers.prepareTemplates(templates)),
-    //         map(templates => actions.loadAvailableTemplatesSuccess({ templates })),
-    //         catchError(error => of(actions.loadAvailableTemplatesFails({ error })))
-    //     ))
-    // ));
+    loadAvailableBlocks$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadAvailableBlocks),
+        switchMap(() => this.service.downloadBlocksSchemasList().pipe(
+            map(blocks => helpers.prepareBlocks(blocks)),
+            map(blocks => actions.loadAvailableBlocksSuccess({ blocks })),
+            catchError(error => of(actions.loadAvailableBlocksFails({ error })))
+        ))
+    ));
 }

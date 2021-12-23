@@ -102,5 +102,27 @@
                 ]
             }
         ]
+    },
+    "product-variants": {
+        "name": "Product variants",
+        "icon": "image",
+        "settings": [
+            {
+                "id": "title",
+                "label": "Title",
+                "type": "string"
+            }
+        ]
+    },
+    "share": {
+        "name": "Share",
+        "icon": "image",
+        "settings": [
+            {
+                "id": "title",
+                "label": "Title",
+                "type": "string"
+            }
+        ]
     }
 }

@@ -30,6 +30,10 @@ export const loadTemplateFails = createAction('[editor] load template fails', pr
 export const editItem = createAction('[editor] edit item', props<{ sectionIndex: number | null, blockIndex: number | null }>());
 export const completeEditItem = createAction('[editor] complete edit item');
 
+export const showAddItemPanel = createAction('[editor] show add item panel', props<{ sectionIndex: number | boolean }>());
+export const cancelAdding = createAction('[editor] cancel adding');
+export const closeAllPanels = createAction('[editor] close all panels');
+
 // import { BlockValuesModel } from '@shared/models';
 // import { BlockSchema, BlocksSchema } from '@shared/models';
 

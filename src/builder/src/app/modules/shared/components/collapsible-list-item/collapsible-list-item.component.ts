@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class CollapsibleListItemComponent implements OnInit {
 
-    @Input() icon: string = '';
+    @Input() icon: string | null = null;
     @Input() title: string = '';
     @Input() closable: boolean = false;
     @Input() showPlus: boolean = false;

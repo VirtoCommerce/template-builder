@@ -1,16 +1,16 @@
-<app-collapsible-list-item [title]="section.name"
-                           [closable]="!!section.blocks"
-                           [icon]="section.icon"
+<app-collapsible-list-item [title]="getSectionName()"
+                           [closable]="hasChildren()"
+                           [icon]="getSectionIcon()"
                            (itemClick)="onItemClick()">
     <app-inner-list-item *ngFor="let block of section.blocks"
-                         [icon]="block.icon"
-                         [title]="block.name"
+                         [icon]="getBlockIcon(block)"
+                         [title]="getBlockName(block)"
                          (itemClick)="onItemClick(block.__index)">
     </app-inner-list-item>
 
     <app-separator></app-separator>
 
-    <button class="flex items-center py-2">
+    <button class="flex items-center py-2" (click)="onAddClick()">
         <img class="mr-1" src="assets/icons/round-plus.svg" />
         <span>Add block</span>
     </button>
