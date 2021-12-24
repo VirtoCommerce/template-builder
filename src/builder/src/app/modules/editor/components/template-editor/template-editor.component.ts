@@ -9,7 +9,7 @@ import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@an
 export class TemplateEditorComponent implements OnInit {
 
     @Input() template!: TemplateModel | null;
-    @Input() sectionSchemas!: SectionsSchemasList | null;
+    @Input() sectionsSchemas!: SectionsSchemasList | null;
     @Input() blocksSchemas!: SectionsSchemasList | null;
 
     @HostBinding('class.inactive')

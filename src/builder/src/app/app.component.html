@@ -11,7 +11,7 @@
         <app-sidebar>
             <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"
-                                 [sectionSchemas]="allSectionsSchemas$|async"
+                                 [sectionsSchemas]="allSectionsSchemas$|async"
                                  [blocksSchemas]="allBlocksSchemas$|async"
                                  (addSectionClick)="openAddSectionPanel($event)"
                                  (editItem)="editItem($event)"></app-template-editor>
@@ -20,9 +20,11 @@
                              (backClick)="closeAddPanel()"></app-add-section>
             <ng-container *ngIf="itemDescriptors$|async as descriptors">
                 <ng-container *ngIf="currentItem$|async as currentItem">
-                    <app-edit-section (backClick)="closeEditPanel()"
-                                      [section]="currentItem"
-                                      [descriptors]="descriptors"></app-edit-section>
+                    <app-edit-section [section]="currentItem"
+                                      [descriptors]="descriptors"
+                                      [sectionsSchemas]="allSectionsSchemas$|async"
+                                      [blocksSchemas]="allBlocksSchemas$|async"
+                                      (backClick)="closeEditPanel()"></app-edit-section>
                 </ng-container>
             </ng-container>
         </app-sidebar>

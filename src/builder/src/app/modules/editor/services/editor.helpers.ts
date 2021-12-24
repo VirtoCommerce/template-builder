@@ -22,12 +22,30 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
     };
 }
 
+export function getSectionName(item: SectionModel, schemas: SectionsSchemasList): string {
+    const schema = schemas[item.type];
+    if (!!schema) {
+        if (schema.displayNameProperty) {
+            const result = item[schema.displayNameProperty];
+            if (!!result) {
+                return <string>result;
+            }
+        }
+    }
+    const result = <string>item['name'];
+    if (!!result) {
+        return result;
+    }
+    return item.type;
+
+}
+
 export function prepareSections(sections: SectionsSchemasList): SectionsSchemasList {
-    return Object.keys(sections).reduce((acc, key) => ({ ...acc, [key]: { ...sections[key], type: key }}), {})
+    return Object.keys(sections).reduce((acc, key) => ({ ...acc, [key]: { ...sections[key], type: key } }), {})
 }
 
 export function prepareBlocks(blocks: SectionsSchemasList): SectionsSchemasList {
-    return Object.keys(blocks).reduce((acc, key) => ({ ...acc, [key]: { ...blocks[key], type: key }}), {})
+    return Object.keys(blocks).reduce((acc, key) => ({ ...acc, [key]: { ...blocks[key], type: key } }), {})
 }
 
 function generateItemId(item: SectionModel, force: boolean = false): string {

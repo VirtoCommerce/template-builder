@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { SectionsSchemasList } from '@editor/models';
 import { SectionModel } from '@shared/models';
+import { helpers } from '@editor/services';
 
 @Component({
     selector: 'app-section-item',
@@ -54,20 +55,7 @@ export class SectionItemComponent implements OnInit {
     }
 
     private getItemName(item: SectionModel, schemas: SectionsSchemasList): string {
-        const schema = schemas[item.type];
-        if (!!schema) {
-            if (schema.displayNameProperty) {
-                const result = item[schema.displayNameProperty];
-                if (!!result) {
-                    return <string>result;
-                }
-            }
-        }
-        const result = <string>item['name'];
-        if (!!result) {
-            return result;
-        }
-        return item.type;
+        return helpers.getSectionName(item, schemas);
     }
 
     hasChildren(): boolean {

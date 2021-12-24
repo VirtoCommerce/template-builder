@@ -1,6 +1,6 @@
 <app-overlap-panel (backClick)="backButtonClick()">
     <div title-content class="block">
-        {{ section.name }}
+        {{ getTitle() }}
     </div>
 
     <app-dynamic-form [context]="context" [descriptors]="descriptors" [sectionModel]="section"></app-dynamic-form>
