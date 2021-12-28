@@ -1,6 +1,8 @@
 import { Store } from '@ngrx/store';
 import { Component, HostListener, OnInit } from '@angular/core';
 
+import { SectionModel, SectionSchema } from '@shared/models';
+
 import * as fromEditor from '@editor/store';
 import { editorActions } from '@editor/store';
 
@@ -50,10 +52,30 @@ export class AppComponent implements OnInit {
     }
 
     closeAddPanel() {
-        this.store$.dispatch(editorActions.cancelAdding())
+        this.store$.dispatch(editorActions.closeAddItemPanel())
+    }
+
+    previewItem(item: SectionSchema) {
+        this.store$.dispatch(editorActions.previewItem({ item }));
+    }
+
+    addItem(item: SectionSchema) {
+        this.store$.dispatch(editorActions.addItem({ item }));
+    }
+
+    deleteItem() {
+        this.store$.dispatch(editorActions.deleteItem());
+    }
+
+    cloneItem() {
+        this.store$.dispatch(editorActions.cloneItem())
     }
 
     openAddSectionPanel(sectionIndex: number | boolean) {
         this.store$.dispatch(editorActions.showAddItemPanel({ sectionIndex }))
+    }
+
+    onSectionChanged(value: SectionModel) {
+        this.store$.dispatch(editorActions.updateItem({ item: value }));
     }
 }

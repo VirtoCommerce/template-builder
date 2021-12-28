@@ -1,4 +1,5 @@
 import { SectionPropertyDescriptor } from "./descriptors";
+import { SectionModel } from "./section.model";
 
 export interface SectionSchema {
     icon: string;
@@ -9,4 +10,5 @@ export interface SectionSchema {
     groupIcon?: string;
     blocks?: string[];
     settings: SectionPropertyDescriptor[];
+    default?: SectionModel;
 }

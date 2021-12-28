@@ -1,3 +1,4 @@
+import { template } from '@app/modules/shared/services/utils';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as actions from './editor.actions';
 
@@ -23,7 +24,21 @@ const editorReducers = createReducer(
             }
         }
     })),
-    on(actions.cancelAdding, state => ({ ...state, indexAddSectionPanel: false })),
+    on(actions.setSections, (state, { sections, templateKey }) => ({
+        ...state,
+        templates: {
+            ...state.templates,
+            [templateKey]: {
+                ...state.templates[templateKey],
+                isDirty: true,
+                model: {
+                    ...state.templates[templateKey].model,
+                    content: sections
+                }
+            }
+        }
+    })),
+    on(actions.closeAddItemPanel, state => ({ ...state, indexAddSectionPanel: false })),
     on(actions.closeAllPanels, state => ({ ...state, sectionIndex: null, blockIndex: null, showTemplateSettings: false, indexAddSectionPanel: false })),
     on(actions.showAddItemPanel, (state, { sectionIndex }) => ({ ...state, indexAddSectionPanel: sectionIndex }))
 );

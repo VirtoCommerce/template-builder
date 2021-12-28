@@ -20,7 +20,7 @@ export const selectAvailableTemplates = createSelector(
     state => state.availableTemplates
 );
 
-const currentTemplateKey = createSelector(
+export const currentTemplateKey = createSelector(
     selectFeature,
     state => state.currentTemplate
 );
@@ -48,17 +48,17 @@ export const selectCurrentTemplateName = createSelector(
     (template, key) => helpers.getTemplateName(template, key)
 );
 
-const selectSectionIndex = createSelector(
+export const selectSectionIndex = createSelector(
     selectFeature,
     state => state.sectionIndex
 );
 
-const selectBlockIndex = createSelector(
+export const selectBlockIndex = createSelector(
     selectFeature,
     state => state.blockIndex
 );
 
-const selectCurrentSection = createSelector(
+export const selectCurrentSection = createSelector(
     selectCurrentTemplate,
     selectSectionIndex,
     (template, section) => template && section !== null
@@ -66,11 +66,11 @@ const selectCurrentSection = createSelector(
         : null
 );
 
-const selectCurrentBlock = createSelector(
+export const selectCurrentBlock = createSelector(
     selectCurrentSection,
     selectBlockIndex,
     (section, blockIndex) => section && blockIndex !== null
-        ? section.blocks.find(x => x.__index === blockIndex)
+        ? section.blocks.find(x => x.__index === blockIndex) || null
         : null
 );
 
@@ -118,7 +118,7 @@ export const selectCurrentDescriptors = createSelector(
     schema => <ControlDescriptor[]>(schema ? schema.settings : [])
 );
 
-const selectCurrentSectionIndexForAdding = createSelector(
+export const selectCurrentSectionIndexForAdding = createSelector(
     selectFeature,
     state => state.indexAddSectionPanel
 );

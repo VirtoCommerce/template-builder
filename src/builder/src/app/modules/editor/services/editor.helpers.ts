@@ -1,5 +1,6 @@
+import { cloneDeep } from 'lodash-es';
 import { appHelpers } from '@shared/services';
-import { SectionModel } from '@shared/models';
+import { SectionModel, SectionSchema } from '@shared/models';
 import { TemplateModel, TemplatesList, TemplateSchema, SectionsSchemasList } from '@editor/models';
 
 export function getTemplateName(templateSchema: TemplateSchema | null, key: string | null = null) {
@@ -40,6 +41,133 @@ export function getSectionName(item: SectionModel, schemas: SectionsSchemasList)
 
 }
 
+export function addNewItemToList(items: SectionModel[], schema: SectionSchema, currentSection: number | boolean)
+    : { items: SectionModel[], indexes: { sectionIndex: number, blockIndex: number | null } } {
+    const result = <SectionModel>{ type: schema.type, __index: items.length + 1, ...schema.default };
+    result.__id = generateItemId(result);
+    schema.settings.forEach(item => {
+        if (item.default !== undefined) {
+            result[item.id] = item.default;
+        }
+    });
+
+    if (currentSection === true) {
+        return {
+            items: [...items, result],
+            indexes: { sectionIndex: result.__index, blockIndex: null }
+        };
+    }
+    return {
+        items: items.map(x => x.__index === currentSection ? { ...x, blocks: [...x.blocks, result] } : x),
+        indexes: { sectionIndex: <number>currentSection, blockIndex: result.__index }
+    }
+}
+
+export function removeItemFromList(items: SectionModel[], section: SectionModel, block: SectionModel | null): SectionModel[] {
+
+    if (block === null) {
+        const index = items.findIndex(x => x.__index === section.__index);
+        const result = [
+            ...items.slice(0, index),
+            ...items.slice(index + 1),
+        ];
+        return reindexItems(result);
+    } else {
+        const sectionIndex = items.findIndex(x => x.__index === section.__index);
+        const blockIndex = section.blocks.findIndex(x => x.__index === block.__index);
+        const result = [
+            ...items.slice(0, sectionIndex),
+            {
+                ...section,
+                blocks: reindexItems([
+                    ...section.blocks.slice(0, blockIndex),
+                    ...section.blocks.slice(blockIndex + 1)
+                ])
+            },
+            ...items.slice(sectionIndex + 1)
+        ];
+        return result;
+    }
+
+}
+
+export function cloneItem(items: SectionModel[], section: SectionModel, block: SectionModel | null)
+    : { items: SectionModel[], sectionIndex: number, blockIndex: number | null } {
+    if (block === null) {
+
+        const index = items.findIndex(x => x.__index === section.__index);
+        const newSection = cloneDeep(section);
+        newSection.__id = generateItemId(section, true);
+        if (newSection.blocks) {
+            newSection.blocks = newSection.blocks.map(x => ({ ...x, __id: generateItemId(x, true) }));
+        }
+        const result = [
+            ...items.slice(0, index + 1),
+            newSection,
+            ...items.slice(index + 1)
+        ];
+        return {
+            items: reindexItems(result),
+            sectionIndex: index + 1,
+            blockIndex: null
+        };
+
+    } else {
+        const sectionIndex = items.findIndex(x => x.__index === section.__index);
+        const blockIndex = section.blocks.findIndex(x => x.__index === block.__index);
+        const result = [
+            ...items.slice(0, sectionIndex),
+            {
+                ...section,
+                blocks: reindexItems([
+                    ...section.blocks.slice(0, blockIndex + 1),
+                    {
+                        ...cloneDeep(block),
+                        __id: generateItemId(block, true)
+                    },
+                    ...section.blocks.slice(blockIndex + 1)
+                ])
+            },
+            ...items.slice(sectionIndex + 1)
+        ];
+        return {
+            items: result,
+            sectionIndex: sectionIndex,
+            blockIndex: blockIndex + 1
+        };
+    }
+}
+
+export function replaceItem(items: SectionModel[], section: SectionModel, block: SectionModel | null, item: SectionModel): SectionModel[] {
+    if (block === null) {
+
+        const index = items.findIndex(x => x.__index === section.__index);
+        const result = [
+            ...items.slice(0, index),
+            item,
+            ...items.slice(index + 1)
+        ];
+        return result;
+
+    } else {
+        const sectionIndex = items.findIndex(x => x.__index === section.__index);
+        const blockIndex = section.blocks.findIndex(x => x.__index === block.__index);
+        const result = [
+            ...items.slice(0, sectionIndex),
+            {
+                ...section,
+                blocks: reindexItems([
+                    ...section.blocks.slice(0, blockIndex),
+                    item,
+                    ...section.blocks.slice(blockIndex + 1)
+                ])
+            },
+            ...items.slice(sectionIndex + 1)
+        ];
+        return result;
+    }
+}
+
 export function prepareSections(sections: SectionsSchemasList): SectionsSchemasList {
     return Object.keys(sections).reduce((acc, key) => ({ ...acc, [key]: { ...sections[key], type: key } }), {})
 }
@@ -53,4 +181,8 @@ function generateItemId(item: SectionModel, force: boolean = false): string {
         return item.__id;
     }
     return appHelpers.onlyLettersAndDigits(`${item.type}${appHelpers.generateUniqueString(4)}`);
+}
+
+function reindexItems(sections: SectionModel[]): SectionModel[] {
+    return sections.map((x, index) => ({ ...x, __index: index }));
 }

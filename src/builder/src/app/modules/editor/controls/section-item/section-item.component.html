@@ -1,6 +1,8 @@
 <app-collapsible-list-item [title]="getSectionName()"
                            [closable]="hasChildren()"
                            [icon]="getSectionIcon()"
+                           [opened]="opened"
+                           (openChanged)="onOpenChanged($event)"
                            (itemClick)="onItemClick()">
     <app-inner-list-item *ngFor="let block of section.blocks"
                          [icon]="getBlockIcon(block)"

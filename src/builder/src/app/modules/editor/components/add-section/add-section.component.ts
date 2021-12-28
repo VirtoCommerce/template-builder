@@ -10,9 +10,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class AddSectionComponent implements OnInit {
 
     @Input() title: string = 'Add section';
-    @Input() schemas: SectionSchema[] | null = [ ];
+    @Input() schemas: SectionSchema[] | null = [];
 
     @Output() backClick = new EventEmitter<any>();
+    @Output() previewItem = new EventEmitter<SectionSchema>();
+    @Output() addItem = new EventEmitter<SectionSchema>();
 
     groups: ItemsGroup<SectionSchema>[] = [];
     items: SectionSchema[] = [];
@@ -35,6 +37,14 @@ export class AddSectionComponent implements OnInit {
         const f = filter.toLowerCase();
         const groups = result.map(x => ({ ...x, items: x.items.filter(_ => _.name.toLowerCase().indexOf(f) != -1) }));
         this.setGroups(groups);
+    }
+
+    onPreviewItem(item: SectionSchema) {
+        this.previewItem.emit(item);
+    }
+
+    onAddItem(item: SectionSchema) {
+        this.addItem.emit(item);
     }
 
     private groupItems() {

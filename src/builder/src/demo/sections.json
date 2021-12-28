@@ -217,7 +217,6 @@
     "image": {
         "name": "Image",
         "icon": "image",
-        "blocks": [],
         "settings": []
     },
     "products-list": {

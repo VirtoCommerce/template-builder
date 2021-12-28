@@ -11,23 +11,25 @@ export class CollapsibleListItemComponent implements OnInit {
     @Input() title: string = '';
     @Input() closable: boolean = false;
     @Input() showPlus: boolean = false;
-    @Input() defaultCollapsed: boolean = true;
+    // @Input() defaultCollapsed: boolean = true;
     @Input() collapseByArea: boolean = false;
+    @Input() opened: boolean = false;
 
     @Output() itemClick = new EventEmitter<any>();
     @Output() plusClick = new EventEmitter<any>();
+    @Output() openChanged = new EventEmitter<boolean>();
 
-    opened: boolean = false;
 
     constructor() { }
 
     ngOnInit(): void {
-        this.opened = !this.defaultCollapsed;
+        // this.opened = !this.defaultCollapsed;
     }
 
     toggle(event: MouseEvent) {
         event.stopPropagation();
         this.opened = !this.opened;
+        this.openChanged.emit(this.opened);
     }
 
     sectionClick(event: MouseEvent) {
@@ -38,7 +40,9 @@ export class CollapsibleListItemComponent implements OnInit {
         }
     }
 
-    onPlusClick() {
+    onPlusClick(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
         this.plusClick.emit();
     }
 

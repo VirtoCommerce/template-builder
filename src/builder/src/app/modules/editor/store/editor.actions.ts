@@ -7,6 +7,11 @@ import {
     TemplateModel
 } from '@editor/models';
 
+import {
+    SectionModel,
+    SectionSchema
+} from '@shared/models';
+
 export const initEditorFeature = createAction('[editor] init editor feature');
 
 export const loadAvailableTemplates = createAction('[editor] load available templates');
@@ -31,10 +36,18 @@ export const editItem = createAction('[editor] edit item', props<{ sectionIndex:
 export const completeEditItem = createAction('[editor] complete edit item');
 
 export const showAddItemPanel = createAction('[editor] show add item panel', props<{ sectionIndex: number | boolean }>());
-export const cancelAdding = createAction('[editor] cancel adding');
+export const closeAddItemPanel = createAction('[editor] close add item panel');
 export const closeAllPanels = createAction('[editor] close all panels');
 
-// import { BlockValuesModel } from '@shared/models';
+export const setSections = createAction('[editor] set sections', props<{ sections: SectionModel[], templateKey: string }>());
+
+export const previewItem = createAction('[editor] preview item', props<{ item: SectionSchema }>());
+export const addItem = createAction('[editor] add item', props<{ item: SectionSchema }>());
+export const deleteItem = createAction('[editor] delete item');
+export const cloneItem = createAction('[editor] clone item');
+export const updateItem = createAction('[editor] update item', props<{ item: SectionModel }>());
+
+// import { BlockValuesModel, SectionSchema } from '@shared/models';
 // import { BlockSchema, BlocksSchema } from '@shared/models';
 
 // export const highlightInPreviewActionName = '[Page] Highlight In Preview';

@@ -23,6 +23,7 @@ export class InnerListItemComponent implements OnInit {
     }
 
     onPlusClick(event: MouseEvent) {
+        event.preventDefault();
         event.stopPropagation();
         this.plusClick.emit();
     }

@@ -88,4 +88,75 @@ export class EditorEffects { // implements OnInitEffects {
             catchError(error => of(actions.loadAvailableBlocksFails({ error })))
         ))
     ));
+
+    addSection$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.addItem),
+        withLatestFrom(
+            this.store$.select(editor.selectCurrentTemplate),
+            this.store$.select(editor.currentTemplateKey),
+            this.store$.select(editor.selectCurrentSectionIndexForAdding)
+        ),
+        map(([{ item }, template, templateKey, currentSectionIndex]) => ({
+            result: helpers.addNewItemToList(template!.content, item, currentSectionIndex),
+            templateKey
+        })),
+        switchMap(({ result, templateKey }) => [
+            actions.setSections({ sections: result.items, templateKey: templateKey! }),
+            actions.editItem(result.indexes),
+            actions.closeAddItemPanel()
+        ])
+    ));
+
+    deleteSection$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.deleteItem),
+        withLatestFrom(
+            this.store$.select(editor.selectCurrentTemplate),
+            this.store$.select(editor.currentTemplateKey),
+            this.store$.select(editor.selectCurrentSection),
+            this.store$.select(editor.selectCurrentBlock)
+        ),
+        map(([, template, templateKey, section, block]) => ({
+            result: helpers.removeItemFromList(template!.content, section!, block),
+            templateKey
+        })),
+        switchMap(({ result, templateKey }) => [
+            actions.completeEditItem(),
+            actions.setSections({ sections: result, templateKey: templateKey! })
+        ])
+    ));
+
+    cloneSection$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.cloneItem),
+        withLatestFrom(
+            this.store$.select(editor.selectCurrentTemplate),
+            this.store$.select(editor.currentTemplateKey),
+            this.store$.select(editor.selectCurrentSection),
+            this.store$.select(editor.selectCurrentBlock)
+        ),
+        map(([, template, templateKey, section, block]) => ({
+            ...helpers.cloneItem(template!.content, section!, block),
+            templateKey
+        })),
+        switchMap(({ items, sectionIndex, blockIndex, templateKey }) => [
+            actions.setSections({ sections: items, templateKey: templateKey! }),
+            actions.editItem({ sectionIndex, blockIndex })
+        ])
+    ));
+
+    updateItem$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.updateItem),
+        withLatestFrom(
+            this.store$.select(editor.selectCurrentTemplate),
+            this.store$.select(editor.currentTemplateKey),
+            this.store$.select(editor.selectCurrentSection),
+            this.store$.select(editor.selectCurrentBlock)
+        ),
+        map(([{ item }, template, templateKey, section, block]) => ({
+            items: helpers.replaceItem(template!.content, section!, block, item),
+            templateKey
+        })),
+        switchMap(({ items, templateKey }) => [
+            actions.setSections({ sections: items, templateKey: templateKey! })
+        ])
+    ));
 }

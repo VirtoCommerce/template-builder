@@ -23,9 +23,11 @@ export class SectionItemComponent implements OnInit {
     @Input() section!: SectionModel;
     @Input() sectionsSchemas!: SectionsSchemasList;
     @Input() blocksSchemas!: SectionsSchemasList;
+    @Input() opened: boolean = false;
 
     @Output() itemClick = new EventEmitter<number | null>();
     @Output() addClick = new EventEmitter<never>();
+    @Output() openChanged = new EventEmitter<boolean>();
 
     constructor() { }
 
@@ -54,12 +56,16 @@ export class SectionItemComponent implements OnInit {
             || this.getItemName(block, this.sectionsSchemas);
     }
 
+    onOpenChanged(isOpen: boolean) {
+        this.openChanged.emit(isOpen);
+    }
+
     private getItemName(item: SectionModel, schemas: SectionsSchemasList): string {
         return helpers.getSectionName(item, schemas);
     }
 
     hasChildren(): boolean {
-        return !!this.sectionsSchemas[this.section.type]?.blocks;
+        return !!this.sectionsSchemas[this.section.type]?.blocks?.length;
     }
 
     getBlockIcon(block: SectionModel): string | null {

@@ -59,7 +59,10 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
             setTimeout(() => {
                 const form = this.formsHelper.generateForm(m, this.descriptors);
                 const subscription = form.valueChanges.subscribe(value => {
-                    this.modelChanged.emit(value);
+                    this.modelChanged.emit({
+                        ...this.sectionModel,
+                        ...value
+                    });
                 });
                 this.zone.run(() => {
                     this.form = form;

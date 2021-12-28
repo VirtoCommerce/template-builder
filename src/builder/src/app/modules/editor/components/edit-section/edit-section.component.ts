@@ -18,6 +18,9 @@ export class EditSectionComponent implements OnInit {
     @Input() blocksSchemas!: SectionsSchemasList | null;
 
     @Output() backClick = new EventEmitter<any>();
+    @Output() deleteClick = new EventEmitter<any>();
+    @Output() cloneClick = new EventEmitter<any>();
+    @Output() sectionChanged = new EventEmitter<SectionModel>();
 
     constructor() { }
 
@@ -37,5 +40,16 @@ export class EditSectionComponent implements OnInit {
             return helpers.getSectionName(this.section, this.sectionsSchemas!);
         }
         return this.section.type;
+    }
+
+    onDeleteClick(event: MouseEvent) {
+        this.deleteClick.emit();
+    }
+
+    onCloneClick(event: MouseEvent) {
+        this.cloneClick.emit();
+    }
+    onValueChanged(value: SectionModel) {
+        this.sectionChanged.emit(value);
     }
 }

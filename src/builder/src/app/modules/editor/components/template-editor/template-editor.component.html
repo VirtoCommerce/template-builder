@@ -10,8 +10,10 @@
                           [section]="section"
                           [sectionsSchemas]="sectionsSchemas!"
                           [blocksSchemas]="blocksSchemas!"
+                          [opened]="isOpened(section.__id)"
                           (addClick)="addBlockClick(section.__index)"
-                          (itemClick)="onItemClick(section.__index, $event)">
+                          (itemClick)="onItemClick(section.__index, $event)"
+                          (openChanged)="onOpenChanged(section.__id, $event)">
         </app-section-item>
     </ng-container>
 </div>

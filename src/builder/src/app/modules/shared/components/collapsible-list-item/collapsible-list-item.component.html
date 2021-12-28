@@ -2,7 +2,7 @@
     <img *ngIf="icon" [src]="'assets/icons/sections/' + icon + '.svg'" />
     <span class="name">{{title}}</span>
     <img (click)="toggle($event)" class="chevron" *ngIf="closable" src="assets/icons/chevron.svg" />
-    <img (click)="onPlusClick()" class="chevron" *ngIf="showPlus" src="assets/icons/round-plus.svg" />
+    <img (click)="onPlusClick($event)" class="chevron" *ngIf="showPlus" src="assets/icons/round-plus.svg" />
 </div>
 <ng-container *ngIf="closable && opened">
     <div class="blocks-container">

@@ -3,14 +3,17 @@
         {{ getTitle() }}
     </div>
 
-    <app-dynamic-form [context]="context" [descriptors]="descriptors" [sectionModel]="section"></app-dynamic-form>
+    <app-dynamic-form [context]="context"
+                      [descriptors]="descriptors"
+                      [sectionModel]="section"
+                      (modelChanged)="onValueChanged($event)"></app-dynamic-form>
 
     <div footer-content>
         <div class="flex justify-evenly h-16 items-stretch">
-            <button class="" type="button">
+            <button class="" type="button" (click)="onDeleteClick($event)">
                 Delete
             </button>
-            <button class="flex items-center" type="button">
+            <button class="flex items-center" type="button" (click)="onCloneClick($event)">
                 <img src="assets/icons/duplicate.svg" />
                 Duplicate
             </button>
