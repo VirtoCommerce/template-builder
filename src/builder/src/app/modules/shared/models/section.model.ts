@@ -4,6 +4,7 @@ export interface SectionModel {
     __id: string;
     __index: number;
     type: string;
+    hidden: boolean;
 
     blocks: SectionModel[];
 

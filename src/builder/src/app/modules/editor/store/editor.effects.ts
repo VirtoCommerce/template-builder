@@ -159,4 +159,19 @@ export class EditorEffects { // implements OnInitEffects {
             actions.setSections({ sections: items, templateKey: templateKey! })
         ])
     ));
+
+    setVisibility$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.setVisibility),
+        withLatestFrom(
+            this.store$.select(editor.selectCurrentTemplate),
+            this.store$.select(editor.currentTemplateKey)
+        ),
+        map(([{ sectionIndex, blockIndex, value }, template, templateKey]) => ({
+            items: helpers.updateItemByIndex(template!.content, sectionIndex, blockIndex, { hidden: !value }),
+            templateKey
+        })),
+        switchMap(({ items, templateKey }) => [
+            actions.setSections({ sections: items, templateKey: templateKey! })
+        ])
+    ));
 }

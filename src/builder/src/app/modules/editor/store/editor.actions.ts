@@ -46,6 +46,7 @@ export const addItem = createAction('[editor] add item', props<{ item: SectionSc
 export const deleteItem = createAction('[editor] delete item');
 export const cloneItem = createAction('[editor] clone item');
 export const updateItem = createAction('[editor] update item', props<{ item: SectionModel }>());
+export const setVisibility = createAction('[editor] set visibility', props<{ sectionIndex: number, blockIndex: number | null, value: boolean }>());
 
 // import { BlockValuesModel, SectionSchema } from '@shared/models';
 // import { BlockSchema, BlocksSchema } from '@shared/models';

@@ -11,6 +11,9 @@ export class CollapsibleListItemComponent implements OnInit {
     @Input() title: string = '';
     @Input() closable: boolean = false;
     @Input() showPlus: boolean = false;
+    @Input() showVisibility: boolean = false;
+    @Input() showDrag: boolean = false;
+    @Input() visible: boolean = true;
     // @Input() defaultCollapsed: boolean = true;
     @Input() collapseByArea: boolean = false;
     @Input() opened: boolean = false;
@@ -18,7 +21,7 @@ export class CollapsibleListItemComponent implements OnInit {
     @Output() itemClick = new EventEmitter<any>();
     @Output() plusClick = new EventEmitter<any>();
     @Output() openChanged = new EventEmitter<boolean>();
-
+    @Output() visibleChanged = new EventEmitter<boolean>();
 
     constructor() { }
 
@@ -44,6 +47,10 @@ export class CollapsibleListItemComponent implements OnInit {
         event.preventDefault();
         event.stopPropagation();
         this.plusClick.emit();
+    }
+
+    onVisibleChanged(value: boolean) {
+        this.visibleChanged.emit(value);
     }
 
 }

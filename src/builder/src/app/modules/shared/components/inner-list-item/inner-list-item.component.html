@@ -1,5 +1,7 @@
 <div class="py-2 flex" (click)="onItemClick($event)">
     <img *ngIf="icon" class="mr-1" [src]="'assets/icons/sections/' + icon + '.svg'" />
     <span class="flex-grow">{{ title }}</span>
+    <app-visibility-button *ngIf="showVisibility" [visible]="visible" (visibleChanged)="onVisibleChanged($event)"></app-visibility-button>
     <img *ngIf="showPlus" class="ml-1" src="assets/icons/round-plus.svg" (click)="onPlusClick($event)" />
+    <img *ngIf="showDrag" class="ml-1 drag-handler" src="assets/icons/buttons/drag.svg" />
 </div>

@@ -10,9 +10,13 @@ export class InnerListItemComponent implements OnInit {
     @Input() icon: string | null = null;
     @Input() title: string = '';
     @Input() showPlus: boolean = false;
+    @Input() showVisibility: boolean = false;
+    @Input() visible: boolean = true;
+    @Input() showDrag: boolean = false;
 
     @Output() itemClick = new EventEmitter<any>();
     @Output() plusClick = new EventEmitter<any>();
+    @Output() visibleChanged = new EventEmitter<boolean>();
 
     constructor() { }
 
@@ -26,5 +30,9 @@ export class InnerListItemComponent implements OnInit {
         event.preventDefault();
         event.stopPropagation();
         this.plusClick.emit();
+    }
+
+    onVisibleChanged(value: boolean) {
+        this.visibleChanged.emit(value);
     }
 }

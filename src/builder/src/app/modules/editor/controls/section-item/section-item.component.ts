@@ -28,6 +28,7 @@ export class SectionItemComponent implements OnInit {
     @Output() itemClick = new EventEmitter<number | null>();
     @Output() addClick = new EventEmitter<never>();
     @Output() openChanged = new EventEmitter<boolean>();
+    @Output() visibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
 
     constructor() { }
 
@@ -70,5 +71,9 @@ export class SectionItemComponent implements OnInit {
 
     getBlockIcon(block: SectionModel): string | null {
         return this.blocksSchemas[block.type]?.icon || null;
+    }
+
+    onVisibleChanged(value: boolean, blockIndex: number | null) {
+        this.visibleChanged.emit({ sectionIndex: this.section.__index, blockIndex, value });
     }
 }

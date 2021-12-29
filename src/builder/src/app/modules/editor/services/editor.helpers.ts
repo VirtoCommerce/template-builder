@@ -139,26 +139,33 @@ export function cloneItem(items: SectionModel[], section: SectionModel, block: S
 }
 
 export function replaceItem(items: SectionModel[], section: SectionModel, block: SectionModel | null, item: SectionModel): SectionModel[] {
-    if (block === null) {
+    return updateItemByIndex(items, section.__index, block === null ? null : block.__index, item);
+}
 
-        const index = items.findIndex(x => x.__index === section.__index);
+export function updateItemByIndex(items: SectionModel[], sectionIndex: number, blockIndex: number | null, item: Partial<SectionModel>): SectionModel[] {
+    if (blockIndex === null) {
+
+        const index = items.findIndex(x => x.__index === sectionIndex);
+        const currentItem = items[index];
         const result = [
             ...items.slice(0, index),
-            item,
+            <SectionModel>{ ...currentItem, ...item },
             ...items.slice(index + 1)
         ];
         return result;
 
     } else {
-        const sectionIndex = items.findIndex(x => x.__index === section.__index);
-        const blockIndex = section.blocks.findIndex(x => x.__index === block.__index);
+        const _sectionIndex = items.findIndex(x => x.__index === sectionIndex);
+        const section = items[_sectionIndex];
+        const _blockIndex = section.blocks.findIndex(x => x.__index === blockIndex);
+        const block = section.blocks[_blockIndex];
         const result = [
             ...items.slice(0, sectionIndex),
             {
                 ...section,
                 blocks: reindexItems([
                     ...section.blocks.slice(0, blockIndex),
-                    item,
+                    <SectionModel>{ ...block, ...item },
                     ...section.blocks.slice(blockIndex + 1)
                 ])
             },

@@ -13,6 +13,7 @@
                           [opened]="isOpened(section.__id)"
                           (addClick)="addBlockClick(section.__index)"
                           (itemClick)="onItemClick(section.__index, $event)"
+                          (visibleChanged)="onVisibleChanged($event)"
                           (openChanged)="onOpenChanged(section.__id, $event)">
         </app-section-item>
     </ng-container>

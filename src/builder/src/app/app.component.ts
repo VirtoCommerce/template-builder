@@ -78,4 +78,8 @@ export class AppComponent implements OnInit {
     onSectionChanged(value: SectionModel) {
         this.store$.dispatch(editorActions.updateItem({ item: value }));
     }
+
+    onItemVisibleChanged(value: { sectionIndex: number, blockIndex: number | null, value: boolean }) {
+        this.store$.dispatch(editorActions.setVisibility(value));
+    }
 }

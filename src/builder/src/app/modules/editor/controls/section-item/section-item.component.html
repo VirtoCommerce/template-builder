@@ -1,12 +1,20 @@
 <app-collapsible-list-item [title]="getSectionName()"
                            [closable]="hasChildren()"
                            [icon]="getSectionIcon()"
+                           [showVisibility]="true"
+                           [showDrag]="true"
+                           [visible]="!section.hidden"
                            [opened]="opened"
+                           (visibleChanged)="onVisibleChanged($event, null)"
                            (openChanged)="onOpenChanged($event)"
                            (itemClick)="onItemClick()">
     <app-inner-list-item *ngFor="let block of section.blocks"
                          [icon]="getBlockIcon(block)"
                          [title]="getBlockName(block)"
+                         [showVisibility]="true"
+                         [showDrag]="true"
+                         [visible]="!block.hidden"
+                         (visibleChanged)="onVisibleChanged($event, block.__index)"
                          (itemClick)="onItemClick(block.__index)">
     </app-inner-list-item>
 

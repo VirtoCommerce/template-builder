@@ -22,3 +22,7 @@
 .overlap-panel {
     @apply absolute h-full bg-white inset-y-0 left-8 -right-8 flex flex-col;
 }
+
+.drag-handler {
+    cursor: move;
+}
