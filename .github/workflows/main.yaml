@@ -21,7 +21,7 @@ jobs:
       ARTIFACT_URL: ''
       GITHUB_USER: '${{ github.repository_owner }}'
       PACKAGE_SERVER: 'ghcr.io'
-      PB_IMAGE_NAME: 'platform-demo-manager'
+      PB_IMAGE_NAME: 'page-builder'
 
     outputs:
       artifactUrl: '${{ env.ARTIFACT_URL }}'
