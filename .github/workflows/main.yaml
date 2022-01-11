@@ -1,0 +1,83 @@
+# v1.0.0
+name: Page Builder CI/CD
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - '.deployment/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+    branches: [ main ]
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+      VERSION_SUFFIX: ''
+      ARTIFACT_URL: ''
+      GITHUB_USER: '${{ github.repository_owner }}'
+      PACKAGE_SERVER: 'ghcr.io'
+      PB_IMAGE_NAME: 'platform-demo-manager'
+
+    outputs:
+      artifactUrl: '${{ env.ARTIFACT_URL }}'
+
+    steps:
+    - name: Set GITHUB_USER to lowercase
+      run: |
+        echo "GITHUB_USER=${GITHUB_USER,,}" >> $GITHUB_ENV
+
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Get Image Version
+      uses: VirtoCommerce/vc-github-actions/get-image-version@master
+      id: image
+      with:
+        projectType: theme
+
+    - name: Set release variables
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: |
+        echo "VERSION_SUFFIX=${{ steps.image.outputs.prefix }}" >> $GITHUB_ENV
+
+    - name: Set release-alpha variables
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      run: |
+        echo "VERSION_SUFFIX=${{ steps.image.outputs.fullVersion }}" >> $GITHUB_ENV
+
+    - name: Set PR variables
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        echo "VERSION_SUFFIX=${{ steps.image.outputs.taggedVersion }}" >> $GITHUB_ENV
+
+    - name: Set ARTIFACT_URL
+      run: |
+        echo "ARTIFACT_URL=${{ env.PACKAGE_SERVER }}/${{ env.GITHUB_USER }}/${{ env.PB_IMAGE_NAME }}:${{ env.VERSION_SUFFIX }}" >> $GITHUB_ENV
+
+    - name: Build PageBuilder
+      run: |
+        npm run build
+
+    - name: Docker Login
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.PACKAGE_SERVER }}
+        username: $GITHUB_ACTOR
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and Publish Docker Image For PageBuilder
+      run: |
+          docker build ${{ github.workspace }} --tag ${{ env.ARTIFACT_URL }} -f .dockerfiles/Dockerfile.demo
+          docker push ${{ env.ARTIFACT_URL }}
+
+    - name: CI results
+      run: |
+          echo "Project $GITHUB_REPOSITORY successfully build and published to $ARTIFACT_URL"
