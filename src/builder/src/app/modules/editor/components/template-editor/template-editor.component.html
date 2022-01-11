@@ -6,16 +6,24 @@
 </div>
 <div class="panel-body">
     <ng-container *ngIf="template">
-        <app-section-item *ngFor="let section of template.content"
-                          [section]="section"
-                          [sectionsSchemas]="sectionsSchemas!"
-                          [blocksSchemas]="blocksSchemas!"
-                          [opened]="isOpened(section.__id)"
-                          (addClick)="addBlockClick(section.__index)"
-                          (itemClick)="onItemClick(section.__index, $event)"
-                          (visibleChanged)="onVisibleChanged($event)"
-                          (openChanged)="onOpenChanged(section.__id, $event)">
-        </app-section-item>
+        <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
+            <app-section-item *ngFor="let section of template.content"
+                              [section]="section"
+                              [sectionsSchemas]="sectionsSchemas!"
+                              [blocksSchemas]="blocksSchemas!"
+                              [opened]="isOpened(section.__id)"
+                              [draggable]="true"
+                              (addClick)="addBlockClick(section.__index)"
+                              (itemClick)="onItemClick(section.__index, $event)"
+                              (visibleChanged)="onVisibleChanged($event)"
+                              (openChanged)="onOpenChanged(section.__id, $event)"
+                              cdkDragBoundary=".sections-container"
+                              cdkDragLockAxis="y"
+                              cdkDrag
+                              (cdkDragStarted)="sectionDragStarted($event)"
+                              (cdkDragReleased)="sectionDragCompleted($event)">
+            </app-section-item>
+        </div>
     </ng-container>
 </div>
 <div class="footer">

@@ -51,8 +51,9 @@
         ]
     },
     "cover-with-variations": {
-        "name": "Cover with image",
+        "name": "Cover with image and some other",
         "icon": "image",
+        "displayNameProperty": "title",
         "settings": [
             {
                 "id": "title",

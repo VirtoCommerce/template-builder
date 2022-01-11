@@ -27,3 +27,8 @@
 * [ ] настройки темы
 * [ ] интеграция с платформой
 * [ ] интеграция с маркетплейсом
+
+
+* questions
+  * should templates are not in state?
+  * template editor should change own state from code... or not?

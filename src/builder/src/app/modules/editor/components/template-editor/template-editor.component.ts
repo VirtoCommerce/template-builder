@@ -1,4 +1,5 @@
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 import { SectionsSchemasList, TemplateModel } from '@editor/models';
 import { SectionModel } from '@shared/models';
@@ -6,7 +7,8 @@ import { SectionModel } from '@shared/models';
 @Component({
     selector: 'app-template-editor',
     templateUrl: './template-editor.component.html',
-    styleUrls: ['./template-editor.component.scss']
+    styleUrls: ['./template-editor.component.scss'],
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateEditorComponent implements OnInit {
 
@@ -48,6 +50,18 @@ export class TemplateEditorComponent implements OnInit {
 
     onVisibleChanged(value: { sectionIndex: number, blockIndex: number | null, value: boolean }) {
         this.itemVisibleChanged.emit(value);
+    }
+
+    reorderSections(event: CdkDragSortEvent<SectionModel>) {
+        console.log('reoderSections', event);
+    }
+
+    sectionDragStarted(event: any) {
+        console.log('drag started', event);
+    }
+
+    sectionDragCompleted(event: any) {
+        console.log('drag released', event);
     }
 
     getTemplateName(): string {

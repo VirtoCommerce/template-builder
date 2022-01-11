@@ -10,7 +10,7 @@
         {
             "type": "cover-with-variations",
             "name": "Cover with variations",
-            "title": "Headline",
+            "title": "Headline title and some other info",
             "content": "Section content",
             "color": "#43ebaa",
             "singleFile": "path/to/file/single-file-name.txt",

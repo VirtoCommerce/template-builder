@@ -24,6 +24,7 @@ export class SectionItemComponent implements OnInit {
     @Input() sectionsSchemas!: SectionsSchemasList;
     @Input() blocksSchemas!: SectionsSchemasList;
     @Input() opened: boolean = false;
+    @Input() draggable: boolean = true;
 
     @Output() itemClick = new EventEmitter<number | null>();
     @Output() addClick = new EventEmitter<never>();
@@ -75,5 +76,13 @@ export class SectionItemComponent implements OnInit {
 
     onVisibleChanged(value: boolean, blockIndex: number | null) {
         this.visibleChanged.emit({ sectionIndex: this.section.__index, blockIndex, value });
+    }
+
+    blockDragStarted() {
+        console.log('block drag started');
+    }
+
+    blockDragCompleted() {
+        console.log('block drag released');
     }
 }
