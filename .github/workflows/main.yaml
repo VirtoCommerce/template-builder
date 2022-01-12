@@ -38,26 +38,26 @@ jobs:
       run: |
         npm install
 
-    - name: Get Image Version
+    - name: Get Artifact Version
       uses: VirtoCommerce/vc-github-actions/get-image-version@master
-      id: image
+      id: artifact
       with:
         projectType: theme
 
     - name: Set release variables
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        echo "VERSION_SUFFIX=${{ steps.image.outputs.prefix }}" >> $GITHUB_ENV
+        echo "VERSION_SUFFIX=${{ steps.artifact.outputs.prefix }}" >> $GITHUB_ENV
 
     - name: Set release-alpha variables
       if: ${{ github.event_name == 'workflow_dispatch' }}
       run: |
-        echo "VERSION_SUFFIX=${{ steps.image.outputs.fullVersion }}" >> $GITHUB_ENV
+        echo "VERSION_SUFFIX=${{ steps.artifact.outputs.fullVersion }}" >> $GITHUB_ENV
 
     - name: Set PR variables
       if: ${{ github.event_name == 'pull_request' }}
       run: |
-        echo "VERSION_SUFFIX=${{ steps.image.outputs.taggedVersion }}" >> $GITHUB_ENV
+        echo "VERSION_SUFFIX=${{ steps.artifact.outputs.taggedVersion }}" >> $GITHUB_ENV
 
     - name: Set ARTIFACT_URL
       run: |
