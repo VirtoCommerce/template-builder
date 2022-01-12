@@ -42,6 +42,7 @@ jobs:
       uses: VirtoCommerce/vc-github-actions/get-image-version@master
       id: artifact
       with:
+        path: src/builder
         projectType: theme
 
     - name: Set release variables
