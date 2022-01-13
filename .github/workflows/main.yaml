@@ -122,7 +122,7 @@ jobs:
         deployRepo: ${{ steps.deployConfig.outputs.deployRepo }}
         deployBranch: ${{ steps.deployConfig.outputs.deployBranch }}
         artifactKey: ${{ steps.deployConfig.outputs.artifactKey }}
-        artifactUrl: ${{ needs.CI.outputs.managerArtifactUrl }}
+        artifactUrl: ${{ needs.CI.outputs.artifactUrl }}
         taskNumber: "undefined"
         forceCommit: "true"
         cmPath: ${{ steps.deployConfig.outputs.cmPath }}
