@@ -38,26 +38,27 @@ jobs:
       run: |
         npm install
 
-    - name: Get Image Version
+    - name: Get Artifact Version
       uses: VirtoCommerce/vc-github-actions/get-image-version@master
-      id: image
+      id: artifact
       with:
+        path: src/builder
         projectType: theme
 
     - name: Set release variables
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        echo "VERSION_SUFFIX=${{ steps.image.outputs.prefix }}" >> $GITHUB_ENV
+        echo "VERSION_SUFFIX=${{ steps.artifact.outputs.prefix }}" >> $GITHUB_ENV
 
     - name: Set release-alpha variables
       if: ${{ github.event_name == 'workflow_dispatch' }}
       run: |
-        echo "VERSION_SUFFIX=${{ steps.image.outputs.fullVersion }}" >> $GITHUB_ENV
+        echo "VERSION_SUFFIX=${{ steps.artifact.outputs.fullVersion }}" >> $GITHUB_ENV
 
     - name: Set PR variables
       if: ${{ github.event_name == 'pull_request' }}
       run: |
-        echo "VERSION_SUFFIX=${{ steps.image.outputs.taggedVersion }}" >> $GITHUB_ENV
+        echo "VERSION_SUFFIX=${{ steps.artifact.outputs.taggedVersion }}" >> $GITHUB_ENV
 
     - name: Set ARTIFACT_URL
       run: |
@@ -83,3 +84,72 @@ jobs:
     - name: CI results
       run: |
           echo "Project $GITHUB_REPOSITORY successfully build and published to $ARTIFACT_URL"
+  CD:
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'workflow_dispatch' }}
+    needs: CI
+    strategy:
+      matrix:
+        include:
+          - envName: 'dev'
+            deployConfigPath: '.deployment/storefront-app/argoDeploy.json'
+
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+      ARGO_SERVER: 'argo.govirto.com'
+
+    steps: 
+
+    - name: Read deployment config
+      uses: VirtoCommerce/vc-github-actions/get-deploy-param@master
+      id: deployConfig
+      with:
+        envName: ${{ matrix.envName }}
+        deployConfigPath: ${{ matrix.deployConfigPath }}
+
+    - name: Start deployment
+      uses: bobheadxi/deployments@master
+      id: deployment
+      with:
+        step: start
+        token: ${{ secrets.GITHUB_TOKEN }}
+        env: Development
+        no_override: false
+
+    - name: Update deployment-cm
+      uses: VirtoCommerce/vc-github-actions/create-deploy-pr@master
+      with:
+        deployRepo: ${{ steps.deployConfig.outputs.deployRepo }}
+        deployBranch: ${{ steps.deployConfig.outputs.deployBranch }}
+        artifactKey: ${{ steps.deployConfig.outputs.artifactKey }}
+        artifactUrl: ${{ needs.CI.outputs.managerArtifactUrl }}
+        taskNumber: "undefined"
+        forceCommit: "true"
+        cmPath: ${{ steps.deployConfig.outputs.cmPath }}
+
+    - name: Wait for environment is up
+      if: ${{ matrix.envName }} == 'dev'
+      uses: VirtoCommerce/vc-github-actions/vc-argocd-cli@master
+      id: argocd-cli
+      with:
+        server: ${{env.ARGO_SERVER}}
+        username: ${{ secrets.ARGOCD_LOGIN }}
+        password: ${{ secrets.ARGOCD_PASSWORD }}
+        command: app wait ${{ steps.deployConfig.outputs.deployAppName }}
+
+    - name: BUILD_STATE::successful
+      if: success()
+      run: echo "BUILD_STATE=successful" >> $GITHUB_ENV
+
+    - name: BUILD_STATE::failed
+      if: failure()
+      run: echo "BUILD_STATE=failed"  >> $GITHUB_ENV
+
+    - name: Update GitHub deployment status
+      uses: bobheadxi/deployments@master
+      if: always()
+      with:
+        step: finish
+        token: ${{ secrets.GITHUB_TOKEN }}
+        status: ${{ job.status }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
