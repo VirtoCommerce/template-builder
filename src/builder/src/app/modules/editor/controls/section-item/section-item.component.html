@@ -8,6 +8,9 @@
                            (visibleChanged)="onVisibleChanged($event, null)"
                            (openChanged)="onOpenChanged($event)"
                            (itemClick)="onItemClick()">
+
+    <ng-content drag select="[drag]"></ng-content>
+
     <div class="blocks-container">
         <app-inner-list-item *ngFor="let block of section.blocks"
                              [icon]="getBlockIcon(block)"

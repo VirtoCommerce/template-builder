@@ -1,3 +1,5 @@
+@import 'src/layout/variables.scss';
+
 :host {
     @apply flex flex-col h-full;
     &.inactive {
@@ -17,4 +19,37 @@
     button {
         @apply flex w-full justify-center font-semibold text-base self-center p-3 rounded-lg;
     }
+}
+
+img {
+    @apply px-1;
+}
+
+.blocks-container {
+    @apply flex flex-col pt-3 pl-10 border-l-4;
+    border-color: $primary-color-light;
+}
+
+.section-item {
+    @apply flex p-4 bg-gray-100 rounded-lg items-center mb-3;
+    &.opened {
+        background-color: $primary-color-light;
+        border-bottom-left-radius: 0;
+
+        .chevron {
+            transform: none;
+        }
+    }
+}
+
+img {
+    @apply px-1;
+}
+
+.name {
+    @apply flex-grow px-1 font-medium text-base;
+}
+
+.chevron {
+    transform: rotate(180deg);
 }

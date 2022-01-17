@@ -7,7 +7,100 @@
 <div class="panel-body">
     <ng-container *ngIf="template">
         <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
-            <app-section-item *ngFor="let section of template.content"
+            <ng-container *ngFor="let section of template.content">
+                <div class="section-item" (click)="onItemClick(section.__index, null)"
+                     cdkDragBoundary=".sections-container"
+                     cdkDragLockAxis="y"
+                     cdkDrag
+                     (cdkDragStarted)="sectionDragStarted($event)"
+                     (cdkDragReleased)="sectionDragCompleted($event)"
+                     [ngClass]="{ 'opened': isOpened(section.__id) }">
+                    <ng-container *ngIf="getSectionIcon(section) as icon">
+                        <img [src]="'assets/icons/sections/' + icon + '.svg'" />
+                    </ng-container>
+                    <span class="name">{{getSectionName(section)}}</span>
+                    <app-visibility-button [visible]="!section.hidden"
+                                           (visibleChanged)="onVisibleChanged($event, section.__index, null)">
+                    </app-visibility-button>
+                    <img *ngIf="hasChildren(section)" class="chevron" src="assets/icons/chevron.svg"
+                         (click)="onOpenChanged($event, section.__id, !isOpened(section.__id))" />
+                    <img drag cdkDragHandle class="ml-1 drag-handler" src="assets/icons/buttons/drag.svg" />
+                </div>
+                <ng-container *ngIf="hasChildren(section) && isOpened(section.__id)">
+                    <div class="blocks-container">
+                        <ng-container *ngFor="let block of section.blocks">
+                            <div class="py-2 flex"
+                                 cdkDragBoundary=".blocks-container"
+                                 cdkDragLockAxis="y"
+                                 cdkDrag
+                                 (cdkDragStarted)="blockDragStarted()"
+                                 (cdkDragReleased)="blockDragCompleted()"
+                                 (click)="onItemClick(section.__index, block.__index)">
+                                <ng-container *ngIf="getBlockIcon(block) as icon">
+                                    <img class="mr-1" [src]="'assets/icons/sections/' + icon + '.svg'" />
+                                </ng-container>
+                                <span class="flex-grow">{{ getBlockName(block) }}</span>
+                                <app-visibility-button [visible]="!block.hidden"
+                                                       (visibleChanged)="onVisibleChanged($event, section.__index, block.__index)">
+                                </app-visibility-button>
+                                <img cdkDragHandle class="ml-1 drag-handler"
+                                     src="assets/icons/buttons/drag.svg" />
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <app-separator></app-separator>
+
+                    <button class="flex items-center py-2" (click)="addBlockClick(section.__index)">
+                        <img class="mr-1" src="assets/icons/round-plus.svg" />
+                        <span>Add block</span>
+                    </button>
+
+                </ng-container>
+
+                <!-- <app-collapsible-list-item [title]="getSectionName()"
+                                           [closable]="hasChildren()"
+                                           [icon]="getSectionIcon()"
+                                           [showVisibility]="true"
+                                           [showDrag]="draggable"
+                                           [visible]="!section.hidden"
+                                           [opened]="opened"
+                                           (visibleChanged)="onVisibleChanged($event, null)"
+                                           (openChanged)="onOpenChanged($event)"
+                                           (itemClick)="onItemClick()">
+
+                    <ng-content drag select="[drag]"></ng-content>
+
+                    <div class="blocks-container">
+                        <app-inner-list-item *ngFor="let block of section.blocks"
+                                             [icon]="getBlockIcon(block)"
+                                             [title]="getBlockName(block)"
+                                             [showVisibility]="true"
+                                             [showDrag]="true"
+                                             [visible]="!block.hidden"
+                                             (visibleChanged)="onVisibleChanged($event, block.__index)"
+                                             (itemClick)="onItemClick(block.__index)"
+                                             cdkDragBoundary=".blocks-container"
+                                             cdkDragLockAxis="y"
+                                             cdkDrag
+                                             (cdkDragStarted)="blockDragStarted()"
+                                             (cdkDragReleased)="blockDragCompleted()">
+                        </app-inner-list-item>
+                    </div>
+
+                    <app-separator></app-separator>
+
+                    <button class="flex items-center py-2" (click)="onAddClick()">
+                        <img class="mr-1" src="assets/icons/round-plus.svg" />
+                        <span>Add block</span>
+                    </button>
+                </app-collapsible-list-item>
+
+            </ng-container> -->
+
+
+
+                <!-- <app-section-item *ngFor="let section of template.content"
                               [section]="section"
                               [sectionsSchemas]="sectionsSchemas!"
                               [blocksSchemas]="blocksSchemas!"
@@ -22,7 +115,9 @@
                               cdkDrag
                               (cdkDragStarted)="sectionDragStarted($event)"
                               (cdkDragReleased)="sectionDragCompleted($event)">
-            </app-section-item>
+                    <img drag cdkDragHandle class="ml-1 drag-handler" src="assets/icons/buttons/drag.svg" />
+            </app-section-item> -->
+            </ng-container>
         </div>
     </ng-container>
 </div>

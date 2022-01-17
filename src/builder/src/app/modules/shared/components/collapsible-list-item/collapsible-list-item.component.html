@@ -4,10 +4,8 @@
     <app-visibility-button *ngIf="showVisibility" [visible]="visible" (visibleChanged)="onVisibleChanged($event)"></app-visibility-button>
     <img *ngIf="closable" class="chevron" src="assets/icons/chevron.svg" (click)="toggle($event)" />
     <img *ngIf="showPlus" src="assets/icons/round-plus.svg" (click)="onPlusClick($event)" />
-    <img *ngIf="showDrag" cdkDragHandle class="ml-1 drag-handler" src="assets/icons/buttons/drag.svg" />
+    <ng-content select="[drag]"></ng-content>
 </div>
 <ng-container *ngIf="closable && opened">
-    <div class="blocks-container">
-        <ng-content></ng-content>
-    </div>
+    <ng-content></ng-content>
 </ng-container>
