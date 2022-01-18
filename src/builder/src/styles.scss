@@ -5,6 +5,13 @@
 @import './layout/variables.scss';
 @import './layout/theme.scss';
 
+body {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+}
+
 .bg-primary {
     background-color: $primary-color;
     color: white;
