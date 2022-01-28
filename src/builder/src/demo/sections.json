@@ -73,6 +73,25 @@
                 "label": "Content"
             },
             {
+                "id": "date",
+                "type": "calendar",
+                "label": "Choose a date"
+            },
+            {
+                "id": "datetime",
+                "type": "calendar",
+                "label": "Choose a date and time",
+                "mode": "datetime",
+                "showAmPm": true
+            },
+            {
+                "id": "time",
+                "type": "calendar",
+                "label": "Choose a time",
+                "mode": "time",
+                "showSeconds": true
+            },
+            {
                 "id": "singleFile",
                 "type": "files",
                 "label": "Upload a single file"
@@ -139,25 +158,6 @@
                     { "label": "Third", "value": { "id": 3, "name": "third" } },
                     { "label": "Fourth", "value": { "id": 4, "name": "fourth" } }
                 ]
-            },
-            {
-                "id": "date",
-                "type": "calendar",
-                "label": "Choose a date"
-            },
-            {
-                "id": "datetime",
-                "type": "calendar",
-                "label": "Choose a date and time",
-                "mode": "datetime",
-                "showAmPm": true
-            },
-            {
-                "id": "time",
-                "type": "calendar",
-                "label": "Choose a time",
-                "mode": "time",
-                "showSeconds": true
             },
             {
                 "id": "isChecked",

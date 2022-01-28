@@ -8,8 +8,9 @@
                         formControlName="time">
     </ngx-mat-timepicker>
     <ng-container *ngSwitchDefault>
-        <div class="flex">
+        <div class="flex relative">
             <input formControlName="date" class="flex-grow" matInput [min]="descriptor.minDate"
+                   type="text"
                    [max]="descriptor.maxDate"
                    [ngxMatDatetimePicker]="picker" placeholder="Choose a date">
             <!-- todo: remove $any function when it will be possible -->
