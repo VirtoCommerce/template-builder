@@ -1,5 +1,9 @@
 :host {
-    @apply m-4 w-full;
+    @apply m-4 w-full flex items-stretch;
 
     background-color: #eeeeee;
+}
+
+iframe {
+    @apply w-full h-full;
 }
