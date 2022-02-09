@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "src\\builder"
+		},
+		{
+			"path": "src\\bridge"
+		}
+	],
+	"settings": {}
+}

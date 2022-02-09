@@ -5,4 +5,5 @@ export interface ConfigModel {
     blocksUrl: string;
     pagesUrl: string;
     searchPageUrl: string;
+    storeUrl: string;
 }

@@ -4,5 +4,6 @@
     "blocksUrl": "demo/blocks.json",
     "loadTemplateUrl": "demo/templates/",
     "pagesUrl": "",
-    "searchPageUrl": ""
+    "searchPageUrl": "",
+    "storeUrl": "http://localhost:2082"
 }
