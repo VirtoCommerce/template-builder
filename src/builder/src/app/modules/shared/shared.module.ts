@@ -7,6 +7,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import {
     NgxMatDatetimePickerModule,
@@ -41,6 +46,10 @@ const ALL_COMPONENTS = [
         MatDatepickerModule,
         MatMomentDateModule,
         MatCheckboxModule,
+        MatMenuModule,
+        MatIconModule,
+        DragDropModule,
+        OverlayModule,
 
         NgxMatDatetimePickerModule,
         NgxMatTimepickerModule,

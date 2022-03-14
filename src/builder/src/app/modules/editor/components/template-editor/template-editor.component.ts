@@ -1,7 +1,10 @@
 import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
-import { SectionsSchemasList, TemplateModel } from '@editor/models';
+import {
+    // SectionsSchemasList,
+    TemplateModel
+} from '@editor/models';
 import { SectionModel } from '@shared/models';
 
 import { helpers } from '@editor/services';
@@ -15,8 +18,8 @@ import { helpers } from '@editor/services';
 export class TemplateEditorComponent implements OnInit {
 
     @Input() template!: TemplateModel | null;
-    @Input() sectionsSchemas!: SectionsSchemasList | null;
-    @Input() blocksSchemas!: SectionsSchemasList | null;
+    // @Input() sectionsSchemas!: SectionsSchemasList | null;
+    // @Input() blocksSchemas!: SectionsSchemasList | null;
 
     @HostBinding('class.inactive')
     @Input() inactive: boolean | null = false;
@@ -83,29 +86,31 @@ export class TemplateEditorComponent implements OnInit {
     }
 
     getSectionIcon(section: SectionModel): string | null {
-        if (this.sectionsSchemas && this.sectionsSchemas[section.type]) {
-            return this.sectionsSchemas[section.type].icon;
-        }
+        // if (this.sectionsSchemas && this.sectionsSchemas[section.type]) {
+        //     return this.sectionsSchemas[section.type].icon;
+        // }
         return null; // todo: add default section icon
     }
 
     getBlockIcon(block: SectionModel): string | null {
-        if (this.blocksSchemas && this.blocksSchemas[block.type]) {
-            return this.blocksSchemas[block.type].icon;
-        }
+        // if (this.blocksSchemas && this.blocksSchemas[block.type]) {
+        //     return this.blocksSchemas[block.type].icon;
+        // }
         return null; // todo: add default block icon
     }
 
     getSectionName(section: SectionModel): string {
-        return this.getItemName(section, this.sectionsSchemas);
+        return '';
+        // return this.getItemName(section, this.sectionsSchemas);
     }
 
     getBlockName(block: SectionModel): string {
-        return this.getItemName(block, this.blocksSchemas)
-            || this.getItemName(block, this.sectionsSchemas);
+        return '';
+        // return this.getItemName(block, this.blocksSchemas)
+        //     || this.getItemName(block, this.sectionsSchemas);
     }
 
-    private getItemName(item: SectionModel, schemas: SectionsSchemasList | null): string {
+    private getItemName(item: SectionModel, schemas: /* SectionsSchemasList | */ null): string {
         if (schemas) {
             return helpers.getSectionName(item, schemas);
         }
@@ -113,7 +118,8 @@ export class TemplateEditorComponent implements OnInit {
     }
 
     hasChildren(section: SectionModel): boolean {
-        return !!this.sectionsSchemas && this.sectionsSchemas[section.type] && !!this.sectionsSchemas[section.type]?.blocks?.length;
+        return false;
+        // return !!this.sectionsSchemas && this.sectionsSchemas[section.type] && !!this.sectionsSchemas[section.type]?.blocks?.length;
     }
 
 }

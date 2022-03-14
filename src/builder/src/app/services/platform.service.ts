@@ -2,7 +2,8 @@ import { Observable } from 'rxjs';
 
 import { HttpWrapper, AppConfig } from '@app/services';
 
-import { SectionsSchemasList, TemplateModel, TemplatesSchemasList } from '@editor/models';
+import { SectionsSchemasList, TemplatesSchemasList } from '@app/models';
+import { TemplateModel } from '@editor/models';
 import { IEditorService } from '@editor/di';
 import { Injectable } from '@angular/core';
 

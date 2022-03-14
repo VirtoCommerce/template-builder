@@ -1,4 +1,11 @@
-<button (click)="togglePopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">{{ currentTemplateName }}</button>
+<app-searchable-select
+    filterPlaceholder="Search"
+    title="Templates"
+    [items]="items"
+    [default]="{ title: 'Choose template' }"
+></app-searchable-select>
+
+<!-- <button (click)="togglePopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">{{ currentTemplateName }}</button>
 
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="isOpen"
@@ -42,4 +49,4 @@
             </div>
         </div>
     </div>
-</ng-template>
+</ng-template> -->

@@ -1,0 +1,17 @@
+<button mat-button [matMenuTriggerFor]="menu"
+        class="menu-button"
+        (menuOpened)="isOpened = true"
+        (menuClosed)="isOpened = false">
+    <ng-container *ngIf="active">
+        <mat-icon *ngIf="active.icon">{{ active.icon }}</mat-icon>
+        <div *ngIf="active.title" class="text">{{ active.title }}</div>
+    </ng-container>
+    <div class="text" *ngIf="!active">{{ defaultTitle }}</div>
+    <app-chevron *ngIf="displayChevron" [opened]="isOpened"></app-chevron>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item *ngFor="let action of actions" (click)="actionChoosed(action)">
+        <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
+        {{ action.title }}
+    </button>
+</mat-menu>

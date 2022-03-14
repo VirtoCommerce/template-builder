@@ -1,15 +1,15 @@
 <div class="flex flex-col h-screen">
     <app-toolbar>
-        <ng-container *ngIf="availableTemplates$|async as templates">
+        <!-- <ng-container *ngIf="availableTemplates$|async as templates">
             <app-template-selector [templates]="templates"
                                    [currentTemplateName]="currentTemplateName$|async"
                                    (templateSelected)="templateSelected($event)">
             </app-template-selector>
-        </ng-container>
+        </ng-container> -->
     </app-toolbar>
     <div class="flex flex-grow">
         <app-sidebar>
-            <app-template-editor [inactive]="anyPanelOpened$ | async"
+            <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"
                                  [sectionsSchemas]="allSectionsSchemas$|async"
                                  [blocksSchemas]="allBlocksSchemas$|async"
@@ -32,7 +32,7 @@
                                       (sectionChanged)="onSectionChanged($event)"
                                       (cloneClick)="cloneItem()"></app-edit-section>
                 </ng-container>
-            </ng-container>
+            </ng-container> -->
         </app-sidebar>
         <app-preview></app-preview>
     </div>

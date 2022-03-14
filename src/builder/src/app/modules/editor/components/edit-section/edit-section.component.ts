@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContext, SectionModel, SectionPropertyDescriptor } from '@shared/models';
-import { SectionsSchemasList } from '@editor/models';
+// import { SectionsSchemasList } from '@editor/models';
 import { helpers } from '@editor/services';
 
 @Component({
@@ -14,8 +14,8 @@ export class EditSectionComponent implements OnInit {
     @Input() descriptors: SectionPropertyDescriptor[] = [];
     @Input() context: ControlContext = {};
 
-    @Input() sectionsSchemas!: SectionsSchemasList | null;
-    @Input() blocksSchemas!: SectionsSchemasList | null;
+    // @Input() sectionsSchemas!: SectionsSchemasList | null;
+    // @Input() blocksSchemas!: SectionsSchemasList | null;
 
     @Output() backClick = new EventEmitter<any>();
     @Output() deleteClick = new EventEmitter<any>();
@@ -32,14 +32,15 @@ export class EditSectionComponent implements OnInit {
     }
 
     getTitle(): string {
-        if (!!this.sectionsSchemas) {
-            if (!!this.blocksSchemas) {
-                return helpers.getSectionName(this.section, this.blocksSchemas)
-                    || helpers.getSectionName(this.section, this.sectionsSchemas);
-            }
-            return helpers.getSectionName(this.section, this.sectionsSchemas!);
-        }
-        return this.section.type;
+        return '';
+        // if (!!this.sectionsSchemas) {
+        //     if (!!this.blocksSchemas) {
+        //         return helpers.getSectionName(this.section, this.blocksSchemas)
+        //             || helpers.getSectionName(this.section, this.sectionsSchemas);
+        //     }
+        //     return helpers.getSectionName(this.section, this.sectionsSchemas!);
+        // }
+        // return this.section.type;
     }
 
     onDeleteClick(event: MouseEvent) {

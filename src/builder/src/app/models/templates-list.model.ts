@@ -1,4 +1,4 @@
-import { TemplateModel } from "./template.model";
+import { TemplateModel } from "@editor/models";
 
 export type TemplatesList = {
     [key: string]: {

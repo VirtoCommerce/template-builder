@@ -1,4 +1,4 @@
-import { ButtonDescriptor } from './../../models/button.descriptor';
+import { ButtonDescriptor } from '@shared/models';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

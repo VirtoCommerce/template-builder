@@ -1,0 +1,21 @@
+.root {
+    // @apply bg-gray-100 h-full rounded-lg text-left px-4 w-full flex fl;
+    border-color: rgba(18, 18, 18, 0.08);
+    padding: 0.4375rem;
+    @apply flex flex-row w-full border rounded items-center truncate text-ellipsis whitespace-nowrap;
+}
+
+.root-container {
+    @apply bg-white py-4 rounded shadow-md pb-2 flex flex-col overflow-hidden w-full;
+}
+
+.search-input {
+    border-color: #A7ACB1;
+    outline-color: #A7ACB1;
+    @apply w-full border p-1 rounded mb-2;
+}
+
+.list-title {
+    color: #545454;
+    @apply uppercase truncate text-ellipsis whitespace-nowrap;
+}

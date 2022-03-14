@@ -1,0 +1,18 @@
+:host {
+    display: block;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.chevron {
+    transition: transform .3s;
+    @apply rounded-sm;
+
+    &:hover {
+        background-color: #F6F6F6;
+    }
+}
+
+.rotate {
+    transform: rotate(-3.14rad);
+}

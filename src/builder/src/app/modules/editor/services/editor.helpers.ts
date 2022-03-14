@@ -1,7 +1,12 @@
 import { cloneDeep } from 'lodash-es';
 import { appHelpers } from '@shared/services';
 import { SectionModel, SectionSchema } from '@shared/models';
-import { TemplateModel, TemplatesList, TemplateSchema, SectionsSchemasList } from '@editor/models';
+import {
+    TemplateModel,
+    // TemplatesList,
+    TemplateSchema,
+    // SectionsSchemasList
+} from '@editor/models';
 
 export function getTemplateName(templateSchema: TemplateSchema | null, key: string | null = null) {
     return templateSchema?.name || key || 'Select template';
@@ -23,7 +28,7 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
     };
 }
 
-export function getSectionName(item: SectionModel, schemas: SectionsSchemasList): string {
+export function getSectionName(item: SectionModel, schemas: any /* SectionsSchemasList */): string {
     const schema = schemas[item.type];
     if (!!schema) {
         if (schema.displayNameProperty) {
@@ -175,11 +180,11 @@ export function updateItemByIndex(items: SectionModel[], sectionIndex: number, b
     }
 }
 
-export function prepareSections(sections: SectionsSchemasList): SectionsSchemasList {
+export function prepareSections(sections: any /* SectionsSchemasList */): any /* SectionsSchemasList */ {
     return Object.keys(sections).reduce((acc, key) => ({ ...acc, [key]: { ...sections[key], type: key } }), {})
 }
 
-export function prepareBlocks(blocks: SectionsSchemasList): SectionsSchemasList {
+export function prepareBlocks(blocks: any /* SectionsSchemasList */): any /* SectionsSchemasList */ {
     return Object.keys(blocks).reduce((acc, key) => ({ ...acc, [key]: { ...blocks[key], type: key } }), {})
 }
 

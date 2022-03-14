@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { SectionsSchemasList } from '@editor/models';
+// import { SectionsSchemasList } from '@editor/models';
 import { SectionModel } from '@shared/models';
 import { helpers } from '@editor/services';
 
@@ -21,8 +21,8 @@ import { helpers } from '@editor/services';
 export class SectionItemComponent implements OnInit {
 
     @Input() section!: SectionModel;
-    @Input() sectionsSchemas!: SectionsSchemasList;
-    @Input() blocksSchemas!: SectionsSchemasList;
+    // @Input() sectionsSchemas!: SectionsSchemasList;
+    // @Input() blocksSchemas!: SectionsSchemasList;
     @Input() opened: boolean = false;
     @Input() draggable: boolean = true;
 
@@ -46,32 +46,37 @@ export class SectionItemComponent implements OnInit {
     }
 
     getSectionIcon(): string | null {
-        return this.sectionsSchemas[this.section.type]?.icon || null;
+        return null;
+        // return this.sectionsSchemas[this.section.type]?.icon || null;
     }
 
     getSectionName(): string {
-        return this.getItemName(this.section, this.sectionsSchemas);
+        return '';
+        // return this.getItemName(this.section, this.sectionsSchemas);
     }
 
     getBlockName(block: SectionModel): string {
-        return this.getItemName(block, this.blocksSchemas)
-            || this.getItemName(block, this.sectionsSchemas);
+        return '';
+        // return this.getItemName(block, this.blocksSchemas)
+        //     || this.getItemName(block, this.sectionsSchemas);
     }
 
     onOpenChanged(isOpen: boolean) {
         this.openChanged.emit(isOpen);
     }
 
-    private getItemName(item: SectionModel, schemas: SectionsSchemasList): string {
+    private getItemName(item: SectionModel, schemas: any /* SectionsSchemasList */): string {
         return helpers.getSectionName(item, schemas);
     }
 
     hasChildren(): boolean {
-        return !!this.sectionsSchemas[this.section.type]?.blocks?.length;
+        return false;
+        // return !!this.sectionsSchemas[this.section.type]?.blocks?.length;
     }
 
     getBlockIcon(block: SectionModel): string | null {
-        return this.blocksSchemas[block.type]?.icon || null;
+        return null;
+        // return this.blocksSchemas[block.type]?.icon || null;
     }
 
     onVisibleChanged(value: boolean, blockIndex: number | null) {

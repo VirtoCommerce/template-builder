@@ -14,17 +14,17 @@ import { actions } from './store';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    availableTemplates$ = this.store$.select(fromEditor.selectAvailableTemplates);
+    // availableTemplates$ = this.store$.select(fromEditor.selectAvailableTemplates);
 
-    currentTemplate$ = this.store$.select(fromEditor.selectCurrentTemplate);
-    currentTemplateName$ = this.store$.select(fromEditor.selectCurrentTemplateName);
-    currentItem$ = this.store$.select(fromEditor.selectItemToEdit);
-    itemDescriptors$ = this.store$.select(fromEditor.selectCurrentDescriptors);
-    anyPanelOpened$ = this.store$.select(fromEditor.isAnyPanelOpened)
-    addSectionOpened$ = this.store$.select(fromEditor.addSectionOpened);
-    itemsForAdding$ = this.store$.select(fromEditor.selectAvailableSectionsForAdding);
-    allSectionsSchemas$ = this.store$.select(fromEditor.selectAllSectionsSchemas);
-    allBlocksSchemas$ = this.store$.select(fromEditor.selectAllBlocksSchemas);
+    // currentTemplate$ = this.store$.select(fromEditor.selectCurrentTemplate);
+    // currentTemplateName$ = this.store$.select(fromEditor.selectCurrentTemplateName);
+    // currentItem$ = this.store$.select(fromEditor.selectItemToEdit);
+    // itemDescriptors$ = this.store$.select(fromEditor.selectCurrentDescriptors);
+    // anyPanelOpened$ = this.store$.select(fromEditor.isAnyPanelOpened)
+    // addSectionOpened$ = this.store$.select(fromEditor.addSectionOpened);
+    // itemsForAdding$ = this.store$.select(fromEditor.selectAvailableSectionsForAdding);
+    // allSectionsSchemas$ = this.store$.select(fromEditor.selectAllSectionsSchemas);
+    // allBlocksSchemas$ = this.store$.select(fromEditor.selectAllBlocksSchemas);
 
     constructor(private store$: Store) { }
 
@@ -39,47 +39,47 @@ export class AppComponent implements OnInit {
         this.store$.dispatch(actions.initApp());
     }
 
-    templateSelected(templateKey: string) {
-        this.store$.dispatch(editorActions.templateSelected({ templateKey }));
-    }
+    // templateSelected(templateKey: string) {
+    //     this.store$.dispatch(editorActions.templateSelected({ templateKey }));
+    // }
 
-    editItem(event: { sectionIndex: number, blockIndex: number | null }) {
-        this.store$.dispatch(editorActions.editItem(event));
-    }
+    // editItem(event: { sectionIndex: number, blockIndex: number | null }) {
+    //     this.store$.dispatch(editorActions.editItem(event));
+    // }
 
-    closeEditPanel() {
-        this.store$.dispatch(editorActions.completeEditItem());
-    }
+    // closeEditPanel() {
+    //     this.store$.dispatch(editorActions.completeEditItem());
+    // }
 
-    closeAddPanel() {
-        this.store$.dispatch(editorActions.closeAddItemPanel())
-    }
+    // closeAddPanel() {
+    //     this.store$.dispatch(editorActions.closeAddItemPanel())
+    // }
 
-    previewItem(item: SectionSchema) {
-        this.store$.dispatch(editorActions.previewItem({ item }));
-    }
+    // previewItem(item: SectionSchema) {
+    //     this.store$.dispatch(editorActions.previewItem({ item }));
+    // }
 
-    addItem(item: SectionSchema) {
-        this.store$.dispatch(editorActions.addItem({ item }));
-    }
+    // addItem(item: SectionSchema) {
+    //     this.store$.dispatch(editorActions.addItem({ item }));
+    // }
 
-    deleteItem() {
-        this.store$.dispatch(editorActions.deleteItem());
-    }
+    // deleteItem() {
+    //     this.store$.dispatch(editorActions.deleteItem());
+    // }
 
-    cloneItem() {
-        this.store$.dispatch(editorActions.cloneItem())
-    }
+    // cloneItem() {
+    //     this.store$.dispatch(editorActions.cloneItem())
+    // }
 
-    openAddSectionPanel(sectionIndex: number | boolean) {
-        this.store$.dispatch(editorActions.showAddItemPanel({ sectionIndex }))
-    }
+    // openAddSectionPanel(sectionIndex: number | boolean) {
+    //     this.store$.dispatch(editorActions.showAddItemPanel({ sectionIndex }))
+    // }
 
-    onSectionChanged(value: SectionModel) {
-        this.store$.dispatch(editorActions.updateItem({ item: value }));
-    }
+    // onSectionChanged(value: SectionModel) {
+    //     this.store$.dispatch(editorActions.updateItem({ item: value }));
+    // }
 
-    onItemVisibleChanged(value: { sectionIndex: number, blockIndex: number | null, value: boolean }) {
-        this.store$.dispatch(editorActions.setVisibility(value));
-    }
+    // onItemVisibleChanged(value: { sectionIndex: number, blockIndex: number | null, value: boolean }) {
+    //     this.store$.dispatch(editorActions.setVisibility(value));
+    // }
 }
