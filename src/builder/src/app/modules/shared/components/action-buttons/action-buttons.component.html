@@ -1,1 +1,6 @@
-<button>Save</button>
+<ng-container *ngFor="let action of actions">
+    <button class="btn {{ 'btn-' + action.type }}" (click)="raiseOnClick(action)">
+        <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
+        {{ action.title }}
+    </button>
+</ng-container>

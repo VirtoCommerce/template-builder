@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ActionButtonDescriptor } from '@shared/models';
 
 @Component({
-  selector: 'app-action-buttons',
-  templateUrl: './action-buttons.component.html',
-  styleUrls: ['./action-buttons.component.scss']
+    selector: 'app-action-buttons',
+    templateUrl: './action-buttons.component.html',
+    styleUrls: ['./action-buttons.component.scss']
 })
 export class ActionButtonsComponent implements OnInit {
 
-  constructor() { }
+    @Input() actions: ActionButtonDescriptor[] = [];
 
-  ngOnInit(): void {
-  }
+    @Output() onClick = new EventEmitter<ActionButtonDescriptor>();
 
+    constructor() { }
+
+    ngOnInit(): void {
+    }
+
+    raiseOnClick(action: ActionButtonDescriptor) {
+        this.onClick.emit(action);
+    }
 }
