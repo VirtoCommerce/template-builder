@@ -7,22 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActionsPanelComponent implements OnInit {
 
-    buttons = [
-        {
-            title: 'Save',
-            alias: 'save',
-            type: 'primary'
-        }
-    ];
-    icons = [
-        {
-            icon: 'undo',
-            alias: 'undo'
-        },
-        {
-            icon: 'redo',
-            alias: 'redo'
-        }
+    panels = [
+        [
+            {
+                icon: 'undo',
+                alias: 'undo'
+            },
+            {
+                icon: 'redo',
+                alias: 'redo'
+            }
+        ],
+        [
+            {
+                title: 'Save',
+                alias: 'save',
+                type: 'primary'
+            }
+        ]
     ];
 
     constructor() { }

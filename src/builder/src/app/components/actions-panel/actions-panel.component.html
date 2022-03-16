@@ -1,2 +1,1 @@
-<app-action-buttons [actions]="icons"></app-action-buttons>
-<app-action-buttons [actions]="buttons"></app-action-buttons>
+<app-action-buttons *ngFor="let panel of panels" [actions]="panel"></app-action-buttons>
