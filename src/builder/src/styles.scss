@@ -12,19 +12,19 @@ body {
     line-height: 20px;
 }
 
-.bg-primary {
-    background-color: $primary-color;
-    color: white;
-}
+// .bg-primary {
+//     background-color: $primary-color;
+//     color: white;
+// }
 
-.panel-title {
-    @apply font-semibold text-3xl border-b-2 border-gray-200 p-6;
-}
+// .panel-title {
+//     @apply font-semibold text-3xl border-b-2 border-gray-200 p-6;
+// }
 
-.panel-body {
-    @apply flex-grow flex flex-col overflow-y-auto p-6;
-    flex: 1 0 0
-}
+// .panel-body {
+//     @apply flex-grow flex flex-col overflow-y-auto p-6;
+//     flex: 1 0 0
+// }
 
 .overlap-panel {
     @apply absolute h-full bg-white inset-y-0 left-8 -right-8 flex flex-col;

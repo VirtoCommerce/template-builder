@@ -1,13 +1,15 @@
 <div class="panel-title">
     <div>{{ getTemplateName() }}</div>
-    <div>
-        <app-toolbar-button icon="settings"></app-toolbar-button>
-    </div>
 </div>
 <div class="panel-body">
     <ng-container *ngIf="template">
         <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
             <ng-container *ngFor="let section of template.content">
+                <div>
+                    <app-collapsible-list-item [section]="section" icon=""></app-collapsible-list-item>
+                    <app-drag-handle></app-drag-handle>
+                </div>
+            <!--
                 <div class="section-item" (click)="onItemClick(section.__index, null)"
                      cdkDragBoundary=".sections-container"
                      cdkDragLockAxis="y"
@@ -56,7 +58,7 @@
                         <span>Add block</span>
                     </button>
 
-                </ng-container>
+                </ng-container> -->
 
                 <!-- <app-collapsible-list-item [title]="getSectionName()"
                                            [closable]="hasChildren()"
@@ -121,9 +123,6 @@
         </div>
     </ng-container>
 </div>
-<div class="footer">
-    <button class="bg-primary" type="button" (click)="addButtonClick()">
-        <img src="assets/icons/plus.svg" />
-        Add section
-    </button>
+<div class="panel-footer">
+    <app-icon-button icon="settings" text="Theme settings"></app-icon-button>
 </div>

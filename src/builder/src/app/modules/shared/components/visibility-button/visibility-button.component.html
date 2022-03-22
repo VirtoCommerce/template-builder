@@ -1,2 +1,5 @@
-<img (click)="onVisibleChanged($event)" *ngIf="visible" src="assets/icons/buttons/preview.svg" />
-<img (click)="onVisibleChanged($event)" *ngIf="!visible" src="assets/icons/buttons/hidden.svg" />
+<mat-icon *ngIf="visible">visibility</mat-icon>
+<mat-icon *ngIf="!visible">visibility_off</mat-icon>
+
+<!-- <img (click)="onVisibleChanged($event)" *ngIf="visible" src="assets/icons/buttons/preview.svg" />
+<img (click)="onVisibleChanged($event)" *ngIf="!visible" src="assets/icons/buttons/hidden.svg" /> -->

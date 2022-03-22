@@ -9,14 +9,14 @@ import { helpers } from '@editor/services';
     selector: 'app-section-item',
     templateUrl: './section-item.component.html',
     styleUrls: ['./section-item.component.scss'],
-    animations: [
-        trigger('openClose', [
-            state('open', style({ height: 'auto' })),
-            state('closed', style({ height: '0' })),
-            transition('open => closed', [animate('1s')]),
-            transition('closed => open', [animate('1s')])
-        ])
-    ]
+    // animations: [
+    //     trigger('openClose', [
+    //         state('open', style({ height: 'auto' })),
+    //         state('closed', style({ height: '0' })),
+    //         transition('open => closed', [animate('1s')]),
+    //         transition('closed => open', [animate('1s')])
+    //     ])
+    // ]
 })
 export class SectionItemComponent implements OnInit {
 

@@ -1,39 +1,7 @@
 <div class="flex flex-col h-screen">
-    <app-toolbar>
-        <!-- <ng-container *ngIf="availableTemplates$|async as templates">
-            <app-template-selector [templates]="templates"
-                                   [currentTemplateName]="currentTemplateName$|async"
-                                   (templateSelected)="templateSelected($event)">
-            </app-template-selector>
-        </ng-container> -->
-    </app-toolbar>
+    <app-toolbar></app-toolbar>
     <div class="flex flex-grow">
-        <app-sidebar>
-            <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
-                                 [template]="currentTemplate$|async"
-                                 [sectionsSchemas]="allSectionsSchemas$|async"
-                                 [blocksSchemas]="allBlocksSchemas$|async"
-                                 (addSectionClick)="openAddSectionPanel($event)"
-                                 (itemVisibleChanged)="onItemVisibleChanged($event)"
-                                 (editItem)="editItem($event)"></app-template-editor>
-            <app-add-section *ngIf="addSectionOpened$ | async"
-                             [schemas]="itemsForAdding$ | async"
-                             (backClick)="closeAddPanel()"
-                             (previewItem)="previewItem($event)"
-                             (addItem)="addItem($event)"></app-add-section>
-            <ng-container *ngIf="itemDescriptors$|async as descriptors">
-                <ng-container *ngIf="currentItem$|async as currentItem">
-                    <app-edit-section [section]="currentItem"
-                                      [descriptors]="descriptors"
-                                      [sectionsSchemas]="allSectionsSchemas$|async"
-                                      [blocksSchemas]="allBlocksSchemas$|async"
-                                      (backClick)="closeEditPanel()"
-                                      (deleteClick)="deleteItem()"
-                                      (sectionChanged)="onSectionChanged($event)"
-                                      (cloneClick)="cloneItem()"></app-edit-section>
-                </ng-container>
-            </ng-container> -->
-        </app-sidebar>
+        <app-sidebar></app-sidebar>
         <app-preview></app-preview>
     </div>
 </div>

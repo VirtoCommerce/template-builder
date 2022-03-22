@@ -1,55 +1,72 @@
-@import 'src/layout/variables.scss';
-
 :host {
     @apply flex flex-col h-full;
-    &.inactive {
-        background-color: rgba(0,0,0,.03);
-    }
-}
-
-.footer {
-    @apply p-6;
 }
 
 .panel-title {
-    @apply flex;
+    border-color: rgba(12, 12, 12, 0.08);
+    @apply flex flex-row items-center leading-5 text-base border-b truncate p-4;
 }
 
-.footer {
-    button {
-        @apply flex w-full justify-center font-semibold text-base self-center p-3 rounded-lg;
-    }
+.panel-body {
+    @apply flex flex-col flex-grow overflow-y-auto p-4;
 }
 
-img {
-    @apply px-1;
+.panel-footer {
+    @apply p-4;
 }
 
-.blocks-container {
-    @apply flex flex-col pt-3 pl-10 border-l-4;
-    border-color: $primary-color-light;
-}
+// @import 'src/layout/variables.scss';
 
-.section-item {
-    @apply flex p-4 bg-gray-100 rounded-lg items-center mb-3;
-    &.opened {
-        background-color: $primary-color-light;
-        border-bottom-left-radius: 0;
+// :host {
+//     @apply flex flex-col h-full;
+//     &.inactive {
+//         background-color: rgba(0,0,0,.03);
+//     }
+// }
 
-        .chevron {
-            transform: none;
-        }
-    }
-}
+// .footer {
+//     @apply p-6;
+// }
 
-img {
-    @apply px-1;
-}
+// .panel-title {
+//     @apply flex;
+// }
 
-.name {
-    @apply flex-grow px-1 font-medium text-base;
-}
+// .footer {
+//     button {
+//         @apply flex w-full justify-center font-semibold text-base self-center p-3 rounded-lg;
+//     }
+// }
 
-.chevron {
-    transform: rotate(180deg);
-}
+// img {
+//     @apply px-1;
+// }
+
+// .blocks-container {
+//     @apply flex flex-col pt-3 pl-10 border-l-4;
+//     border-color: $primary-color-light;
+// }
+
+// .section-item {
+//     @apply flex p-4 bg-gray-100 rounded-lg items-center mb-3;
+//     &.opened {
+//         background-color: $primary-color-light;
+//         border-bottom-left-radius: 0;
+
+//         .chevron {
+//             transform: none;
+//         }
+//     }
+// }
+
+// img {
+//     @apply px-1;
+// }
+
+// .name {
+//     @apply flex-grow px-1 font-medium text-base;
+// }
+
+// .chevron {
+//     transform: rotate(180deg);
+// }

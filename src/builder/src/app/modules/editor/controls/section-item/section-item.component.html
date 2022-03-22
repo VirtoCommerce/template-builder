@@ -1,4 +1,5 @@
-<app-collapsible-list-item [title]="getSectionName()"
+<app-collapsible-list-item>
+<!-- <app-collapsible-list-item [title]="getSectionName()"
                            [closable]="hasChildren()"
                            [icon]="getSectionIcon()"
                            [showVisibility]="true"
@@ -7,9 +8,9 @@
                            [opened]="opened"
                            (visibleChanged)="onVisibleChanged($event, null)"
                            (openChanged)="onOpenChanged($event)"
-                           (itemClick)="onItemClick()">
+                           (itemClick)="onItemClick()"> -->
 
-    <ng-content drag select="[drag]"></ng-content>
+    <!-- <ng-content drag select="[drag]"></ng-content>
 
     <div class="blocks-container">
         <app-inner-list-item *ngFor="let block of section.blocks"
@@ -33,5 +34,5 @@
     <button class="flex items-center py-2" (click)="onAddClick()">
         <img class="mr-1" src="assets/icons/round-plus.svg" />
         <span>Add block</span>
-    </button>
+    </button> -->
 </app-collapsible-list-item>

@@ -1,0 +1,6 @@
+button {
+    @apply flex flex-row items-center w-full justify-center p-3 rounded;
+    &:hover {
+        @apply bg-gray-100;
+    }
+}

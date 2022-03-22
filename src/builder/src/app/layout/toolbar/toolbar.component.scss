@@ -1,16 +1,4 @@
 :host {
-    // position: relative;
-    // z-index: 1;
-    height: 3.875rem;
-    padding: 1rem;
-    @apply bg-white flex flex-row;
-    // @apply flex py-3 px-11 bg-white justify-between shadow-md;
-}
-
-button {
-    @apply px-11 rounded-lg text-base font-semibold;
-}
-
-.central-place {
-    @apply flex-grow flex justify-center;
+    border-color: rgba(12, 12, 12, 0.08);
+    @apply bg-white flex flex-row border-b;
 }
