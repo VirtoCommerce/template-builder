@@ -1,8 +1,5 @@
-<div class="section-item" (click)="sectionClick($event)">
-    <mat-icon>{{ icon }}</mat-icon>
-    <span class="name">{{ section['title'] }}</span>
-    <app-visibility-button [visible]="!section['hidden']"
-        (visibleChanged)="onVisibleChanged($event)"></app-visibility-button>
-    <!-- <img *ngIf="closable" class="chevron" src="assets/icons/chevron.svg" (click)="toggle($event)" />
-    <img *ngIf="showPlus" src="assets/icons/round-plus.svg" (click)="onPlusClick($event)" /> -->
+<div class="item-holder">
+    <app-chevron (click)="opened = !opened" [opened]="opened"></app-chevron>
+    <ng-content select="[item]"></ng-content>
 </div>
+<ng-content *ngIf="opened"></ng-content>

@@ -5,7 +5,7 @@
 }
 
 .chevron {
-    transition: transform .3s;
+    transition: transform .1s;
     @apply rounded-sm;
 
     &:hover {
@@ -14,5 +14,5 @@
 }
 
 .rotate {
-    transform: rotate(-3.14rad);
+    transform: rotate(90deg);
 }

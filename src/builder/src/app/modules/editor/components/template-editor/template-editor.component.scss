@@ -15,6 +15,24 @@
     @apply p-4;
 }
 
+div[item] {
+    @apply flex flex-row items-center w-full;
+    app-section-item {
+        @apply grow;
+    }
+}
+
+app-collapsible-list-item {
+    @apply p-2 rounded cursor-default;
+    &:hover {
+        @apply bg-gray-100;
+    }
+}
+
+.sections-container {
+    @apply flex flex-col space-y-1;
+}
+
 // @import 'src/layout/variables.scss';
 
 // :host {

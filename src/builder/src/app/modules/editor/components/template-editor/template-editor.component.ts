@@ -8,6 +8,7 @@ import {
 import { SectionModel } from '@shared/models';
 
 import { helpers } from '@editor/services';
+import { SectionsSchemasList } from '@app/models';
 
 @Component({
     selector: 'app-template-editor',
@@ -18,7 +19,7 @@ import { helpers } from '@editor/services';
 export class TemplateEditorComponent implements OnInit {
 
     @Input() template!: TemplateModel | null;
-    // @Input() sectionsSchemas!: SectionsSchemasList | null;
+    @Input() sectionsSchemas!: SectionsSchemasList;
     // @Input() blocksSchemas!: SectionsSchemasList | null;
 
     @HostBinding('class.inactive')

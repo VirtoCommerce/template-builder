@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
 // import { SectionsSchemasList } from '@editor/models';
-import { SectionModel } from '@shared/models';
+import { ContextMenuAction, SectionModel, SectionSchema } from '@shared/models';
 import { helpers } from '@editor/services';
 
 @Component({
@@ -21,7 +21,7 @@ import { helpers } from '@editor/services';
 export class SectionItemComponent implements OnInit {
 
     @Input() section!: SectionModel;
-    // @Input() sectionsSchemas!: SectionsSchemasList;
+    @Input() sectionSchema!: SectionSchema;
     // @Input() blocksSchemas!: SectionsSchemasList;
     @Input() opened: boolean = false;
     @Input() draggable: boolean = true;
@@ -30,6 +30,26 @@ export class SectionItemComponent implements OnInit {
     @Output() addClick = new EventEmitter<never>();
     @Output() openChanged = new EventEmitter<boolean>();
     @Output() visibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
+
+    itemActions = [
+        <ContextMenuAction>{
+            action: 'hide',
+            title: 'Hide',
+            icon: 'visibility',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>'|',
+        <ContextMenuAction>{
+            action: 'copy',
+            title: 'Copy',
+            icon: 'content_copy',
+            selected: false,
+            inactive: false
+        }
+    ];
+
+    isHover: boolean = false;
 
     constructor() { }
 
@@ -46,12 +66,17 @@ export class SectionItemComponent implements OnInit {
     }
 
     getSectionIcon(): string | null {
-        return null;
-        // return this.sectionsSchemas[this.section.type]?.icon || null;
+        if (!this.sectionSchema) {
+            return null; // todo: unknown schema icon
+        }
+        return this.sectionSchema.icon || null; // todo: schema hasn't icon
     }
 
     getSectionName(): string {
-        return '';
+        if (this.sectionSchema.displayNameProperty) {
+            return <string>this.section[this.sectionSchema.displayNameProperty] || this.section.type;
+        }
+        return this.section.type;
         // return this.getItemName(this.section, this.sectionsSchemas);
     }
 

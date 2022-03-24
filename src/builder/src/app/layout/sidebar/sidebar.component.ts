@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
         content: [
             {
                 type: "cover-with-image",
-                name: "Cover with image"
+                name: "Main slide"
             },
             {
                 type: "cover-with-variations",
@@ -42,6 +42,24 @@ export class SidebarComponent implements OnInit {
                 ]
             }
         ]
+    };
+
+    sectionsSchemas = <any>{
+        'cover-with-image': {
+            name: "Product details",
+            icon: "image",
+            displayNameProperty: 'name'
+        },
+        'cover-with-variations': {
+            name: "Variations",
+            icon: "article",
+            displayNameProperty: 'name'
+        },
+        'product-info': {
+            name: "Product",
+            icon: "smartphone",
+            displayNameProperty: 'name'
+        }
     };
 
     constructor() { }

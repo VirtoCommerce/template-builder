@@ -12,7 +12,9 @@ import { ActionButtonsComponent } from './action-buttons/action-buttons.componen
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 import { ChevronComponent } from './chevron/chevron.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
-import { DragHandleComponent} from './drag-handle/drag-handle.component';
+import { DragHandleComponent } from './drag-handle/drag-handle.component';
+import { IconComponent } from './icon/icon.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 export const COMPONENTS = [
     CollapsibleListItemComponent,
@@ -30,5 +32,7 @@ export const COMPONENTS = [
     SearchableSelectComponent,
     ChevronComponent,
     IconButtonComponent,
-    DragHandleComponent
+    DragHandleComponent,
+    IconComponent,
+    ContextMenuComponent
 ];

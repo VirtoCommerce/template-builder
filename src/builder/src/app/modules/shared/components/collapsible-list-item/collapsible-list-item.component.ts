@@ -8,8 +8,8 @@ import { SectionModel } from '@shared/models';
 })
 export class CollapsibleListItemComponent implements OnInit {
 
-    @Input() section!: SectionModel;
-    @Input() icon: string | null = null;
+    @Input() opened = false;
+
 
     // @Input() icon: string | null = null;
     // @Input() title: string = '';

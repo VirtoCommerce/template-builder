@@ -1,4 +1,10 @@
-<app-collapsible-list-item>
+<div class="section-item" (mouseenter)="isHover = true" (mouseleave)="isHover = false">
+    <app-icon>{{ getSectionIcon() }}</app-icon>
+    <span class="name">{{ getSectionName() }}</span>
+    <app-context-menu [actions]="itemActions" [isHover]="isHover"></app-context-menu>
+</div>
+
+
 <!-- <app-collapsible-list-item [title]="getSectionName()"
                            [closable]="hasChildren()"
                            [icon]="getSectionIcon()"
@@ -34,5 +40,5 @@
     <button class="flex items-center py-2" (click)="onAddClick()">
         <img class="mr-1" src="assets/icons/round-plus.svg" />
         <span>Add block</span>
-    </button> -->
-</app-collapsible-list-item>
+    </button>
+</app-collapsible-list-item>-->

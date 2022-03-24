@@ -1,3 +1,6 @@
-img {
-    @apply px-1;
+.section-item {
+    @apply flex flex-row items-center space-x-1;
+}
+.name {
+    @apply grow;
 }

@@ -5,11 +5,18 @@
     <ng-container *ngIf="template">
         <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
             <ng-container *ngFor="let section of template.content">
-                <div>
-                    <app-collapsible-list-item [section]="section" icon=""></app-collapsible-list-item>
-                    <app-drag-handle></app-drag-handle>
-                </div>
-            <!--
+                <app-collapsible-list-item>
+                    <div item>
+                        <app-section-item [sectionSchema]="sectionsSchemas[section.type]" [section]="section">
+                        </app-section-item>
+                        <app-drag-handle></app-drag-handle>
+                    </div>
+                    <ng-container>
+                        body
+                    </ng-container>
+                </app-collapsible-list-item>
+                <!-- <app-collapsible-list-item [section]="section" icon=""></app-collapsible-list-item> -->
+                <!--
                 <div class="section-item" (click)="onItemClick(section.__index, null)"
                      cdkDragBoundary=".sections-container"
                      cdkDragLockAxis="y"
