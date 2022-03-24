@@ -9,6 +9,7 @@ export class IconButtonComponent implements OnInit {
 
     @Input() icon: string | null = null;
     @Input() text: string | null = null;
+    @Input() skin: string | null = null;
 
     @Output() onClick = new EventEmitter<MouseEvent>();
 

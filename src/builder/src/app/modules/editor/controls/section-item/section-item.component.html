@@ -1,6 +1,6 @@
 <div class="section-item" (mouseenter)="isHover = true" (mouseleave)="isHover = false">
     <app-icon>{{ getSectionIcon() }}</app-icon>
-    <span class="name">{{ getSectionName() }}</span>
+    <span class="name" title="{{ getSectionName() }}">{{ getSectionName() }}</span>
     <app-context-menu [actions]="itemActions" [isHover]="isHover"></app-context-menu>
 </div>
 

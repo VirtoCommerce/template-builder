@@ -1,6 +1,17 @@
+:host {
+    display: flex;
+}
+
 button {
-    @apply flex flex-row items-center w-full justify-center p-3 rounded;
+    @apply flex flex-row items-center w-full p-3 rounded space-x-1;
     &:hover {
         @apply bg-gray-100;
+    }
+
+    &.blue {
+        color: #1665D8;
+        &:hover {
+            background: rgba(22, 101, 216, 0.04);
+        }
     }
 }

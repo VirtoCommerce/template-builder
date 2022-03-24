@@ -2,5 +2,5 @@
     @apply flex flex-row items-center space-x-1;
 }
 .name {
-    @apply grow;
+    @apply grow truncate w-28;
 }

@@ -1,0 +1,18 @@
+:host{
+    @apply w-full;
+}
+
+.blocks-container {
+    @apply flex flex-col;
+}
+
+.block-item {
+    @apply flex flex-row py-2 pl-2 rounded bg-white;
+    &:hover {
+        @apply bg-gray-100;
+    }
+}
+
+app-section-item {
+    @apply grow;
+}

@@ -1,0 +1,14 @@
+<div cdkDropList class="blocks-container" (cdkDropListDropped)="reorderBlocks($event)">
+    <ng-container *ngFor="let block of section.blocks">
+        <div class="block-item"
+             cdkDragBoundary=".blocks-container"
+             cdkDragLockAxis="y"
+             cdkDrag>
+            <app-section-item [sectionSchema]="blocksSchemas[block.type]"
+                              [section]="block">
+            </app-section-item>
+            <app-drag-handle cdkDragHandle></app-drag-handle>
+        </div>
+    </ng-container>
+</div>
+<app-icon-button icon="add" skin="blue" text="Add block"></app-icon-button>

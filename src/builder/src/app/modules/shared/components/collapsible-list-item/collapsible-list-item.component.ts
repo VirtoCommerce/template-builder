@@ -9,6 +9,7 @@ import { SectionModel } from '@shared/models';
 export class CollapsibleListItemComponent implements OnInit {
 
     @Input() opened = false;
+    @Input() expandable: boolean = false;
 
 
     // @Input() icon: string | null = null;

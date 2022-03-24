@@ -20,7 +20,7 @@ export class TemplateEditorComponent implements OnInit {
 
     @Input() template!: TemplateModel | null;
     @Input() sectionsSchemas!: SectionsSchemasList;
-    // @Input() blocksSchemas!: SectionsSchemasList | null;
+    @Input() blocksSchemas!: SectionsSchemasList;
 
     @HostBinding('class.inactive')
     @Input() inactive: boolean | null = false;
@@ -48,6 +48,10 @@ export class TemplateEditorComponent implements OnInit {
 
     isOpened(sectionId: string): boolean {
         return !!this.openedItems[sectionId];
+    }
+
+    isExpandable(section: SectionModel): boolean {
+        return !!this.sectionsSchemas[section.type]?.blocks?.length;
     }
 
     onOpenChanged(event: MouseEvent, sectionId: string, isOpened: boolean) {

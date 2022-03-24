@@ -40,6 +40,41 @@ export class SidebarComponent implements OnInit {
                     { name: "Image", type: "image" },
                     { name: "text", type: "text" }
                 ]
+            },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            { type: "cover-with-variations", name: "Cover variations" },
+            {
+                type: "product-info",
+                name: "Product info",
+                blocks: [
+                    { name: "Image", type: "image" },
+                    { name: "text", type: "text" }
+                ]
             }
         ]
     };
@@ -58,6 +93,20 @@ export class SidebarComponent implements OnInit {
         'product-info': {
             name: "Product",
             icon: "smartphone",
+            displayNameProperty: 'name',
+            blocks: ["image", "text"]
+        }
+    };
+
+    blocksSchemas = <any>{
+        image: {
+            name: "main image",
+            icon: "article",
+            displayNameProperty: 'name'
+        },
+        text: {
+            name: "Product title",
+            icon: "article",
             displayNameProperty: 'name'
         }
     };
