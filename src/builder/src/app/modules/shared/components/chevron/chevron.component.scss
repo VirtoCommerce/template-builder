@@ -11,8 +11,15 @@
     &:hover {
         background-color: #F6F6F6;
     }
-}
 
-.rotate {
-    transform: rotate(90deg);
+    &.rotate {
+        transform: rotate(90deg);
+    }
+
+    &.vertical {
+        transform: rotate(90deg);
+        &.rotate {
+            transform: rotate(270deg);
+        }
+    }
 }

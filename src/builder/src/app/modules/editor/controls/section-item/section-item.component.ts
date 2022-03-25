@@ -46,6 +46,35 @@ export class SectionItemComponent implements OnInit {
             icon: 'content_copy',
             selected: false,
             inactive: false
+        },
+        <ContextMenuAction>{
+            action: 'paste-before',
+            title: 'Paste before',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>{
+            action: 'paste-after',
+            title: 'Paste after',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>{
+            action: 'duplicate',
+            title: 'Duplicate',
+            icon: 'file_copy',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>'|',
+        <ContextMenuAction>{
+            action: 'delete',
+            title: 'Delete',
+            icon: 'delete_outline',
+            selected: false,
+            inactive: false
         }
     ];
 

@@ -7,7 +7,7 @@
         <div *ngIf="active.title" class="text">{{ active.title }}</div>
     </ng-container>
     <div class="text" *ngIf="!active">{{ defaultTitle }}</div>
-    <app-chevron *ngIf="displayChevron" [opened]="isOpened"></app-chevron>
+    <app-chevron *ngIf="displayChevron" [opened]="isOpened" [vertical]="true"></app-chevron>
 </button>
 <mat-menu #menu="matMenu">
     <button mat-menu-item *ngFor="let action of actions" (click)="actionChoosed(action)">

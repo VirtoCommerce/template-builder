@@ -2,31 +2,29 @@
     <div>{{ getTemplateName() }}</div>
 </div>
 <div class="panel-body">
-    <div class="scrollable-body">
-        <ng-container *ngIf="template">
-            <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
-                <ng-container *ngFor="let section of template.content">
-                    <app-collapsible-list-item [expandable]="isExpandable(section)"
-                                               cdkDragBoundary=".sections-container"
-                                               cdkDragLockAxis="y"
-                                               cdkDrag
-                                               (cdkDragStarted)="sectionDragStarted($event)"
-                                               (cdkDragReleased)="sectionDragCompleted($event)">
-                        <div item>
-                            <app-section-item [sectionSchema]="sectionsSchemas[section.type]"
-                                              [section]="section">
-                            </app-section-item>
-                            <app-drag-handle cdkDragHandle></app-drag-handle>
-                        </div>
-                        <app-section-children-list [section]="section"
-                                                   [blocksSchemas]="blocksSchemas">
-                        </app-section-children-list>
-                    </app-collapsible-list-item>
-                </ng-container>
-            </div>
-            <app-icon-button icon="add" skin="blue" text="Add section"></app-icon-button>
-        </ng-container>
-    </div>
+    <ng-container *ngIf="template">
+        <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
+            <ng-container *ngFor="let section of template.content">
+                <app-collapsible-list-item [expandable]="isExpandable(section)"
+                                           cdkDragBoundary=".sections-container"
+                                           cdkDragLockAxis="y"
+                                           cdkDrag
+                                           (cdkDragStarted)="sectionDragStarted($event)"
+                                           (cdkDragReleased)="sectionDragCompleted($event)">
+                    <div item>
+                        <app-section-item [sectionSchema]="sectionsSchemas[section.type]"
+                                          [section]="section">
+                        </app-section-item>
+                        <app-drag-handle cdkDragHandle></app-drag-handle>
+                    </div>
+                    <app-section-children-list [section]="section"
+                                               [blocksSchemas]="blocksSchemas">
+                    </app-section-children-list>
+                </app-collapsible-list-item>
+            </ng-container>
+        </div>
+        <app-icon-button icon="add" skin="blue" text="Add section"></app-icon-button>
+    </ng-container>
 </div>
 <div class="panel-footer">
     <app-icon-button icon="settings" text="Theme settings"></app-icon-button>

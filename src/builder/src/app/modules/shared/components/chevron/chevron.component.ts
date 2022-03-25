@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ChevronComponent implements OnInit {
 
     @Input() opened = false;
+    @Input() vertical = false;
 
     constructor() { }
 

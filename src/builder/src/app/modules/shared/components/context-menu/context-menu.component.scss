@@ -9,7 +9,6 @@
     @apply bg-white flex flex-col w-36;
 
     li {
-        @apply p-1.5;
         &.separator {
             border-color: rgba(92, 95, 98, 0.36);
             @apply h-px border-t w-full p-0;
@@ -18,7 +17,7 @@
 }
 
 .action-item {
-    @apply flex flex-row w-full rounded items-center p-1 space-x-1 cursor-pointer;
+    @apply flex flex-row w-full rounded items-center p-2 space-x-1 cursor-pointer;
     &:hover {
         background-color: #f6f6f6;
     }

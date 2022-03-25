@@ -3,7 +3,7 @@
 }
 
 button {
-    @apply flex flex-row items-center w-full p-3 rounded space-x-1;
+    @apply flex flex-row items-center w-full p-2 rounded space-x-2;
     &:hover {
         @apply bg-gray-100;
     }
