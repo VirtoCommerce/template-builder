@@ -9,7 +9,7 @@
 .block-item {
     @apply flex flex-row py-2 pl-2 rounded bg-white;
     &:hover {
-        @apply bg-gray-100;
+        background: rgba(246, 246, 246, 1);
     }
 }
 

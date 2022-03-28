@@ -16,6 +16,10 @@
     }
 }
 
+app-icon {
+    color: rgba(72, 72, 72, 1);
+}
+
 .action-item {
     @apply flex flex-row w-full rounded items-center p-2 space-x-1 cursor-pointer;
     &:hover {

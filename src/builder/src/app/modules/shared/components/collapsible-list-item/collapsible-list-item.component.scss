@@ -1,10 +1,10 @@
 :host {
-    @apply flex flex-col rounded cursor-default bg-white;
+    @apply flex flex-col cursor-default bg-white;
 }
 
 .item-holder {
-    @apply flex flex-row py-2;
+    @apply flex flex-row py-2 rounded;
     &:hover {
-        @apply bg-gray-100;
+        background: rgba(246, 246, 246, 1);
     }
 }
