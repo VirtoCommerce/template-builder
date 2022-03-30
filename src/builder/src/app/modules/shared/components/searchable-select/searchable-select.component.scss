@@ -3,6 +3,9 @@
     border-color: rgba(18, 18, 18, 0.08);
     padding: 0.4375rem;
     @apply flex flex-row w-full border rounded items-center truncate text-ellipsis whitespace-nowrap;
+    &:hover {
+        background: rgba(18, 18, 18, 0.04);
+    }
 }
 
 .root-container {
@@ -10,8 +13,8 @@
 }
 
 .search-input {
-    border-color: #A7ACB1;
-    outline-color: #A7ACB1;
+    border-color: rgba(18, 18, 18, 0.08);
+    outline-color: rgba(18, 18, 18, 0.08);
     @apply w-full border p-1 rounded mb-2;
 }
 

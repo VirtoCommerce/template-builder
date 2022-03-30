@@ -1,3 +1,4 @@
+import { SectionSchema } from '@shared/models';
 import { TemplateModel } from './../../modules/editor/models/template.model';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+
+    addMode = false;
 
     template: TemplateModel = <any>{
         settings: {
@@ -83,7 +86,51 @@ export class SidebarComponent implements OnInit {
         'cover-with-image': {
             name: "Product details",
             icon: "image",
-            displayNameProperty: 'name'
+            displayNameProperty: 'name',
+            group: 'Blog'
+        },
+        'cover-with-image1': {
+            name: "Product details 1",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Blog'
+        },
+        'cover-with-image2': {
+            name: "Product details 2",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Blog'
+        },
+        'cover-with-image3': {
+            name: "Product details 3",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Blog'
+        },
+        'cover-with-image4': {
+            name: "Product details 4",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Integration',
+            groupIcon: 'image'
+        },
+        'cover-with-image5': {
+            name: "Product details 5",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Integration'
+        },
+        'cover-with-image6': {
+            name: "Product details 6",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Integration'
+        },
+        'cover-with-image7': {
+            name: "Product details 7",
+            icon: "image",
+            displayNameProperty: 'name',
+            group: 'Integration'
         },
         'cover-with-variations': {
             name: "Variations",
@@ -97,6 +144,8 @@ export class SidebarComponent implements OnInit {
             blocks: ["image", "text"]
         }
     };
+
+    sectionsSchemasList!: SectionSchema[];
 
     blocksSchemas = <any>{
         image: {
@@ -114,6 +163,15 @@ export class SidebarComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
+        // todo: must be on sectionsSchemas setter
+        this.sectionsSchemasList = Object.keys(this.sectionsSchemas).map(x => ({ ...this.sectionsSchemas[x], type: x }));
     }
 
+    addItem() {
+        this.addMode = true;
+    }
+
+    closeAddPanel() {
+        this.addMode = false;
+    }
 }

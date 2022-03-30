@@ -1,5 +1,34 @@
-<app-overlap-panel [title]="title" (backClick)="backButtonClick()">
-    <div>Hello</div>
+<app-overlap-panel>
+    <app-panel>
+        <div>
+            <ul class="flex flex-col">
+                <li class="search-holder">
+                    <input placeholder="Enter block name" class="search" type="search" />
+                </li>
+                <li *ngFor="let group of groups" class="border-b">
+                    <app-add-section-group [group]="group"
+                                           [opened]="group === openedGroup"
+                                           [underPreview]="underPreview"
+                                           (onOpened)="onGroupOpened(group)"
+                                           (onPreview)="onPreviewItem($event)"
+                                           (onAdd)="onAddItem($event)">
+                    </app-add-section-group>
+                </li>
+                <li *ngFor="let item of items" class="border-b">
+                    <app-add-section-item [section]="item"
+                                          [inPreview]="item === underPreview"
+                                          (onPreview)="onPreviewItem(item)"
+                                          (onAdd)="onAddItem(item)"></app-add-section-item>
+                </li>
+            </ul>
+        </div>
+        <ng-container title-content>
+            <div class="title">
+                <app-icon (click)="raiseCancelAdd()" title="Cancel">chevron_left</app-icon>
+                <div>Add section</div>
+            </div>
+        </ng-container>
+    </app-panel>
     <!-- <app-input-search (searchChange)="filterItems($event)"></app-input-search>
     <app-collapsible-list-item *ngFor="let group of groups"
                                [icon]="group.icon"

@@ -1,8 +1,11 @@
 <app-template-editor [template]="template"
                      [sectionsSchemas]="sectionsSchemas"
-                     [blocksSchemas]="blocksSchemas">
+                     [blocksSchemas]="blocksSchemas"
+                     (addSectionClick)="addItem()">
 </app-template-editor>
-<app-add-section></app-add-section>
+<app-add-section *ngIf="addMode"
+                 [schemasList]="sectionsSchemas"
+                 (cancelAdd)="closeAddPanel()"></app-add-section>
 
 <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"

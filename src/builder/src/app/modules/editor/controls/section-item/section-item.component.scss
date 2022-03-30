@@ -2,6 +2,6 @@
     @apply flex flex-row items-center space-x-1;
 }
 .name {
-    max-width: 7rem;
-    @apply grow truncate;
+    @apply flex flex-row;
+    flex: 1 0 0; // scrollable
 }

@@ -1,6 +1,7 @@
 import { ListHelpers } from '@shared/services';
 import { SectionSchema, ItemsGroup } from '@shared/models';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SectionsSchemasList } from '@app/models';
 
 @Component({
     selector: 'app-add-section',
@@ -9,15 +10,25 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class AddSectionComponent implements OnInit {
 
-    @Input() title: string = 'Add section';
-    @Input() schemas: SectionSchema[] | null = [];
+    private _schemasList!: SectionsSchemasList;
 
-    @Output() backClick = new EventEmitter<any>();
+    @Input() get schemasList(): SectionsSchemasList {
+        return this._schemasList;
+    }
+    set schemasList(value: SectionsSchemasList) {
+        this._schemasList = value;
+        this.groupItems();
+    }
+
     @Output() previewItem = new EventEmitter<SectionSchema>();
     @Output() addItem = new EventEmitter<SectionSchema>();
+    @Output() cancelAdd = new EventEmitter();
 
     groups: ItemsGroup<SectionSchema>[] = [];
     items: SectionSchema[] = [];
+
+    underPreview: SectionSchema | null = null; // todo: for tests purposes
+    openedGroup: ItemsGroup<SectionSchema> | null = null;
 
     constructor(private helper: ListHelpers) { }
 
@@ -25,21 +36,19 @@ export class AddSectionComponent implements OnInit {
         this.groupItems();
     }
 
-    backButtonClick() {
-        this.backClick.emit();
-    }
-
     filterItems(filter: string) {
-        if (!filter) {
-            this.groupItems();
-        }
-        const result = this.helper.groupSections(this.schemas || []);
-        const f = filter.toLowerCase();
-        const groups = result.map(x => ({ ...x, items: x.items.filter(_ => _.name.toLowerCase().indexOf(f) != -1) }));
-        this.setGroups(groups);
+        // if (!filter) {
+        //     this.groupItems();
+        // }
+        // const result = this.helper.groupSections(this._schemasList);
+        // const f = filter.toLowerCase();
+        // const groups = result.map(x => ({ ...x, items: x.items.filter(_ => _.name.toLowerCase().indexOf(f) != -1) }));
+        // this.setGroups(groups);
     }
 
     onPreviewItem(item: SectionSchema) {
+        console.log('add-section');
+        this.underPreview = item; // todo: for tests purposes
         this.previewItem.emit(item);
     }
 
@@ -47,8 +56,21 @@ export class AddSectionComponent implements OnInit {
         this.addItem.emit(item);
     }
 
+    onGroupOpened(group: ItemsGroup<SectionSchema>) {
+        if (group === this.openedGroup) {
+            this.openedGroup = null;
+        } else {
+            this.openedGroup = group;
+        }
+    }
+
+    raiseCancelAdd() {
+        this.cancelAdd.emit();
+    }
+
     private groupItems() {
-        const result = this.helper.groupSections(this.schemas || []);
+        const list = Object.keys(this._schemasList).map(key => ({ ...this._schemasList[key], type: key }));
+        const result = this.helper.groupSections(list);
         this.setGroups(result);
     }
 

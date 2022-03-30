@@ -15,6 +15,7 @@ import { IconButtonComponent } from './icon-button/icon-button.component';
 import { DragHandleComponent } from './drag-handle/drag-handle.component';
 import { IconComponent } from './icon/icon.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { PanelComponent } from './panel/panel.component';
 
 export const COMPONENTS = [
     CollapsibleListItemComponent,
@@ -26,6 +27,7 @@ export const COMPONENTS = [
     ToolbarButtonComponent,
     ToolbarPanelComponent,
     VisibilityButtonComponent,
+    PanelComponent,
 
     ActionsDropdownComponent,
     ActionButtonsComponent,
