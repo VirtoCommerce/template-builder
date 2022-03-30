@@ -23,6 +23,7 @@ import { BaseControlDescriptor, ControlContext } from '@shared/models';
         useExisting: forwardRef(() => ControlHolderComponent),
         multi: true,
     }],
+    styleUrls: ['./control-holder.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlHolderComponent implements OnInit, ControlValueAccessor {

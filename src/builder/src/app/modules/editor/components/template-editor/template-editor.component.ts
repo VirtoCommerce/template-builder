@@ -25,7 +25,7 @@ export class TemplateEditorComponent implements OnInit {
     @HostBinding('class.inactive')
     @Input() inactive: boolean | null = false;
     @Output() addSectionClick = new EventEmitter<number | boolean>();
-    @Output() editItem = new EventEmitter<{ sectionIndex: number, blockIndex: number | null }>();
+    @Output() editItem = new EventEmitter();
     @Output() itemVisibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
 
     openedItems: { [key: string]: boolean } = {};
@@ -42,8 +42,8 @@ export class TemplateEditorComponent implements OnInit {
         this.addSectionClick.emit(sectionId);
     }
 
-    onItemClick(sectionIndex: number, blockIndex: number | null) {
-        this.editItem.emit({ sectionIndex, blockIndex });
+    onItemClick() {
+        this.editItem.emit();
     }
 
     isOpened(sectionId: string): boolean {

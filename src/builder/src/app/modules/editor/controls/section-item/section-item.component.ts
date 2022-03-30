@@ -26,8 +26,7 @@ export class SectionItemComponent implements OnInit {
     @Input() opened: boolean = false;
     @Input() draggable: boolean = true;
 
-    @Output() itemClick = new EventEmitter<number | null>();
-    @Output() addClick = new EventEmitter<never>();
+    @Output() itemClick = new EventEmitter();
     @Output() openChanged = new EventEmitter<boolean>();
     @Output() visibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
 
@@ -86,12 +85,8 @@ export class SectionItemComponent implements OnInit {
 
     }
 
-    onItemClick(itemId: number | null = null) {
-        this.itemClick.emit(itemId);
-    }
-
-    onAddClick() {
-        this.addClick.emit();
+    onItemClick() {
+        this.itemClick.emit();
     }
 
     getSectionIcon(): string | null {

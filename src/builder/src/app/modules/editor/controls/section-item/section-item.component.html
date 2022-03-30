@@ -1,9 +1,12 @@
-<div class="section-item" (mouseenter)="isHover = true" (mouseleave)="isHover = false">
+<div class="section-item"
+     (click)="onItemClick()"
+     (mouseenter)="isHover = true"
+     (mouseleave)="isHover = false">
     <app-icon>{{ getSectionIcon() }}</app-icon>
     <div class="name" title="{{ getSectionName() }}">
         <span class="whitespace-nowrap truncate w-full">{{ getSectionName() }}</span>
     </div>
-    <app-context-menu [actions]="itemActions" [isHover]="isHover"></app-context-menu>
+    <app-context-menu [actions]="itemActions" [visible]="isHover"></app-context-menu>
 </div>
 
 
@@ -18,7 +21,7 @@
                            (openChanged)="onOpenChanged($event)"
                            (itemClick)="onItemClick()"> -->
 
-    <!-- <ng-content drag select="[drag]"></ng-content>
+<!-- <ng-content drag select="[drag]"></ng-content>
 
     <div class="blocks-container">
         <app-inner-list-item *ngFor="let block of section.blocks"

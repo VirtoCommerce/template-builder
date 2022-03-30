@@ -9,7 +9,7 @@ import { ContextMenuAction } from '@shared/models';
 export class ContextMenuComponent implements OnInit {
 
     @Input() actions!: ContextMenuAction[];
-    @Input() isHover: boolean = false;
+    @Input() visible: boolean = false;
 
     @Output() onAction = new EventEmitter<ContextMenuAction>();
 

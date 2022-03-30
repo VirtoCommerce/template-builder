@@ -1,5 +1,25 @@
-<app-overlap-panel (backClick)="backButtonClick()">
-    <div title-content class="block">
+<app-overlap-panel>
+    <app-panel>
+        <div class="form-holder">
+            <app-dynamic-form [context]="context"
+                      [descriptors]="descriptors.settings"
+                      [sectionModel]="section"></app-dynamic-form>
+        </div>
+        <ng-container title-content>
+            <div class="title">
+                <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
+                <div class="info">
+                    <div>Section title</div>
+                    <div class="section-info">
+                        Type: section-type<br />
+                        ID: section-id
+                    </div>
+                </div>
+                <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
+            </div>
+        </ng-container>
+    </app-panel>
+    <!-- <div title-content class="block">
         {{ getTitle() }}
     </div>
 
@@ -18,5 +38,5 @@
                 Duplicate
             </button>
         </div>
-    </div>
+    </div> -->
 </app-overlap-panel>

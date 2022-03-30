@@ -1,12 +1,17 @@
 <app-template-editor [template]="template"
                      [sectionsSchemas]="sectionsSchemas"
                      [blocksSchemas]="blocksSchemas"
-                     (addSectionClick)="addItem()">
+                     (addSectionClick)="addItem()"
+                     (editItem)="editItem()">
 </app-template-editor>
 <app-add-section *ngIf="addMode"
                  [schemasList]="sectionsSchemas"
-                 (cancelAdd)="closeAddPanel()"></app-add-section>
-
+                 (cancelAdd)="closePanels()"></app-add-section>
+<app-edit-section *ngIf="editMode"
+                  [context]="context"
+                  [section]="template.content[1]"
+                  [descriptors]="sectionsSchemas[template.content[1].type]"
+                  (backClick)="closePanels()"></app-edit-section>
 <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"
                                  [sectionsSchemas]="allSectionsSchemas$|async"

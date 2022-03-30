@@ -5,7 +5,8 @@
              cdkDragLockAxis="y"
              cdkDrag>
             <app-section-item [sectionSchema]="blocksSchemas[block.type]"
-                              [section]="block">
+                              [section]="block"
+                              (itemClick)="onItemClick(block)">
             </app-section-item>
             <app-drag-handle cdkDragHandle></app-drag-handle>
         </div>

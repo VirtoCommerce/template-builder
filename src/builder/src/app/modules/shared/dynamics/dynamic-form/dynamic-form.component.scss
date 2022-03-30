@@ -1,0 +1,13 @@
+:host ::ng-deep {
+    label {
+        font-size: 15px;
+        color: #646464;
+        font-weight: 400;
+        @apply py-2;
+    }
+
+    input[type=text], textarea {
+        border: 1px solid #BABFC3;
+        @apply rounded;
+    }
+}

@@ -1,7 +1,8 @@
-<div class="wrapper" [ngStyle]="{ opacity: isOpen || isHover ? '1' : '0' }">
-    <app-icon cdkOverlayOrigin
+<div class="wrapper" [ngStyle]="{ opacity: isOpen || visible ? '1' : '0' }">
+    <app-icon class="icon"
+              cdkOverlayOrigin
               (click)="gearClick($event)"
-              #trigger="cdkOverlayOrigin">settings</app-icon>
+              #trigger="cdkOverlayOrigin">tune</app-icon>
     <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
                  [cdkConnectedOverlayOpen]="isOpen"
                  (detach)="hideActions()"
