@@ -4,10 +4,20 @@
 }
 
 .btn {
-    @apply px-4 rounded;
+    @apply px-4 rounded flex flex-row space-x-1 items-center;
+    &:hover {
+        background-color: #F6F6F6;
+    }
+}
+
+.btn-outline {
+    border: 1px solid rgba(18, 18, 18, 0.08);
 }
 
 .btn-primary {
     background-color: #1665D8;
     @apply text-white;
+    &:hover {
+        background-color: #0F4C8B;
+    }
 }

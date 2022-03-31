@@ -1,6 +1,6 @@
 <ng-container *ngFor="let action of actions">
     <button class="btn {{ 'btn-' + action.type }}" (click)="raiseOnClick(action)">
-        <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
-        {{ action.title }}
+        <app-icon *ngIf="action.icon">{{ action.icon }}</app-icon>
+        <div>{{ action.title }}</div>
     </button>
 </ng-container>

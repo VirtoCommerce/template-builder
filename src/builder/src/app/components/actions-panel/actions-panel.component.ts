@@ -10,6 +10,14 @@ export class ActionsPanelComponent implements OnInit {
     panels = [
         [
             {
+                icon: 'settings',
+                alias: 'theme-settings',
+                title: 'Theme settings',
+                type: 'outline'
+            }
+        ],
+        [
+            {
                 icon: 'undo',
                 alias: 'undo'
             },
