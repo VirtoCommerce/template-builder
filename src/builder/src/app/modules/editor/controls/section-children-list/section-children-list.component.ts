@@ -14,6 +14,7 @@ export class SectionChildrenListComponent implements OnInit {
     @Input() blocksSchemas!: SectionsSchemasList;
 
     @Output() itemClick = new EventEmitter<SectionModel>();
+    @Output() addBlockClick = new EventEmitter();
 
     constructor() { }
 
@@ -24,5 +25,9 @@ export class SectionChildrenListComponent implements OnInit {
 
     onItemClick(block: SectionModel) {
         this.itemClick.emit(block);
+    }
+
+    onAddBlockClick() {
+        this.addBlockClick.emit();
     }
 }

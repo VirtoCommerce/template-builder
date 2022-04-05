@@ -1,17 +1,12 @@
-<app-template-editor [template]="template"
-                     [sectionsSchemas]="sectionsSchemas"
-                     [blocksSchemas]="blocksSchemas"
-                     (addSectionClick)="addItem()"
-                     (editItem)="editItem()">
-</app-template-editor>
-<app-add-section *ngIf="addMode"
-                 [schemasList]="sectionsSchemas"
-                 (cancelAdd)="closePanels()"></app-add-section>
-<app-edit-section *ngIf="editMode"
-                  [context]="context"
-                  [section]="template.content[1]"
-                  [descriptors]="sectionsSchemas[template.content[1].type]"
-                  (backClick)="closePanels()"></app-edit-section>
+<ng-container *ngIf="displayEditor === 'template'">
+    <app-template-editor [template]="template"
+                         [sectionsSchemas]="sectionsSchemas"
+                         [blocksSchemas]="blocksSchemas">
+    </app-template-editor>
+</ng-container>
+<ng-container *ngIf="displayEditor === 'theme-settings'">
+
+</ng-container>
 <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"
                                  [sectionsSchemas]="allSectionsSchemas$|async"

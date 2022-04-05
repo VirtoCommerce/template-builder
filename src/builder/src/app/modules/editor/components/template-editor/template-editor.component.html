@@ -18,7 +18,8 @@
                         </div>
                         <app-section-children-list [section]="section"
                                                    [blocksSchemas]="blocksSchemas"
-                                                   (itemClick)="onItemClick()">
+                                                   (itemClick)="onItemClick()"
+                                                   (addBlockClick)="addButtonClick()">
                         </app-section-children-list>
                     </app-collapsible-list-item>
                 </ng-container>
@@ -32,6 +33,18 @@
         <app-icon-button icon="add" skin="blue" text="Add section" (click)="addButtonClick()"></app-icon-button>
     </div>
 </app-panel>
+
+<app-add-section *ngIf="addMode"
+                 [schemasList]="sectionsSchemas"
+                 (cancelAdd)="closePanels()"></app-add-section>
+<app-edit-section *ngIf="editMode"
+                  [context]="context"
+                  [section]="template.content[1]"
+                  [descriptors]="sectionsSchemas[template.content[1].type]"
+                  (backClick)="closePanels()"></app-edit-section>
+
+
+
 <!-- <app-collapsible-list-item [section]="section" icon=""></app-collapsible-list-item> -->
 <!--
                 <div class="section-item" (click)="onItemClick(section.__index, null)"

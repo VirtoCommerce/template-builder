@@ -9,8 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-    addMode = false;
-    editMode = false;
+    displayEditor = 'template';
 
     template: TemplateModel = <any>{
         settings: {
@@ -194,25 +193,10 @@ export class SidebarComponent implements OnInit {
         }
     };
 
-    context: any = {};
-
     constructor() { }
 
     ngOnInit(): void {
         // todo: must be on sectionsSchemas setter
         this.sectionsSchemasList = Object.keys(this.sectionsSchemas).map(x => ({ ...this.sectionsSchemas[x], type: x }));
-    }
-
-    addItem() {
-        this.addMode = true;
-    }
-
-    editItem() {
-        this.editMode = true;
-    }
-
-    closePanels() {
-        this.addMode = false;
-        this.editMode = false;
     }
 }

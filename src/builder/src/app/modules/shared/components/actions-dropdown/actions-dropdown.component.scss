@@ -12,6 +12,10 @@
     }
 }
 
+[mat-menu-item] {
+    font-weight: 400;
+}
+
 .text {
     line-height: 1.5rem;
     @apply px-2 text-left grow align-middle;

@@ -18,15 +18,19 @@ import { SectionsSchemasList } from '@app/models';
 })
 export class TemplateEditorComponent implements OnInit {
 
-    @Input() template!: TemplateModel | null;
+    addMode = false;
+    editMode = false;
+    context: any = {};
+
+    @Input() template!: TemplateModel;
     @Input() sectionsSchemas!: SectionsSchemasList;
     @Input() blocksSchemas!: SectionsSchemasList;
 
-    @HostBinding('class.inactive')
-    @Input() inactive: boolean | null = false;
-    @Output() addSectionClick = new EventEmitter<number | boolean>();
-    @Output() editItem = new EventEmitter();
-    @Output() itemVisibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
+    // @HostBinding('class.inactive')
+    // @Input() inactive: boolean | null = false;
+    // @Output() addSectionClick = new EventEmitter<number | boolean>();
+    // @Output() editItem = new EventEmitter();
+    // @Output() itemVisibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
 
     openedItems: { [key: string]: boolean } = {};
 
@@ -35,15 +39,20 @@ export class TemplateEditorComponent implements OnInit {
     ngOnInit(): void { }
 
     addButtonClick() {
-        this.addSectionClick.emit(true);
+        this.addMode = true;
     }
 
     addBlockClick(sectionId: number) {
-        this.addSectionClick.emit(sectionId);
+        this.addMode = true;
     }
 
     onItemClick() {
-        this.editItem.emit();
+        this.editMode = true;
+    }
+
+    closePanels() {
+        this.addMode = false;
+        this.editMode = false;
     }
 
     isOpened(sectionId: string): boolean {
@@ -60,7 +69,7 @@ export class TemplateEditorComponent implements OnInit {
     }
 
     onVisibleChanged(value: boolean, sectionIndex: number, blockIndex: number | null) {
-        this.itemVisibleChanged.emit({ sectionIndex, blockIndex, value });
+        // this.itemVisibleChanged.emit({ sectionIndex, blockIndex, value });
     }
 
     reorderSections(event: CdkDragSortEvent<SectionModel>) {
