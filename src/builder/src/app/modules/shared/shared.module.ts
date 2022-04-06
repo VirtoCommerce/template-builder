@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatRippleModule } from '@angular/material/core';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -42,6 +43,7 @@ const MATERIAL_MODULES = [
     MatMenuModule,
     MatIconModule,
     MatTabsModule,
+    MatRippleModule,
     DragDropModule,
     OverlayModule
 ];

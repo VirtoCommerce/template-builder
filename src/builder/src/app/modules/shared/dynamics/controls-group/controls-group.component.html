@@ -1,5 +1,8 @@
 <div>
-    <div class="group-title mat-ribble" [ngClass]="{opened: opened}" (click)="onOpenedChanged()">
+    <div class="group-title"
+         matRipple
+         [ngClass]="{opened: opened}"
+         (click)="onOpenedChanged()">
         <div class="grow">
             {{ label }}
         </div>
