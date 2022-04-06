@@ -6,5 +6,7 @@ export * from './control.context';
 export * from './action-button.descriptors';
 export * from './searchable-item.descriptor';
 export * from './context-menu-action.model';
+export * from './tab.model';
+export * from './group-state.model';
 
 export * from './descriptors';

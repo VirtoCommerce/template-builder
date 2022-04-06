@@ -71,8 +71,7 @@ export class EditSectionComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
     onBackClick() {
         this.backClick.emit();

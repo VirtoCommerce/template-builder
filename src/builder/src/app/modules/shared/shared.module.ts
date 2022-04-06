@@ -9,6 +9,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -33,6 +34,18 @@ const ALL_COMPONENTS = [
     ...DYNAMIC_COMPONENTS
 ];
 
+const MATERIAL_MODULES = [
+    MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatCheckboxModule,
+    MatMenuModule,
+    MatIconModule,
+    MatTabsModule,
+    DragDropModule,
+    OverlayModule
+];
+
 @NgModule({
     declarations: ALL_COMPONENTS,
     exports: ALL_COMPONENTS,
@@ -41,15 +54,7 @@ const ALL_COMPONENTS = [
         CommonModule,
         ReactiveFormsModule,
 
-        MatSelectModule,
-        // MatFormFieldModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
-        MatCheckboxModule,
-        MatMenuModule,
-        MatIconModule,
-        DragDropModule,
-        OverlayModule,
+        ...MATERIAL_MODULES,
 
         NgxMatDatetimePickerModule,
         NgxMatTimepickerModule,

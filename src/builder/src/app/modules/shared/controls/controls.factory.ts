@@ -28,6 +28,11 @@ export class ControlsFactory {
 
     resolve(type: string): Type<any> {
         const result = this.controls[type];
+
+        if (!result) {
+            return editors.UnknownEditorComponent;
+        }
+
         return result;
     }
 }

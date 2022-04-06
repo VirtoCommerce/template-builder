@@ -59,6 +59,7 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
         if (!type) {
             // if (this.descriptor.type !== 'hidden') {
 
+            // todo: null is not possible, maybe remove it?
             console.log('unknown component type:', this.descriptor);
 
             // }

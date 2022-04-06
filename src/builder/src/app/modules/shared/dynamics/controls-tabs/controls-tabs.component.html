@@ -1,0 +1,20 @@
+<div [formGroup]="currentForm">
+    <mat-tab-group mat-align-tabs="center" *ngIf="hasTabs">
+        <mat-tab *ngFor="let tab of tabs | keyvalue"
+                 label="{{ tab.key || 'Default' }}"
+                 labelClass="tab-label">
+            <app-controls-tab
+                              [tab]="tab.value"
+                              [state]="groupsState"
+                              [currentForm]="currentForm"
+                              [context]="context">
+            </app-controls-tab>
+        </mat-tab>
+    </mat-tab-group>
+    <app-controls-tab *ngIf="singleList"
+                      [tab]="tabs['']"
+                      [state]="groupsState"
+                      [currentForm]="currentForm"
+                      [context]="context">
+    </app-controls-tab>
+</div>

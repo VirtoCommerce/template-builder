@@ -2,7 +2,10 @@ import { Observable } from 'rxjs';
 
 import { HttpWrapper, AppConfig } from '@app/services';
 
-import { SectionsSchemasList, TemplatesSchemasList } from '@app/models';
+import {
+    //SectionsSchemasList,
+    TemplatesSchemasList
+} from '@app/models';
 import { TemplateModel } from '@editor/models';
 import { IEditorService } from '@editor/di';
 import { Injectable } from '@angular/core';
@@ -18,13 +21,21 @@ export class PlatformService implements IEditorService {
         return this.http.get<TemplatesSchemasList>(this.appConfig.config.templatesUrl);
     }
 
-    downloadSectionsSchemasList(): Observable<SectionsSchemasList> {
-        return this.http.get<SectionsSchemasList>(this.appConfig.config.sectionsUrl);
+    downloadSectionsSchemasList(): Observable<any> {
+        return this.http.get<any>(this.appConfig.config.sectionsUrl);
     }
 
-    downloadBlocksSchemasList(): Observable<SectionsSchemasList> {
-        return this.http.get<SectionsSchemasList>(this.appConfig.config.blocksUrl);
+    downloadBlocksSchemasList(): Observable<any> {
+        return this.http.get<any>(this.appConfig.config.blocksUrl);
     }
+
+    // downloadSectionsSchemasList(): Observable<SectionsSchemasList> {
+    //     return this.http.get<SectionsSchemasList>(this.appConfig.config.sectionsUrl);
+    // }
+
+    // downloadBlocksSchemasList(): Observable<SectionsSchemasList> {
+    //     return this.http.get<SectionsSchemasList>(this.appConfig.config.blocksUrl);
+    // }
 
     downloadTemplate(templateKey: string): Observable<TemplateModel> {
         return this.http.get<TemplateModel>(`${this.appConfig.config.loadTemplateUrl}${templateKey}.json`);

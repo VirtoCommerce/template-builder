@@ -1,9 +1,8 @@
 <div *ngIf="form">
     <form [formGroup]="form">
-        <app-controls-list
-            [currentForm]="form"
-            [descriptors]="descriptors"
-            [context]="context">
-        </app-controls-list>
+        <app-controls-tabs [currentForm]="form"
+                           [descriptors]="descriptors"
+                           [context]="context">
+        </app-controls-tabs>
     </form>
 </div>

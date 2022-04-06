@@ -10,6 +10,7 @@ export * from './files/files.component';
 export * from './color/color.component';
 export * from './checkbox/checkbox.component';
 export * from './calendar/calendar.component';
+export * from './unknown-editor/unknown-editor.component';
 
 import { TextComponent } from './text/text.component';
 import { StringComponent } from './string/string.component';
@@ -20,6 +21,7 @@ import { FilesComponent } from './files/files.component';
 import { ColorComponent } from './color/color.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { UnknownEditorComponent } from './unknown-editor/unknown-editor.component';
 
 export const CONTROLS = [
     CalendarComponent,
@@ -30,5 +32,6 @@ export const CONTROLS = [
     NumberComponent,
     SelectComponent,
     StringComponent,
-    TextComponent
+    TextComponent,
+    UnknownEditorComponent
 ];

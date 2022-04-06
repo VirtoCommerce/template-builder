@@ -1,0 +1,11 @@
+<div>
+    <div class="group-title mat-ribble" [ngClass]="{opened: opened}" (click)="onOpenedChanged()">
+        <div class="grow">
+            {{ label }}
+        </div>
+        <app-chevron [vertical]="true" [opened]="opened"></app-chevron>
+    </div>
+    <div *ngIf="opened" class="group-body">
+        <ng-content></ng-content>
+    </div>
+</div>

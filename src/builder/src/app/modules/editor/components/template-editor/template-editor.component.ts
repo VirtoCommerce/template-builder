@@ -2,13 +2,16 @@ import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 import {
-    // SectionsSchemasList,
+    SectionsSchemasList,
     TemplateModel
 } from '@editor/models';
-import { SectionModel } from '@shared/models';
+import { SectionModel, SectionSchema } from '@shared/models';
 
 import { helpers } from '@editor/services';
-import { SectionsSchemasList } from '@app/models';
+
+// todo: remove it
+import { SectionsServiceSimulator } from '../../services/sections.service-simulator';
+import { TemplateServiceSimulator } from './../../services/template.service-simulator';
 
 @Component({
     selector: 'app-template-editor',
@@ -22,9 +25,25 @@ export class TemplateEditorComponent implements OnInit {
     editMode = false;
     context: any = {};
 
-    @Input() template!: TemplateModel;
-    @Input() sectionsSchemas!: SectionsSchemasList;
-    @Input() blocksSchemas!: SectionsSchemasList;
+    template!: TemplateModel;
+
+    sectionsSchemas!: SectionsSchemasList;;
+
+    sectionsSchemasList!: SectionSchema[];
+
+    blocksSchemas = <any>{
+        image: {
+            name: 'main image',
+            icon: 'article',
+            displayNameProperty: 'name'
+        },
+        text: {
+            name: 'Product title',
+            icon: 'article',
+            displayNameProperty: 'name'
+        }
+    };
+
 
     // @HostBinding('class.inactive')
     // @Input() inactive: boolean | null = false;
@@ -34,9 +53,19 @@ export class TemplateEditorComponent implements OnInit {
 
     openedItems: { [key: string]: boolean } = {};
 
-    constructor() { }
+    constructor(
+        private templates: TemplateServiceSimulator,
+        private sections: SectionsServiceSimulator
+    ) {
+        // todo: remove it
+        this.template = this.templates.getTemplate();
+        this.sectionsSchemas = this.sections.getSectionSchemas();
+    }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        // todo: must be on sectionsSchemas setter / or selector
+        this.sectionsSchemasList = Object.keys(this.sectionsSchemas).map(x => ({ ...this.sectionsSchemas[x], type: x }));
+    }
 
     addButtonClick() {
         this.addMode = true;

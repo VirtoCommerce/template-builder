@@ -14,7 +14,7 @@ export interface BaseControlDescriptor {
 
     visibility?: string; // java-script for property visibility
 
-    // tab?: string;
-    // group?: string;
+    tab?: string;
+    group?: string;
 
 }

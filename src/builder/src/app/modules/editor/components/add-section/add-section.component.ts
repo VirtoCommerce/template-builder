@@ -1,7 +1,7 @@
 import { ListHelpers } from '@shared/services';
 import { SectionSchema, ItemsGroup } from '@shared/models';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SectionsSchemasList } from '@app/models';
+import { SectionsSchemasList } from '@editor/models';
 
 @Component({
     selector: 'app-add-section',

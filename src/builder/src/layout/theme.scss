@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
 
+// todo: i think style should not be overriten, it must be redefined
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 $custom-typography: mat.define-typography-config($font-family: 'Inter');
