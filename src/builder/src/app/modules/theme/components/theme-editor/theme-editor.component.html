@@ -1,0 +1,20 @@
+<div class="flex flex-col">
+    <div class="flex flex-row items-center">
+        <div class="grow">
+            Theme settings
+        </div>
+        <div>
+            <button>Presets</button>
+        </div>
+    </div>
+    <div *ngFor="let block of schema">
+        <div class="flex flex-row items-center">
+            <div class="grow">
+                {{block.name}}
+            </div>
+            <div>
+                <app-chevron></app-chevron>
+            </div>
+        </div>
+    </div>
+</div>

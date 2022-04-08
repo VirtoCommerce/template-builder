@@ -9,6 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { SharedModule } from '@shared/shared.module';
 import { EditorModule } from '@editor/editor.module';
+import { ThemeModule } from '@theme/theme.module';
 import { EDITOR_SERVICE } from '@editor/di';
 
 import { PlatformService } from '@app/services';
@@ -50,7 +51,8 @@ import { APP_COMPONENTS } from './components';
         }),
 
         SharedModule,
-        EditorModule
+        EditorModule,
+        ThemeModule
     ],
     providers: [
         {
