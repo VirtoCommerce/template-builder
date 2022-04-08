@@ -1,6 +1,4 @@
-import { SettingsSchemaServiceTmp } from './../../services/settings_schema.service';
-import { SettingsDataServiceTmp } from './../../services/settings_data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
 @Component({
     selector: 'app-theme-editor',
@@ -9,15 +7,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemeEditorComponent implements OnInit {
 
-    settings = this.data.getSettings();
-    schema = this.schemaService.getSchema();
+    @Input() settings: any;
+    @Input() schema: any[] = [];
+    context = {};
+    currentSettings: any;
 
-    constructor(
-        private data: SettingsDataServiceTmp,
-        private schemaService: SettingsSchemaServiceTmp
-    ) { }
+    @Output() editGroup = new EventEmitter();
+
+    uiState: any = {};
+
+    constructor() { }
 
     ngOnInit(): void {
+        this.schema.forEach((group, index) => {
+            this.uiState[group.name] = {
+                opened: false,
+                inline: index !== 0
+            }
+        });
+        this.currentSettings = typeof this.settings.current === 'string'
+            ? (<any>this.settings.presets)[this.settings.current]
+            : this.settings.current;
+
     }
 
+    toggleGroup(group: any) {
+        if (this.uiState[group.name].inline) {
+            this.uiState[group.name].opened = !this.uiState[group.name].opened;
+        } else {
+            this.editGroup.emit();
+        }
+    }
 }

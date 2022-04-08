@@ -14,4 +14,13 @@ button {
             background: rgba(22, 101, 216, 0.04);
         }
     }
+
+    &.link {
+        color: #1665D8;
+        font-size: 13px;
+        @apply p-0;
+        &:hover {
+            background: none;
+        }
+    }
 }

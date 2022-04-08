@@ -1,0 +1,6 @@
+<app-theme-editor [settings]="settings"
+                  [schema]="schema"
+                  (editGroup)="openGroup()"></app-theme-editor>
+<app-overlap-panel *ngIf="showOverlay">
+    Overlay properties list
+</app-overlap-panel>

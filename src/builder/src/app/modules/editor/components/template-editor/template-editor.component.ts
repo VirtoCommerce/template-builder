@@ -9,10 +9,6 @@ import { SectionModel, SectionSchema } from '@shared/models';
 
 import { helpers } from '@editor/services';
 
-// todo: remove it
-import { SectionsServiceSimulator } from '../../services/sections.service-simulator';
-import { TemplateServiceSimulator } from './../../services/template.service-simulator';
-
 @Component({
     selector: 'app-template-editor',
     templateUrl: './template-editor.component.html',
@@ -21,68 +17,32 @@ import { TemplateServiceSimulator } from './../../services/template.service-simu
 })
 export class TemplateEditorComponent implements OnInit {
 
-    addMode = false;
-    editMode = false;
-    context: any = {};
-
-    template!: TemplateModel;
-
-    sectionsSchemas!: SectionsSchemasList;;
-
-    sectionsSchemasList!: SectionSchema[];
-
-    blocksSchemas = <any>{
-        image: {
-            name: 'main image',
-            icon: 'article',
-            displayNameProperty: 'name'
-        },
-        text: {
-            name: 'Product title',
-            icon: 'article',
-            displayNameProperty: 'name'
-        }
-    };
+    @Input() template!: TemplateModel;
+    @Input() sectionsSchemas!: SectionsSchemasList;
+    @Input() blocksSchemas!: SectionsSchemasList;
+    // sectionsSchemasList!: SectionSchema[];
 
 
     // @HostBinding('class.inactive')
     // @Input() inactive: boolean | null = false;
-    // @Output() addSectionClick = new EventEmitter<number | boolean>();
-    // @Output() editItem = new EventEmitter();
+    @Output() addSectionClick = new EventEmitter();
+    @Output() editItem = new EventEmitter();
     // @Output() itemVisibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
 
     openedItems: { [key: string]: boolean } = {};
 
-    constructor(
-        private templates: TemplateServiceSimulator,
-        private sections: SectionsServiceSimulator
-    ) {
-        // todo: remove it
-        this.template = this.templates.getTemplate();
-        this.sectionsSchemas = this.sections.getSectionSchemas();
-    }
+    constructor() { }
 
-    ngOnInit(): void {
-        // todo: must be on sectionsSchemas setter / or selector
-        this.sectionsSchemasList = Object.keys(this.sectionsSchemas).map(x => ({ ...this.sectionsSchemas[x], type: x }));
-    }
+    ngOnInit(): void { }
 
     addButtonClick() {
-        this.addMode = true;
-    }
-
-    addBlockClick(sectionId: number) {
-        this.addMode = true;
+        this.addSectionClick.emit();
     }
 
     onItemClick() {
-        this.editMode = true;
+        this.editItem.emit();
     }
 
-    closePanels() {
-        this.addMode = false;
-        this.editMode = false;
-    }
 
     isOpened(sectionId: string): boolean {
         return !!this.openedItems[sectionId];

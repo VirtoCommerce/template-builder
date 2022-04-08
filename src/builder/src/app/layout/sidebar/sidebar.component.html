@@ -1,8 +1,8 @@
 <ng-container *ngIf="displayEditor === 'template'">
-    <app-template-editor></app-template-editor>
+    <app-template-editor-host></app-template-editor-host>
 </ng-container>
 <ng-container *ngIf="displayEditor === 'theme-settings'">
-    <app-theme-editor></app-theme-editor>
+    <app-theme-editor-host></app-theme-editor-host>
 </ng-container>
 <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"

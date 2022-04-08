@@ -6,6 +6,7 @@
 
 .chevron {
     transition: transform .1s;
+    color: #363636;
     @apply rounded-sm;
 
     &:hover {

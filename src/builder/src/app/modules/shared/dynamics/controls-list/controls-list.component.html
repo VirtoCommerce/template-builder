@@ -10,11 +10,12 @@
         <!-- <p *ngIf="control.type !== 'image' && getInfo(control) !== undefined" class="form-help">
             {{getInfo(control)}}</p> -->
 
-        <app-control-holder [descriptor]="control"
-                            [currentForm]="currentForm"
-                            [context]="context"
-                            [formControlName]="control.id">
-        </app-control-holder>
-
+        <ng-container *ngIf="!!control.id">
+            <app-control-holder [descriptor]="control"
+                                [currentForm]="currentForm"
+                                [context]="context"
+                                [formControlName]="control.id">
+            </app-control-holder>
+        </ng-container>
     </ng-container>
 </div>

@@ -1,0 +1,26 @@
+.title {
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #121212;
+}
+
+.list-item {
+    border-bottom: 1px solid #12121214;
+    @apply flex flex-row items-center p-2.5 select-none;
+}
+
+.item {
+    @apply flex flex-col;
+}
+
+.item-title {
+    color: #545454;
+    @apply cursor-pointer;
+    &:hover {
+        background: rgba(246, 246, 246, 1);
+    }
+}

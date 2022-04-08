@@ -1,6 +1,6 @@
-::ng-deep.mat-tab-label.tab-label {
-    min-width: inherit;
-    padding: 0 1.25rem;
+::ng-deep.mat-tab-label {
+    min-width: inherit !important;
+    padding: 0 1.25rem !important;
     user-select: none;
 }
 ::ng-deep.mat-tab-header-pagination {
