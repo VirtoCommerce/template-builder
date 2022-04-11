@@ -4,6 +4,12 @@
         background: rgba(246, 246, 246, 1);
         @apply rounded p-1 -m-1;
     }
+    app-icon.fullscreen {
+        @apply mt-2;
+        &:hover {
+            @apply mt-1
+        }
+    }
 }
 
 .info {

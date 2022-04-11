@@ -4,7 +4,7 @@
             Theme settings
         </div>
         <div>
-            <app-icon-button icon="tune" text="Presets" skin="link"></app-icon-button>
+            <app-icon-button (click)="onPresetsClick()" icon="tune" text="Presets" skin="link"></app-icon-button>
         </div>
     </div>
     <div *ngFor="let group of schema; let index = index" class="item">
@@ -23,6 +23,8 @@
         </ng-container>
     </div>
 </div>
-<!-- <app-overlap-panel *ngIf="uiState[group.name].opened && !uiState[group.name].inline">
-    Overlay properties list
-</app-overlap-panel> -->
+<app-settings-panel *ngIf="editableGroup"
+                    [context]="context"
+                    [group]="editableGroup"
+                    [settings]="currentSettings"
+                    (backClick)="onBackClick()"></app-settings-panel>

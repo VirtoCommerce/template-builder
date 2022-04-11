@@ -11,7 +11,7 @@ import { SettingsDataServiceTmp } from './../../services/settings_data.service';
 })
 export class ThemeEditorHostComponent implements OnInit {
 
-    showOverlay = false;
+    showPresets = true;
 
     settings = this.data.getSettings();
     schema: any = this.schemaService.getSchema();
@@ -23,7 +23,11 @@ export class ThemeEditorHostComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    openGroup() {
-        this.showOverlay = true;
+    openPresets() {
+        this.showPresets = true;
+    }
+
+    closePresets() {
+        this.showPresets = false;
     }
 }

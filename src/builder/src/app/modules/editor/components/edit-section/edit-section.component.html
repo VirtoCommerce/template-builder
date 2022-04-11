@@ -13,7 +13,11 @@
                         ID: section-id
                     </div>
                 </div>
-                <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
+                <div class="flex flex-col">
+                    <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
+                    <app-icon class="fullscreen">fullscreen</app-icon>
+                    <!-- fullscreen_exit -->
+                </div>
             </div>
         </ng-container>
     </app-panel>

@@ -1,4 +1,4 @@
 <button class="{{skin}}" type="button" (click)="raiseOnClick($event)">
-    <app-icon>{{ icon }}</app-icon>
+    <app-icon *ngIf="icon">{{ icon }}</app-icon>
     <span>{{ text }}</span>
 </button>

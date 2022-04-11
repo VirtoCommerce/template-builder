@@ -7,12 +7,15 @@ import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@
 })
 export class ThemeEditorComponent implements OnInit {
 
+    editableGroup!: any;
+
     @Input() settings: any;
     @Input() schema: any[] = [];
     context = {};
     currentSettings: any;
 
     @Output() editGroup = new EventEmitter();
+    @Output() showPresets = new EventEmitter();
 
     uiState: any = {};
 
@@ -35,7 +38,15 @@ export class ThemeEditorComponent implements OnInit {
         if (this.uiState[group.name].inline) {
             this.uiState[group.name].opened = !this.uiState[group.name].opened;
         } else {
-            this.editGroup.emit();
+            this.editableGroup = group;
         }
+    }
+
+    onBackClick() {
+        this.editableGroup = null;
+    }
+
+    onPresetsClick() {
+        this.showPresets.emit();
     }
 }

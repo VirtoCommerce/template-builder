@@ -9,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-    // displayEditor = 'template';
-    displayEditor = 'theme-settings';
+    displayEditor = 'template';
+    // displayEditor = 'theme-settings';
 
     constructor() { }
 

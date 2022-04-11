@@ -12,6 +12,8 @@ export class SettingsDataServiceTmp {
             current: "Blue",
             presets: {
                 Blue: {
+                    icon: 'demo/images/mercury-icon.png',
+                    preview: 'demo/images/mercury.png',
                     suggestions_limit: 10,
                     bulk_order_enabled: true,
                     product_compare_enabled: true,
@@ -143,7 +145,9 @@ export class SettingsDataServiceTmp {
                         ]
                     }
                 },
-                'Soft Green': {
+                'Soft Green and some other values for long preset name': {
+                    // icon: null,
+                    preview: 'demo/images/mercury.png',
                     ajax_cart_enable: true,
                     ajax_cart_method: "Modal",
                     cart_notes_enable: false,

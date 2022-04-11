@@ -23,4 +23,14 @@ button {
             background: none;
         }
     }
+
+    &.solid-blue {
+        background: #1665D8;
+        color: #ffffff;
+        @apply py-1;
+        &:hover {
+            // background: rgba(22, 101, 216, 0.04);
+            background: #1665D8;
+        }
+    }
 }

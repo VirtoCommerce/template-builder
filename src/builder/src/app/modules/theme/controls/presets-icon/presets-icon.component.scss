@@ -1,0 +1,11 @@
+.preset-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: large;
+    @apply flex items-center justify-center rounded overflow-hidden;
+}
+
+.icon {
+    background-size: cover;
+    @apply h-full w-full;
+}
