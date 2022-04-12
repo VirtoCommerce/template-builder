@@ -1,3 +1,6 @@
-<div class="flex justify-center h-full w-full">
-    <iframe id="preview-frame-component" src="https://st-storefront.dev.govirto.com"></iframe>
+<div class="preview-wrapper" [ngClass]="{ 'preview-mode': previewMode }">
+    <div *ngIf="previewMode" class="preview-name">Preset preview: {{ presetName }}</div>
+    <div class="iframe-holder">
+        <iframe id="preview-frame-component" src="https://st-storefront.dev.govirto.com"></iframe>
+    </div>
 </div>

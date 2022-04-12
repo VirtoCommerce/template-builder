@@ -1,7 +1,25 @@
 :host {
-    @apply m-4 w-full flex items-stretch;
+    @apply w-full flex items-stretch;
 
     background-color: #eeeeee;
+}
+
+.preview-wrapper {
+    @apply flex flex-col justify-center h-full w-full;
+    &.preview-mode {
+        border: 4px solid #1665D8;
+    }
+    .preview-name {
+        line-height: 24px;
+        font-size: 15px;
+        background-color: #1665D8;
+        color: #ffffff;
+        @apply py-1;
+    }
+}
+
+.iframe-holder {
+    @apply grow p-4;
 }
 
 iframe {
