@@ -9,5 +9,5 @@
 <app-edit-section *ngIf="editMode"
                   [context]="context"
                   [section]="template.content[1]"
-                  [descriptors]="sectionsSchemas[template.content[1].type]"
+                  [schema]="sectionsSchemas[template.content[1].type]"
                   (backClick)="closePanels()"></app-edit-section>

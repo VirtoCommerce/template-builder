@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '@shared/shared.module';
 
+// import { ThemeFeatureName } from './store/selectors';
+// import { EFFECTS } from './store/effects';
+// import { themeReducers } from './store/reducers';
+
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
+
+// note: use it to store part of state to local storage
+// import { CreateStorageProviders } from '@shared/services/state-helpers';
+// const stateConfig = CreateStorageProviders<reducer.ThemeState>('Theme', ThemeFeatureName, ['pageSize', 'starredFilters', 'zoom', 'center']);
 
 @NgModule({
     declarations: [
@@ -16,7 +26,11 @@ import { CONTROLS } from './controls';
     ],
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+
+        // EffectsModule.forFeature(EFFECTS),
+        // StoreModule.forFeature(ThemeFeatureName, themeReducers /*, stateConfig.config */),
+
     ]
 })
 export class ThemeModule { }

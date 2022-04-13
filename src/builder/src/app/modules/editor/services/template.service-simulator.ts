@@ -19,7 +19,7 @@ export class TemplateServiceSimulator {
                 },
                 {
                     type: 'cover-with-variations',
-                    name: 'Cover with variations',
+                    name: 'Cover with variations with very long name for it',
                     title: 'Headline title and some other info',
                     content: 'Section content',
                     color: '#43ebaa',

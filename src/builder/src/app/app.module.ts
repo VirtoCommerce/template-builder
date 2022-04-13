@@ -2,6 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -24,6 +25,27 @@ import { AppComponent } from './app.component';
 import { LAYOUT_COMPONENTS } from './layout';
 import { APP_COMPONENTS } from './components';
 
+// todo: remove it
+import { TemplateEditorHostComponent } from '@editor/components';
+import { ThemeEditorHostComponent } from '@theme/components';
+
+const routes: Routes = [
+    {
+        path: 'pages',
+        component: TemplateEditorHostComponent
+        // loadChildren: () => import('./modules/editor/editor.module').then(m => m.EditorModule)
+    },
+    {
+        path: 'themes',
+        component: ThemeEditorHostComponent
+        // loadChildren: () => import('./modules/theme/theme.module').then(m => m.ThemeModule)
+    },
+    {
+        path: '**',
+        redirectTo: 'pages'
+    }
+];
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -34,6 +56,8 @@ import { APP_COMPONENTS } from './components';
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+
+        RouterModule.forRoot(routes, { useHash: true }),
 
         StoreModule.forRoot({
             // config: configReducer

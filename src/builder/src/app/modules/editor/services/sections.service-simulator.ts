@@ -74,7 +74,7 @@ export class SectionsServiceSimulator {
             id: "cover-with-form",
             name: "Cover with form",
             icon: "image",
-            displayField: "name",
+            displayNameProperty: 'name',
             category: "Covers and Hero",
             settings: [
                 {

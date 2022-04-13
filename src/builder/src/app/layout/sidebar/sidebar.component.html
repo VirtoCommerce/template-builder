@@ -1,9 +1,13 @@
-<ng-container *ngIf="displayEditor === 'template'">
+<router-outlet></router-outlet>
+
+<!-- <ng-container *ngIf="displayEditor === 'template'">
     <app-template-editor-host></app-template-editor-host>
 </ng-container>
 <ng-container *ngIf="displayEditor === 'theme-settings'">
     <app-theme-editor-host></app-theme-editor-host>
-</ng-container>
+</ng-container> -->
+
+
 <!-- <app-template-editor [inactive]="anyPanelOpened$ | async"
                                  [template]="currentTemplate$|async"
                                  [sectionsSchemas]="allSectionsSchemas$|async"

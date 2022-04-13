@@ -10,11 +10,13 @@
                                                (cdkDragStarted)="sectionDragStarted($event)"
                                                (cdkDragReleased)="sectionDragCompleted($event)">
                         <div item>
-                            <app-section-item [sectionSchema]="sectionsSchemas[section.type]"
-                                              [section]="section"
-                                              (itemClick)="onItemClick()">
-                            </app-section-item>
-                            <app-drag-handle cdkDragHandle></app-drag-handle>
+                            <div class="item-holder">
+                                <app-section-item [sectionSchema]="sectionsSchemas[section.type]"
+                                                  [section]="section"
+                                                  (itemClick)="onItemClick()">
+                                </app-section-item>
+                                <app-drag-handle cdkDragHandle></app-drag-handle>
+                            </div>
                         </div>
                         <app-section-children-list [section]="section"
                                                    [blocksSchemas]="blocksSchemas"

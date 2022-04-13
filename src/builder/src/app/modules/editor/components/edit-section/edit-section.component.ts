@@ -11,7 +11,7 @@ import { helpers } from '@editor/services';
 export class EditSectionComponent implements OnInit {
 
     @Input() section!: SectionModel;
-    @Input() descriptors!: SectionSchema;
+    @Input() schema!: SectionSchema;
     @Input() context: ControlContext = {};
 
     // @Input() sectionsSchemas!: SectionsSchemasList | null;
@@ -88,6 +88,15 @@ export class EditSectionComponent implements OnInit {
         // }
         // return this.section.type;
     }
+
+    getSectionName(): string {
+        // todo: refactor this (the same is written in section-item.component)
+        if (this.schema.displayNameProperty) {
+            return <string>this.section[this.schema.displayNameProperty] || this.section.type;
+        }
+        return this.section.type;
+    }
+
 
     // onDeleteClick(event: MouseEvent) {
     //     this.deleteClick.emit();

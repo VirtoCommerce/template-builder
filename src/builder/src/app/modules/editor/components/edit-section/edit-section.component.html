@@ -1,16 +1,16 @@
 <app-overlap-panel>
     <app-panel>
         <app-dynamic-form [context]="context"
-                          [descriptors]="descriptors.settings"
+                          [descriptors]="schema.settings"
                           [sectionModel]="section"></app-dynamic-form>
         <ng-container title-content>
             <div class="title">
                 <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
                 <div class="info">
-                    <div>Section title</div>
+                    <div>{{ getSectionName() }}</div>
                     <div class="section-info">
-                        Type: section-type<br />
-                        ID: section-id
+                        Type: {{ section.type }}<br />
+                        ID: {{ section.__id }}
                     </div>
                 </div>
                 <div class="flex flex-col">

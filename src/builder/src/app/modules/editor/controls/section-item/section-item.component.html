@@ -3,9 +3,7 @@
      (mouseenter)="isHover = true"
      (mouseleave)="isHover = false">
     <app-icon>{{ getSectionIcon() }}</app-icon>
-    <div class="name" title="{{ getSectionName() }}">
-        <span class="whitespace-nowrap truncate w-full">{{ getSectionName() }}</span>
-    </div>
+    <div class="name" title="{{ getSectionName() }}">{{ getSectionName() }}</div>
     <app-context-menu [actions]="itemActions" [visible]="isHover"></app-context-menu>
 </div>
 
