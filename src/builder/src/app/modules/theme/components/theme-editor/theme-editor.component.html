@@ -7,24 +7,33 @@
             <app-icon-button (click)="onPresetsClick()" icon="tune" text="Presets" skin="link"></app-icon-button>
         </div>
     </div>
-    <div *ngFor="let group of schema; let index = index" class="item">
-        <div (click)="toggleGroup(group)" class="list-item item-title">
-            <div class="grow">
-                {{group.name}}
+    <ng-container *ngIf="uiState$|async as uiState">
+        <ng-container *ngIf="schema$|async as schema">
+            <div *ngFor="let group of schema" class="item">
+                <div (click)="toggleGroup(group)" class="list-item item-title">
+                    <div class="grow">
+                        {{group.name}}
+                    </div>
+                    <div>
+                        <app-chevron [opened]="uiState[group.name].opened"></app-chevron>
+                    </div>
+                </div>
+                <ng-container *ngIf="uiState[group.name].opened">
+                    <ng-container *ngIf="settings$|async as settings">
+                        <app-dynamic-form [sectionModel]="$any(settings)"
+                                          [descriptors]="group.settings"
+                                          [context]="context"></app-dynamic-form>
+                    </ng-container>
+                </ng-container>
             </div>
-            <div>
-                <app-chevron [opened]="uiState[group.name].opened && uiState[group.name].inline"></app-chevron>
-            </div>
-        </div>
-        <ng-container *ngIf="uiState[group.name].opened && uiState[group.name].inline">
-            <app-dynamic-form [sectionModel]="currentSettings"
-                              [descriptors]="group.settings"
-                              [context]="context"></app-dynamic-form>
         </ng-container>
-    </div>
+    </ng-container>
 </div>
-<app-settings-panel *ngIf="editableGroup"
-                    [context]="context"
-                    [group]="editableGroup"
-                    [settings]="currentSettings"
-                    (backClick)="onBackClick()"></app-settings-panel>
+<ng-container *ngIf="editableGroup$|async as editableGroup">
+    <ng-container *ngIf="settings$|async as settings">
+        <app-settings-panel [context]="context"
+                            [group]="editableGroup"
+                            [settings]="settings"
+                            (backClick)="onBackClick(editableGroup)"></app-settings-panel>
+    </ng-container>
+</ng-container>

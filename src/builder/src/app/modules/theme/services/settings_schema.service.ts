@@ -7,11 +7,12 @@ export class SettingsSchemaServiceTmp {
 
     // todo: test purposes
 
-    getSchema() {
+    getSchema(): any {
         return [
             {
                 name: "Colors",
                 icon: "colors",
+                inline: false,
                 settings: [
                     {
                         type: "header",

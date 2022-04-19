@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { BuilderState } from '@theme/store/state';
+
+import * as actions from '@theme/store/actions';
+import * as fromTheme from '@theme/store/selectors';
 
 @Component({
     selector: 'app-presets-panel',
@@ -7,31 +13,22 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class PresetsPanelComponent implements OnInit {
 
-    activePreset: any;
+    presets$ = this.store$.select(fromTheme.selectPresets);
+    presetsState$ = this.store$.select(fromTheme.selectPresetsState);
 
-    @Input() presets: any;
-
-    @Output() backClick = new EventEmitter();
-
-    constructor() { }
+    constructor(private store$: Store<BuilderState>) { }
 
     ngOnInit(): void { }
 
     onBackClick() {
-        this.backClick.emit();
+        this.store$.dispatch(actions.exitPresets());
     }
 
-    usePreset(preset: any) {
-        // todo: should execute action
-        this.activePreset = preset;
+    usePreset(preset: string) {
+        this.store$.dispatch(actions.applyPreset({ preset }));
     }
 
-    previewPreset(preset: any) {
-        // todo: should execute action
-        if (this.activePreset !== preset) {
-            this.activePreset = preset;
-        } else{
-            this.activePreset = null;
-        }
+    previewPreset(preset: string) {
+        this.store$.dispatch(actions.previewPreset({ preset }));
     }
 }

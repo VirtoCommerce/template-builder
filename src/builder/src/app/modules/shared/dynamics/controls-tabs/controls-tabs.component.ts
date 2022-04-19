@@ -44,7 +44,6 @@ export class ControlsTabsComponent implements OnInit {
             }
             return acc;
         }, <TabsModel>{});
-        console.log(tabs);
 
         this.tabs = tabs;
         const keys = Object.keys(tabs);

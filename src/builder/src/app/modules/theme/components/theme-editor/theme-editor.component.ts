@@ -1,4 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import * as fromTheme from '@theme/store/selectors';
+import * as actions from '@theme/store/actions';
 
 @Component({
     selector: 'app-theme-editor',
@@ -7,46 +11,29 @@ import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@
 })
 export class ThemeEditorComponent implements OnInit {
 
-    editableGroup!: any;
+    editableGroup$ = this.store$.select(fromTheme.selectEditableGroup);
+    settings$ = this.store$.select(fromTheme.selectCurrentSettings);
+    schema$ = this.store$.select(fromTheme.selectSettingsSchema);
+    uiState$ = this.store$.select(fromTheme.selectGroupsState);
 
-    @Input() settings: any;
-    @Input() schema: any[] = [];
     context = {};
-    currentSettings: any;
 
-    @Output() editGroup = new EventEmitter();
-    @Output() showPresets = new EventEmitter();
 
-    uiState: any = {};
-
-    constructor() { }
+    constructor(private store$: Store<any>) { }
 
     ngOnInit(): void {
-        this.schema.forEach((group, index) => {
-            this.uiState[group.name] = {
-                opened: false,
-                inline: index !== 0
-            }
-        });
-        this.currentSettings = typeof this.settings.current === 'string'
-            ? (<any>this.settings.presets)[this.settings.current]
-            : this.settings.current;
-
+        this.store$.dispatch(actions.raiseLoadData());
     }
 
     toggleGroup(group: any) {
-        if (this.uiState[group.name].inline) {
-            this.uiState[group.name].opened = !this.uiState[group.name].opened;
-        } else {
-            this.editableGroup = group;
-        }
+        this.store$.dispatch(actions.toggleGroup({ group }));
     }
 
-    onBackClick() {
-        this.editableGroup = null;
+    onBackClick(group: any) {
+        this.store$.dispatch(actions.toggleGroup({ group }));
     }
 
     onPresetsClick() {
-        this.showPresets.emit();
+        this.store$.dispatch(actions.gotoPresets());
     }
 }

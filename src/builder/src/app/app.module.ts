@@ -2,12 +2,13 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { AppRoutesModule } from './app-routes.module';
 import { SharedModule } from '@shared/shared.module';
 import { EditorModule } from '@editor/editor.module';
 import { ThemeModule } from '@theme/theme.module';
@@ -15,6 +16,9 @@ import { EDITOR_SERVICE } from '@editor/di';
 
 import { PlatformService } from '@app/services';
 import { AppEffects } from '@app/store';
+import { initialState as initialRoute } from '@routing/store';
+import { RoutingEffects } from '@routing/store/effects';
+import { RouterSerializer } from '@routing/store/serializer';
 
 import {
     AppConfig,
@@ -25,26 +29,7 @@ import { AppComponent } from './app.component';
 import { LAYOUT_COMPONENTS } from './layout';
 import { APP_COMPONENTS } from './components';
 
-// todo: remove it
-import { TemplateEditorHostComponent } from '@editor/components';
-import { ThemeEditorHostComponent } from '@theme/components';
 
-const routes: Routes = [
-    {
-        path: 'pages',
-        component: TemplateEditorHostComponent
-        // loadChildren: () => import('./modules/editor/editor.module').then(m => m.EditorModule)
-    },
-    {
-        path: 'themes',
-        component: ThemeEditorHostComponent
-        // loadChildren: () => import('./modules/theme/theme.module').then(m => m.ThemeModule)
-    },
-    {
-        path: '**',
-        redirectTo: 'pages'
-    }
-];
 
 @NgModule({
     declarations: [
@@ -57,13 +42,21 @@ const routes: Routes = [
         BrowserAnimationsModule,
         HttpClientModule,
 
-        RouterModule.forRoot(routes, { useHash: true }),
+        AppRoutesModule,
 
         StoreModule.forRoot({
+            router: routerReducer
             // config: configReducer
+        }, {
+            initialState: {
+                router: initialRoute
+            }
+        }),
+        StoreRouterConnectingModule.forRoot({
+            serializer: RouterSerializer
         }),
         EffectsModule.forRoot(
-            [AppEffects]
+            [AppEffects, RoutingEffects]
         ),
         StoreDevtoolsModule.instrument({
             name: 'Builder',

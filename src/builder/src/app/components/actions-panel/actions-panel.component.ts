@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { ActionButtonDescriptor } from '@shared/models';
 
 @Component({
     selector: 'app-actions-panel',
@@ -7,37 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActionsPanelComponent implements OnInit {
 
-    panels = [
-        [
-            {
-                icon: 'settings',
-                alias: 'theme-settings',
-                title: 'Theme settings',
-                type: 'outline'
-            }
-        ],
-        [
-            {
-                icon: 'undo',
-                alias: 'undo'
-            },
-            {
-                icon: 'redo',
-                alias: 'redo'
-            }
-        ],
-        [
-            {
-                title: 'Save',
-                alias: 'save',
-                type: 'primary'
-            }
-        ]
-    ];
+    @Input() panels!: ActionButtonDescriptor[][];
+
+    @Output() actionExecuted = new EventEmitter<string>();
 
     constructor() { }
 
     ngOnInit(): void {
     }
 
+    onActionExecuted(item: ActionButtonDescriptor) {
+        this.actionExecuted.emit(item.alias);
+    }
 }

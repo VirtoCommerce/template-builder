@@ -1,7 +1,2 @@
-<app-theme-editor [settings]="settings"
-                  [schema]="schema"
-                  (showPresets)="openPresets()"></app-theme-editor>
-<app-presets-panel *ngIf="showPresets"
-                   [presets]="settings.presets"
-                   (backClick)="closePresets()">
-</app-presets-panel>
+<app-theme-editor></app-theme-editor>
+<router-outlet></router-outlet>

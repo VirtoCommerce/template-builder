@@ -3,4 +3,5 @@
 <div class="flex-grow flex justify-center">
     <app-template-selector></app-template-selector>
 </div>
-<app-actions-panel></app-actions-panel>
+<app-actions-panel [panels]="panels"
+                   (actionExecuted)="onActionExecuted($event)"></app-actions-panel>

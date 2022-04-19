@@ -4,14 +4,20 @@
             <div class="search-holder">
                 <input placeholder="Enter preset name" class="search" type="search" />
             </div>
-            <div *ngFor="let preset of presets|keyvalue"
-                 class="preset-item"
-                 [ngClass]="{ active: preset.key === activePreset }"
-                 (click)="previewPreset(preset.key)">
-                <app-presets-icon [name]="$any(preset.key)" [icon]="$any(preset.value).icon" [preview]="$any(preset.value).preview"></app-presets-icon>
-                <div class="item-name">{{ preset.key }}</div>
-                <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)"></app-icon-button>
-            </div>
+            <ng-container *ngIf="presetsState$|async as presetsState">
+                <ng-container *ngIf="presets$|async as presets">
+                    <div *ngFor="let preset of presets|keyvalue"
+                         class="preset-item"
+                         [ngClass]="{ active: presetsState[preset.key]?.current }"
+                         (click)="previewPreset(preset.key)">
+                        <app-presets-icon [name]="$any(preset.key)" [icon]="$any(preset.value).icon"
+                                          [preview]="$any(preset.value).preview"></app-presets-icon>
+                        <div class="item-name">{{ preset.key }}</div>
+                        <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
+                        </app-icon-button>
+                    </div>
+                </ng-container>
+            </ng-container>
         </div>
         <ng-container title-content>
             <div class="title">
@@ -21,3 +27,4 @@
         </ng-container>
     </app-panel>
 </app-overlap-panel>
+<!--  -->
