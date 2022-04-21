@@ -24,6 +24,7 @@ import {
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { CKEditorModule } from 'ckeditor4-angular';
+import { ToastrModule } from 'ngx-toastr';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
@@ -64,7 +65,8 @@ const MATERIAL_MODULES = [
 
         FileUploadModule,
         ColorPickerModule,
-        CKEditorModule
+        CKEditorModule,
+        ToastrModule.forRoot()
     ]
 })
 export class SharedModule { }

@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { withLatestFrom, filter, mapTo, map } from "rxjs/operators";
+import { withLatestFrom, filter, mapTo, map, tap } from "rxjs/operators";
+
+import { NotificationsService } from '@shared/services';
 
 import * as actions from "../actions";
 import { BuilderState } from "../state";
@@ -18,7 +20,8 @@ import { ActivatedRouteSnapshot } from "@angular/router";
 export class ThemeDomainEffects {
     constructor(
         private store$: Store<BuilderState>,
-        private actions$: Actions
+        private actions$: Actions,
+        private notifications: NotificationsService
     ) { }
 
     toggleGroup$ = createEffect(() => this.actions$.pipe(
@@ -47,6 +50,11 @@ export class ThemeDomainEffects {
         ofType(actions.exitPresets, actions.applyPreset),
         mapTo(routingActions.go({ path: ['/themes'], queryParams: { preset: undefined } }))
     ));
+
+    presetApplied$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.applyPreset),
+        tap(() => this.notifications.success('Preset applied')),
+    ), {dispatch: false});
 
     // private getAllRouteParameters(root: ActivatedRouteSnapshot) {
     //     let route = root;

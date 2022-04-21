@@ -12,6 +12,7 @@ export class SettingsPanelComponent implements OnInit {
     @Input() context = {};
 
     @Output() backClick = new EventEmitter();
+    @Output() settingsChanged = new EventEmitter();
 
     constructor() { }
 
@@ -20,5 +21,9 @@ export class SettingsPanelComponent implements OnInit {
 
     onBackClick() {
         this.backClick.emit();
+    }
+
+    onSettingsChanged(settings: { model: any, value: any }) {
+        this.settingsChanged.emit(settings);
     }
 }

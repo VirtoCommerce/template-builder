@@ -36,4 +36,8 @@ export class ThemeEditorComponent implements OnInit {
     onPresetsClick() {
         this.store$.dispatch(actions.gotoPresets());
     }
+
+    onSettingsChanged(settings: { model: any, value: any }) {
+        this.store$.dispatch(actions.updateSettings(settings));
+    }
 }

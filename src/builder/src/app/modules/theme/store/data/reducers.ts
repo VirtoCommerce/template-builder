@@ -15,5 +15,7 @@ export const themeDataReducers = createReducer<ThemeDataState>(
         presets: settingsData.presets
     })),
     on(actions.loadSettingsSchemaSuccess, (state, { schema }) => ({ ...state, settingsSchema: schema })),
-    on(actions.applyPreset, (state, { preset }) => ({ ...state, settings: { ...state.presets[preset]} })),
+    on(actions.applyPreset, (state, { preset }) => ({ ...state, settings: { ...state.presets[preset] } })),
+
+    on(actions.updateSettings, (state, { model }) => ({ ...state, settings: { ...state.settings, ...model } })),
 );

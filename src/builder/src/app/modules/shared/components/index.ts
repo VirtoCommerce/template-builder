@@ -16,6 +16,8 @@ import { DragHandleComponent } from './drag-handle/drag-handle.component';
 import { IconComponent } from './icon/icon.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { PanelComponent } from './panel/panel.component';
+import { IconWithPreviewComponent } from './icon-with-preview/icon-with-preview.component';
+import { LogoComponent } from './logo/logo.component';
 
 export const COMPONENTS = [
     CollapsibleListItemComponent,
@@ -36,5 +38,7 @@ export const COMPONENTS = [
     IconButtonComponent,
     DragHandleComponent,
     IconComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    IconWithPreviewComponent,
+    LogoComponent
 ];
