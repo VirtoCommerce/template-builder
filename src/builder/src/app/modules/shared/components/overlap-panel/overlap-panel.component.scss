@@ -1,4 +1,11 @@
 :host {
-    @apply absolute h-full bg-white inset-y-0 left-8 -right-8 flex flex-col;
+    @apply absolute h-full inset-y-0 left-8 -right-8 flex flex-col;
     box-shadow: 0 0 4.187rem rgba(36, 36, 36, .1);
+}
+.background {
+    background-color: rgba(0, 0, 0, 0.36);
+    @apply absolute h-full w-full -left-8;
+}
+.content {
+    @apply relative bg-white h-full w-full;
 }
