@@ -1,7 +1,7 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectSettingsSchema } from './data';
-import { selectOpenedGroups } from './domain';
+import { selectSettingsSchema } from "./data";
+import { selectOpenedGroups } from "./domain";
 
 export const selectGroupsState = createSelector(
     selectSettingsSchema,

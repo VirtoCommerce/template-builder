@@ -5,6 +5,7 @@ import { BuilderState } from '@theme/store/state';
 
 import * as actions from '@theme/store/actions';
 import * as fromTheme from '@theme/store/selectors';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'app-presets-panel',
@@ -13,7 +14,8 @@ import * as fromTheme from '@theme/store/selectors';
 })
 export class PresetsPanelComponent implements OnInit {
 
-    presets$ = this.store$.select(fromTheme.selectPresets);
+    filter$ = this.store$.select(fromTheme.selectPresetsFilter);
+    presets$ = this.store$.select(fromTheme.selectFilteredPresets);
     presetsState$ = this.store$.select(fromTheme.selectPresetsState);
 
     constructor(private store$: Store<BuilderState>) { }
@@ -30,5 +32,10 @@ export class PresetsPanelComponent implements OnInit {
 
     previewPreset(preset: string) {
         this.store$.dispatch(actions.previewPreset({ preset }));
+    }
+
+    applyPresetsFilter(event: Event) {
+        const value = (event.target as HTMLInputElement).value;
+        this.store$.dispatch(actions.applyPresetsFilter({ filter: value }));
     }
 }

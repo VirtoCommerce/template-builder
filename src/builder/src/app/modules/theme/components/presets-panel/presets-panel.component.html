@@ -2,7 +2,12 @@
     <app-panel>
         <div class="flex flex-col">
             <div class="search-holder">
-                <input placeholder="Enter preset name" class="search" type="search" />
+                <input placeholder="Search preset by name"
+                       class="search"
+                       type="search"
+                       [value]="filter$|async"
+                       (keyup)="applyPresetsFilter($event)"
+                       (search)="applyPresetsFilter($event)" />
             </div>
             <ng-container *ngIf="presetsState$|async as presetsState">
                 <ng-container *ngIf="presets$|async as presets">

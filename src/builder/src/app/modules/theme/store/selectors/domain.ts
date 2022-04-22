@@ -1,7 +1,7 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectSettingsSchema, selectPresetsNames } from "./data";
 import { selectGroupsParameter, selectPresetsParameter } from '@routing/store'
+import { selectSettingsSchema, selectPresetsNames } from "./data";
 
 export const selectOpenedGroups = createSelector(
     selectGroupsParameter,
@@ -19,19 +19,3 @@ export const selectPresetsState = createSelector(
     selectPresetsParameter,
     (presets, preset) => presets ? presets.reduce((acc, cur) => ({ ...acc, [cur]: { current: cur === preset } }), {}) : <any>{}
 );
-
-// export const selectCurrentSettings = createSelector(
-//     selectThemeDataState,
-//     state => state.settings
-// );
-
-// export const selectPresets = createSelector(
-//     selectThemeDataState,
-//     state => state.presets
-// );
-
-// export const selectSettingsSchema = createSelector(
-//     selectThemeDataState,
-//     state => state.settingsSchema
-// );
-

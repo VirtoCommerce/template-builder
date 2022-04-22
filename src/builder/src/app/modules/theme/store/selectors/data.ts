@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectThemeDataState } from ".";
+import { selectThemeDataState, selectPresetsFilter } from "./common";
 
 export const selectCurrentSettings = createSelector(
     selectThemeDataState,
@@ -10,6 +10,16 @@ export const selectCurrentSettings = createSelector(
 export const selectPresets = createSelector(
     selectThemeDataState,
     state => state.presets
+);
+
+export const selectFilteredPresets = createSelector(
+    selectPresets,
+    selectPresetsFilter,
+    (presets, filter) => !filter
+        ? presets
+        : Object.keys(presets)
+            .filter(key => key.toLowerCase().includes(filter?.toLowerCase()))
+            .reduce((result, key) => ({...result, [key]: presets[key]}), {})
 );
 
 export const selectPresetsNames = createSelector(
