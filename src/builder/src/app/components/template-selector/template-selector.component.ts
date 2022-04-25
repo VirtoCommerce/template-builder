@@ -1,4 +1,4 @@
-import { SearchableItemDescriptor } from '@shared/models';
+import { MultipageSelectDescriptor } from '@core/models';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { /* PageModelDescriptor, */ TemplateSchema } from '@editor/models';
 import { TemplatesSchemasList } from '@app/models';
@@ -27,7 +27,7 @@ export class TemplateSelectorComponent implements OnInit {
         }
     };
 
-    get items(): SearchableItemDescriptor[] {
+    get items(): MultipageSelectDescriptor[] {
         return Object.keys(this.templates).map(key => ({
             title: this.templates[key].name,
             icon: this.templates[key].icon,

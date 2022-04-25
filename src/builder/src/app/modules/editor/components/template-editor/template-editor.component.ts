@@ -5,7 +5,7 @@ import {
     SectionsSchemasList,
     TemplateModel
 } from '@editor/models';
-import { SectionModel, SectionSchema } from '@shared/models';
+import { SectionModel, SectionSchema } from '@core/models';
 
 import { helpers } from '@editor/services';
 

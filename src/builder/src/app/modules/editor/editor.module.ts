@@ -7,7 +7,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { SharedModule } from '@shared/shared.module';
+import { CoreModule } from '@core/core.module';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
@@ -30,7 +30,7 @@ import { EditorFeatureName, editorReducer, EFFECTS } from './store';
         StoreModule.forFeature(EditorFeatureName, editorReducer),
         EffectsModule.forFeature(EFFECTS),
 
-        SharedModule
+        CoreModule
     ]
 })
 export class EditorModule { }

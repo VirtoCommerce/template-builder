@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectGroupsParameter, selectPresetsParameter } from '@routing/store'
+import { selectGroupsParameter, selectPresetsParameter } from '@core/routing'
 import { selectSettingsSchema, selectPresetsNames } from "./data";
 
 export const selectOpenedGroups = createSelector(

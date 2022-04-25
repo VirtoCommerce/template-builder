@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SharedModule } from '@shared/shared.module';
+import { CoreModule } from '@core/core.module';
 
 import { ThemeRoutesModule } from './theme-routes.module';
 
@@ -18,7 +18,7 @@ import { ThemeDataEffects } from './store/data/effects';
 import { ThemeDomainEffects } from './store/domain/effects';
 
 // note: use it to store part of state to local storage
-// import { CreateStorageProviders } from '@shared/services/state-helpers';
+// import { CreateStorageProviders } from '@core/services/state-helpers';
 // const stateConfig = CreateStorageProviders<reducer.ThemeState>('Theme', ThemeFeatureName, ['pageSize', 'starredFilters', 'zoom', 'center']);
 
 
@@ -32,7 +32,7 @@ import { ThemeDomainEffects } from './store/domain/effects';
     ],
     imports: [
         CommonModule,
-        SharedModule,
+        CoreModule,
 
         EffectsModule.forFeature([ThemeDataEffects, ThemeDomainEffects]),
         // StoreModule.forFeature(ThemeFeatureName, themeReducers /*, stateConfig.config */),

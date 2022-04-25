@@ -4,7 +4,7 @@ import { firstValueFrom, Observable, of } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 
-import { appHelpers, WindowRef } from '@shared/services';
+import { appHelpers, WindowRef } from '@core/services';
 import { HttpWrapper } from '@app/services';
 import { ApplicationContext, ConfigModel } from '@app/models';
 

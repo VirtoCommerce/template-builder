@@ -1,4 +1,4 @@
-import { ItemsGroup, SectionSchema } from '@shared/models';
+import { ItemsGroup, SectionSchema } from '@core/models';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({

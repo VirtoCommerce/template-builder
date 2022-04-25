@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ControlDescriptor } from '@shared/models';
+import { ControlDescriptor } from '@core/models';
 import { helpers } from '@editor/services';
 
 import { EditorState } from './editor.state';

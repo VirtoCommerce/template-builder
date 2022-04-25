@@ -1,0 +1,43 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+import { WindowRef } from '@core/services';
+import { BaseControlDirective } from '@core/controls';
+import { NumberDescriptor } from '@core/models';
+
+@Component({
+  selector: 'app-number',
+  templateUrl: './number.component.html',
+  styleUrls: ['./number.component.scss']
+})
+export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
+    @ViewChild('control') control!: ElementRef<HTMLInputElement>;
+
+    constructor(private windowRef: WindowRef) {
+        super();
+    }
+
+    onPaste(event: ClipboardEvent) {
+        const value = (event.clipboardData || this.windowRef.nativeWindow.clipboardData).getData('text');
+        if (!isNaN(value)) {
+            this.onValueChanged(Number(value));
+        }
+    }
+
+    raiseOnChange(target: EventTarget | null) {
+        const element = <HTMLInputElement>target;
+        if (element) {
+            this.onValueChanged(element.valueAsNumber);
+        }
+    }
+
+    raiseOnTouched(target: EventTarget | null) {
+        const element = <HTMLInputElement>target;
+        if (!!element) {
+            this.onControlTouched(element.valueAsNumber);
+        }
+    }
+
+    override getFocusableControl(): ElementRef {
+        return this.control;
+    }
+}

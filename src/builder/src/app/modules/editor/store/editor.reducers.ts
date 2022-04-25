@@ -1,4 +1,4 @@
-import { template } from '@app/modules/shared/services/utils';
+import { template } from '@core/services/utils';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as actions from './editor.actions';
 

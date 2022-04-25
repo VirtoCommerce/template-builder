@@ -26,6 +26,9 @@
             "@app/*": [
                 "src/app/*"
             ],
+            "@core/*": [
+                "src/app/modules/core/*"
+            ],
             "@shared/*": [
                 "src/app/modules/shared/*"
             ],
@@ -34,9 +37,6 @@
             ],
             "@theme/*": [
                 "src/app/modules/theme/*"
-            ],
-            "@routing/*": [
-                "src/app/modules/routing/*"
             ]
         }
     },

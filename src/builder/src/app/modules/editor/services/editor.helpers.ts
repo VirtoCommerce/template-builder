@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash-es';
-import { appHelpers } from '@shared/services';
-import { SectionModel, SectionSchema } from '@shared/models';
+import { appHelpers } from '@core/services';
+import { SectionModel, SectionSchema } from '@core/models';
 import {
     TemplateModel,
     // TemplatesList,

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ContextMenuAction, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@shared/models';
+import { ContextMenuAction, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
 // import { SectionsSchemasList } from '@editor/models';
 import { helpers } from '@editor/services';
 

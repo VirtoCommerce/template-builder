@@ -1,4 +1,4 @@
-import { SectionPropertyDescriptor } from '@shared/models';
+import { SectionPropertyDescriptor } from '@core/models';
 
 export interface TemplateSchema {
     name: string;

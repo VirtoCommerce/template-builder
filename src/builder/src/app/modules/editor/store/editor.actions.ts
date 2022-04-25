@@ -10,7 +10,7 @@ import {
 import {
     SectionModel,
     SectionSchema
-} from '@shared/models';
+} from '@core/models';
 
 export const initEditorFeature = createAction('[editor] init editor feature');
 
@@ -48,8 +48,8 @@ export const cloneItem = createAction('[editor] clone item');
 export const updateItem = createAction('[editor] update item', props<{ item: SectionModel }>());
 export const setVisibility = createAction('[editor] set visibility', props<{ sectionIndex: number, blockIndex: number | null, value: boolean }>());
 
-// import { BlockValuesModel, SectionSchema } from '@shared/models';
-// import { BlockSchema, BlocksSchema } from '@shared/models';
+// import { BlockValuesModel, SectionSchema } from '@core/models';
+// import { BlockSchema, BlocksSchema } from '@core/models';
 
 // export const highlightInPreviewActionName = '[Page] Highlight In Preview';
 // export const markSectionHoveredInPreviewActionName = '[Page] Mark Section Hovered In Preview';

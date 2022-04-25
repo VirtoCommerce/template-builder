@@ -1,0 +1,54 @@
+<button (click)="togglePopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+    <div class="grow text-left">
+        {{ currentLabel }}
+    </div>
+    <app-chevron [opened]="isOpen" [vertical]="true"></app-chevron>
+</button>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
+             [cdkConnectedOverlayOpen]="isOpen"
+             (detach)="close()"
+             (overlayOutsideClick)="outsideClick($event)">
+    <div class="root-container">
+        <div class="px-4">
+            <input [value]="filter"
+                   [placeholder]="filterPlaceholder"
+                   (keyup)="updateFilter($event)"
+                   class="search-input" />
+        </div>
+        <!-- <div *ngIf="!parent" class="max-h-80">
+            <div class="flex flex-col h-full mt-2">
+                <div class="px-4 mb-2 text-gray-400">
+                    <h3 class="list-title">{{ title }}</h3>
+                </div>
+                <app-separator></app-separator>
+                <ul class="flex-grow overflow-y-auto">
+                    <li *ngFor="let item of items">
+                        <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
+                                (click)="showChildren(item)">
+                            {{ getItemName(item) }}
+                            <app-icon *ngIf="item.hasChildren">chevron_right</app-icon>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div *ngIf="parent" class="max-h-80">
+            <div class="flex flex-col h-full">
+                <div class="px-4 mb-2 text-gray-400 flex cursor-pointer" (click)="back()">
+                    <app-icon>chevron_left</app-icon>
+                    <h3 class="list-title">{{ parent.title }}</h3>
+                </div>
+                <app-separator></app-separator>
+                <ul class="flex-grow overflow-y-auto">
+                    <li *ngFor="let item of parent.children">
+                        <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
+                                (click)="selectItem(item)">
+                            {{item.title}}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+</ng-template>

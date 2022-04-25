@@ -1,8 +1,3 @@
 <app-logo version="3.0"></app-logo>
 <app-preview-mode></app-preview-mode>
-<app-custom-actions></app-custom-actions>
-<div class="flex-grow flex justify-center">
-    <app-template-selector></app-template-selector>
-</div>
-<app-actions-panel [panels]="panels"
-                   (actionExecuted)="onActionExecuted($event)"></app-actions-panel>
+<router-outlet name="toolbar"></router-outlet>

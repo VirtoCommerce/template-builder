@@ -3,13 +3,13 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { withLatestFrom, filter, mapTo, map, tap } from "rxjs/operators";
 
-import { NotificationsService } from '@shared/services';
+import { NotificationsService } from '@core/services';
 
 import * as actions from "../actions";
 import { BuilderState } from "../state";
 
-import * as routingActions from '@routing/store/actions';
-import * as routingSelectors from '@routing/store'
+import * as routingActions from '@core/routing/actions';
+import * as routingSelectors from '@core/routing'
 
 import * as domainSelectors from "../selectors";
 import { ActivatedRouteSnapshot } from "@angular/router";

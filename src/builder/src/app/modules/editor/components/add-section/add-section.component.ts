@@ -1,5 +1,5 @@
-import { ListHelpers } from '@shared/services';
-import { SectionSchema, ItemsGroup } from '@shared/models';
+import { ListHelpers } from '@core/services';
+import { SectionSchema, ItemsGroup } from '@core/models';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SectionsSchemasList } from '@editor/models';
 

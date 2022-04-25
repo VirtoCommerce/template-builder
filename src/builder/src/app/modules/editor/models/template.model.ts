@@ -1,4 +1,4 @@
-import { SectionModel } from '@shared/models';
+import { SectionModel } from '@core/models';
 
 /**
  * @description describe templates, like static page, catalog, product, cart, etc.

@@ -1,7 +1,7 @@
 import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SectionsSchemasList } from '@editor/models';
-import { SectionModel } from '@shared/models';
+import { SectionModel } from '@core/models';
 
 @Component({
     selector: 'app-section-children-list',

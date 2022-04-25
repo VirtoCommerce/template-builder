@@ -1,4 +1,4 @@
-import { SectionSchema } from '@shared/models';
+import { SectionSchema } from '@core/models';
 import { Injectable } from "@angular/core";
 
 import { SectionsSchemasList } from '@editor/models';

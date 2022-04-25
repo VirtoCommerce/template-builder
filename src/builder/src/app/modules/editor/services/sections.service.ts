@@ -1,8 +1,8 @@
 import { TemplateModel } from '@editor/models';
-import { SectionModel, SectionSchema } from '@shared/models';
+import { SectionModel, SectionSchema } from '@core/models';
 import { Injectable } from "@angular/core";
 
-import { appHelpers } from '@shared/services';
+import { appHelpers } from '@core/services';
 
 @Injectable({
     providedIn: 'root'

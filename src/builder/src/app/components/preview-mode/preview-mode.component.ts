@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionButtonDescriptor } from '@shared/models';
+import { ActionButtonDescriptor } from '@core/models';
 
 @Component({
     selector: 'app-preview-mode',

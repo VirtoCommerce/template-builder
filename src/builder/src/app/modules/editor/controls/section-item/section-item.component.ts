@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
 // import { SectionsSchemasList } from '@editor/models';
-import { ContextMenuAction, SectionModel, SectionSchema } from '@shared/models';
+import { ContextMenuAction, SectionModel, SectionSchema } from '@core/models';
 import { helpers } from '@editor/services';
 
 @Component({

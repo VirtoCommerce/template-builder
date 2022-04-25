@@ -1,8 +1,7 @@
-import { ButtonDescriptor } from '@shared/models';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as router from '@routing/store/actions';
+import * as router from '@core/routing/actions';
 
 @Component({
     selector: 'app-toolbar',

@@ -1,4 +1,4 @@
-import { WindowRef } from '@shared/services';
+import { WindowRef } from '@core/services';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from "@angular/core";

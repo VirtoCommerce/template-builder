@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplateModel, SectionsSchemasList } from '@editor/models';
-import { SectionSchema } from '@shared/models';
+import { SectionSchema } from '@core/models';
 
 // todo: remove it
 import { SectionsServiceSimulator } from '../../services/sections.service-simulator';

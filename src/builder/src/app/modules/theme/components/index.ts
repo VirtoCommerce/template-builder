@@ -2,13 +2,16 @@ import { ThemeEditorHostComponent } from './theme-editor-host/theme-editor-host.
 import { ThemeEditorComponent } from './theme-editor/theme-editor.component';
 import { SettingsPanelComponent } from './settings-panel/settings-panel.component';
 import { PresetsPanelComponent } from './presets-panel/presets-panel.component';
+import { ToolbarHostComponent } from './toolbar-host/toolbar-host.component';
 
 export * from './theme-editor-host/theme-editor-host.component';
+export * from './toolbar-host/toolbar-host.component';
 export * from './presets-panel/presets-panel.component';
 
 export const COMPONENTS = [
     ThemeEditorHostComponent,
     ThemeEditorComponent,
     SettingsPanelComponent,
-    PresetsPanelComponent
+    PresetsPanelComponent,
+    ToolbarHostComponent
 ];

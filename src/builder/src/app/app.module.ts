@@ -9,16 +9,16 @@ import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutesModule } from './app-routes.module';
-import { SharedModule } from '@shared/shared.module';
+import { CoreModule } from '@core/core.module';
 import { EditorModule } from '@editor/editor.module';
 import { ThemeModule } from '@theme/theme.module';
 import { EDITOR_SERVICE } from '@editor/di';
 
 import { PlatformService } from '@app/services';
 import { AppEffects } from '@app/store';
-import { initialState as initialRoute } from '@routing/store';
-import { RoutingEffects } from '@routing/store/effects';
-import { RouterSerializer } from '@routing/store/serializer';
+import { initialState as initialRoute } from '@core/routing';
+import { RoutingEffects } from '@core/routing/effects';
+import { RouterSerializer } from '@core/routing/serializer';
 
 import {
     AppConfig,
@@ -65,7 +65,7 @@ import { APP_COMPONENTS } from './components';
             // ]
         }),
 
-        SharedModule,
+        CoreModule,
         EditorModule,
         ThemeModule
     ],
