@@ -1058,7 +1058,7 @@ export class SettingsSchemaServiceTmp {
                 ]
             },
             {
-                name: "Home page – featured products",
+                name: "Home page – featured products and some other info for main page",
                 icon: "homepage-featured-product",
                 settings: [
                     {

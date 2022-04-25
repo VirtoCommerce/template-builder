@@ -10,9 +10,9 @@
     <div class="flex flex-col">
         <ng-container *ngIf="uiState$|async as uiState">
             <ng-container *ngIf="schema$|async as schema">
-                <div *ngFor="let group of schema" class="item">
-                    <div (click)="toggleGroup(group)" class="list-item item-title">
-                        <div class="grow">
+                <div *ngFor="let group of schema" class="group">
+                    <div (click)="toggleGroup(group)" class="list-item group-title">
+                        <div class="group-name">
                             {{group.name}}
                         </div>
                         <div>

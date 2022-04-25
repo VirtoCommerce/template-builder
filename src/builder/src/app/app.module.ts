@@ -29,8 +29,6 @@ import { AppComponent } from './app.component';
 import { LAYOUT_COMPONENTS } from './layout';
 import { APP_COMPONENTS } from './components';
 
-
-
 @NgModule({
     declarations: [
         AppComponent,

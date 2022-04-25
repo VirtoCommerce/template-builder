@@ -22,6 +22,11 @@
                         <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
                         </app-icon-button>
                     </div>
+                    <ng-container *ngIf="(filter$|async) && !(presets|keyvalue).length">
+                        <div class="p-4 text-gray-300">
+                            No presets found
+                        </div>
+                    </ng-container>
                 </ng-container>
             </ng-container>
         </div>

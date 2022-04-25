@@ -14,20 +14,20 @@ export class AppEffects {
         private actions$: Actions,
         private store$: Store) { }
 
-    init$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.initApp),
-        switchMap(() => [ editors.initEditorFeature() ])
-    ));
+    // init$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.initApp),
+    //     switchMap(() => [ editors.initEditorFeature() ])
+    // ));
 
-    closeAllPanels$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.closeAllPanels),
-        switchMap(() => [
-            editors.closeAllPanels()
-        ])
-    ));
+    // closeAllPanels$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.closeAllPanels),
+    //     switchMap(() => [
+    //         editors.closeAllPanels()
+    //     ])
+    // ));
 
-    sendNewBlockToStoreLoaded$ = createEffect(() => this.actions$.pipe(
-        ofType(editors.addItem, editors.updateItem),
-        tap((action) => this.preview.send('test-action-from-builder', action.item))
-    ), { dispatch: false });
+    // sendNewBlockToStoreLoaded$ = createEffect(() => this.actions$.pipe(
+    //     ofType(editors.addItem, editors.updateItem),
+    //     tap((action) => this.preview.send('test-action-from-builder', action.item))
+    // ), { dispatch: false });
 }

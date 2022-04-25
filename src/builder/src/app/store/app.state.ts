@@ -1,44 +1,43 @@
-import { TemplatesSchemasList, TemplatesList, SectionsSchemasList } from '@app/models';
-
 export interface AppState {
-    templatesLoading: boolean; // list of available templates
-    templatesLoaded: boolean;
-    templateLoading: boolean; // specified template
+
+    // templatesLoading: boolean; // list of available templates
+    // templatesLoaded: boolean;
+    // templateLoading: boolean; // specified template
 
     // showSectionsSelector: boolean;
     // showTemplateSelector: boolean;
     // showTemplateSettings: boolean;
     // indexAddSectionPanel: boolean | number;
 
-    availableTemplates: TemplatesSchemasList;
-    templates: TemplatesList;
-    currentTemplate: string | null;
+    // availableTemplates: TemplatesSchemasList;
+    // templates: TemplatesList;
+    // currentTemplate: string | null;
 
-    sections: SectionsSchemasList;
-    blocks: SectionsSchemasList;
-    // objects;
+    // sections: SectionsSchemasList;
+    // blocks: SectionsSchemasList;
+    // // objects;
 
-    sectionIndex: number | null;
-    blockIndex: number | null;
+    // sectionIndex: number | null;
+    // blockIndex: number | null;
 }
 
 export const initialState: AppState = {
-    templatesLoading: false,
-    templatesLoaded: false,
-    templateLoading: false,
+    // templatesLoading: false,
+    // templatesLoaded: false,
+    // templateLoading: false,
 
     // showSectionsSelector: false,
     // showTemplateSelector: true,
     // showTemplateSettings: false,
     // indexAddSectionPanel: false,
 
-    availableTemplates: {},
-    templates: {},
-    currentTemplate: null,
+    // availableTemplates: {},
+    // templates: {},
+    // currentTemplate: null,
 
-    sections: {},
-    blocks: {},
+    // sections: {},
+    // blocks: {},
 
-    sectionIndex: null,
-    blockIndex: null
+    // sectionIndex: null,
+    // blockIndex: null
 };

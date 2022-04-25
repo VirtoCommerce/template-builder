@@ -31,7 +31,8 @@ export class AppComponent implements OnInit {
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
         if (event.key === 'Escape') {
-            this.store$.dispatch(actions.closeAllPanels());
+            // todo: useful feature, must be implemented
+            // this.store$.dispatch(actions.closeAllPanels());
         }
     }
 

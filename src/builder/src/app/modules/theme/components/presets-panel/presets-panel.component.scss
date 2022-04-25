@@ -25,11 +25,14 @@
 
     &:hover, &.active {
         background-color: #F6F9FD;
-        border-left: .25rem solid #1665D8;
-        padding-left: .75rem;
         app-icon-button {
             visibility: visible;
         }
+    }
+
+    &.active {
+        border-left: .25rem solid #1665D8;
+        padding-left: .75rem;
     }
 }
 
