@@ -13,6 +13,14 @@ export class ToolbarHostComponent implements OnInit {
     panels = [
         [
             {
+                icon: 'settings',
+                alias: 'theme-settings',
+                title: 'Theme settings',
+                type: 'outline'
+            }
+        ],
+        [
+            {
                 icon: 'undo',
                 alias: 'undo'
             },
@@ -23,11 +31,7 @@ export class ToolbarHostComponent implements OnInit {
         ],
         [
             {
-                title: 'Cancel',
-                alias: 'cancel'
-            },
-            {
-                title: 'Save settings',
+                title: 'Save',
                 alias: 'save',
                 type: 'primary'
             }
@@ -40,8 +44,8 @@ export class ToolbarHostComponent implements OnInit {
     }
 
     onActionExecuted(action: string) {
-        if (action === 'cancel') {
-            this.store.dispatch(router.go({ path: ['/pages'] }));
+        if (action === 'theme-settings') {
+            this.store.dispatch(router.go({ path: ['/themes'] }));
         }
     }
 

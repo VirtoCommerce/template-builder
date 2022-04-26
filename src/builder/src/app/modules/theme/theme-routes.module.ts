@@ -14,25 +14,9 @@ const routes: Routes = [
     {
         path: '',
         component: ThemeEditorHostComponent,
-        data: { mode: 'theme' },
-        children: [
-            {
-                path: 'presets',
-                component: PresetsPanelComponent,
-                data: { mode: 'presets' }
-            },
-        ]
-    },
-    {
-        path: '',
-        component: ToolbarHostComponent,
-        outlet: 'toolbar'
+        data: { mode: 'theme', toolbar: ToolbarHostComponent },
+        children: [ { path: 'presets', component: PresetsPanelComponent, data: { mode: 'presets' } } ]
     }
-    // {
-    //     path: ':id',
-    //     component: AtmsDetailsComponent,
-    //     data: { mode: ModulesInfo.common.details }
-    // }
 ];
 
 @NgModule({

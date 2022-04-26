@@ -13,7 +13,7 @@ export class ControlsListComponent implements OnInit {
     // @Input() sectionModel!: SectionModel;
     @Input() currentForm!: FormGroup;
     @Input() context!: ControlContext;
-    @Input() descriptors!: BaseControlDescriptor[];
+    @Input() descriptors!: BaseControlDescriptor[]; // todo: controls order
 
     ngOnInit(): void { }
 }

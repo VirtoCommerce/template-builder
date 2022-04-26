@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { CoreModule } from '@core/core.module';
+import { SharedModule } from '@shared/shared.module';
 
 import { ThemeRoutesModule } from './theme-routes.module';
 
@@ -33,6 +34,7 @@ import { ThemeDomainEffects } from './store/domain/effects';
     imports: [
         CommonModule,
         CoreModule,
+        SharedModule,
 
         EffectsModule.forFeature([ThemeDataEffects, ThemeDomainEffects]),
         // StoreModule.forFeature(ThemeFeatureName, themeReducers /*, stateConfig.config */),

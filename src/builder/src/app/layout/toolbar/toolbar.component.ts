@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as router from '@core/routing/actions';
+import { ActivationStart, Router, RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-toolbar',
@@ -9,34 +10,6 @@ import * as router from '@core/routing/actions';
     styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-
-    panels = [
-        [
-            {
-                icon: 'settings',
-                alias: 'theme-settings',
-                title: 'Theme settings',
-                type: 'outline'
-            }
-        ],
-        [
-            {
-                icon: 'undo',
-                alias: 'undo'
-            },
-            {
-                icon: 'redo',
-                alias: 'redo'
-            }
-        ],
-        [
-            {
-                title: 'Save',
-                alias: 'save',
-                type: 'primary'
-            }
-        ]
-    ];
 
     // undoRedoButtons: ButtonDescriptor[] = [
     //     { icon: 'undo', hint: 'Undo last action', type: null },
@@ -50,15 +23,23 @@ export class ToolbarComponent implements OnInit {
     //     { icon: 'preview', hint: '', type: null }
     // ];
 
-    constructor(private store: Store) { }
+    // @ViewChild(RouterOutlet) outlet!: RouterOutlet;
 
-    ngOnInit(): void {
+    constructor(private router: Router, private store: Store) { }
+
+    ngOnInit() {
+        // this.router.events.subscribe(e => {
+        //     console.log('router event', e);
+        //     if (e instanceof ActivationStart && e.snapshot.outlet === "toolbar")
+        //         this.outlet.deactivate();
+        // });
     }
 
-    onActionExecuted(action: string) {
-        if (action === 'theme-settings') {
-            this.store.dispatch(router.go({ path: ['/themes'] }));
-        }
+
+    routerOutletActivated(ro: RouterOutlet) {
+        // console.log('activated');
+        // if (!_shouldActivate(_router.url))
+        //     ro.deactivate();
     }
 
 }

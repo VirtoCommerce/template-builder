@@ -8,6 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { CoreModule } from '@core/core.module';
+import { SharedModule } from '@shared/shared.module';
+import { EditorRoutesModule } from './editor-routes.module';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
@@ -30,7 +32,10 @@ import { EditorFeatureName, editorReducer, EFFECTS } from './store';
         StoreModule.forFeature(EditorFeatureName, editorReducer),
         EffectsModule.forFeature(EFFECTS),
 
-        CoreModule
+        CoreModule,
+        SharedModule,
+
+        EditorRoutesModule
     ]
 })
 export class EditorModule { }

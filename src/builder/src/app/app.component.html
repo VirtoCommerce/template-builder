@@ -1,7 +1,7 @@
 <div class="flex flex-col h-screen">
     <app-toolbar></app-toolbar>
     <div class="flex flex-grow">
-        <app-sidebar></app-sidebar>
+        <router-outlet></router-outlet>
         <app-preview [previewMode]="false" presetName="Halloween"></app-preview>
     </div>
 </div>
