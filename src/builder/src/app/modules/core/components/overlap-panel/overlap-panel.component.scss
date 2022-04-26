@@ -9,3 +9,19 @@
 .content {
     @apply relative bg-white h-full w-full;
 }
+
+.expand {
+    right: -.75rem;
+    top: 1rem;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 .5rem 0 #999999;
+    transition: transform .1s;
+    @apply absolute;
+    &:hover {
+        box-shadow: 0 0 .5rem 0 #000000;
+    }
+    &.inverted {
+        transform: rotate(180deg);
+    }
+}

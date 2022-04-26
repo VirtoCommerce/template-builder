@@ -7,17 +7,13 @@
             <div class="title">
                 <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
                 <div class="info">
-                    <div>{{ getSectionName() }}</div>
+                    <div class="whitespace-normal">{{ getSectionName() }}</div>
                     <div class="section-info">
                         Type: {{ section.type }}<br />
                         ID: {{ section.__id }}
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
-                    <app-icon class="fullscreen">fullscreen</app-icon>
-                    <!-- fullscreen_exit -->
-                </div>
+                <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
             </div>
         </ng-container>
     </app-panel>

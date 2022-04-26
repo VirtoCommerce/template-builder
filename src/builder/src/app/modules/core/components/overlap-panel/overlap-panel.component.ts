@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { WindowRef } from './../../services/window.ref';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-overlap-panel',
@@ -7,8 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverlapPanelComponent implements OnInit {
 
-    constructor() {}
+    @Input() expandable = true;
+
+    isOpened = false; // todo: maybe should be stored in state or in url
+
+    constructor(private windowRef: WindowRef) {}
 
     ngOnInit(): void { }
+
+    getContentWidth(): number | null {
+        if (this.isOpened) {
+            return this.windowRef.nativeWindow.innerWidth / 2;
+        }
+        return null;
+    }
 
 }
