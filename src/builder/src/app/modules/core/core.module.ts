@@ -66,6 +66,8 @@ const MATERIAL_MODULES = [
         FileUploadModule,
         ColorPickerModule,
         CKEditorModule,
+        // todo: use options from builder config
+        // https://www.npmjs.com/package/ngx-toastr
         ToastrModule.forRoot()
     ]
 })

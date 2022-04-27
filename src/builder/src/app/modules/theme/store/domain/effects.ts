@@ -53,8 +53,8 @@ export class ThemeDomainEffects {
 
     presetApplied$ = createEffect(() => this.actions$.pipe(
         ofType(actions.applyPreset),
-        tap(() => this.notifications.success('Preset applied')),
-    ), {dispatch: false});
+        tap(() => this.notifications.successLeft('Preset applied')),
+    ), { dispatch: false });
 
     // private getAllRouteParameters(root: ActivatedRouteSnapshot) {
     //     let route = root;
