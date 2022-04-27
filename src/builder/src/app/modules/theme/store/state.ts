@@ -1,4 +1,4 @@
-import * as routerSelectors from '@core/routing'
+import * as routerSelectors from '@shared/routing'
 
 import * as data from './data';
 import * as ui from './ui';

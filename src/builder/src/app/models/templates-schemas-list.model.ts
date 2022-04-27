@@ -1,3 +1,3 @@
-import { TemplateSchema } from '@editor/models';
+// import { TemplateSchema } from '@editor/models';
 
-export type TemplatesSchemasList = { [key: string]: TemplateSchema };
+// export type TemplatesSchemasList = { [key: string]: TemplateSchema };

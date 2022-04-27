@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectGroupsParameter, selectPresetsParameter } from '@core/routing'
+import { selectGroupsParameter, selectPresetParameter } from '@shared/routing'
 import { selectSettingsSchema, selectPresetsNames } from "./data";
 
 export const selectOpenedGroups = createSelector(
@@ -16,6 +16,6 @@ export const selectEditableGroup = createSelector(
 
 export const selectPresetsState = createSelector(
     selectPresetsNames,
-    selectPresetsParameter,
+    selectPresetParameter,
     (presets, preset) => presets ? presets.reduce((acc, cur) => ({ ...acc, [cur]: { current: cur === preset } }), {}) : <any>{}
 );

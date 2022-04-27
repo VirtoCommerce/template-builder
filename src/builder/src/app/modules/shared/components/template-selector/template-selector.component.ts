@@ -1,7 +1,8 @@
+import { TemplateEntry } from './../../models/template-entry.model';
 import { MultipageSelectDescriptor } from '@core/models';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { /* PageModelDescriptor, */ TemplateSchema } from '@editor/models';
-import { TemplatesSchemasList } from '@app/models';
+// import { TemplatesSchemasList } from '@app/models';
 
 import { helpers } from '@editor/services';
 
@@ -12,27 +13,20 @@ import { helpers } from '@editor/services';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    templates: TemplatesSchemasList = {
-        'catalog': <any>{
-            name: 'Catalog',
-            icon: ''
-        },
-        'cart': <any>{
-            name: 'Cart',
-            icon: 'cart'
-        },
-        'page': <any>{
-            name: 'Page',
-            icon: 'home'
-        }
-    };
+    @Input() templates: TemplateEntry[] | null = null;
+    @Input() currentTemplate: TemplateEntry | null = null;
 
     get items(): MultipageSelectDescriptor[] {
-        return Object.keys(this.templates).map(key => ({
-            title: this.templates[key].name,
-            icon: this.templates[key].icon,
-            hasChildren: this.templates[key].name === 'Page'
-        }));
+        return this.templates?.map(x => ({
+            title: x.name,
+            alias: x.alias,
+            hasChildren: x.hasChildren
+        })) || [];
+        // return Object.keys(this.templates).map(key => ({
+        //     title: this.templates[key].name,
+        //     icon: this.templates[key].icon,
+        //     hasChildren: this.templates[key].name === 'Page'
+        // }));
     }
 
     // private _currentTemplateName: string | null = null;

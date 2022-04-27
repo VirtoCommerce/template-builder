@@ -1,31 +1,8 @@
-import { Params } from '@angular/router';
-import { RouterReducerState, getSelectors } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
+// import { RouterReducerState, getSelectors } from '@ngrx/router-store';
+import { BuilderState } from './state';
 
-import { appHelpers } from '@core/services';
-
-export const RouterFeatureName = 'router';
-
-export interface RouterStateUrl {
-    url: string;
-    params: Params;
-    queryParams: Params;
-    data?: { [key: string]: any };
-}
-
-export interface BuilderState {
-    router: RouterReducerState<RouterStateUrl>;
-}
-
-export const initialState: RouterReducerState<RouterStateUrl> = {
-    state: {
-        url: '',
-        params: {},
-        queryParams: {},
-        data: {}
-    },
-    navigationId: 0
-}
+// import { appHelpers } from '@core/services';
 
 export const selectFeature = (state: BuilderState) => state.router;
 
@@ -66,9 +43,14 @@ export const selectGroupsParameter = createSelector(
     queryParams => queryParams && queryParams['groups'] || ''
 );
 
-export const selectPresetsParameter = createSelector(
+export const selectPresetParameter = createSelector(
     selectQueryParams,
     queryParams => queryParams && queryParams['preset'] || ''
+);
+
+export const isPreviewMode = createSelector(
+    selectPresetParameter,
+    preset => !!preset
 );
 
 export const selectUrl = createSelector(

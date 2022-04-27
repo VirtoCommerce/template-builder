@@ -1,6 +1,6 @@
 <app-custom-actions></app-custom-actions>
 <div class="flex-grow flex justify-center">
-    <app-template-selector></app-template-selector>
+    <app-template-selector [templates]="templates$|async"></app-template-selector>
 </div>
 <ng-container *ngIf="panels">
     <app-actions-panel [panels]="panels"

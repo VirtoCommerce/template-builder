@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as router from '@core/routing/actions';
+import * as router from '@shared/routing/actions';
 import { ActivationStart, Router, RouterOutlet } from '@angular/router';
 
 @Component({

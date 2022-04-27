@@ -37,7 +37,6 @@ import { ThemeDomainEffects } from './store/domain/effects';
         SharedModule,
 
         EffectsModule.forFeature([ThemeDataEffects, ThemeDomainEffects]),
-        // StoreModule.forFeature(ThemeFeatureName, themeReducers /*, stateConfig.config */),
         StoreModule.forFeature('themeEditor', themeReducers /*, stateConfig.config */),
 
         ThemeRoutesModule

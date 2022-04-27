@@ -10,15 +10,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutesModule } from './app-routes.module';
 import { CoreModule } from '@core/core.module';
+import { SharedModule } from '@shared/shared.module';
 import { EditorModule } from '@editor/editor.module';
 import { ThemeModule } from '@theme/theme.module';
 import { EDITOR_SERVICE } from '@editor/di';
 
 import { PlatformService } from '@app/services';
 import { AppEffects } from '@app/store';
-import { initialState as initialRoute } from '@core/routing';
-import { RoutingEffects } from '@core/routing/effects';
-import { RouterSerializer } from '@core/routing/serializer';
+import { initialState as initialRoute } from '@shared/routing';
+import { RoutingEffects } from '@shared/routing/effects';
+import { RouterSerializer } from '@shared/routing/serializer';
 
 import {
     AppConfig,
@@ -66,6 +67,7 @@ import { APP_COMPONENTS } from './components';
         }),
 
         CoreModule,
+        SharedModule,
         EditorModule,
         ThemeModule
     ],

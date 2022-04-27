@@ -4,7 +4,7 @@ import { HttpWrapper, AppConfig } from '@app/services';
 
 import {
     //SectionsSchemasList,
-    TemplatesSchemasList
+    // TemplatesSchemasList
 } from '@app/models';
 import { TemplateModel } from '@editor/models';
 import { IEditorService } from '@editor/di';
@@ -17,9 +17,9 @@ export class PlatformService implements IEditorService {
 
     constructor(private appConfig: AppConfig, private http: HttpWrapper) { }
 
-    downloadTemplatesSchemasList(): Observable<TemplatesSchemasList> {
-        return this.http.get<TemplatesSchemasList>(this.appConfig.config.templatesUrl);
-    }
+    // downloadTemplatesSchemasList(): Observable<TemplatesSchemasList> {
+    //     return this.http.get<TemplatesSchemasList>(this.appConfig.config.templatesUrl);
+    // }
 
     downloadSectionsSchemasList(): Observable<any> {
         return this.http.get<any>(this.appConfig.config.sectionsUrl);

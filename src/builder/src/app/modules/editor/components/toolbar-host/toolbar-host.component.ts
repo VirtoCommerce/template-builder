@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as router from '@core/routing/actions';
+import * as router from '@shared/routing/actions';
 
 @Component({
     selector: 'app-toolbar-host',

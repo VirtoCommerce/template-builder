@@ -6,7 +6,7 @@ import { SectionModel, SectionSchema } from '@core/models';
 import * as fromEditor from '@editor/store';
 import { editorActions } from '@editor/store';
 
-import { actions } from './store';
+import * as actions from '@shared/store/actions';
 
 @Component({
     selector: 'app-root',

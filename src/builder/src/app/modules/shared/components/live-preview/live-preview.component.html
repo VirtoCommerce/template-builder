@@ -1,0 +1,6 @@
+<div class="preview-wrapper" [ngClass]="{ 'preview-mode': (isPreviewMode$|async) }">
+    <div *ngIf="isPreviewMode$|async" class="preview-name">Preset preview: {{ previewPresetName$|async }}</div>
+    <div class="iframe-holder">
+        <iframe id="preview-frame-component" src="https://st-storefront.dev.govirto.com"></iframe>
+    </div>
+</div>
