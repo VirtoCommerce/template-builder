@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
-import * as fromRoute from '@shared/routing';
 import { BuilderState } from '@shared/store';
+import * as fromState from '@shared/store';
+import * as fromRoute from '@shared/routing';
+import { filter, map } from 'rxjs';
 
 @Component({
     selector: 'app-live-preview',
@@ -13,10 +16,13 @@ export class LivePreviewComponent implements OnInit {
 
     isPreviewMode$ = this.store.select(fromRoute.isPreviewMode);
     previewPresetName$ = this.store.select(fromRoute.selectPresetParameter);
+    previewUrl$ = this.store.select(fromState.selectPreviewUrl).pipe(
+        filter(url => !!url),
+        map(url => this.sanitizer.bypassSecurityTrustResourceUrl(url))
+    );
 
-    constructor(private store: Store<BuilderState>) { }
+    constructor(private store: Store<BuilderState>, private sanitizer: DomSanitizer) { }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
 }

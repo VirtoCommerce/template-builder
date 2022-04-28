@@ -1,4 +1,7 @@
-// import { SectionsSchemasList, TemplateModel, TemplatesList } from '@editor/models';
+import {
+    // SectionsSchemasList,
+    TemplatesList
+} from '@editor/models';
 import { TemplateModel } from '@editor/models';
 
 export interface EditorState {
@@ -6,40 +9,44 @@ export interface EditorState {
     // templatesLoaded: boolean;
     // templateLoading: boolean; // specified template
 
-    showSectionsSelector: boolean;
-    showTemplateSelector: boolean;
-    showTemplateSettings: boolean;
-    indexAddSectionPanel: boolean | number;
+    // showSectionsSelector: boolean;
+    // showTemplateSelector: boolean;
+    // showTemplateSettings: boolean;
+    // indexAddSectionPanel: boolean | number;
 
     // availableTemplates: TemplatesSchemasList;
-    // templates: TemplatesList;
-    currentTemplate: string | null;
+    templates: TemplatesList;
+    // currentTemplate: string | null;
 
     // sections: SectionsSchemasList;
     // blocks: SectionsSchemasList;
     // objects;
 
-    sectionIndex: number | null;
-    blockIndex: number | null;
+    // sectionIndex: number | null;
+    // blockIndex: number | null;
 }
 
 export const initialState: EditorState = {
+
+
+    templates: {}
+
     // templatesLoading: false,
     // templatesLoaded: false,
     // templateLoading: false,
 
-    showSectionsSelector: false,
-    showTemplateSelector: true,
-    showTemplateSettings: false,
-    indexAddSectionPanel: false,
+    // showSectionsSelector: false,
+    // showTemplateSelector: true,
+    // showTemplateSettings: false,
+    // indexAddSectionPanel: false,
 
     // availableTemplates: {},
     // templates: {},
-    currentTemplate: null,
+    // currentTemplate: null,
 
     // sections: {},
     // blocks: {},
 
-    sectionIndex: null,
-    blockIndex: null
+    // sectionIndex: null,
+    // blockIndex: null
 };

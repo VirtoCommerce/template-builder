@@ -6,6 +6,7 @@ import { catchError, switchMap, map, of } from "rxjs";
 import { TemplatesService } from '@shared/services';
 
 import * as actions from "./actions";
+import * as router from "@shared/routing/actions";
 
 @Injectable({
     providedIn: "root"
@@ -29,5 +30,10 @@ export class SharedEffects {
             map(templatesEntries => actions.loadTemplateEntriesSuccess({ templatesEntries })),
             catchError(error => of(actions.loadTemplateEntriesFails({ error })))
         )),
+    ));
+
+    selectTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.selectTemplate),
+        map(({ template }) => router.go({ queryParams: { template } }))
     ));
 }

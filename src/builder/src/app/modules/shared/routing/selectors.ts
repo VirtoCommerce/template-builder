@@ -48,6 +48,11 @@ export const selectPresetParameter = createSelector(
     queryParams => queryParams && queryParams['preset'] || ''
 );
 
+export const selectTemplateParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['template'] || ''
+);
+
 export const isPreviewMode = createSelector(
     selectPresetParameter,
     preset => !!preset

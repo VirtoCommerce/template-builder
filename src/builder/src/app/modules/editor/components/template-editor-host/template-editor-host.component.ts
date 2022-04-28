@@ -39,7 +39,7 @@ export class TemplateEditorHostComponent implements OnInit {
         private sections: SectionsServiceSimulator
     ) {
         // todo: remove it
-        this.template = this.templates.getTemplate();
+        this.templates.getTemplate('').subscribe(x => this.template = x);
         this.sectionsSchemas = this.sections.getSectionSchemas();
     }
 

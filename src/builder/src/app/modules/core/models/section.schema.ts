@@ -1,4 +1,4 @@
-import { SectionPropertyDescriptor } from "./descriptors";
+import { SectionPropertyDescriptor } from "./controls";
 import { SectionModel } from "./section.model";
 
 export interface SectionSchema {
@@ -9,7 +9,7 @@ export interface SectionSchema {
     group?: string;
     groupIcon?: string;
     blocks?: string[];
-    inline?: boolean; // used for settings groups, when false, group displayed as a popup
+    inline?: boolean; // used for settings groups, when false, group displayed as a overlap panel
     settings: SectionPropertyDescriptor[];
     default?: SectionModel;
 }

@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
 import * as actions from '@shared/store/actions';
-import * as router from '@shared/routing/actions';
 
 @Component({
     selector: 'app-default-toolbar',
@@ -18,7 +17,7 @@ export class DefaultToolbarComponent implements OnInit {
     @Output() actionExecuted = new EventEmitter<string>();
 
     templates$ = this.store$.select(fromState.selectTemplatesEntries);
-    currentTemplate$ = this.store$.select(fromState.selectCurrentTemplate);
+    currentTemplate$ = this.store$.select(fromState.selectCurrentTemplateEntry);
 
     constructor(private store$: Store<BuilderState>) { }
 

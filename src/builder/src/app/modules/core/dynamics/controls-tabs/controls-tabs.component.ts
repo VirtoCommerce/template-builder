@@ -1,4 +1,4 @@
-import { GroupsStateModel } from './../../models/group-state.model';
+import { GroupsStateModel } from '@core/models';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 

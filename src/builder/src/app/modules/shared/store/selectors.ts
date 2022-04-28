@@ -1,6 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import { BuilderState } from './state';
 
+import { selectTemplateParameter } from '../routing';
+
 export const selectSharedFeature = (state: BuilderState) => state.shared;
 
 export const selectTemplatesEntries = createSelector(
@@ -8,20 +10,20 @@ export const selectTemplatesEntries = createSelector(
     state => Object.keys(state.templatesEntries).map(key => ({ ...state.templatesEntries[key], alias: key })) || []
 );
 
-export const selectCurrentTemplateKey = createSelector(
+export const selectCurrentTemplateEntry = createSelector(
     selectSharedFeature,
-    state => state.currentTemplateKey // todo: get from config when it is empty?
-);
-
-export const selectCurrentTemplate = createSelector(
-    selectSharedFeature,
-    selectCurrentTemplateKey,
-    (state, key) => state.templatesEntries[key!] // todo: key must not be nullable
+    selectTemplateParameter,
+    (state, key) => state.templatesEntries[key!] || <any>{} // todo: key must be non-nullable
 );
 
 export const selectTemplatesEntriesLoading = createSelector(
     selectSharedFeature,
     state => state.templatesEntriesLoading
+);
+
+export const selectPreviewUrl = createSelector(
+    selectCurrentTemplateEntry,
+    template => template.previewUrl
 );
 
 // export const selectTemplatesEntriesLoaded = createSelector(

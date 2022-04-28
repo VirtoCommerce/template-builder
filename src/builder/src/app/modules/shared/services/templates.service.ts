@@ -8,17 +8,25 @@ import { TemplateEntryList } from '@shared/models';
 export class TemplatesService {
     getTemplatesList(): Observable<TemplateEntryList> {
         return of({
+            'home': <any>{
+                name: 'Home',
+                previewUrl: 'https://st-storefront.dev.govirto.com'
+            },
             'catalog': <any>{
-                name: 'Catalog'
+                name: 'Catalog',
+                previewUrl: 'https://st-storefront.dev.govirto.com/c'
             },
             'product': <any>{
-                name: 'Product'
+                name: 'Product',
+                previewUrl: 'https://st-storefront.dev.govirto.com/p/baa4931161214690ad51c50787b1ed94'
             },
             'cart': <any>{
-                name: 'Cart'
+                name: 'Cart',
+                previewUrl: 'https://st-storefront.dev.govirto.com/checkout'
             },
             'page': <any>{
-                name: 'Page'
+                name: 'Page',
+                previewUrl: 'https://st-storefront.dev.govirto.com'
             }
         });
     }

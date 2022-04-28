@@ -1,82 +1,21 @@
 import { Injectable } from "@angular/core";
 
 import { TemplateModel } from '@editor/models';
+import { Observable, of } from "rxjs";
+
+import catalog from './demo/catalog.json';
+import page from './demo/page.json';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TemplateServiceSimulator {
     // todo: remove this service
-    getTemplate(): TemplateModel {
-        return <any>{
-            settings: {
-                name: 'Product'
-            },
-            content: [
-                {
-                    type: 'cover-with-image',
-                    name: 'Main slide'
-                },
-                {
-                    type: 'cover-with-variations',
-                    name: 'Cover with variations with very long name for it',
-                    title: 'Headline title and some other info',
-                    content: 'Section content',
-                    color: '#43ebaa',
-                    singleFile: 'path/to/file/single-file-name.txt',
-                    multipleFiles: [
-                        'different/urls/for/files/filename-1.ext',
-                        'different/urls/for/files/filename-2.ext',
-                        'different/urls/for/files/filename-3.ext',
-                        'different/urls/for/files/filename-4.ext'
-                    ]
-                },
-                { type: 'cover-with-variations', name: 'Cover with variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                {
-                    type: 'product-info',
-                    name: 'Product info',
-                    blocks: [
-                        { name: 'Image', type: 'image' },
-                        { name: 'text', type: 'text' }
-                    ]
-                },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                { type: 'cover-with-variations', name: 'Cover variations' },
-                {
-                    type: 'product-info',
-                    name: 'Product info',
-                    blocks: [
-                        { name: 'Image', type: 'image' },
-                        { name: 'text', type: 'text' }
-                    ]
-                }
-            ]
-        }
+    getTemplate(alias: string): Observable<TemplateModel> {
+        return of((function () {
+            if (alias === 'page')
+                return <any>page;
+            return <any>catalog;
+        })());
     }
 }
