@@ -1,33 +1,25 @@
-import { TemplateEntry } from '@shared/models';
 import { Injectable } from "@angular/core";
 import { Observable, of } from 'rxjs';
+import { TemplateEntryList } from '@shared/models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TemplatesService {
-    getTemplatesList(): Observable<TemplateEntry[]> {
-        return of([
-            {
-                name: 'Catalog',
-                alias: 'catalog',
-                hasChildren: false
+    getTemplatesList(): Observable<TemplateEntryList> {
+        return of({
+            'catalog': <any>{
+                name: 'Catalog'
             },
-            {
-                name: 'Product',
-                alias: 'product',
-                hasChildren: false
+            'product': <any>{
+                name: 'Product'
             },
-            {
-                name: 'Cart',
-                alias: 'cart',
-                hasChildren: false
+            'cart': <any>{
+                name: 'Cart'
             },
-            {
-                name: 'Page',
-                alias: 'page',
-                hasChildren: true
+            'page': <any>{
+                name: 'Page'
             }
-        ]);
+        });
     }
 }

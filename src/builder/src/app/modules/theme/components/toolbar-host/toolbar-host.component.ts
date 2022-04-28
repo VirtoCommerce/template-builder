@@ -41,7 +41,7 @@ export class ToolbarHostComponent implements OnInit {
 
     onActionExecuted(action: string) {
         if (action === 'cancel') {
-            this.store.dispatch(router.go({ path: ['/pages'] }));
+            this.store.dispatch(router.go({ path: ['/pages'] })); // todo: execute theme action which will be run router action
         }
     }
 

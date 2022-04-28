@@ -1,5 +1,5 @@
 export interface TemplateEntry {
     name: string;
     alias: string;
-    hasChildren: boolean;
+    children?: any;
 }

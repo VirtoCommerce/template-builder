@@ -13,20 +13,33 @@ import { helpers } from '@editor/services';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    @Input() templates: TemplateEntry[] | null = null;
-    @Input() currentTemplate: TemplateEntry | null = null;
+    items!: MultipageSelectDescriptor[];
+    currentItem: MultipageSelectDescriptor | null = null;
 
-    get items(): MultipageSelectDescriptor[] {
-        return this.templates?.map(x => ({
-            title: x.name,
-            alias: x.alias,
-            hasChildren: x.hasChildren
-        })) || [];
-        // return Object.keys(this.templates).map(key => ({
-        //     title: this.templates[key].name,
-        //     icon: this.templates[key].icon,
-        //     hasChildren: this.templates[key].name === 'Page'
-        // }));
+    @Input() set templates(value: TemplateEntry[] | null) {
+        this.items = value?.map(x => this.convertTemplateToItem(x)) || [];
+    }
+    @Input() set currentTemplate(value: TemplateEntry | null) {
+        this.currentItem = !!value ? this.convertTemplateToItem(value) : null;
+    }
+
+    @Output() templateSelected = new EventEmitter<string>();
+
+    constructor() { }
+
+    ngOnInit(): void {
+    }
+
+    onTemplateSelected(item: MultipageSelectDescriptor) {
+        this.templateSelected.emit(item.alias);
+    }
+
+    private convertTemplateToItem(value: TemplateEntry): MultipageSelectDescriptor {
+        return {
+            title: value.name,
+            alias: value.alias,
+            hasChildren: !!value.children
+        };
     }
 
     // private _currentTemplateName: string | null = null;
@@ -81,11 +94,6 @@ export class TemplateSelectorComponent implements OnInit {
     // get placeholder(): string {
     //     return this.displayPages ? 'Enter page name' : 'Enter template name';
     // }
-
-    constructor() { }
-
-    ngOnInit(): void {
-    }
 
     // togglePopover() {
     //     this.isOpen = !this.isOpen

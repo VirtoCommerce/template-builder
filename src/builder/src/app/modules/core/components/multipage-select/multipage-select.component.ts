@@ -43,8 +43,8 @@ export class MultipageSelectComponent implements OnInit {
     @Input() title: string = '';
     @Input() filter: string = '';
     @Input() filterPlaceholder: string = '';
-    @Input() default?: MultipageSelectDescriptor
-    @Input() current?: MultipageSelectDescriptor
+    @Input() default?: MultipageSelectDescriptor;
+    @Input() current: MultipageSelectDescriptor | null = null;
     @Input() items: MultipageSelectDescriptor[] = [];
 
     @Output() itemSelected = new EventEmitter<MultipageSelectDescriptor>();

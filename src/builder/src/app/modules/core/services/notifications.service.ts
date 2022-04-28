@@ -8,8 +8,8 @@ export class NotificationsService {
 
     // todo: use options from config
     private _successOptions = {
-        timeOut: 0,
-        extendedTimeOut: 0
+        // timeOut: 0,
+        // extendedTimeOut: 0
     };
     private _errorOptions = {};
     private _notifyOptions = {};
