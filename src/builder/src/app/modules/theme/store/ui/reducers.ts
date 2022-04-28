@@ -1,10 +1,6 @@
-import { createReducer, on, Action, ActionReducer } from '@ngrx/store';
-
+import { createReducer, on } from '@ngrx/store';
 import * as actions from '../actions';
-
-import { ThemeUIState, initialState } from '../ui/state';
-
-export * from '../ui/state';
+import { ThemeUIState, initialState } from './state';
 
 export const themeUIReducers = createReducer<ThemeUIState>(
     initialState,
@@ -15,7 +11,3 @@ export const themeUIReducers = createReducer<ThemeUIState>(
     on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter })),
 
 );
-
-export function uiReducer(state: ThemeUIState, action: Action): ThemeUIState {
-    return themeUIReducers(state, action);
-}

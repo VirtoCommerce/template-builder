@@ -1,5 +1,4 @@
+import { Dictionary } from '@core/models';
 import { TemplateState } from './template-state.model';
 
-export type TemplatesList = {
-    [key: string]: TemplateState;
-};
+export type TemplatesList = Dictionary<TemplateState>;

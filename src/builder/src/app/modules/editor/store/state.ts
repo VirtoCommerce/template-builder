@@ -4,14 +4,14 @@ import * as data from './data';
 import * as ui from './ui';
 import * as domain from './domain';
 
-export interface ThemeState {
-    ui: ui.ThemeUIState;
-    data: data.ThemeDataState;
-    domain: domain.ThemeDomainState
+export interface EditorState {
+    ui: ui.EditorUIState;
+    data: data.EditorDataState;
+    domain: domain.EditorDomainState
 };
 
-export const ThemeFeatureName = 'themeEditor';
+export const EditorFeatureName = 'templateEditor';
 
 export interface BuilderState extends ParentState {
-    [ThemeFeatureName]: ThemeState
+    [EditorFeatureName]: EditorState
 }

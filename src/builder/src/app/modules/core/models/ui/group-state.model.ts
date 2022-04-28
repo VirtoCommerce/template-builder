@@ -1,7 +1,7 @@
+import { Dictionary } from './dictionary.model';
+
 export interface GroupStateModel {
     opened: boolean;
 }
 
-export interface GroupsStateModel {
-    [key: string]: GroupStateModel;
-}
+export type GroupsStateModel = Dictionary<GroupStateModel>;

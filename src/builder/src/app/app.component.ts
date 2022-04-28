@@ -3,8 +3,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 
 import { SectionModel, SectionSchema } from '@core/models';
 
-import * as fromEditor from '@editor/store';
-import { editorActions } from '@editor/store';
+// import * as fromEditor from '@editor/store';
+// import { editorActions } from '@editor/store';
 
 import * as actions from '@shared/store/actions';
 

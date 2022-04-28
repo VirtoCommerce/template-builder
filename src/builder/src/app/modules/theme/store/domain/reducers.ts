@@ -1,10 +1,8 @@
-import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 
 import * as actions from '../actions';
 
 import { ThemeDomainState, initialState } from './state';
-
-export * from './state';
 
 export const themeDomainReducers = createReducer<ThemeDomainState>(
     initialState,
@@ -17,4 +15,3 @@ export const themeDomainReducers = createReducer<ThemeDomainState>(
     on(actions.loadSettingsSchemaSuccess, state => ({ ...state, schemaLoading: false })),
     on(actions.loadSettingsSchemaFail, state => ({ ...state, schemaLoading: false })),
 );
-

@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { Observable, of } from "rxjs";
+import { of } from "rxjs";
 import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap } from "rxjs/operators";
 
-import { ThemeSettingsService } from './../../services/theme-settings.service';
+import { ThemeSettingsService } from '@theme/services';
 
 import * as actions from "../actions";
 import * as selectors from "../selectors";

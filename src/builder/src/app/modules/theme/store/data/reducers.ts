@@ -1,10 +1,8 @@
-import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 
 import * as actions from '../actions';
 
 import { ThemeDataState, initialState } from './state';
-
-export * from './state';
 
 export const themeDataReducers = createReducer<ThemeDataState>(
     initialState,

@@ -10,7 +10,8 @@ export class TemplatesService {
         return of({
             'home': <any>{
                 name: 'Home',
-                previewUrl: 'https://st-storefront.dev.govirto.com'
+                previewUrl: 'https://st-storefront.dev.govirto.com',
+                isDefault: true
             },
             'catalog': <any>{
                 name: 'Catalog',

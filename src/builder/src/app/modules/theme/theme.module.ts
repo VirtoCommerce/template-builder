@@ -9,14 +9,10 @@ import { SharedModule } from '@shared/shared.module';
 
 import { ThemeRoutesModule } from './theme-routes.module';
 
-// import { ThemeFeatureName } from './store/selectors';
-// import { EFFECTS } from './store/effects';
-import { themeReducers } from './store';
+import { themeReducers, ThemeFeatureName, EFFECTS } from './store';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
-import { ThemeDataEffects } from './store/data/effects';
-import { ThemeDomainEffects } from './store/domain/effects';
 
 // note: use it to store part of state to local storage
 // import { CreateStorageProviders } from '@core/services/state-helpers';
@@ -36,8 +32,8 @@ import { ThemeDomainEffects } from './store/domain/effects';
         CoreModule,
         SharedModule,
 
-        EffectsModule.forFeature([ThemeDataEffects, ThemeDomainEffects]),
-        StoreModule.forFeature('themeEditor', themeReducers /*, stateConfig.config */),
+        EffectsModule.forFeature([...EFFECTS]),
+        StoreModule.forFeature(ThemeFeatureName, themeReducers /*, stateConfig.config */),
 
         ThemeRoutesModule
 

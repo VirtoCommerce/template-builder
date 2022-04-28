@@ -14,7 +14,7 @@ import { EditorRoutesModule } from './editor-routes.module';
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
 
-import { EditorFeatureName, editorReducer, EFFECTS } from './store';
+import { EditorFeatureName, editorReducers, EFFECTS } from './store';
 
 @NgModule({
     declarations: [
@@ -29,7 +29,7 @@ import { EditorFeatureName, editorReducer, EFFECTS } from './store';
         OverlayModule,
         DragDropModule,
 
-        StoreModule.forFeature(EditorFeatureName, editorReducer),
+        StoreModule.forFeature(EditorFeatureName, editorReducers),
         EffectsModule.forFeature(EFFECTS),
 
         CoreModule,

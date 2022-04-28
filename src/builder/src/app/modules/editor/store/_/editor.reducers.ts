@@ -10,9 +10,9 @@ const editorReducers = createReducer(
     // on(actions.loadAvailableTemplatesSuccess, (state, { templates }) => ({ ...state, templatesLoading: false, availableTemplates: templates })),
     // on(actions.loadAvailableSectionsSuccess, (state, { sections }) => ({ ...state, sections })),
     // on(actions.loadAvailableBlocksSuccess, (state, { blocks }) => ({ ...state, blocks })),
-    on(actions.templateSelected, (state, { templateKey }) => ({ ...state, currentTemplate: templateKey })),
-    on(actions.editItem, (state, payload) => ({ ...state, ...payload })),
-    on(actions.completeEditItem, state => ({ ...state, sectionIndex: null, blockIndex: null })),
+    // on(actions.templateSelected, (state, { templateKey }) => ({ ...state, currentTemplate: templateKey })),
+    // on(actions.editItem, (state, payload) => ({ ...state, ...payload })),
+    // on(actions.completeEditItem, state => ({ ...state, sectionIndex: null, blockIndex: null })),
     // on(actions.loadTemplateSuccess, (state, { template, templateKey }) => ({
     //     ...state,
     //     templates: {
@@ -38,11 +38,11 @@ const editorReducers = createReducer(
     //         }
     //     }
     // })),
-    on(actions.closeAddItemPanel, state => ({ ...state, indexAddSectionPanel: false })),
-    on(actions.closeAllPanels, state => ({ ...state, sectionIndex: null, blockIndex: null, showTemplateSettings: false, indexAddSectionPanel: false })),
-    on(actions.showAddItemPanel, (state, { sectionIndex }) => ({ ...state, indexAddSectionPanel: sectionIndex }))
+    // on(actions.closeAddItemPanel, state => ({ ...state, indexAddSectionPanel: false })),
+    // on(actions.closeAllPanels, state => ({ ...state, sectionIndex: null, blockIndex: null, showTemplateSettings: false, indexAddSectionPanel: false })),
+    // on(actions.showAddItemPanel, (state, { sectionIndex }) => ({ ...state, indexAddSectionPanel: sectionIndex }))
 );
 
-export function editorReducer(state: EditorState, action: Action) {
-    return editorReducers(state, action);
-}
+// export function editorReducer(state: EditorState, action: Action) {
+//     return editorReducers(state, action);
+// }

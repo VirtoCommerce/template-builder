@@ -6,9 +6,9 @@ import { helpers } from '@editor/services';
 import { EditorState } from './editor.state';
 
 
-export const EditorFeatureName = 'editor';
+// export const EditorFeatureName = 'editor';
 
-const selectFeature = createFeatureSelector<EditorState>(EditorFeatureName);
+// const selectFeature = createFeatureSelector<EditorState>(EditorFeatureName);
 
 // export const isTemplatesLoading = createSelector(
 //     selectFeature,

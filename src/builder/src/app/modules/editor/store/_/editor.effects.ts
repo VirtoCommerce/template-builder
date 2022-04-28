@@ -21,12 +21,12 @@ import * as actions from './editor.actions';
 import * as editor from './editor.selectors';
 
 
-@Injectable()
-export class EditorEffects { // implements OnInitEffects {
-    constructor(
-        @Inject(EDITOR_SERVICE) private service: IEditorService,
-        private actions$: Actions,
-        private store$: Store) { }
+// @Injectable()
+// export class EditorEffects { // implements OnInitEffects {
+//     constructor(
+//         @Inject(EDITOR_SERVICE) private service: IEditorService,
+//         private actions$: Actions,
+//         private store$: Store) { }
 
     // ngrxOnInitEffects(): Action {
     //     return actions.initEditorFeature();
@@ -174,4 +174,4 @@ export class EditorEffects { // implements OnInitEffects {
     //         actions.setSections({ sections: items, templateKey: templateKey! })
     //     ])
     // ));
-}
+// }

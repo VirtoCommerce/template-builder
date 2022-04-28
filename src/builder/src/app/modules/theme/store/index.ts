@@ -1,9 +1,14 @@
-import { Action, ActionReducer, combineReducers } from "@ngrx/store";
+import { Action, ActionReducer, combineReducers } from '@ngrx/store';
 
-import { ThemeState } from "./state";
-import * as data from "./data";
-import * as ui from "./ui";
-import * as domain from "./domain";
+import { ThemeDataEffects } from './data/effects';
+import { ThemeDomainEffects } from './domain/effects';
+
+import { ThemeState } from './state';
+import * as data from './data';
+import * as ui from './ui';
+import * as domain from './domain';
+
+export { ThemeFeatureName } from './state';
 
 export const initialState: ThemeState = {
     ui: ui.initialState,
@@ -23,3 +28,5 @@ export function themeReducers(
 ): ThemeState {
     return reducer(state, action)
 };
+
+export const EFFECTS = [ThemeDataEffects, ThemeDomainEffects];

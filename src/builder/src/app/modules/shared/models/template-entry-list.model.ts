@@ -1,5 +1,4 @@
+import { Dictionary } from '@core/models';
 import { TemplateEntry } from "./template-entry.model";
 
-export interface TemplateEntryList {
-    [key: string]: TemplateEntry;
-}
+export type TemplateEntryList = Dictionary<TemplateEntry>;

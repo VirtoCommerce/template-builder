@@ -12,7 +12,7 @@ import {
     SectionSchema
 } from '@core/models';
 
-export const initEditorFeature = createAction('[editor] init editor feature');
+// export const initEditorFeature = createAction('[editor] init editor feature');
 
 // export const loadAvailableTemplates = createAction('[editor] load available templates');
 // export const loadAvailableTemplatesSuccess = createAction('[editor] load available templates success', props<{ templates: TemplatesSchemasList }>());
@@ -26,27 +26,27 @@ export const initEditorFeature = createAction('[editor] init editor feature');
 // export const loadAvailableBlocksSuccess = createAction('[editor] load available blocks success', props<{ blocks: SectionsSchemasList }>());
 // export const loadAvailableBlocksFails = createAction('[editor] load available blocks fails', props<{ error: HttpErrorResponse }>());
 
-export const templateSelected = createAction('[editor] template selected', props<{ templateKey: string }>());
+// export const templateSelected = createAction('[editor] template selected', props<{ templateKey: string }>());
 
-export const loadTemplate = createAction('[editor] load template', props<{ templateKey: string }>());
-export const loadTemplateSuccess = createAction('[editor] load template success', props<{ template: TemplateModel, templateKey: string }>());
-export const loadTemplateFails = createAction('[editor] load template fails', props<{ error: HttpErrorResponse }>());
+// export const loadTemplate = createAction('[editor] load template', props<{ templateKey: string }>());
+// export const loadTemplateSuccess = createAction('[editor] load template success', props<{ template: TemplateModel, templateKey: string }>());
+// export const loadTemplateFails = createAction('[editor] load template fails', props<{ error: HttpErrorResponse }>());
 
-export const editItem = createAction('[editor] edit item', props<{ sectionIndex: number | null, blockIndex: number | null }>());
-export const completeEditItem = createAction('[editor] complete edit item');
+// export const editItem = createAction('[editor] edit item', props<{ sectionIndex: number | null, blockIndex: number | null }>());
+// export const completeEditItem = createAction('[editor] complete edit item');
 
-export const showAddItemPanel = createAction('[editor] show add item panel', props<{ sectionIndex: number | boolean }>());
-export const closeAddItemPanel = createAction('[editor] close add item panel');
-export const closeAllPanels = createAction('[editor] close all panels');
+// export const showAddItemPanel = createAction('[editor] show add item panel', props<{ sectionIndex: number | boolean }>());
+// export const closeAddItemPanel = createAction('[editor] close add item panel');
+// export const closeAllPanels = createAction('[editor] close all panels');
 
-export const setSections = createAction('[editor] set sections', props<{ sections: SectionModel[], templateKey: string }>());
+// export const setSections = createAction('[editor] set sections', props<{ sections: SectionModel[], templateKey: string }>());
 
-export const previewItem = createAction('[editor] preview item', props<{ item: SectionSchema }>());
-export const addItem = createAction('[editor] add item', props<{ item: SectionSchema }>());
-export const deleteItem = createAction('[editor] delete item');
-export const cloneItem = createAction('[editor] clone item');
-export const updateItem = createAction('[editor] update item', props<{ item: SectionModel }>());
-export const setVisibility = createAction('[editor] set visibility', props<{ sectionIndex: number, blockIndex: number | null, value: boolean }>());
+// export const previewItem = createAction('[editor] preview item', props<{ item: SectionSchema }>());
+// export const addItem = createAction('[editor] add item', props<{ item: SectionSchema }>());
+// export const deleteItem = createAction('[editor] delete item');
+// export const cloneItem = createAction('[editor] clone item');
+// export const updateItem = createAction('[editor] update item', props<{ item: SectionModel }>());
+// export const setVisibility = createAction('[editor] set visibility', props<{ sectionIndex: number, blockIndex: number | null, value: boolean }>());
 
 // import { BlockValuesModel, SectionSchema } from '@core/models';
 // import { BlockSchema, BlocksSchema } from '@core/models';

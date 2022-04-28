@@ -15,7 +15,7 @@ export interface EditorState {
     // indexAddSectionPanel: boolean | number;
 
     // availableTemplates: TemplatesSchemasList;
-    templates: TemplatesList;
+    // templates: TemplatesList;
     // currentTemplate: string | null;
 
     // sections: SectionsSchemasList;
@@ -29,7 +29,7 @@ export interface EditorState {
 export const initialState: EditorState = {
 
 
-    templates: {}
+    // templates: {}
 
     // templatesLoading: false,
     // templatesLoaded: false,
