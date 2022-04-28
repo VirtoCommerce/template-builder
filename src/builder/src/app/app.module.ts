@@ -28,13 +28,11 @@ import {
 
 import { AppComponent } from './app.component';
 import { LAYOUT_COMPONENTS } from './layout';
-import { APP_COMPONENTS } from './components';
 
 @NgModule({
     declarations: [
         AppComponent,
         ...LAYOUT_COMPONENTS,
-        ...APP_COMPONENTS
     ],
     imports: [
         BrowserModule,
