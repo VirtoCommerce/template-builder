@@ -4,7 +4,7 @@
              cdkDragBoundary=".blocks-container"
              cdkDragLockAxis="y"
              cdkDrag>
-            <app-section-item [sectionSchema]="blocksSchemas[block.type]"
+            <app-section-item [sectionSchema]="$any(blocksSchemas[block.type])"
                               [section]="block"
                               (itemClick)="onItemClick(block)">
             </app-section-item>

@@ -21,9 +21,7 @@ export class ThemeEditorComponent implements OnInit {
 
     constructor(private store$: Store<any>) { }
 
-    ngOnInit(): void {
-        this.store$.dispatch(actions.raiseLoadData());
-    }
+    ngOnInit(): void { }
 
     toggleGroup(group: any) {
         this.store$.dispatch(actions.toggleGroup({ group }));

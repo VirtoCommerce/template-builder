@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {
     TemplateEditorHostComponent,
-    // PresetsPanelComponent,
+    AddSectionComponent,
+    EditSectionComponent,
     ToolbarHostComponent
  } from '@editor/components';
 
@@ -14,13 +15,28 @@ const routes: Routes = [
     {
         path: '',
         component: TemplateEditorHostComponent,
-        data: { mode: 'templates', toolbar: ToolbarHostComponent },
+        data: { module: 'templates', toolbar: ToolbarHostComponent },
         children: [
-            // {
-            //     path: 'presets',
-            //     component: PresetsPanelComponent,
-            //     data: { mode: 'presets' }
-            // },
+            {
+                path: 'create',
+                component: AddSectionComponent,
+                data: { module: 'templates', mode: 'create-section' }
+            },
+            {
+                path: 'create/:sectionId',
+                component: AddSectionComponent,
+                data: { module: 'templates', mode: 'create-block' }
+            },
+            {
+                path: ':sectionId',
+                component: EditSectionComponent,
+                data: { module: 'templates', mode: 'edit-section' }
+            },
+            {
+                path: ':sectionId/:blockId',
+                component: EditSectionComponent,
+                data: { module: 'templates', mode: 'edit-block' }
+            }
         ]
     },
     // {

@@ -14,8 +14,9 @@ import { filter, map } from 'rxjs';
 })
 export class LivePreviewComponent implements OnInit {
 
-    isPreviewMode$ = this.store.select(fromRoute.isPreviewMode);
+    isPresetPreviewMode$ = this.store.select(fromRoute.isPresetPreviewMode);
     previewPresetName$ = this.store.select(fromRoute.selectPresetParameter);
+    previewMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
     previewUrl$ = this.store.select(fromState.selectPreviewUrl).pipe(
         filter(url => !!url),
         map(url => this.sanitizer.bypassSecurityTrustResourceUrl(url))

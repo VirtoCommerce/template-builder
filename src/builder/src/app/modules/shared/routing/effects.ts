@@ -2,7 +2,7 @@ import { withLatestFrom } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { ROUTER_NAVIGATION, routerNavigatedAction } from '@ngrx/router-store';
 
@@ -11,7 +11,9 @@ import * as fromRoute from '.';
 import { Store } from '@ngrx/store';
 import { BuilderState } from '.';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class RoutingEffects {
 
     constructor(private actions$: Actions,
@@ -62,10 +64,13 @@ export class RoutingEffects {
         withLatestFrom(
             this.store$.select(fromRoute.selectPath),
             this.store$.select(fromRoute.selectQueryParams),
+            this.store$.select(fromRoute.isEmpty)
         ),
+        filter(([,,, isEmpty]) => !isEmpty),
         tap(([{ path, queryParams, extras }, currentPath, currentParams]) =>
             this.router.navigate(
-                path || [currentPath], // save current path if it isn't exists
+                // todo: use default route from config
+                path || [currentPath || '/pages'], // save current path if it isn't exists
                 {
                     queryParams: { ...currentParams, ...queryParams }, // save current query params too
                     ...extras

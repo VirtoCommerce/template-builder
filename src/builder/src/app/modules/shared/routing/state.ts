@@ -8,6 +8,7 @@ export interface RouterStateUrl {
     params: Params;
     queryParams: Params;
     data?: { [key: string]: any };
+    isEmpty: boolean;
 }
 
 export interface BuilderState {
@@ -19,7 +20,8 @@ export const initialState: RouterReducerState<RouterStateUrl> = {
         url: '',
         params: {},
         queryParams: {},
-        data: {}
+        data: {},
+        isEmpty: true
     },
     navigationId: 0
 }

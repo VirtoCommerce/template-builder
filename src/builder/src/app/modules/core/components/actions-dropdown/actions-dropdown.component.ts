@@ -13,19 +13,21 @@ export class ActionsDropdownComponent implements OnInit {
     @Input() defaultTitle?: string;
     @Input() displayChevron = true;
     @Input() displayCurrent = true;
-    @Input() active?: ActionButtonDescriptor;
+    @Input() active?: string;
+    @Input() placeholder: ActionButtonDescriptor | null = null;
     @Input() actions: ActionButtonDescriptor[] = [];
 
     @Output() executeAction = new EventEmitter<ActionButtonDescriptor>()
+
+    get activeItem(): ActionButtonDescriptor | null {
+        return this.placeholder || this.actions.find(x => x.alias === this.active || (!x.alias && !this.active)) || null;
+    }
 
     constructor() { }
 
     ngOnInit(): void { }
 
     actionChoosed(action: ActionButtonDescriptor) {
-        if (this.displayCurrent) {
-            this.active = action;
-        }
         this.executeAction.emit(action);
     }
 }

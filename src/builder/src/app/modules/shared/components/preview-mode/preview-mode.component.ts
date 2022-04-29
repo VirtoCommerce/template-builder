@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { ActionButtonDescriptor } from '@core/models';
+import { BuilderState } from '@shared/store';
+import * as fromRoute from '@shared/routing';
+import * as actions from '@shared/store/actions';
+import { tap } from 'rxjs';
 
 @Component({
     selector: 'app-preview-mode',
@@ -8,11 +14,12 @@ import { ActionButtonDescriptor } from '@core/models';
 })
 export class PreviewModeComponent implements OnInit {
 
+    // todo: should be in config
     previewModes: ActionButtonDescriptor[] = [
         {
             icon: 'desktop_windows',
             title: 'Desktop',
-            alias: 'desktop'
+            alias: undefined
         },
         {
             icon: 'phone_iphone',
@@ -31,9 +38,13 @@ export class PreviewModeComponent implements OnInit {
         }
     ];
 
-    constructor() { }
+    currentMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
 
-    ngOnInit(): void {
+    constructor(private store: Store<BuilderState>) { }
+
+    ngOnInit(): void { }
+
+    changePreviewMode(action: ActionButtonDescriptor) {
+        this.store.dispatch(actions.changePreviewMode({ mode: action.alias || null }));
     }
-
 }

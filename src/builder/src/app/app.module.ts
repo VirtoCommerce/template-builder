@@ -3,23 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { StoreModule } from '@ngrx/store';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 
 import { AppRoutesModule } from './app-routes.module';
 import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@shared/shared.module';
+import { initialState as initialRoute } from '@shared/routing';
+import { RoutingEffects } from '@shared/routing/effects';
+import { RouterSerializer } from '@shared/routing/serializer';
+
 import { EditorModule } from '@editor/editor.module';
 import { ThemeModule } from '@theme/theme.module';
 import { EDITOR_SERVICE } from '@editor/di';
 
 import { PlatformService } from '@app/services';
 import { AppEffects } from '@app/store';
-import { initialState as initialRoute } from '@shared/routing';
-import { RoutingEffects } from '@shared/routing/effects';
-import { RouterSerializer } from '@shared/routing/serializer';
 
 import {
     AppConfig,
@@ -40,7 +42,6 @@ import { LAYOUT_COMPONENTS } from './layout';
         HttpClientModule,
 
         AppRoutesModule,
-
         StoreModule.forRoot({
             router: routerReducer
             // config: configReducer
@@ -53,7 +54,7 @@ import { LAYOUT_COMPONENTS } from './layout';
             serializer: RouterSerializer
         }),
         EffectsModule.forRoot(
-            [AppEffects, RoutingEffects]
+            [RoutingEffects, AppEffects]
         ),
         StoreDevtoolsModule.instrument({
             name: 'Builder',

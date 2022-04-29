@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { BuilderState } from '@shared/routing';
+import * as fromRoute from '@shared/routing';
 
 @Component({
     selector: 'app-sidebar',
@@ -6,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-    constructor() { }
+
+    @HostBinding('class.hidden') isHidden: boolean = false;
+
+    constructor(private store: Store<BuilderState>) {
+        // note! this subscription can be unsubscribed
+        this.store.select(fromRoute.isFullscreenPreviewMode).subscribe(
+            x => this.isHidden = x
+        );
+    }
 
     ngOnInit(): void { }
 }

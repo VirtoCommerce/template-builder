@@ -1,1 +1,4 @@
-<app-actions-dropdown [actions]="previewModes" [active]="previewModes[0]"></app-actions-dropdown>
+<app-actions-dropdown
+    [actions]="previewModes"
+    [active]="currentMode$|async"
+    (executeAction)="changePreviewMode($event)"></app-actions-dropdown>

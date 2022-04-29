@@ -35,7 +35,7 @@ export const selectFeature = (state: BuilderState) => state.router;
 
 export const selectQueryParams = createSelector(
     selectFeature,
-    route => route.state.queryParams
+    route => route?.state.queryParams
 );
 
 export const selectGroupsParameter = createSelector(
@@ -53,19 +53,44 @@ export const selectTemplateParameter = createSelector(
     queryParams => queryParams && queryParams['template'] || ''
 );
 
-export const isPreviewMode = createSelector(
+export const selectSectionIdParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['sectionId'] || ''
+);
+
+export const selectBlockIdParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['blockId'] || ''
+);
+
+export const selectPreviewModeParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['preview-mode'] || ''
+);
+
+export const isFullscreenPreviewMode = createSelector(
+    selectPreviewModeParameter,
+    value => value === 'fullscreen'
+);
+
+export const isPresetPreviewMode = createSelector(
     selectPresetParameter,
     preset => !!preset
 );
 
+export const isEmpty = createSelector(
+    selectFeature,
+    state => state.state.isEmpty
+);
+
 export const selectUrl = createSelector(
     selectFeature,
-    route => route.state.url || ''
+    route => route?.state.url
 );
 
 export const selectPath = createSelector(
     selectUrl,
-    url => url.split('?')[0]
+    url => url?.split('?')[0]
 );
 
 // export const getId = createSelector(

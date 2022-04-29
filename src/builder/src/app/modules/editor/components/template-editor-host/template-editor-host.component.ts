@@ -12,57 +12,59 @@ import { TemplateServiceSimulator } from './../../services/template.service-simu
     styleUrls: ['./template-editor-host.component.scss']
 })
 export class TemplateEditorHostComponent implements OnInit {
+    constructor() { }
+    ngOnInit(): void { }
 
-    addMode = false;
-    editMode = false;
-    context: any = {};
+    // addMode = false;
+    // editMode = false;
+    // context: any = {};
 
-    template!: TemplateModel;
-    sectionsSchemas!: SectionsSchemasList;
-    sectionsSchemasList!: SectionSchema[];
+    // template!: TemplateModel;
+    // sectionsSchemas!: SectionsSchemasList;
+    // sectionsSchemasList!: SectionSchema[];
 
-    blocksSchemas = <any>{
-        image: {
-            name: 'main image',
-            icon: 'article',
-            displayNameProperty: 'name'
-        },
-        text: {
-            name: 'Product title',
-            icon: 'article',
-            displayNameProperty: 'name'
-        }
-    };
+    // blocksSchemas = <any>{
+    //     image: {
+    //         name: 'main image',
+    //         icon: 'article',
+    //         displayNameProperty: 'name'
+    //     },
+    //     text: {
+    //         name: 'Product title',
+    //         icon: 'article',
+    //         displayNameProperty: 'name'
+    //     }
+    // };
 
-    constructor(
-        private templates: TemplateServiceSimulator,
-        private sections: SectionsServiceSimulator
-    ) {
-        // todo: remove it
-        this.templates.getTemplate('').subscribe(x => this.template = x);
-        this.sectionsSchemas = this.sections.getSectionSchemas();
-    }
+    // constructor(
+    //     private templates: TemplateServiceSimulator,
+    //     private sections: SectionsServiceSimulator
+    // ) {
+    //     // todo: remove it
+    //     this.templates.getTemplate('').subscribe(x => this.template = x);
+    //     this.sections.getSectionSchemas().subscribe(x => this.sectionsSchemas = x);
+    // }
 
-    ngOnInit(): void {
-        // todo: must be on sectionsSchemas setter / or selector
-        this.sectionsSchemasList = Object.keys(this.sectionsSchemas).map(x => ({ ...this.sectionsSchemas[x], type: x }));
-    }
+    // ngOnInit(): void {
+    //     // todo: must be on sectionsSchemas setter / or selector
+    //     this.sectionsSchemasList = Object.keys(this.sectionsSchemas).map(x => ({ ...this.sectionsSchemas[x], type: x }));
+    // }
 
 
-    addButtonClick() {
-        this.addMode = true;
-    }
-
-    // addBlockClick(sectionId: number) {
+    // addButtonClick() {
     //     this.addMode = true;
     // }
 
-    onItemClick() {
-        this.editMode = true;
-    }
+    // // addBlockClick(sectionId: number) {
+    // //     this.addMode = true;
+    // // }
 
-    closePanels() {
-        this.addMode = false;
-        this.editMode = false;
-    }
+    // onItemClick() {
+    //     this.editMode = true;
+    // }
+
+    // closePanels() {
+    //     this.addMode = false;
+    //     this.editMode = false;
+    // }
 }
