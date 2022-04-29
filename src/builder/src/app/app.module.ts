@@ -8,6 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+
 import { AppRoutesModule } from './app-routes.module';
 import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@shared/shared.module';
@@ -38,6 +40,8 @@ import { LAYOUT_COMPONENTS } from './layout';
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+
+        PerfectScrollbarModule,
 
         AppRoutesModule,
 
