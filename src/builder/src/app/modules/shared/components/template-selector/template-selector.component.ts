@@ -1,10 +1,14 @@
-import { TemplateEntry } from './../../models/template-entry.model';
-import { MultipageSelectDescriptor } from '@core/models';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { /* PageModelDescriptor, */ TemplateSchema } from '@editor/models';
-// import { TemplatesSchemasList } from '@app/models';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import { helpers } from '@editor/services';
+import { MultipageSelectDescriptor } from '@core/models';
+import { TemplateEntry } from '@shared/models';
+
+import { BuilderState } from '@shared/store';
+import * as fromState from '@shared/store';
+import * as actions from '@shared/store/actions';
+
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-template-selector',
@@ -13,25 +17,20 @@ import { helpers } from '@editor/services';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    items!: MultipageSelectDescriptor[];
-    currentItem: MultipageSelectDescriptor | null = null;
+    templates$ = this.store$.select(fromState.selectTemplatesEntries).pipe(
+        map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
+    );
+    currentTemplate$ = this.store$.select(fromState.selectCurrentTemplateEntry).pipe(
+        map(value => !!value ? this.convertTemplateToItem(value) : null)
+    );
 
-    @Input() set templates(value: TemplateEntry[] | null) {
-        this.items = value?.map(x => this.convertTemplateToItem(x)) || [];
-    }
-    @Input() set currentTemplate(value: TemplateEntry | null) {
-        this.currentItem = !!value ? this.convertTemplateToItem(value) : null;
-    }
-
-    @Output() templateSelected = new EventEmitter<string>();
-
-    constructor() { }
+    constructor(private store$: Store<BuilderState>) { }
 
     ngOnInit(): void {
     }
 
     onTemplateSelected(item: MultipageSelectDescriptor) {
-        this.templateSelected.emit(item.alias);
+        this.store$.dispatch(actions.selectTemplate({ template: item.alias }));
     }
 
     private convertTemplateToItem(value: TemplateEntry): MultipageSelectDescriptor {
@@ -41,107 +40,4 @@ export class TemplateSelectorComponent implements OnInit {
             hasChildren: !!value.children
         };
     }
-
-    // private _currentTemplateName: string | null = null;
-
-    // pagesFilter: string = '';
-    // templatesFilter: string = '';
-    // isOpen = false;
-    // displayPages = false;
-
-    // @Input() templates!: TemplatesSchemasList;
-    // @Input() pages: any[] = [
-    //     {
-    //         name: 'Homepage',
-    //         filename: ''
-    //     },
-    //     {
-    //         name: 'About',
-    //         filename: ''
-    //     },
-    // ];
-    // @Input() get currentTemplateName(): string {
-    //     return this._currentTemplateName || 'Select template';
-    // }
-
-    // set currentTemplateName(value: string | null) {
-    //     this._currentTemplateName = value;
-    // }
-
-    // @Output() templateSelected = new EventEmitter<string>();
-    // @Output() pageSelected = new EventEmitter<string>();
-
-    // get filteredTemplates(): TemplatesSchemasList | null {
-    //     return !this.templatesFilter || !this.templates
-    //         ? this.templates
-    //         : Object.keys(this.templates)
-    //             .filter(key => this.getTemplateName(this.templates[key], key)
-    //                             .toUpperCase()
-    //                             .indexOf(this.templatesFilter.toUpperCase()) !== -1
-    //             ).reduce((acc, key) => ({...acc, [key]: this.templates[key]}), {});
-    // }
-
-    // get filteredPages(): any[] {
-    //     return !this.pagesFilter
-    //         ? this.pages
-    //         : this.pages.filter(x => x.name.toUpperCase().indexOf(this.pagesFilter.toUpperCase()) !== -1);
-    // }
-
-    // get currentFilter(): string {
-    //     return this.displayPages ? this.pagesFilter : this.templatesFilter;
-    // }
-
-    // get placeholder(): string {
-    //     return this.displayPages ? 'Enter page name' : 'Enter template name';
-    // }
-
-    // togglePopover() {
-    //     this.isOpen = !this.isOpen
-    // }
-
-    // templateButtonClick(item: TemplateSchema, key: string) {
-    //     if (key === 'page') {
-    //         this.displayPages = true;
-    //     } else {
-    //         this.selectItem();
-    //         this.templateSelected.emit(key);
-    //     }
-    // }
-
-    // pageButtonClick(item: any) {
-    //     this.selectItem();
-    //     this.currentTemplateName = item.name;
-    // }
-
-    // private selectItem() {
-    //     this.close();
-    //     this.pagesFilter = '';
-    //     this.templatesFilter = '';
-    // }
-
-    // back() {
-    //     this.displayPages = false;
-    // }
-
-    // close() {
-    //     this.isOpen = false;
-    // }
-
-    // outsideClick(event: MouseEvent) {
-    //     event.stopPropagation();
-    //     this.close();
-    // }
-
-    // updateFilter(event: Event) {
-    //     const target = <HTMLInputElement>event.target;
-    //     if (this.displayPages) {
-    //         this.pagesFilter = target.value;
-    //     } else {
-    //         this.templatesFilter = target.value;
-    //     }
-    // }
-
-    // getTemplateName(item: TemplateSchema, key: string): string {
-    //     return helpers.getTemplateName(item, key);
-    // }
 }

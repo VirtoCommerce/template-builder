@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+
 import { MatSelectModule } from '@angular/material/select';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -56,6 +58,8 @@ const MATERIAL_MODULES = [
     imports: [
         CommonModule,
         ReactiveFormsModule,
+
+        PerfectScrollbarModule,
 
         ...MATERIAL_MODULES,
 

@@ -1,6 +1,6 @@
-<div class="preview-wrapper" [ngClass]="{ 'preview-mode': (isPreviewMode$|async) }">
-    <div *ngIf="isPreviewMode$|async" class="preview-name">Preset preview: {{ previewPresetName$|async }}</div>
-    <div class="iframe-holder">
+<div class="preview-wrapper" [ngClass]="{ 'preset-preview-mode': (isPresetPreviewMode$|async) }">
+    <div *ngIf="isPresetPreviewMode$|async" class="preview-name">Preset preview: {{ previewPresetName$|async }}</div>
+    <div class="iframe-holder" [class]="previewMode$|async">
         <ng-container *ngIf="previewUrl$|async as previewUrl">
             <iframe id="preview-frame-component" [src]="previewUrl"></iframe>
         </ng-container>

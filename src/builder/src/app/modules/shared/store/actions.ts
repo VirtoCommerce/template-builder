@@ -10,3 +10,4 @@ export const loadTemplateEntriesSuccess = createAction('[shared] load template e
 export const loadTemplateEntriesFails = createAction('[shared] load template entries fails', props<{ error: HttpErrorResponse }>());
 
 export const selectTemplate = createAction('[shared] select template', props<{ template: string }>());
+export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());

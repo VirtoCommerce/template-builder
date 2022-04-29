@@ -48,4 +48,9 @@ export class SharedEffects {
         ofType(actions.selectTemplate),
         map(({ template }) => router.go({ queryParams: { template } }))
     ));
+
+    changePreviewMode$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.changePreviewMode),
+        map(({ mode }) => router.go({ queryParams: { 'preview-mode': mode } }))
+    ));
 }
