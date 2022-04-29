@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { TemplateModel } from '@editor/models';
 import { Observable, of } from "rxjs";
 
+// todo: remove it
 import catalog from './demo/catalog.json';
 import page from './demo/page.json';
 

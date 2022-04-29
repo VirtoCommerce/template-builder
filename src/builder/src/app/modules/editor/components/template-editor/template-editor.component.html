@@ -1,6 +1,6 @@
 <app-panel>
     <div class="p-4">
-        <ng-container *ngIf="template">
+        <ng-container *ngIf="template$|async as template">
             <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
                 <ng-container *ngFor="let section of template.content">
                     <app-collapsible-list-item [expandable]="isExpandable(section)"
@@ -11,7 +11,7 @@
                                                (cdkDragReleased)="sectionDragCompleted($event)">
                         <div item>
                             <div class="item-holder">
-                                <app-section-item [sectionSchema]="sectionsSchemas[section.type]"
+                                <app-section-item [sectionSchema]="$any(sectionsSchemas[section.type])"
                                                   [section]="section"
                                                   (itemClick)="onItemClick()">
                                 </app-section-item>

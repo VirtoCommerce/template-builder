@@ -1,5 +1,4 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { BuilderState } from '@shared/routing';
 import * as fromRoute from '@shared/routing';
@@ -14,6 +13,7 @@ export class SidebarComponent implements OnInit {
     @HostBinding('class.hidden') isHidden: boolean = false;
 
     constructor(private store: Store<BuilderState>) {
+        // note! this subscription can be unsubscribed
         this.store.select(fromRoute.isFullscreenPreviewMode).subscribe(
             x => this.isHidden = x
         );

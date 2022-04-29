@@ -14,8 +14,8 @@ const routes: Routes = [
     {
         path: '',
         component: ThemeEditorHostComponent,
-        data: { mode: 'theme', toolbar: ToolbarHostComponent },
-        children: [ { path: 'presets', component: PresetsPanelComponent, data: { mode: 'presets' } } ]
+        data: { module: 'theme', toolbar: ToolbarHostComponent },
+        children: [ { path: 'presets', component: PresetsPanelComponent, data: { module: 'theme', mode: 'presets' } } ]
     }
 ];
 

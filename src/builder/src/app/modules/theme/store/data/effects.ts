@@ -1,8 +1,11 @@
 import { Injectable } from "@angular/core";
+import { of } from "rxjs";
+import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, tap } from "rxjs/operators";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { of } from "rxjs";
-import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap } from "rxjs/operators";
+import { ROUTER_NAVIGATED, RouterNavigatedAction } from "@ngrx/router-store";
+
+import { RouterStateUrl } from '@shared/routing';
 
 import { ThemeSettingsService } from '@theme/services';
 
@@ -24,6 +27,16 @@ export class ThemeDataEffects {
     // raise load data
     // load data
     // load complete
+
+    initModule$ = createEffect(() => this.actions$.pipe(
+        ofType(ROUTER_NAVIGATED),
+        filter((action: RouterNavigatedAction<RouterStateUrl>) => !!action?.payload?.routerState?.data),
+        map((action: RouterNavigatedAction<RouterStateUrl>) => action.payload.routerState.data),
+        filter((data: any) => data.module === 'theme'),
+        switchMap(() => [
+            actions.raiseLoadData()
+        ])
+    ));
 
     raiseLoadData$ = createEffect(() => this.actions$.pipe(
         ofType(actions.raiseLoadData),

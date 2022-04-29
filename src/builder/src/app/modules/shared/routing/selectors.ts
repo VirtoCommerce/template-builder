@@ -53,6 +53,16 @@ export const selectTemplateParameter = createSelector(
     queryParams => queryParams && queryParams['template'] || ''
 );
 
+export const selectSectionIdParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['sectionId'] || ''
+);
+
+export const selectBlockIdParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['blockId'] || ''
+);
+
 export const selectPreviewModeParameter = createSelector(
     selectQueryParams,
     queryParams => queryParams && queryParams['preview-mode'] || ''

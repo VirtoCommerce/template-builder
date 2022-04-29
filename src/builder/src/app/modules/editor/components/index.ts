@@ -6,6 +6,8 @@ import { ToolbarHostComponent } from './toolbar-host/toolbar-host.component';
 
 export * from './template-editor-host/template-editor-host.component';
 export * from './toolbar-host/toolbar-host.component';
+export * from './add-section/add-section.component';
+export * from './edit-section/edit-section.component';
 
 export const COMPONENTS = [
     AddSectionComponent,
