@@ -32,3 +32,7 @@
 * questions
   * should templates are not in state?
   * template editor should change own state from code... or not?
+
+* remove from tsconfig.json
+  * "resolveJsonModule": true,
+  * "allowSyntheticDefaultImports": true,
