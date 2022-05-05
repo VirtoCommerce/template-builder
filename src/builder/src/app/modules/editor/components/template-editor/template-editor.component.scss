@@ -11,3 +11,6 @@ div[item] {
 .sections-container {
     @apply flex flex-col space-y-1 w-full;
 }
+.template-name {
+    @apply grow min-w-0 whitespace-nowrap truncate cursor-default;
+}

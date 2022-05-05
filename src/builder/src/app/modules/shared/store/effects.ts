@@ -46,7 +46,9 @@ export class SharedEffects {
 
     selectTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.selectTemplate),
-        map(({ template }) => router.go({ queryParams: { template } }))
+        withLatestFrom(this.store$.select(fromRoute.selectTemplateParameter)),
+        filter(([{ template }, templateParameter]) => templateParameter && template !== templateParameter),
+        map(([{ template }]) => router.go({ queryParams: { template } }))
     ));
 
     changePreviewMode$ = createEffect(() => this.actions$.pipe(

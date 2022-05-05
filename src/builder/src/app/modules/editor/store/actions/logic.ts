@@ -1,3 +1,3 @@
-import { createAction } from "@ngrx/store";
+import { createAction, props } from "@ngrx/store";
 
-export const fakeLogicAction = createAction('[template editor]');
+export const toggleSection = createAction('[template editor] toggle section', props<{ sectionId: string, template: string }>());

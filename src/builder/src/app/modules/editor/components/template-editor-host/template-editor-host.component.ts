@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TemplateModel, SectionsSchemasList } from '@editor/models';
 import { SectionSchema } from '@core/models';
 
-// todo: remove it
-import { SectionsServiceSimulator } from '../../services/sections.service-simulator';
-import { TemplateServiceSimulator } from './../../services/template.service-simulator';
-
 @Component({
     selector: 'app-template-editor-host',
     templateUrl: './template-editor-host.component.html',

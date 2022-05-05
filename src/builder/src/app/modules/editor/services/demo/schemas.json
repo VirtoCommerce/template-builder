@@ -1,7 +1,11 @@
 {
     "blocks": {
-        "text": {},
-        "image": {}
+        "text": {
+            "icon": "text_fields"
+        },
+        "image": {
+            "icon": "image"
+        }
     },
     "sections": {
         "carousel": {},

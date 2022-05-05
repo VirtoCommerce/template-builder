@@ -28,6 +28,10 @@ export class TemplatesService {
             'page': <any>{
                 name: 'Page',
                 previewUrl: 'https://st-storefront.dev.govirto.com'
+            },
+            'empty': <any>{
+                name: 'Empty page',
+                previewUrl: 'https://st-storefront.dev.govirto.com'
             }
         });
     }

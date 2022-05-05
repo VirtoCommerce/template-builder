@@ -24,7 +24,7 @@ export class CollapsibleListItemComponent implements OnInit {
 
     // @Output() itemClick = new EventEmitter<any>();
     // @Output() plusClick = new EventEmitter<any>();
-    // @Output() openChanged = new EventEmitter<boolean>();
+    @Output() openChanged = new EventEmitter<boolean>();
     @Output() visibleChanged = new EventEmitter<boolean>();
 
     constructor() { }
@@ -52,6 +52,11 @@ export class CollapsibleListItemComponent implements OnInit {
     //     event.stopPropagation();
     //     this.plusClick.emit();
     // }
+
+    onChevronClick() {
+        this.opened = !this.opened;
+        this.openChanged.emit(this.opened);
+    }
 
     onVisibleChanged(value: boolean) {
         this.visibleChanged.emit(value);

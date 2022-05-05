@@ -4,7 +4,9 @@ import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 
 import { BuilderState } from '@editor/store/state';
 
+import * as fromRoute from '@shared/routing';
 import * as fromState from '@editor/store/selectors';
+import * as actions from '@editor/store/actions';
 
 import {
     SectionsSchemasList,
@@ -23,9 +25,28 @@ import { helpers } from '@editor/services';
 export class TemplateEditorComponent implements OnInit {
 
     template$ = this.store.select(fromState.selectCurrentTemplateModel);
+    templateName$ = this.store.select(fromState.selectCurrentTemplateName);
+    templateState$ =this.store.select(fromState.selectCurrentTemplateState);
+    sectionsState$ = this.store.select(fromState.selectSectionsState);
+    sectionsSchemas$ = this.store.select(fromState.selectSectionsSchemas);
+    blocksSchemas$ = this.store.select(fromState.selectBlocksSchemas);
+    templateParameter$ = this.store.select(fromRoute.selectTemplateParameter);
 
-    constructor(private store: Store<BuilderState>){}
+    constructor(private store: Store<BuilderState>) { }
     ngOnInit(): void { }
+
+    addSectionClick() { }
+    reorderSections(event: CdkDragSortEvent<SectionModel>) { }
+    sectionDragStarted(event: any) { }
+    sectionDragCompleted(event: any) { }
+    onSectionClick() { }
+    onBlockClick() { }
+    addBlockClick() { }
+
+    toggleSection(sectionId: string, template: string) {
+        this.store.dispatch(actions.toggleSection({ sectionId, template }));
+    }
+
     // @Input() template!: TemplateModel;
     // @Input() sectionsSchemas!: SectionsSchemasList;
     // @Input() blocksSchemas!: SectionsSchemasList;
@@ -43,10 +64,6 @@ export class TemplateEditorComponent implements OnInit {
     // constructor() { }
 
     // ngOnInit(): void { }
-
-    // addButtonClick() {
-    //     this.addSectionClick.emit();
-    // }
 
     // onItemClick() {
     //     this.editItem.emit();
@@ -72,14 +89,6 @@ export class TemplateEditorComponent implements OnInit {
 
     // reorderSections(event: CdkDragSortEvent<SectionModel>) {
     //     console.log('reoderSections', event);
-    // }
-
-    // sectionDragStarted(event: any) {
-    //     console.log('drag started', event);
-    // }
-
-    // sectionDragCompleted(event: any) {
-    //     console.log('drag released', event);
     // }
 
     // blockDragStarted() {

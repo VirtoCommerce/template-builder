@@ -4,9 +4,9 @@
         (menuClosed)="isOpened = false">
     <ng-container *ngIf="activeItem">
         <mat-icon *ngIf="activeItem.icon">{{ activeItem.icon }}</mat-icon>
-        <div *ngIf="activeItem.title" class="text">{{ activeItem.title }}</div>
+        <div *ngIf="activeItem.title" class="text active-item-text">{{ activeItem.title }}</div>
     </ng-container>
-    <div class="text" *ngIf="!active">{{ defaultTitle }}</div>
+    <div class="text default-title-text" *ngIf="!active && !!defaultTitle">{{ defaultTitle }}</div>
     <app-chevron *ngIf="displayChevron" [opened]="isOpened" [vertical]="true"></app-chevron>
 </button>
 <mat-menu #menu="matMenu">

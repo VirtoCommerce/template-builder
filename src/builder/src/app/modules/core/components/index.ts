@@ -12,7 +12,7 @@ import { ActionButtonsComponent } from './action-buttons/action-buttons.componen
 import { MultipageSelectComponent } from './multipage-select/multipage-select.component';
 import { ChevronComponent } from './chevron/chevron.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
-// import { DragHandleComponent } from './drag-handle/drag-handle.component';
+import { DragHandleComponent } from './drag-handle/drag-handle.component';
 import { IconComponent } from './icon/icon.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { PanelComponent } from './panel/panel.component';
@@ -36,7 +36,7 @@ export const COMPONENTS = [
     MultipageSelectComponent,
     ChevronComponent,
     IconButtonComponent,
-    // DragHandleComponent,
+    DragHandleComponent,
     IconComponent,
     ContextMenuComponent,
     IconWithPreviewComponent,

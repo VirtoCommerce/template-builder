@@ -7,7 +7,8 @@ import { EditorDataState, initialState } from './state';
 export const editorDataReducers = createReducer<EditorDataState>(
     initialState,
 
-    // on(actions.presetsListMode, (state) => ({ ...state, mode: 'list' })),
+    on(actions.loadTemplateSchemasSuccess, (state, { schemas }) => ({ ...state, schemas })),
+    on(actions.loadTemplateModelSuccess, (state, { template, alias }) => ({ ...state, templates: { ...state.templates, [alias]: template } })),
     // on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),
 
     // on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter })),

@@ -6,8 +6,24 @@ import { selectTemplateDataState } from "./common";
 export const selectCurrentTemplateModel = createSelector(
     selectTemplateDataState,
     selectTemplateParameter,
-    (state, alias) => alias ? state.templates[alias]?.model : null
+    (state, alias) => alias ? state.templates[alias] : null
 );
+
+export const selectCurrentTemplateName = createSelector(
+    selectCurrentTemplateModel,
+    model => model?.settings?.['name'] || '[no name]'
+);
+
+export const selectSectionsSchemas = createSelector(
+    selectTemplateDataState,
+    state => state.schemas?.sections || {}
+);
+
+export const selectBlocksSchemas = createSelector(
+    selectTemplateDataState,
+    state => state.schemas?.blocks || {}
+);
+
 
 // export const selectPresets = createSelector(
 //     selectThemeDataState,

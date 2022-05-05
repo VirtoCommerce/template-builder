@@ -1,9 +1,14 @@
-import { TemplatesList } from '@editor/models';
+import {
+    TemplateModelsList,
+    SchemasList
+} from '@editor/models';
 
 export interface EditorDataState {
-    templates: TemplatesList
+    templates: TemplateModelsList;
+    schemas: SchemasList | null;
 }
 
 export const initialState: EditorDataState = {
-    templates: {}
+    templates: {},
+    schemas: null
 }

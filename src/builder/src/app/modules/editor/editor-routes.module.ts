@@ -9,33 +9,33 @@ import {
  } from '@editor/components';
 
 // import { AtmsListComponent, AtmsDetailsComponent } from '@atms/pages';
-// import { ModulesInfo } from '..';
+import { ModuleInfo } from './module.info';
 
 const routes: Routes = [
     {
         path: '',
         component: TemplateEditorHostComponent,
-        data: { module: 'templates', toolbar: ToolbarHostComponent },
+        data: { module: ModuleInfo.name, toolbar: ToolbarHostComponent },
         children: [
             {
                 path: 'create',
                 component: AddSectionComponent,
-                data: { module: 'templates', mode: 'create-section' }
+                data: { module: ModuleInfo.name, mode: 'create-section' }
             },
             {
                 path: 'create/:sectionId',
                 component: AddSectionComponent,
-                data: { module: 'templates', mode: 'create-block' }
+                data: { module: ModuleInfo.name, mode: 'create-block' }
             },
             {
                 path: ':sectionId',
                 component: EditSectionComponent,
-                data: { module: 'templates', mode: 'edit-section' }
+                data: { module: ModuleInfo.name, mode: 'edit-section' }
             },
             {
                 path: ':sectionId/:blockId',
                 component: EditSectionComponent,
-                data: { module: 'templates', mode: 'edit-block' }
+                data: { module: ModuleInfo.name, mode: 'edit-block' }
             }
         ]
     },

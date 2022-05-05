@@ -1,9 +1,11 @@
+import { TemplateStatesList } from '@editor/models';
+
 export interface EditorDomainState {
-    templateLoading: boolean;
+    states: TemplateStatesList;
     schemaLoading: boolean;
 }
 
 export const initialState: EditorDomainState = {
-    templateLoading: false,
+    states: {},
     schemaLoading: false
 }
