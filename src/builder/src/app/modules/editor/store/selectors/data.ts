@@ -54,8 +54,42 @@ export const selectSectionModelFromRoute = createSelector(
     fromRoute.selectSectionIdParameter,
     selectCurrentTemplateModel,
     (sectionId, template) => sectionId
-        ? template?.content.find(x => x.id == sectionId)
+        ? template?.content.find(x => x.id === sectionId)
         : null
+);
+
+export const selectSectionSchemaFromRoute = createSelector(
+    selectSectionModelFromRoute,
+    selectSectionsSchemas,
+    (section, schemas) => section && schemas[section.type]
+);
+
+export const selectBlockModelFromRoute = createSelector(
+    fromRoute.selectBlockIdParameter,
+    selectSectionModelFromRoute,
+    (blockId, section) => section && blockId
+        ? section.blocks.find(x => x.id === blockId)
+        : null
+);
+
+export const selectBlockSchemaFromRoute = createSelector(
+    selectBlockModelFromRoute,
+    selectBlocksSchemas,
+    selectSectionsSchemas,
+    (model, blocksSchemas, sectionsSchemas) =>
+        model && (blocksSchemas[model.type] || sectionsSchemas[model.type])
+);
+
+export const selectCurrentItemForEdit = createSelector(
+    selectBlockModelFromRoute,
+    selectSectionModelFromRoute,
+    (block, section) => block || section
+);
+
+export const selectCurrentSchemaForEdit = createSelector(
+    selectBlockSchemaFromRoute,
+    selectSectionSchemaFromRoute,
+    (block, section) => block || section
 );
 
 const selectSectionBlockSchemasFromRoute = createSelector(

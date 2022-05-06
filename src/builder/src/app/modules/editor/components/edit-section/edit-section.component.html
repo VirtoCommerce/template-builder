@@ -1,20 +1,24 @@
 <app-overlap-panel>
     <app-panel>
-        <!-- <app-dynamic-form [context]="context"
-                          [descriptors]="schema.settings"
-                          [sectionModel]="section"></app-dynamic-form>
+        <ng-container *ngIf="viewModel$|async as vm">
+            <app-dynamic-form [context]="vm.editContext"
+                              [descriptors]="vm.schema.settings"
+                              [sectionModel]="vm.section"></app-dynamic-form>
+        </ng-container>
         <ng-container title-content>
-            <div class="title">
-                <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
-                <div class="info">
-                    <div class="whitespace-normal">{{ getSectionName() }}</div>
-                    <div class="section-info">
-                        Type: {{ section.type }}<br />
-                        ID: {{ section.id }}
+            <ng-container *ngIf="viewModel$|async as vm">
+                <div class="title">
+                    <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
+                    <div class="info">
+                        <div class="whitespace-normal">{{ sectionName$|async }}</div>
+                        <div class="section-info">
+                            Type: {{ vm.section.type }}<br />
+                            ID: {{ vm.section.id }}
+                        </div>
                     </div>
+                    <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
                 </div>
-                <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
-            </div>
-        </ng-container> -->
+            </ng-container>
+        </ng-container>
     </app-panel>
 </app-overlap-panel>

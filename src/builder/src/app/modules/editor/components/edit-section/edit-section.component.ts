@@ -1,7 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BuilderState } from '@editor/store/state';
 import { ContextMenuAction, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
 // import { SectionsSchemasList } from '@editor/models';
 import { helpers } from '@editor/services';
+import { Store } from '@ngrx/store';
+
+import * as actions from '@editor/store/actions';
+import * as fromState from '@editor/store/selectors';
 
 @Component({
     selector: 'app-edit-section',
@@ -10,9 +15,16 @@ import { helpers } from '@editor/services';
 })
 export class EditSectionComponent implements OnInit {
 
-    constructor() { }
+    viewModel$ = this.store.select(fromState.selectEditSectionContext)
+    sectionName$ = this.store.select(fromState.selectCurrentItemName)
+
+    constructor(private store: Store<BuilderState>) { }
 
     ngOnInit(): void { }
+
+    onBackClick() {
+        this.store.dispatch(actions.closeEditItemPanel());
+    }
 
     // @Input() section!: SectionModel;
     // @Input() schema!: SectionSchema;
@@ -26,52 +38,52 @@ export class EditSectionComponent implements OnInit {
     // // @Output() cloneClick = new EventEmitter<any>();
     // // @Output() sectionChanged = new EventEmitter<SectionModel>();
 
-    // itemActions = [
-    //     <ContextMenuAction>{
-    //         action: 'hide',
-    //         title: 'Hide',
-    //         icon: 'visibility',
-    //         selected: false,
-    //         inactive: false
-    //     },
-    //     <ContextMenuAction>'|',
-    //     <ContextMenuAction>{
-    //         action: 'copy',
-    //         title: 'Copy',
-    //         icon: 'content_copy',
-    //         selected: false,
-    //         inactive: false
-    //     },
-    //     <ContextMenuAction>{
-    //         action: 'paste-before',
-    //         title: 'Paste before',
-    //         icon: 'content_paste',
-    //         selected: false,
-    //         inactive: false
-    //     },
-    //     <ContextMenuAction>{
-    //         action: 'paste-after',
-    //         title: 'Paste after',
-    //         icon: 'content_paste',
-    //         selected: false,
-    //         inactive: false
-    //     },
-    //     <ContextMenuAction>{
-    //         action: 'duplicate',
-    //         title: 'Duplicate',
-    //         icon: 'file_copy',
-    //         selected: false,
-    //         inactive: false
-    //     },
-    //     <ContextMenuAction>'|',
-    //     <ContextMenuAction>{
-    //         action: 'delete',
-    //         title: 'Delete',
-    //         icon: 'delete_outline',
-    //         selected: false,
-    //         inactive: false
-    //     }
-    // ];
+    itemActions = [
+        <ContextMenuAction>{
+            action: 'hide',
+            title: 'Hide',
+            icon: 'visibility',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>'|',
+        <ContextMenuAction>{
+            action: 'copy',
+            title: 'Copy',
+            icon: 'content_copy',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>{
+            action: 'paste-before',
+            title: 'Paste before',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>{
+            action: 'paste-after',
+            title: 'Paste after',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>{
+            action: 'duplicate',
+            title: 'Duplicate',
+            icon: 'file_copy',
+            selected: false,
+            inactive: false
+        },
+        <ContextMenuAction>'|',
+        <ContextMenuAction>{
+            action: 'delete',
+            title: 'Delete',
+            icon: 'delete_outline',
+            selected: false,
+            inactive: false
+        }
+    ];
 
 
     // onBackClick() {

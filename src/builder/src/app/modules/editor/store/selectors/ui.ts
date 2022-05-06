@@ -60,3 +60,18 @@ export const selectAddItemContext = createSelector(
         },
     })
 );
+
+export const selectCurrentItemName = createSelector(
+    fromData.selectCurrentItemForEdit,
+    state => 'Edit current section'
+);
+
+export const selectEditSectionContext = createSelector(
+    fromData.selectCurrentItemForEdit,
+    fromData.selectCurrentSchemaForEdit,
+    (model, schema) => <any>{
+        schema: schema,
+        section: model,
+        editContext: {}
+    }
+);

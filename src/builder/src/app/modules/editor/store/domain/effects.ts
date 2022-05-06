@@ -44,6 +44,13 @@ export class TemplateEditorDomainEffects {
         ])
     ));
 
+    completeEditSection$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.closeEditItemPanel),
+        switchMap(() => [
+            routingActions.go({ path: ['/pages'] }),
+        ])
+    ));
+
     addItem$ = createEffect(() => this.actions$.pipe(
         ofType(actions.addItemAction),
         withLatestFrom(

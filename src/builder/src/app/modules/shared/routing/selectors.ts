@@ -64,8 +64,8 @@ export const selectSectionIdParameter = createSelector(
 );
 
 export const selectBlockIdParameter = createSelector(
-    selectQueryParams,
-    queryParams => queryParams && queryParams['blockId'] || ''
+    selectPathParams,
+    params => params && params['blockId'] || ''
 );
 
 export const selectPreviewModeParameter = createSelector(
