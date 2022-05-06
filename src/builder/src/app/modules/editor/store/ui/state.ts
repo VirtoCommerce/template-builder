@@ -1,9 +1,15 @@
+import { Dictionary } from "@core/models";
+
 export interface EditorUIState {
-    // mode: 'list' | 'tile';
-    // presetsFilter: string | null;
+    states: Dictionary<{
+        opened: boolean;
+    }>;
+    previewItemType: string | null;
+    currentSectionsFilter: string | null;
 };
 
 export const initialState: EditorUIState = {
-    // mode: 'list',
-    // presetsFilter: null
+    states: {},
+    previewItemType: null,
+    currentSectionsFilter: null
 };

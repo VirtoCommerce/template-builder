@@ -17,3 +17,8 @@ export const selectTemplateDomainState = createSelector(
     selectTemplateEditorFeature,
     state => state.domain
 );
+
+export const selectCurrentSectionsFilter = createSelector(
+    selectTemplateUIState,
+    state => state.currentSectionsFilter
+);

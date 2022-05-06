@@ -1,7 +1,13 @@
 import { createSelector } from "@ngrx/store";
 
 import { selectTemplateParameter } from '@shared/routing';
-import { selectTemplateDataState } from "./common";
+import { selectTemplateDataState, selectCurrentSectionsFilter } from "./common";
+
+import { SectionsSchemasList } from '@editor/models';
+import { appHelpers } from "@core/services";
+
+import * as fromRoute from '@shared/routing/selectors';
+import * as fromShared from '@shared/store/selectors';
 
 export const selectCurrentTemplateModel = createSelector(
     selectTemplateDataState,
@@ -16,7 +22,14 @@ export const selectCurrentTemplateName = createSelector(
 
 export const selectSectionsSchemas = createSelector(
     selectTemplateDataState,
-    state => state.schemas?.sections || {}
+    state => state.schemas
+        && <SectionsSchemasList>appHelpers.spreadPropertyByOther(state.schemas.sections, 'group', 'groupIcon')
+        || {}
+);
+
+export const selectSectionsSchemasList = createSelector(
+    selectSectionsSchemas,
+    sections => Object.keys(sections).map(key => ({ ...sections[key], alias: key }))
 );
 
 export const selectBlocksSchemas = createSelector(
@@ -24,28 +37,57 @@ export const selectBlocksSchemas = createSelector(
     state => state.schemas?.blocks || {}
 );
 
+export const selectBlocksSchemasList = createSelector(
+    selectBlocksSchemas,
+    blocks => Object.keys(blocks).map(key => blocks[key])
+);
 
-// export const selectPresets = createSelector(
-//     selectThemeDataState,
-//     state => state.presets
-// );
+export const selectCurrentTemplateSectionSchemas = createSelector(
+    selectSectionsSchemas,
+    fromShared.selectCurrentTemplateEntry,
+    (schemas, entry) => entry.sections
+        ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x)
+        : appHelpers.toList(schemas, 'type')
+);
 
-// export const selectFilteredPresets = createSelector(
-//     selectPresets,
-//     selectPresetsFilter,
-//     (presets, filter) => !filter
-//         ? presets
-//         : Object.keys(presets)
-//             .filter(key => key.toLowerCase().includes(filter?.toLowerCase()))
-//             .reduce((result, key) => ({...result, [key]: presets[key]}), {})
-// );
+export const selectSectionModelFromRoute = createSelector(
+    fromRoute.selectSectionIdParameter,
+    selectCurrentTemplateModel,
+    (sectionId, template) => sectionId
+        ? template?.content.find(x => x.id == sectionId)
+        : null
+);
 
-// export const selectPresetsNames = createSelector(
-//     selectThemeDataState,
-//     state => state.presets ? Object.keys(state.presets) : []
-// );
+const selectSectionBlockSchemasFromRoute = createSelector(
+    selectSectionModelFromRoute,
+    selectBlocksSchemas,
+    selectSectionsSchemas,
+    (section, blocksSchemas, sectionsSchemas) => section
+        ? sectionsSchemas[section.type].blocks?.map(type => ({ ...blocksSchemas[type], type }))
+        : null
+);
 
-// export const selectSettingsSchema = createSelector(
-//     selectThemeDataState,
-//     state => state.settingsSchema
-// );
+const selectCurrentItemsSchemas = createSelector(
+    selectCurrentTemplateSectionSchemas,
+    selectSectionBlockSchemasFromRoute,
+    (sectionSchemas, blockSchemas) => blockSchemas || sectionSchemas
+);
+
+export const selectCurrentFilteredSectionSchemas = createSelector(
+    selectCurrentItemsSchemas,
+    selectCurrentSectionsFilter,
+    (sections, filter) => filter
+        ? sections.filter(x => x.type.toUpperCase().indexOf(filter.toUpperCase()) !== -1)
+        : sections
+);
+
+export const selectGroupedSectionSchemas = createSelector(
+    selectCurrentFilteredSectionSchemas,
+    sections => {
+        const groups = appHelpers.groupSections(sections);
+        return {
+            groups: groups.filter(x => x.items.length && !x.noname),
+            items: groups.find(x => x.noname)?.items || []
+        }
+    }
+);

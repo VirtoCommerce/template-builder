@@ -38,6 +38,11 @@ export const selectQueryParams = createSelector(
     route => route?.state.queryParams
 );
 
+export const selectPathParams = createSelector(
+    selectFeature,
+    route => route?.state.params
+);
+
 export const selectGroupsParameter = createSelector(
     selectQueryParams,
     queryParams => queryParams && queryParams['groups'] || ''
@@ -54,8 +59,8 @@ export const selectTemplateParameter = createSelector(
 );
 
 export const selectSectionIdParameter = createSelector(
-    selectQueryParams,
-    queryParams => queryParams && queryParams['sectionId'] || ''
+    selectPathParams,
+    params => params && params['sectionId'] || ''
 );
 
 export const selectBlockIdParameter = createSelector(

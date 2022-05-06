@@ -32,23 +32,8 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
                 sections: state.states[alias]?.sections || { }
             }
         }
-    })),
-    on(actions.toggleSection, (state, { sectionId, template }) => ({
-        ...state,
-        states: {
-            ...state.states,
-            [template]: {
-                ...state.states[template],
-                sections: {
-                    ...state.states[template]?.sections,
-                    [sectionId]: {
-                        ...state.states[template]?.sections[sectionId],
-                        expanded: !state.states[template]?.sections[sectionId]?.expanded
-                    }
-                }
-            }
-        }
     }))
+
 
     // on(actions.presetsListMode, (state) => ({ ...state, mode: 'list' })),
     // on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),

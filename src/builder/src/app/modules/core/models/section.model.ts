@@ -1,8 +1,7 @@
 export type SectionPropertyType = string|number|boolean|SectionModel;
 
 export interface SectionModel {
-    __id: string;
-    __index: number;
+    id: string;
     type: string;
     hidden: boolean;
 

@@ -129,7 +129,7 @@ export class SectionItemComponent implements OnInit {
     }
 
     onVisibleChanged(value: boolean, blockIndex: number | null) {
-        this.visibleChanged.emit({ sectionIndex: this.section.__index, blockIndex, value });
+        // this.visibleChanged.emit({ : this.section.id, blockIndex, value });
     }
 
     blockDragStarted() {

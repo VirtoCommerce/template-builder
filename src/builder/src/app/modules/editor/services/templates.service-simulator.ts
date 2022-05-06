@@ -1,8 +1,9 @@
-import { appHelpers } from '@core/services';
 import { Injectable } from "@angular/core";
 
 import { TemplateModel } from '@editor/models';
 import { map, Observable, of } from "rxjs";
+
+import * as appHelpers from './editor.helpers';
 
 // todo: remove it
 import catalog from './demo/catalog.json';
@@ -26,9 +27,14 @@ export class TemplatesServiceSimulator {
             return <any>catalog;
         })()).pipe(
             map(template => {
+                const ids = <{ [key: string]: boolean }>{};
                 template.content.forEach((section: any) => {
                     // todo: remove it
-                    section.__id = section.__id || appHelpers.generateUniqueString(12)
+                    if (ids[section.id]) {
+                        section.id = null;
+                    }
+                    section.id = appHelpers.generateSectionId(section);
+                    ids[section.id] = true;
                 });
                 return template;
             })

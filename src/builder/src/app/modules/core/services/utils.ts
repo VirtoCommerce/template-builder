@@ -1,5 +1,55 @@
-import { ControlDescriptor } from '@core/models';
 import * as jp from 'jsonpath';
+
+import { ControlDescriptor, ItemsGroup, SectionSchema } from '@core/models';
+
+export const NO_NAME_GROUP_KEY = '__noname__';
+export function groupSections(list: SectionSchema[]): ItemsGroup<SectionSchema>[] {
+    if (list) {
+        const groups = list.reduce((acc, value) => {
+            const groupName = value.group || NO_NAME_GROUP_KEY;
+            if (!acc[groupName]) {
+                acc[groupName] = <ItemsGroup<SectionSchema>>{
+                    icon: value.groupIcon,
+                    name: value.group,
+                    items: [],
+                    noname: !value.group
+                };
+            }
+            acc[groupName].items.push(value);
+            if (!acc[groupName].icon) {
+                acc[groupName].icon = value.groupIcon;
+            }
+            return acc;
+        }, <any>{});
+        const result = Object.keys(groups).map(key => groups[key]);
+        return result;
+    }
+    return [];
+}
+
+export function spreadPropertyByOther(obj: any, keyProperty: string, spreadProperty: string): any {
+    const groups = Object.keys(obj).reduce((groups, key) => {
+        const group = obj[key][keyProperty];
+        if (!groups) {
+            return groups;
+        }
+        return {
+            [group]: obj[key][spreadProperty],
+            ...groups
+        };
+    }, <any>{});
+    const result = Object.keys(obj).reduce((result, key) => {
+        const group = obj[key][keyProperty];
+        return {
+            ...result,
+            [key]: {
+                ...obj[key],
+                [spreadProperty]: group ? groups[group] : null
+            }
+        };
+    }, {});
+    return result;
+}
 
 export function generateUniqueString(length: number): string {
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-';
@@ -75,3 +125,8 @@ export function combine(...parts: string[]): string {
 export function createDefaultObject(settings: ControlDescriptor[]) {
     return settings.filter(x => typeof(x.default) !== 'undefined').reduce((acc, value) => ({...acc, [<string>value.id] : value.default}), {});
 }
+
+export function toList(obj: any, keyPropertyName: string) {
+    return Object.keys(obj).map(key => ({ [keyPropertyName]: key, ...obj[key] }));
+}
+

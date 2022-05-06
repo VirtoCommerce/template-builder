@@ -2,10 +2,11 @@ import { createSelector } from "@ngrx/store";
 
 import { selectTemplateParameter } from '@shared/routing';
 import {
+    selectTemplateEditorFeature,
     selectTemplateDomainState,
     selectTemplateDataState
 } from "./common";
-import { selectCurrentTemplateModel, selectSectionsSchemas } from "./data";
+import * as fromData from "./data";
 
 import { SectionStatesList, SectionState } from '@editor/models';
 
@@ -22,17 +23,25 @@ export const selectCurrentTemplateState = createSelector(
 
 export const selectSectionsState = createSelector(
     selectCurrentTemplateState,
-    selectCurrentTemplateModel,
-    selectSectionsSchemas,
-    (state, model, schemas) => model?.content.reduce((result, section) => {
+    fromData.selectCurrentTemplateModel,
+    fromData.selectSectionsSchemas,
+    (state, model, schemas) => (schemas && model?.content.filter(x => x.type && x.id).reduce((result, section) => {
         const canHaveChildren = (schemas[section.type]?.blocks?.length || 0) > 0;
         return <SectionStatesList>{
             ...result,
-            [section.__id]: <SectionState>{
+            [section.id]: <SectionState>{
                 expanded: canHaveChildren,
                 canHaveChildren,
-                ...state?.sections[section.__id]
+                ...state?.sections[section.id]
             }
         };
-    }, {}) || <SectionStatesList>{}
+    }, {})) || <SectionStatesList>{}
 );
+
+// export const selectGroupedBlankItems = createSelector(
+//     selectTemplateEditorFeature,
+//     state => ({
+//         groups: [],
+//         items: []
+//     })
+// );

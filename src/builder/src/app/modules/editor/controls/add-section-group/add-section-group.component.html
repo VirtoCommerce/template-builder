@@ -7,7 +7,7 @@
     <ul *ngIf="opened">
         <li *ngFor="let item of group.items" class="border-b">
             <app-add-section-item [section]="item"
-                                  [inPreview]="item === underPreview"
+                                  [inPreview]="item.type === underPreviewType"
                                   [child]="true"
                                   (onPreview)="raiseOnPreview(item)"
                                   (onAdd)="raiseOnAdd(item)">

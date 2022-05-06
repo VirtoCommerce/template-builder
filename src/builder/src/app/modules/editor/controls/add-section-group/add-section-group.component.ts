@@ -11,7 +11,7 @@ export class AddSectionGroupComponent implements OnInit {
     @Input() group!: ItemsGroup<SectionSchema>;
     @Input() opened: boolean = false;
 
-    @Input() underPreview: SectionSchema | null = null;
+    @Input() underPreviewType: string | null = null;
 
     @Output() onAdd = new EventEmitter<SectionSchema>();
     @Output() onPreview = new EventEmitter<SectionSchema>();

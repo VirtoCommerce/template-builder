@@ -1,3 +1,4 @@
 import { createAction, props } from "@ngrx/store";
 
-export const toggleSection = createAction('[template editor] toggle section', props<{ sectionId: string, template: string }>());
+export const showBlankSections = createAction('[template editor] show blank sections', props<{ sectionId: string | null }>());
+export const closeAddItemPanel = createAction('[template editor] close add item panel');

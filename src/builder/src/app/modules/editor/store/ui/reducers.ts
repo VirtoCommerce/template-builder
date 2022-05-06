@@ -7,9 +7,27 @@ import { EditorUIState, initialState } from './state';
 export const editorUIReducers = createReducer<EditorUIState>(
     initialState,
 
-    // on(actions.presetsListMode, (state) => ({ ...state, mode: 'list' })),
-    // on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),
-
-    // on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter })),
-
+    on(actions.toggleGroupAction, (state, { groupId }) => ({
+        ...state,
+        states: {
+            ...state.states,
+            [groupId]: {
+                ...state.states[groupId],
+                opened: !(state.states[groupId]?.opened)
+            }
+        }
+    })),
+    on(actions.previewItemAction, (state, { item }) => ({
+        ...state,
+        previewItemType: item.type
+    })),
+    on(actions.applySectionsFilter, (state, { filter }) => ({
+        ...state,
+        currentSectionsFilter: filter
+    })),
+    on(actions.resetGroupsState, state => ({
+        ...state,
+        currentSectionsFilter: null,
+        previewItemType: null
+    }))
 );

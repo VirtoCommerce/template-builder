@@ -14,7 +14,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     private _sectionModel!: SectionModel;
     private _descriptors!: BaseControlDescriptor[];
-    private _currentSectionIndex: number | null = null;
+    private _currentSectionId: string | null = null;
     private _subscription: Subscription | null = null;
 
     // @Input() activeTab: string | null = null;
@@ -54,8 +54,8 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     private generateForm() {
         const m = this.sectionModel;
-        if (m && !!this.descriptors && (!this.form || (m.__index !== this._currentSectionIndex))) {
-            this._currentSectionIndex = m.__index;
+        if (m && !!this.descriptors && (!this.form || (m.id !== this._currentSectionId))) {
+            this._currentSectionId = m.id;
             this.form = null;
             this.unsubscribe();
             setTimeout(() => {

@@ -4,12 +4,12 @@
     },
     "content": [
         {
-            "__id": "1",
+            "id": "1",
             "type": "cover-with-image",
             "name": "Main slide"
         },
         {
-            "__id": "2",
+            "id": "2",
             "type": "cover-with-variations",
             "name": "Cover with variations with very long name for it",
             "title": "Headline title and some other info",
@@ -24,39 +24,39 @@
             ]
         },
         {
-            "__id": "3",
+            "id": "3",
             "type": "cover-with-variations",
             "name": "Cover with variations"
         },
         {
-            "__id": "4",
+            "id": "4",
             "type": "cover-with-variations",
             "name": "Cover variations"
         },
         {
-            "__id": "5",
+            "id": "5",
             "type": "product-info",
             "name": "Product info",
             "blocks": [
                 {
-                    "__id": "6",
+                    "id": "6",
                     "name": "Image",
                     "type": "image"
                 },
                 {
-                    "__id": "7",
+                    "id": "7",
                     "name": "text",
                     "type": "text"
                 }
             ]
         },
         {
-            "__id": "8",
+            "id": "8",
             "type": "cover-with-variations",
             "name": "Cover variations"
         },
         {
-            "__id": "9",
+            "id": "9",
             "type": "cover-with-variations",
             "name": "Cover variations"
         },

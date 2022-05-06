@@ -24,27 +24,29 @@ import { helpers } from '@editor/services';
 })
 export class TemplateEditorComponent implements OnInit {
 
-    template$ = this.store.select(fromState.selectCurrentTemplateModel);
+    ctx$ = this.store.select(fromState.editTemplateContext);
+
     templateName$ = this.store.select(fromState.selectCurrentTemplateName);
-    templateState$ =this.store.select(fromState.selectCurrentTemplateState);
-    sectionsState$ = this.store.select(fromState.selectSectionsState);
-    sectionsSchemas$ = this.store.select(fromState.selectSectionsSchemas);
-    blocksSchemas$ = this.store.select(fromState.selectBlocksSchemas);
     templateParameter$ = this.store.select(fromRoute.selectTemplateParameter);
 
     constructor(private store: Store<BuilderState>) { }
     ngOnInit(): void { }
 
-    addSectionClick() { }
+    addSectionClick() {
+        this.store.dispatch(actions.showBlankSections({ sectionId: null }));
+    }
+
     reorderSections(event: CdkDragSortEvent<SectionModel>) { }
     sectionDragStarted(event: any) { }
     sectionDragCompleted(event: any) { }
     onSectionClick() { }
     onBlockClick() { }
-    addBlockClick() { }
+    addBlockClick(section: SectionModel) {
+        this.store.dispatch(actions.showBlankSections({ sectionId: section.id }));
+    }
 
     toggleSection(sectionId: string, template: string) {
-        this.store.dispatch(actions.toggleSection({ sectionId, template }));
+        this.store.dispatch(actions.toggleSectionAction({ sectionId, template }));
     }
 
     // @Input() template!: TemplateModel;

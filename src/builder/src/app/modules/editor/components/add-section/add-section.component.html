@@ -1,57 +1,39 @@
-<app-overlap-panel>
+<app-overlap-panel [expandable]="false">
     <app-panel>
         <div>
             <ul class="flex flex-col">
                 <li class="search-holder">
-                    <input placeholder="Enter block name" class="search" type="search" />
+                    <input placeholder="Enter block name"
+                           class="search"
+                           type="search"
+                           [value]="filter$|async"
+                           (keyup)="applySectionsFilter($event)"
+                           (search)="applySectionsFilter($event)" />
                 </li>
-                <li *ngFor="let group of groups" class="border-b">
-                    <app-add-section-group [group]="group"
-                                           [opened]="group === openedGroup"
-                                           [underPreview]="underPreview"
-                                           (onOpened)="onGroupOpened(group)"
-                                           (onPreview)="onPreviewItem($event)"
-                                           (onAdd)="onAddItem($event)">
-                    </app-add-section-group>
-                </li>
-                <li *ngFor="let item of items" class="border-b">
-                    <app-add-section-item [section]="item"
-                                          [inPreview]="item === underPreview"
-                                          (onPreview)="onPreviewItem(item)"
-                                          (onAdd)="onAddItem(item)"></app-add-section-item>
-                </li>
+                <ng-container *ngIf="ctx$|async as ctx">
+                    <li *ngFor="let group of ctx.groups" class="border-b">
+                        <app-add-section-group [group]="group"
+                                               [opened]="ctx.states.groups[group.name].opened"
+                                               [underPreviewType]="ctx.states.previewItemType"
+                                               (onOpened)="onToggleGroup(group)"
+                                               (onPreview)="onPreviewItem($event)"
+                                               (onAdd)="onAddItem($event)">
+                        </app-add-section-group>
+                    </li>
+                    <li *ngFor="let item of ctx.items" class="border-b">
+                        <app-add-section-item [section]="item"
+                                              [inPreview]="item.type === ctx.states.previewItemType"
+                                              (onPreview)="onPreviewItem(item)"
+                                              (onAdd)="onAddItem(item)"></app-add-section-item>
+                    </li>
+                </ng-container>
             </ul>
         </div>
         <ng-container title-content>
             <div class="title">
-                <app-icon (click)="raiseCancelAdd()" title="Cancel">chevron_left</app-icon>
-                <div>Add section</div>
+                <app-icon (click)="onCancelClick()" title="Cancel">chevron_left</app-icon>
+                <div>{{ title$|async }}</div>
             </div>
         </ng-container>
     </app-panel>
-    <!-- <app-input-search (searchChange)="filterItems($event)"></app-input-search>
-    <app-collapsible-list-item *ngFor="let group of groups"
-                               [icon]="group.icon"
-                               [title]="group.name"
-                               [closable]="true"
-                               [collapseByArea]="true">
-        <app-inner-list-item *ngFor="let item of group.items"
-                             [icon]="item.icon"
-                             [title]="item.name"
-                             [showPlus]="true"
-                             (itemClick)="onPreviewItem(item)"
-                             (plusClick)="onAddItem(item)">
-        </app-inner-list-item>
-    </app-collapsible-list-item>
-
-    <app-separator *ngIf="!!groups.length && !!items.length" class="mb-3"></app-separator>
-
-    <app-collapsible-list-item *ngFor="let item of items"
-                               [icon]="item.icon"
-                               [title]="item.name"
-                               [closable]="false"
-                               [showPlus]="true"
-                               (itemClick)="onPreviewItem(item)"
-                               (plusClick)="onAddItem(item)">
-    </app-collapsible-list-item> -->
 </app-overlap-panel>

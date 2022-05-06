@@ -18,14 +18,14 @@ const routes: Routes = [
         data: { module: ModuleInfo.name, toolbar: ToolbarHostComponent },
         children: [
             {
-                path: 'create',
+                path: 'add',
                 component: AddSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'create-section' }
+                data: { module: ModuleInfo.name, mode: 'add-section' }
             },
             {
-                path: 'create/:sectionId',
+                path: 'add/:sectionId',
                 component: AddSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'create-block' }
+                data: { module: ModuleInfo.name, mode: 'add-block' }
             },
             {
                 path: ':sectionId',

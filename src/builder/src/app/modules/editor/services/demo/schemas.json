@@ -8,54 +8,70 @@
         }
     },
     "sections": {
-        "carousel": {},
-        "cards": {},
-        "promo": {},
+        "carousel": {
+            "icon": "thumb_up_off_alt"
+        },
+        "cards": {
+            "icon": "account_box"
+        },
+        "promo": {
+            "icon": "info"
+        },
         "cover-with-image": {
+            "icon": "superscript"
+        },
+        "product-details": {
             "name": "Product details",
             "icon": "image",
             "displayNameProperty": "name",
-            "group": "Blog"
+            "group": "Catalog"
         },
-        "cover-with-image1": {
-            "name": "Product details 1",
+        "image": {
+            "name": "Simple image",
             "icon": "image",
             "displayNameProperty": "name",
-            "group": "Blog"
+            "group": "Content",
+            "groupIcon": "flight_takeoff"
         },
-        "cover-with-image2": {
-            "name": "Product details 2",
+        "hero": {
+            "name": "Hero block",
             "icon": "image",
             "displayNameProperty": "name",
-            "group": "Blog"
+            "group": "Promo",
+            "groupIcon": "flight_takeoff"
         },
-        "cover-with-image3": {
-            "name": "Product details 3",
+        "share": {
+            "name": "Share icons",
             "icon": "image",
             "displayNameProperty": "name",
-            "group": "Blog"
+            "group": "Promo"
         },
-        "cover-with-image4": {
-            "name": "Product details 4",
+        "images": {
+            "name": "Images",
             "icon": "image",
             "displayNameProperty": "name",
-            "group": "Integration",
-            "groupIcon": "image"
+            "group": "Content"
         },
-        "cover-with-image5": {
-            "name": "Product details 5",
+        "video": {
+            "name": "Video",
+            "icon": "image",
+            "displayNameProperty": "name",
+            "group": "Content"
+        },
+        "text": {
+            "name": "Text",
+            "icon": "image",
+            "displayNameProperty": "name",
+            "group": "Content"
+        },
+        "latest-news": {
+            "name": "Latest news",
             "icon": "image",
             "displayNameProperty": "name",
             "group": "Integration"
         },
-        "cover-with-image6": {
-            "name": "Product details 6",
-            "icon": "image",
-            "displayNameProperty": "name",
-            "group": "Integration"
-        },
-        "cover-with-image7": {
-            "name": "Product details 7",
+        "products-list": {
+            "name": "Products list",
             "icon": "image",
             "displayNameProperty": "name",
             "group": "Integration"
@@ -65,7 +81,7 @@
             "name": "Cover with form",
             "icon": "image",
             "displayNameProperty": "name",
-            "category": "Covers and Hero",
+            "category": "Promo",
             "settings": [
                 {
                     "id": "horizontalAlignment",

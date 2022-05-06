@@ -11,7 +11,26 @@ export class TemplatesService {
             'home': <any>{
                 name: 'Home',
                 previewUrl: 'https://st-storefront.dev.govirto.com',
-                isDefault: true
+                isDefault: true,
+                sections: ["products-list", "latest-news", "text", "video", "images", "share", 'carousel', 'cards', 'promo'],
+                settings: [
+                    {
+                        id: "displayType",
+                        label: "Default display type",
+                        type: "select",
+                        default: "table",
+                        options: [
+                            {
+                                "value": "grid",
+                                "label": "Grid"
+                            },
+                            {
+                                "value": "table",
+                                "label": "Table"
+                            }
+                        ]
+                    }
+                ]
             },
             'catalog': <any>{
                 name: 'Catalog',

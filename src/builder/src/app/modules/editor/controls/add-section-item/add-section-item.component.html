@@ -1,5 +1,5 @@
 <div class="item" [ngClass]="{ current: inPreview, child: child }" (click)="raiseOnPreview()">
     <app-icon>{{ section.icon }}</app-icon>
-    <div class="name">{{ section.name }}</div>
+    <div class="name">{{ section.name || section.type }}</div>
     <app-icon class="operation" (click)="raiseOnAdd($event)">add_box</app-icon>
 </div>

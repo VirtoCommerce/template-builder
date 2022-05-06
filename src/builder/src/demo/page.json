@@ -6,8 +6,7 @@
     },
     "content": [
         {
-            "__id": "randomid",
-            "__index": 1,
+            "id": "randomid",
             "name": "Edit section",
             "type": "headline",
             "title": "Headline",
