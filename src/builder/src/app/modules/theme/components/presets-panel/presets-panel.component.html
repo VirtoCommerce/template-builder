@@ -9,24 +9,22 @@
                        (keyup)="applyPresetsFilter($event)"
                        (search)="applyPresetsFilter($event)" />
             </div>
-            <ng-container *ngIf="presetsState$|async as presetsState">
-                <ng-container *ngIf="presets$|async as presets">
-                    <div *ngFor="let preset of presets|keyvalue"
-                         class="preset-item"
-                         [ngClass]="{ active: presetsState[preset.key]?.current }"
-                         (click)="previewPreset(preset.key)">
-                        <app-presets-icon [name]="$any(preset.key)"
-                                          [icon]="$any(preset.value).icon"
-                                          [preview]="$any(preset.value).preview"></app-presets-icon>
-                        <div class="item-name" title="{{ preset.key }}">{{ preset.key }}</div>
-                        <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
-                        </app-icon-button>
+            <ng-container *ngIf="viewModel$|async as vm">
+                <div *ngFor="let preset of vm.presets|keyvalue"
+                     class="preset-item"
+                     [ngClass]="{ active: vm.state[preset.key]?.current }"
+                     (click)="previewPreset(preset.key)">
+                    <app-presets-icon [name]="$any(preset.key)"
+                                      [icon]="$any(preset.value).icon"
+                                      [preview]="$any(preset.value).preview"></app-presets-icon>
+                    <div class="item-name" title="{{ preset.key }}">{{ preset.key }}</div>
+                    <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
+                    </app-icon-button>
+                </div>
+                <ng-container *ngIf="(filter$|async) && !(vm.presets|keyvalue).length">
+                    <div class="p-4 text-gray-300">
+                        No presets found
                     </div>
-                    <ng-container *ngIf="(filter$|async) && !(presets|keyvalue).length">
-                        <div class="p-4 text-gray-300">
-                            No presets found
-                        </div>
-                    </ng-container>
                 </ng-container>
             </ng-container>
         </div>
@@ -38,4 +36,3 @@
         </ng-container>
     </app-panel>
 </app-overlap-panel>
-<!--  -->

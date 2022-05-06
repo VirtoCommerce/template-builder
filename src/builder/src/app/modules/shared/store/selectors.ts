@@ -26,6 +26,12 @@ export const selectPreviewUrl = createSelector(
     template => template.previewUrl
 );
 
+export const isAppInitialized = createSelector(
+    selectSharedFeature,
+    state => state.appInitialized
+);
+
+
 // export const selectTemplatesEntriesLoaded = createSelector(
 //     selectSharedFeature,
 //     state => state.templatesEntriesLoaded

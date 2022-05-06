@@ -17,7 +17,7 @@ import * as fromState from '@editor/store/selectors';
 export class AddSectionComponent implements OnInit {
 
     title$ = this.store.select(fromState.selectAddItemTitle)
-    ctx$ = this.store.select(fromState.selectAddItemContext);
+    viewModel$ = this.store.select(fromState.selectAddItemContext);
     filter$ = this.store.select(fromState.selectCurrentSectionsFilter);
 
     constructor(private store: Store<BuilderState>) { }

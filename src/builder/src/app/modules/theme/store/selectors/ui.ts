@@ -1,7 +1,7 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectSettingsSchema } from "./data";
-import { selectOpenedGroups } from "./domain";
+import { selectSettingsSchema, selectFilteredPresets } from "./data";
+import { selectOpenedGroups, selectPresetsState } from "./domain";
 
 export const selectGroupsState = createSelector(
     selectSettingsSchema,
@@ -12,4 +12,10 @@ export const selectGroupsState = createSelector(
         };
         return result;
     }, <any>{})
+);
+
+export const selectPresetsContext = createSelector(
+    selectFilteredPresets,
+    selectPresetsState,
+    (presets, state) => ({ presets, state })
 );

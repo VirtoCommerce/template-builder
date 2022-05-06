@@ -5,12 +5,14 @@ export interface SharedState {
     templatesEntriesLoading: boolean;
     templatesEntriesLoaded: boolean;
     templatesEntries: TemplateEntryList;
+    appInitialized: boolean;
 }
 
 export const initialState: SharedState = {
     templatesEntriesLoading: false,
     templatesEntriesLoaded: false,
-    templatesEntries: {}
+    templatesEntries: {},
+    appInitialized: false
 }
 
 export interface BuilderState extends routerSelectors.BuilderState {

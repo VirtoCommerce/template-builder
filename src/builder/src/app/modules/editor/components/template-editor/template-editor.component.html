@@ -1,27 +1,27 @@
 <app-panel>
     <div class="p-4">
-        <ng-container *ngIf="ctx$|async as ctx">
+        <ng-container *ngIf="viewModel$|async as vm">
             <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
-                <ng-container *ngFor="let section of ctx.template!.content">
-                    <app-collapsible-list-item [expandable]="ctx.sectionsState![section.id].canHaveChildren || false"
-                                               [opened]="ctx.sectionsState![section.id].expanded"
+                <ng-container *ngFor="let section of vm.template!.content">
+                    <app-collapsible-list-item [expandable]="vm.sectionsState![section.id].canHaveChildren || false"
+                                               [opened]="vm.sectionsState![section.id].expanded"
                                                cdkDragBoundary=".sections-container"
                                                cdkDragLockAxis="y"
                                                cdkDrag
                                                (cdkDragStarted)="sectionDragStarted($event)"
                                                (cdkDragReleased)="sectionDragCompleted($event)"
-                                               (openChanged)="toggleSection(section.id, ctx.templateState!.id)">
+                                               (openChanged)="toggleSection(section.id, vm.templateState!.id)">
                         <div item>
                             <div class="item-holder">
-                                <app-section-item [sectionSchema]="$any(ctx.sectionsSchemas![section.type])"
+                                <app-section-item [sectionSchema]="$any(vm.sectionsSchemas![section.type])"
                                                   [section]="section"
-                                                  (itemClick)="onSectionClick()">
+                                                  (itemClick)="onSectionClick(section)">
                                 </app-section-item>
                                 <app-drag-handle cdkDragHandle></app-drag-handle>
                             </div>
                         </div>
                         <app-section-children-list [section]="section"
-                                                   [blocksSchemas]="ctx.blocksSchemas!"
+                                                   [blocksSchemas]="vm.blocksSchemas!"
                                                    (itemClick)="onBlockClick()"
                                                    (addBlockClick)="addBlockClick(section)">
                         </app-section-children-list>

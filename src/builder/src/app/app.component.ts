@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store$.dispatch(actions.initApp());
+        // this.store$.dispatch(actions.initApp());
     }
 
     // templateSelected(templateKey: string) {

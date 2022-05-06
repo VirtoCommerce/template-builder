@@ -1,3 +1,4 @@
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
@@ -10,6 +11,7 @@ import { BuilderState } from "./state";
 import * as actions from "./actions";
 import * as fromRoute from '@shared/routing';
 import * as router from "@shared/routing/actions";
+import * as fromState from "@shared/store/selectors";
 import { TemplateEntry } from "../models";
 
 @Injectable({
@@ -21,6 +23,16 @@ export class SharedEffects {
         private templatesService: TemplatesService,
         private listHelpers: ListHelpers
     ) { }
+
+    raiseInitApp$ = createEffect(() => this.actions$.pipe(
+        ofType(ROUTER_NAVIGATED),
+        withLatestFrom(this.store$.select(fromState.isAppInitialized)),
+        filter(([, init]) => !init),
+        switchMap(() => [
+            actions.initApp()
+        ])
+    ));
+
 
     initApp$ = createEffect(() => this.actions$.pipe(
         ofType(actions.initApp),
@@ -46,8 +58,11 @@ export class SharedEffects {
 
     selectTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.selectTemplate),
-        withLatestFrom(this.store$.select(fromRoute.selectTemplateParameter)),
-        filter(([{ template }, templateParameter]) => templateParameter && template !== templateParameter),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.isEmpty)
+        ),
+        filter(([{ template }, templateParameter, isEmpty]) => !isEmpty && template !== templateParameter),
         map(([{ template }]) => router.go({ queryParams: { template } }))
     ));
 

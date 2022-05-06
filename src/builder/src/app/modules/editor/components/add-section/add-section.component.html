@@ -10,22 +10,27 @@
                            (keyup)="applySectionsFilter($event)"
                            (search)="applySectionsFilter($event)" />
                 </li>
-                <ng-container *ngIf="ctx$|async as ctx">
-                    <li *ngFor="let group of ctx.groups" class="border-b">
+                <ng-container *ngIf="viewModel$|async as vm">
+                    <li *ngFor="let group of vm.groups" class="border-b">
                         <app-add-section-group [group]="group"
-                                               [opened]="ctx.states.groups[group.name].opened"
-                                               [underPreviewType]="ctx.states.previewItemType"
+                                               [opened]="vm.states.groups[group.name].opened"
+                                               [underPreviewType]="vm.states.previewItemType"
                                                (onOpened)="onToggleGroup(group)"
                                                (onPreview)="onPreviewItem($event)"
                                                (onAdd)="onAddItem($event)">
                         </app-add-section-group>
                     </li>
-                    <li *ngFor="let item of ctx.items" class="border-b">
+                    <li *ngFor="let item of vm.items" class="border-b">
                         <app-add-section-item [section]="item"
-                                              [inPreview]="item.type === ctx.states.previewItemType"
+                                              [inPreview]="item.type === vm.states.previewItemType"
                                               (onPreview)="onPreviewItem(item)"
                                               (onAdd)="onAddItem(item)"></app-add-section-item>
                     </li>
+                    <ng-container *ngIf="(filter$|async) && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length">
+                        <li class="p-4 text-gray-300">
+                            No blocks found
+                        </li>
+                    </ng-container>
                 </ng-container>
             </ul>
         </div>

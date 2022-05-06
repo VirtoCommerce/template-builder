@@ -24,7 +24,7 @@ import { helpers } from '@editor/services';
 })
 export class TemplateEditorComponent implements OnInit {
 
-    ctx$ = this.store.select(fromState.editTemplateContext);
+    viewModel$ = this.store.select(fromState.editTemplateContext);
 
     templateName$ = this.store.select(fromState.selectCurrentTemplateName);
     templateParameter$ = this.store.select(fromRoute.selectTemplateParameter);
@@ -39,7 +39,9 @@ export class TemplateEditorComponent implements OnInit {
     reorderSections(event: CdkDragSortEvent<SectionModel>) { }
     sectionDragStarted(event: any) { }
     sectionDragCompleted(event: any) { }
-    onSectionClick() { }
+    onSectionClick(section: SectionModel) {
+        this.store.dispatch(actions.editSectionAction({ sectionId: section.id }));
+    }
     onBlockClick() { }
     addBlockClick(section: SectionModel) {
         this.store.dispatch(actions.showBlankSections({ sectionId: section.id }));

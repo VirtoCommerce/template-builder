@@ -31,9 +31,13 @@ export const editTemplateContext = createSelector(
     fromDomain.selectSectionsState,
     fromData.selectSectionsSchemas,
     fromData.selectBlocksSchemas,
-    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas) => ({
-        template, templateState, sectionsState, sectionsSchemas, blocksSchemas
-    })
+    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas) => (
+        template && sectionsSchemas && blocksSchemas
+            ? {
+                template, templateState, sectionsState, sectionsSchemas, blocksSchemas
+            }
+            : null
+    )
 );
 
 export const selectAddItemContext = createSelector(

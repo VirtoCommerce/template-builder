@@ -15,8 +15,7 @@ import { of } from 'rxjs';
 export class PresetsPanelComponent implements OnInit {
 
     filter$ = this.store$.select(fromTheme.selectPresetsFilter);
-    presets$ = this.store$.select(fromTheme.selectFilteredPresets);
-    presetsState$ = this.store$.select(fromTheme.selectPresetsState);
+    viewModel$ = this.store$.select(fromTheme.selectPresetsContext);
 
     constructor(private store$: Store<BuilderState>) { }
 
