@@ -1,3 +1,4 @@
+import { DisplayTextDescriptor } from './../../models/controls/display-text.descriptor';
 import { Component, Input, OnInit } from "@angular/core";
 import { FormGroup } from '@angular/forms';
 
@@ -16,4 +17,9 @@ export class ControlsListComponent implements OnInit {
     @Input() descriptors!: BaseControlDescriptor[]; // todo: controls order
 
     ngOnInit(): void { }
+
+    getContent(control: BaseControlDescriptor): string {
+        const result = <DisplayTextDescriptor>control;
+        return result.content;
+    }
 }

@@ -34,3 +34,10 @@ body {
 .drag-handler {
     cursor: move;
 }
+
+.toast-top-right {
+    transform: translateY(3rem);
+    .toast-message {
+        color: white;
+    }
+}

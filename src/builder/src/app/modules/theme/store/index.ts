@@ -2,6 +2,7 @@ import { Action, ActionReducer, combineReducers } from '@ngrx/store';
 
 import { ThemeDataEffects } from './data/effects';
 import { ThemeDomainEffects } from './domain/effects';
+import { ThemeUiEffects } from './ui/effects';
 
 import { ThemeState } from './state';
 import * as data from './data';
@@ -29,4 +30,4 @@ export function themeReducers(
     return reducer(state, action)
 };
 
-export const EFFECTS = [ThemeDataEffects, ThemeDomainEffects];
+export const EFFECTS = [ThemeDataEffects, ThemeDomainEffects, ThemeUiEffects];

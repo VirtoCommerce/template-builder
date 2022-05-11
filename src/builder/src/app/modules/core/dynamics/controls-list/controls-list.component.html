@@ -1,8 +1,8 @@
 <div [formGroup]="currentForm" class="p-4">
     <ng-container *ngFor="let control of descriptors">
         <!-- Header or Paragraph -->
-        <!-- <h2 class="form-t" *ngIf="control.type === 'header'">{{ getContent(control) }}</h2>
-        <p class="form-text" *ngIf="control.type === 'paragraph'">{{ getContent(control) }}</p> -->
+        <h2 class="form-t" *ngIf="control.type === 'header'">{{ getContent(control) }}</h2>
+        <p class="form-text" *ngIf="control.type === 'paragraph'">{{ getContent(control) }}</p>
         <!-- Simple control -->
         <!-- <app-control-holder *ngIf="displayEditor(control)" [descriptor]="control" [group]="group"
             [context]="context" [formControlName]="control.id"></app-control-holder> -->

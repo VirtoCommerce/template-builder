@@ -22,7 +22,7 @@
                     </app-icon-button>
                 </div>
                 <ng-container *ngIf="(filter$|async) && !(vm.presets|keyvalue).length">
-                    <div class="p-4 text-gray-300">
+                    <div class="no-presets">
                         No presets found
                     </div>
                 </ng-container>

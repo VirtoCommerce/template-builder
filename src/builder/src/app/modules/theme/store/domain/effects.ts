@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { withLatestFrom, filter, mapTo, map, tap } from "rxjs/operators";
+import { withLatestFrom, filter, switchMap, map, tap } from "rxjs/operators";
 
 import { NotificationsService } from '@core/services';
 
@@ -12,7 +12,6 @@ import * as routingActions from '@shared/routing/actions';
 import * as routingSelectors from '@shared/routing'
 
 import * as domainSelectors from "../selectors";
-import { ActivatedRouteSnapshot } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -36,45 +35,43 @@ export class ThemeDomainEffects {
         })
     ));
 
-    gotoPresets$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.gotoPresets),
-        mapTo(routingActions.go({ path: ['/themes/presets'] }))
-    ));
-
-    previewPreset$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.previewPreset),
-        map(({ preset }) => routingActions.go({ queryParams: { preset } }))
-    ));
-
-    exitPresets$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.exitPresets, actions.applyPreset),
-        mapTo(routingActions.go({ path: ['/themes'], queryParams: { preset: undefined } }))
-    ));
-
     presetApplied$ = createEffect(() => this.actions$.pipe(
         ofType(actions.applyPreset),
         tap(() => this.notifications.successLeft('Preset applied')),
     ), { dispatch: false });
 
-    // private getAllRouteParameters(root: ActivatedRouteSnapshot) {
-    //     let route = root;
-    //     let params = new Map(Object.keys(route.params).map(key => [key, route.params[key]]));
-    //     while (route.firstChild) {
-    //         route = route.firstChild;
-    //         Object.keys(route.params).forEach(key => params.set(key, route.params[key]));
-    //     }
-    //     return params;
-    // }
+    saveSettingsSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.saveSettingsSuccess),
+        tap(() => this.notifications.successRight('Settings were successfully saved')),
+    ), { dispatch: false });
 
-    // here we need to send presets to preview or notify settings changes
+    saceSettingsFail$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.saveSettingsFail),
+        tap(() => this.notifications.errorRight('Could not save settings'))
+    ), { dispatch: false });
 
+    cancelAction$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeAction),
+        filter(({ action }) => action === 'cancel'),
+        switchMap(() => [
+            actions.revertChanges(),
+            actions.exitSettings()
+        ])
+    ));
 
-    // raiseLoadData$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.data.raiseLoadData),
-    //     withLatestFrom(
-    //         this.store$.select(dataSelectors.selectCurrentSettings),
-    //     ),
-    //     filter(([, settings]) => settings !== null),
-    //     mapTo(dataActions.loadSettingsData())
-    // ));
+    applyAction$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeAction),
+        filter(({ action }) => action === 'save'),
+        switchMap(() => [
+            actions.saveSettings()
+        ])
+    ));
+
+    successfullSaved$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.saveSettingsSuccess),
+        switchMap(() => [
+            actions.applyChanges(),
+            actions.exitSettings()
+        ])
+    ));
 }

@@ -32,8 +32,22 @@ export class NotificationsService {
         });
     }
 
+    errorRight(message: string, options: Partial<IndividualConfig> | undefined = undefined) {
+        this.error(message, {
+            ...this._successOptions,
+            ...options,
+            positionClass: "toast-top-right"
+        });
+    }
+
     private success(message: string, options: Partial<IndividualConfig>) {
         this.toastr.success(message, undefined, {
+            ...options
+        });
+    }
+
+    private error(message: string, options: Partial<IndividualConfig>) {
+        this.toastr.error(message, undefined, {
             ...options
         });
     }

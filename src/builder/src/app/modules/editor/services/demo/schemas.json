@@ -18,7 +18,53 @@
             "icon": "info"
         },
         "cover-with-image": {
-            "icon": "superscript"
+            "icon": "superscript",
+            "settings": [
+                {
+                    "type": "header",
+                    "tab": "text",
+                    "content": "Text controls"
+                },
+                {
+                    "type": "paragraph",
+                    "tab": "text",
+                    "content": "label, default, preview, autofocus, sort, info, placeholder, hint, visibility, tab, group"
+                },
+                {
+                    "id": "singleText",
+                    "label": "Single Text",
+                    "type": "string",
+                    "tab": "text",
+                    "group": "Textboxes",
+                    "hint": "Single Text"
+                },
+                {
+                    "id": "textarea",
+                    "label": "Multiline Text",
+                    "type": "string",
+                    "multiline": true,
+                    "tab": "text",
+                    "placeholder": "Enter some text",
+                    "group": "Textboxes"
+                },
+                {
+                    "id": "singleTextWithInfo",
+                    "label": "Single Text with info. This is a long text that will not be truncated",
+                    "type": "string",
+                    "tab": "text",
+                    "group": "Textboxes",
+                    "info": "This is a long text that demonstrates the info tooltip. Lorem ipsum dolor sit amet."
+                },
+                {
+                    "id": "textarea",
+                    "label": "Multiline Text",
+                    "type": "string",
+                    "multiline": true,
+                    "tab": "text",
+                    "group": "Textboxes",
+                    "info": "This is a long text that demonstrates the info tooltip. Lorem ipsum dolor sit amet."
+                }
+            ]
         },
         "product-details": {
             "name": "Product details",

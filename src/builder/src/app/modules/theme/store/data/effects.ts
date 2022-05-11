@@ -62,4 +62,13 @@ export class ThemeDataEffects {
             catchError(error => of(actions.loadSettingsSchemaFail({ error })))
         ))
     ));
+
+    saveSettings$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.saveSettings),
+        withLatestFrom(this.store$.select(selectors.selectCurrentSettingsDataModel)),
+        switchMap(([, settings]) => this.service.saveSettings(settings!).pipe(
+            map(() => actions.saveSettingsSuccess()),
+            catchError(error => of(actions.saveSettingsFail({ error })))
+        ))
+    ));
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as router from '@shared/routing/actions';
+import * as actions from '@theme/store/actions';
 
 @Component({
     selector: 'app-toolbar-host',
@@ -24,7 +24,8 @@ export class ToolbarHostComponent implements OnInit {
         [
             {
                 title: 'Cancel',
-                alias: 'cancel'
+                alias: 'cancel',
+                type: 'secondary'
             },
             {
                 title: 'Save settings',
@@ -40,9 +41,7 @@ export class ToolbarHostComponent implements OnInit {
     }
 
     onActionExecuted(action: string) {
-        if (action === 'cancel') {
-            this.store.dispatch(router.go({ path: ['/pages'] })); // todo: execute theme action which will be run router action
-        }
+        this.store.dispatch(actions.executeAction({ action }));
     }
 
 }

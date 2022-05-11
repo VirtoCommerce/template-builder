@@ -14,4 +14,8 @@ export const themeDomainReducers = createReducer<ThemeDomainState>(
     on(actions.loadSettingsSchema, state => ({ ...state, schemaLoading: true })),
     on(actions.loadSettingsSchemaSuccess, state => ({ ...state, schemaLoading: false })),
     on(actions.loadSettingsSchemaFail, state => ({ ...state, schemaLoading: false })),
+
+    on(actions.saveSettings, state => ({ ...state, schemaLoading: true })),
+    on(actions.saveSettingsSuccess, state => ({ ...state, schemaLoading: false })),
+    on(actions.saveSettingsFail, state => ({ ...state, schemaLoading: false })),
 );

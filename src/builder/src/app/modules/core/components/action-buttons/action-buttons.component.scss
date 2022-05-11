@@ -1,13 +1,19 @@
 :host {
     border-left: 1px solid rgba(18, 18, 18, 0.08);
-    @apply flex flex-row px-4;
+    @apply flex flex-row px-4 space-x-3;
 }
 
 .btn {
+    color: #484848;
     @apply px-4 rounded flex flex-row space-x-1 items-center;
     &:hover {
         background-color: #F6F6F6;
     }
+}
+
+.btn-secondary {
+    border: 1px solid #BABFC3;
+    background-color: #F1F2F3;
 }
 
 .btn-outline {

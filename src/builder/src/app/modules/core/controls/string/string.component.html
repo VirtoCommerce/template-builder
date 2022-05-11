@@ -17,3 +17,5 @@
     (paste)="onPaste($event)"
     (keyup)="raiseOnChange($event)"
 ></textarea>
+
+<p *ngIf="descriptor.info">{{ descriptor.info }}</p>

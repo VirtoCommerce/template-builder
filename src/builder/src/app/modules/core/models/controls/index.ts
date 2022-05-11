@@ -8,6 +8,7 @@ export * from './files.descriptor';
 export * from './color.descriptor';
 export * from './checkbox.descriptor';
 export * from './calendar.descriptor';
+export * from './display-text.descriptor';
 
 // todo: list, object, search, popup (list|object), url? (maybe should be object)
 
@@ -20,6 +21,7 @@ import { FilesDescriptor } from './files.descriptor';
 import { ColorDescriptor } from './color.descriptor';
 import { CheckboxDescriptor } from './checkbox.descriptor';
 import { CalendarDescriptor } from './calendar.descriptor';
+import { DisplayTextDescriptor } from './display-text.descriptor';
 
 export type ControlDescriptor = StringDescriptor
     | TextDescriptor
@@ -29,6 +31,7 @@ export type ControlDescriptor = StringDescriptor
     | FilesDescriptor
     | ColorDescriptor
     | CheckboxDescriptor
-    | CalendarDescriptor;
+    | CalendarDescriptor
+    | DisplayTextDescriptor;
 
 export type SectionPropertyDescriptor = ControlDescriptor;

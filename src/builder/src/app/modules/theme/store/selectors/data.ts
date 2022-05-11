@@ -7,9 +7,14 @@ export const selectCurrentSettings = createSelector(
     state => state.settings
 );
 
+const selectSourceSettings = createSelector(
+    selectThemeDataState,
+    state => state.sourceSettings
+);
+
 export const selectPresets = createSelector(
     selectThemeDataState,
-    state => state.presets
+    state => state.sourceSettings!.presets
 );
 
 export const selectFilteredPresets = createSelector(
@@ -23,11 +28,20 @@ export const selectFilteredPresets = createSelector(
 );
 
 export const selectPresetsNames = createSelector(
-    selectThemeDataState,
-    state => state.presets ? Object.keys(state.presets) : []
+    selectPresets,
+    presets => presets ? Object.keys(presets) : []
 );
 
 export const selectSettingsSchema = createSelector(
     selectThemeDataState,
     state => state.settingsSchema
+);
+
+export const selectCurrentSettingsDataModel = createSelector(
+    selectSourceSettings,
+    selectCurrentSettings,
+    (sourceSettings, current) => ({
+        ...sourceSettings!,
+        current: current!
+    })
 );

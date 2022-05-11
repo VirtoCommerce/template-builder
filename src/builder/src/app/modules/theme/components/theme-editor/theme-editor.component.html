@@ -12,7 +12,7 @@
             <ng-container *ngIf="schema$|async as schema">
                 <div *ngFor="let group of schema" class="group">
                     <div (click)="toggleGroup(group)" class="list-item group-title">
-                        <div class="group-name">
+                        <div class="group-name" [attr.title]="group.name">
                             {{group.name}}
                         </div>
                         <div>

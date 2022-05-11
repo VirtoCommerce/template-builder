@@ -11,3 +11,12 @@ export const loadSettingsDataFail = createAction('[theme data] load settings dat
 export const loadSettingsSchema = createAction('[theme data] load settings schema');
 export const loadSettingsSchemaSuccess = createAction('[theme data] load settings schema success', props<{ schema: SettingsSchemaModel }>());
 export const loadSettingsSchemaFail = createAction('[theme data] load settings schema fail', props<{ error: HttpErrorResponse }>());
+
+export const saveSettings = createAction('[theme data] save settings');
+export const saveSettingsSuccess = createAction('[theme data] save settings success');
+export const saveSettingsFail = createAction('[theme data] save settings fail', props<{ error: HttpErrorResponse }>());
+
+export const executeAction = createAction('[theme data] execute action', props<{ action: string }>());
+
+export const revertChanges = createAction('[theme data] revert changes');
+export const applyChanges = createAction('[theme data] apply changes');
