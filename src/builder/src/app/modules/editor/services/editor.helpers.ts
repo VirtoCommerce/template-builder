@@ -43,6 +43,36 @@ export function addItemToTemplate(schema: SectionSchema, template: TemplateModel
     }
 }
 
+function reorderSectionsInList(list: SectionModel[], currentIndex: number, previousIndex: number): SectionModel[] {
+    const newList = [...list];
+    const item = newList[previousIndex];
+    newList.splice(previousIndex, 1);
+    newList.splice(currentIndex, 0, item);
+    return newList;
+}
+
+export function reorderSections(template: TemplateModel, currentIndex: number, previousIndex: number): TemplateModel {
+    return {
+        ...template,
+        content: reorderSectionsInList(template.content, currentIndex, previousIndex)
+    };
+}
+
+export function reorderBlocks(template: TemplateModel, section: SectionModel, currentIndex: number, previousIndex: number): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === section.id);
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            {
+                ...section,
+                blocks: reorderSectionsInList(section.blocks, currentIndex, previousIndex)
+            },
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
 export function generateSectionId(section: SectionModel): string {
     return section.id || appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
 }

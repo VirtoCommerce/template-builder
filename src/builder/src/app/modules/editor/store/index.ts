@@ -2,6 +2,7 @@ import { Action, ActionReducer, combineReducers } from '@ngrx/store';
 
 import { TemplateEditorDataEffects } from './data/effects';
 import { TemplateEditorDomainEffects } from './domain/effects';
+import { TemplateEditorUiEffects } from './ui/effects';
 
 import { EditorState } from './state';
 import * as data from './data';
@@ -29,4 +30,4 @@ export function editorReducers(
     return reducer(state, action)
 };
 
-export const EFFECTS = [TemplateEditorDataEffects, TemplateEditorDomainEffects];
+export const EFFECTS = [TemplateEditorDataEffects, TemplateEditorDomainEffects, TemplateEditorUiEffects];

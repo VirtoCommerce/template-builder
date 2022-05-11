@@ -20,28 +20,3 @@ export const selectCurrentTemplateState = createSelector(
     selectTemplateParameter,
     (state, alias) => alias ? { ...state.states[alias], id: alias } : null
 );
-
-export const selectSectionsState = createSelector(
-    selectCurrentTemplateState,
-    fromData.selectCurrentTemplateModel,
-    fromData.selectSectionsSchemas,
-    (state, model, schemas) => (schemas && model?.content.filter(x => x.type && x.id).reduce((result, section) => {
-        const canHaveChildren = (schemas[section.type]?.blocks?.length || 0) > 0;
-        return <SectionStatesList>{
-            ...result,
-            [section.id]: <SectionState>{
-                expanded: canHaveChildren,
-                canHaveChildren,
-                ...state?.sections[section.id]
-            }
-        };
-    }, {})) || <SectionStatesList>{}
-);
-
-// export const selectGroupedBlankItems = createSelector(
-//     selectTemplateEditorFeature,
-//     state => ({
-//         groups: [],
-//         items: []
-//     })
-// );

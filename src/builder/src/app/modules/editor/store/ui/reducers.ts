@@ -29,5 +29,13 @@ export const editorUIReducers = createReducer<EditorUIState>(
         ...state,
         currentSectionsFilter: null,
         previewItemType: null
+    })),
+    on(actions.startDragSection, (state, { sectionId }) => ({
+        ...state,
+        dragSectionId: sectionId
+    })),
+    on(actions.releaseDragSection, (state, { sectionId }) => ({
+        ...state,
+        dragSectionId: null
     }))
 );

@@ -6,10 +6,12 @@ export interface EditorUIState {
     }>;
     previewItemType: string | null;
     currentSectionsFilter: string | null;
+    dragSectionId: string | null;
 };
 
 export const initialState: EditorUIState = {
     states: {},
     previewItemType: null,
-    currentSectionsFilter: null
+    currentSectionsFilter: null,
+    dragSectionId: null
 };

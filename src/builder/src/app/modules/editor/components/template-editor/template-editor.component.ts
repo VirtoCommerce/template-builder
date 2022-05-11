@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { ReoderItemsModel } from './../../../core/models/ui/reorder-items.model';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
+import { CdkDragSortEvent, CdkDragStart, CdkDragRelease } from '@angular/cdk/drag-drop';
 
 import { BuilderState } from '@editor/store/state';
 
@@ -36,13 +37,26 @@ export class TemplateEditorComponent implements OnInit {
         this.store.dispatch(actions.showBlankSections({ sectionId: null }));
     }
 
-    reorderSections(event: CdkDragSortEvent<SectionModel>) { }
-    sectionDragStarted(event: any) { }
-    sectionDragCompleted(event: any) { }
+    reorderSections(event: CdkDragSortEvent<SectionModel>) {
+        this.store.dispatch(actions.sortItems({ options: { item: event.item.data, currentIndex: event.currentIndex, previousIndex: event.previousIndex } }))
+    }
+    sectionDragStarted(section: SectionModel) {
+        this.store.dispatch(actions.startDragSection({ sectionId: section.id }));
+    }
+    sectionDragCompleted(section: SectionModel) {
+        this.store.dispatch(actions.releaseDragSection({ sectionId: section.id }));
+    }
+
+    reorderBlocks(options: ReoderItemsModel) {
+        this.store.dispatch(actions.sortItems({ options }))
+    }
+
     onSectionClick(section: SectionModel) {
         this.store.dispatch(actions.editSectionAction({ sectionId: section.id }));
     }
-    onBlockClick() { }
+    onBlockClick(section: SectionModel, block: SectionModel) {
+        this.store.dispatch(actions.editBlockAction({ sectionId: section.id, blockId: block.id }));
+    }
     addBlockClick(section: SectionModel) {
         this.store.dispatch(actions.showBlankSections({ sectionId: section.id }));
     }

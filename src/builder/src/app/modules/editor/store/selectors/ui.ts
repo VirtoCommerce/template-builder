@@ -5,6 +5,8 @@ import {
     selectCurrentSectionsFilter
 } from './common';
 
+import { SectionStatesList, SectionState } from '@editor/models';
+
 import * as fromDomain from "./domain";
 import * as fromData from "./data";
 
@@ -25,10 +27,39 @@ export const selectPreviewItemType = createSelector(
     state => state.previewItemType
 );
 
+export const selectCurrentDragSection = createSelector(
+    selectTemplateUIState,
+    state => state.dragSectionId
+);
+
+export const selectSectionsState = createSelector(
+    fromDomain.selectCurrentTemplateState,
+    fromData.selectCurrentTemplateModel,
+    fromData.selectSectionsSchemas,
+    selectCurrentDragSection,
+    (state, model, schemas, dragSectionId) => (schemas && model?.content.filter(x => x.type && x.id).reduce((result, section) => {
+        const canHaveChildren = (schemas[section.type]?.blocks?.length || 0) > 0;
+        // const expanded =
+        //     !!dragSectionId
+        //         ? false
+        //         : state?.sections[section.id]?.expanded === undefined
+        //             ? canHaveChildren
+        //             : state?.sections[section.id]?.expanded;
+        return <SectionStatesList>{
+            ...result,
+            [section.id]: <SectionState>{
+                expanded: canHaveChildren,
+                canHaveChildren,
+                ...state?.sections[section.id],
+            }
+        };
+    }, {})) || <SectionStatesList>{}
+);
+
 export const editTemplateContext = createSelector(
     fromData.selectCurrentTemplateModel,
     fromDomain.selectCurrentTemplateState,
-    fromDomain.selectSectionsState,
+    selectSectionsState,
     fromData.selectSectionsSchemas,
     fromData.selectBlocksSchemas,
     (template, templateState, sectionsState, sectionsSchemas, blocksSchemas) => (
@@ -62,8 +93,9 @@ export const selectAddItemContext = createSelector(
 );
 
 export const selectCurrentItemName = createSelector(
-    fromData.selectCurrentItemForEdit,
-    state => 'Edit current section'
+    fromData.selectBlockModelFromRoute,
+    // fromData.selectSectionModelFromRoute,
+    (block /*, section*/) => block ? 'Edit current block' : 'Edit current section'
 );
 
 export const selectEditSectionContext = createSelector(

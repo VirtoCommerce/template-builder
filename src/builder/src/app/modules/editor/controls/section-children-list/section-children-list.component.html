@@ -1,4 +1,4 @@
-<div cdkDropList class="blocks-container" (cdkDropListDropped)="reorderBlocks($event)">
+<div cdkDropList class="blocks-container" (cdkDropListDropped)="onReorderBlocks($event)">
     <ng-container *ngFor="let block of section.blocks">
         <div class="block-item"
              cdkDragBoundary=".blocks-container"

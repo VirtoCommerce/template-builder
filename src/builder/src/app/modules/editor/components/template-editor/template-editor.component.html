@@ -7,9 +7,9 @@
                                                [opened]="vm.sectionsState![section.id].expanded"
                                                cdkDragBoundary=".sections-container"
                                                cdkDragLockAxis="y"
-                                               cdkDrag
-                                               (cdkDragStarted)="sectionDragStarted($event)"
-                                               (cdkDragReleased)="sectionDragCompleted($event)"
+                                               cdkDrag="section"
+                                               (cdkDragStarted)="sectionDragStarted(section)"
+                                               (cdkDragReleased)="sectionDragCompleted(section)"
                                                (openChanged)="toggleSection(section.id, vm.templateState!.id)">
                         <div item>
                             <div class="item-holder">
@@ -22,8 +22,9 @@
                         </div>
                         <app-section-children-list [section]="section"
                                                    [blocksSchemas]="vm.blocksSchemas!"
-                                                   (itemClick)="onBlockClick()"
-                                                   (addBlockClick)="addBlockClick(section)">
+                                                   (itemClick)="onBlockClick(section, $event)"
+                                                   (addBlockClick)="addBlockClick(section)"
+                                                   (reorderBlocks)="reorderBlocks($event)">
                         </app-section-children-list>
                     </app-collapsible-list-item>
                 </ng-container>

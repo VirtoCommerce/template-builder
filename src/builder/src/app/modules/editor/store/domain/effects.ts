@@ -24,33 +24,6 @@ export class TemplateEditorDomainEffects {
         private actions$: Actions
     ) { }
 
-    navigateToAddSection$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.showBlankSections),
-        filter(x => !x.sectionId),
-        map(() => routingActions.go({ path: ['/pages/add'] }))
-    ));
-
-    navigateToAddBlock$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.showBlankSections),
-        filter(x => !!x.sectionId),
-        map(({ sectionId }) => routingActions.go({ path: ['/pages/add', sectionId] }))
-    ));
-
-    navigateToEditTemplate$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.closeAddItemPanel),
-        switchMap(() => [
-            routingActions.go({ path: ['/pages'] }),
-            actions.resetGroupsState()
-        ])
-    ));
-
-    completeEditSection$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.closeEditItemPanel),
-        switchMap(() => [
-            routingActions.go({ path: ['/pages'] }),
-        ])
-    ));
-
     addItem$ = createEffect(() => this.actions$.pipe(
         ofType(actions.addItemAction),
         withLatestFrom(
@@ -68,10 +41,35 @@ export class TemplateEditorDomainEffects {
         ])
     ));
 
-    editSection$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.editSectionAction),
-        switchMap(({ sectionId }) => [
-            routingActions.go({ path: ['/pages', sectionId] })
+    orderSections$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.sortItems),
+        filter(({ options }) => !options.parent),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(routingSelectors.selectTemplateParameter)
+        ),
+        filter(([, template]) => !!template),
+        switchMap(([{ options }, template, templateId]) => [
+            actions.updateTemplateAction({
+                template: editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex), // section can be null
+                alias: templateId
+            }),
+        ])
+    ));
+
+    orderBlocks$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.sortItems),
+        filter(({ options }) => !!options.parent),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(routingSelectors.selectTemplateParameter)
+        ),
+        filter(([, template]) => !!template),
+        switchMap(([{ options }, template, templateId]) => [
+            actions.updateTemplateAction({
+                template: editorHelpers.reorderBlocks(template!, options.parent!, options.currentIndex, options.previousIndex), // section can be null
+                alias: templateId
+            }),
         ])
     ));
 }
