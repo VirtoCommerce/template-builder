@@ -40,7 +40,7 @@ export class ThemeUiEffects {
 
     exitSettings$ = createEffect(() => this.actions$.pipe(
         ofType(actions.exitSettings),
-        mapTo(routingActions.go({ path: ['/pages'] }))
+        mapTo(routingActions.go({ path: ['/pages'], queryParams: { preset: undefined } }))
     ));
 
 }

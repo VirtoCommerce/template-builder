@@ -40,6 +40,28 @@ export class NotificationsService {
         });
     }
 
+    demotr() {
+        const troptions = {
+            ...this._successOptions,
+            positionClass: "toast-top-right"
+        };
+        this.toastr.success("This is a success message", "Success", troptions);
+        this.toastr.error("This is an error message", "Error", troptions);
+        this.toastr.warning("This is a warning message", "Warning", troptions);
+        this.toastr.info("This is an info message", "Info", troptions);
+    }
+
+    demobl() {
+        const bloptions = {
+            ...this._successOptions,
+            positionClass: "toast-bottom-left"
+        };
+        this.toastr.success("This is a success message", "Success", bloptions);
+        this.toastr.error("This is an error message", "Error", bloptions);
+        this.toastr.warning("This is a warning message", "Warning", bloptions);
+        this.toastr.info("This is an info message", "Info", bloptions);
+    }
+
     private success(message: string, options: Partial<IndividualConfig>) {
         this.toastr.success(message, undefined, {
             ...options

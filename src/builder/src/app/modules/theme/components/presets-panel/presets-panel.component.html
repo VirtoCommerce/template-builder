@@ -1,15 +1,16 @@
 <app-overlap-panel [expandable]="false">
     <app-panel>
         <div class="flex flex-col">
-            <div class="search-holder">
-                <input placeholder="Search preset by name"
-                       class="search"
-                       type="search"
-                       [value]="filter$|async"
-                       (keyup)="applyPresetsFilter($event)"
-                       (search)="applyPresetsFilter($event)" />
-            </div>
             <ng-container *ngIf="viewModel$|async as vm">
+                <div class="search-holder"
+                     [ngClass]="{ 'not-found': (filter$|async) && !(vm.presets|keyvalue).length }">
+                    <input placeholder="Search preset by name"
+                           class="search"
+                           type="search"
+                           [value]="filter$|async"
+                           (keyup)="applyPresetsFilter($event)"
+                           (search)="applyPresetsFilter($event)" />
+                </div>
                 <div *ngFor="let preset of vm.presets|keyvalue"
                      class="preset-item"
                      [ngClass]="{ active: vm.state[preset.key]?.current }"

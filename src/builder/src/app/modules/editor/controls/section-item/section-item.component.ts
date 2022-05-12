@@ -20,15 +20,13 @@ import { helpers } from '@editor/services';
 })
 export class SectionItemComponent implements OnInit {
 
+    isHover: boolean = false;
+
     @Input() section!: SectionModel;
     @Input() sectionSchema!: SectionSchema;
-    // @Input() blocksSchemas!: SectionsSchemasList;
-    @Input() opened: boolean = false;
-    @Input() draggable: boolean = true;
 
+    @Output() actionClick = new EventEmitter<string>();
     @Output() itemClick = new EventEmitter();
-    @Output() openChanged = new EventEmitter<boolean>();
-    @Output() visibleChanged = new EventEmitter<{ sectionIndex: number, blockIndex: number | null, value: boolean }>();
 
     itemActions = [
         <ContextMenuAction>{
@@ -77,8 +75,6 @@ export class SectionItemComponent implements OnInit {
         }
     ];
 
-    isHover: boolean = false;
-
     constructor() { }
 
     ngOnInit(): void {
@@ -87,6 +83,12 @@ export class SectionItemComponent implements OnInit {
 
     onItemClick() {
         this.itemClick.emit();
+    }
+
+    onActionClick(event: ContextMenuAction) {
+        if (event !== '|') {
+            this.actionClick.emit(event.action);
+        }
     }
 
     getSectionIcon(): string | null {
@@ -101,42 +103,6 @@ export class SectionItemComponent implements OnInit {
             return <string>this.section[this.sectionSchema.displayNameProperty] || this.section.type;
         }
         return this.section.type;
-        // return this.getItemName(this.section, this.sectionsSchemas);
     }
 
-    getBlockName(block: SectionModel): string {
-        return '';
-        // return this.getItemName(block, this.blocksSchemas)
-        //     || this.getItemName(block, this.sectionsSchemas);
-    }
-
-    onOpenChanged(isOpen: boolean) {
-        this.openChanged.emit(isOpen);
-    }
-
-    private getItemName(item: SectionModel, schemas: any /* SectionsSchemasList */): string {
-        return helpers.getSectionName(item, schemas);
-    }
-
-    hasChildren(): boolean {
-        return false;
-        // return !!this.sectionsSchemas[this.section.type]?.blocks?.length;
-    }
-
-    getBlockIcon(block: SectionModel): string | null {
-        return null;
-        // return this.blocksSchemas[block.type]?.icon || null;
-    }
-
-    onVisibleChanged(value: boolean, blockIndex: number | null) {
-        // this.visibleChanged.emit({ : this.section.id, blockIndex, value });
-    }
-
-    blockDragStarted() {
-        console.log('block drag started');
-    }
-
-    blockDragCompleted() {
-        console.log('block drag released');
-    }
 }

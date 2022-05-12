@@ -4,44 +4,8 @@
      (mouseleave)="isHover = false">
     <app-icon>{{ getSectionIcon() }}</app-icon>
     <div class="name" title="{{ getSectionName() }}">{{ getSectionName() }}</div>
-    <app-context-menu [actions]="itemActions" [visible]="isHover"></app-context-menu>
+    <app-context-menu
+        [actions]="itemActions"
+        [visible]="isHover"
+        (onAction)="onActionClick($event)"></app-context-menu>
 </div>
-
-
-<!-- <app-collapsible-list-item [title]="getSectionName()"
-                           [closable]="hasChildren()"
-                           [icon]="getSectionIcon()"
-                           [showVisibility]="true"
-                           [showDrag]="draggable"
-                           [visible]="!section.hidden"
-                           [opened]="opened"
-                           (visibleChanged)="onVisibleChanged($event, null)"
-                           (openChanged)="onOpenChanged($event)"
-                           (itemClick)="onItemClick()"> -->
-
-<!-- <ng-content drag select="[drag]"></ng-content>
-
-    <div class="blocks-container">
-        <app-inner-list-item *ngFor="let block of section.blocks"
-                             [icon]="getBlockIcon(block)"
-                             [title]="getBlockName(block)"
-                             [showVisibility]="true"
-                             [showDrag]="true"
-                             [visible]="!block.hidden"
-                             (visibleChanged)="onVisibleChanged($event, block.__index)"
-                             (itemClick)="onItemClick(block.__index)"
-                             cdkDragBoundary=".blocks-container"
-                             cdkDragLockAxis="y"
-                             cdkDrag
-                             (cdkDragStarted)="blockDragStarted()"
-                             (cdkDragReleased)="blockDragCompleted()">
-        </app-inner-list-item>
-    </div>
-
-    <app-separator></app-separator>
-
-    <button class="flex items-center py-2" (click)="onAddClick()">
-        <img class="mr-1" src="assets/icons/round-plus.svg" />
-        <span>Add block</span>
-    </button>
-</app-collapsible-list-item>-->

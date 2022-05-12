@@ -13,9 +13,10 @@
                                                (openChanged)="toggleSection(section.id, vm.templateState!.id)">
                         <div item>
                             <div class="item-holder">
-                                <app-section-item [sectionSchema]="$any(vm.sectionsSchemas![section.type])"
+                                <app-section-item [sectionSchema]="vm.sectionsSchemas![section.type]"
                                                   [section]="section"
-                                                  (itemClick)="onSectionClick(section)">
+                                                  (itemClick)="onSectionClick(section)"
+                                                  (actionClick)="onActionClick($event)">
                                 </app-section-item>
                                 <app-drag-handle cdkDragHandle></app-drag-handle>
                             </div>

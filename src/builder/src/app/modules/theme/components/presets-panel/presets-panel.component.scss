@@ -38,11 +38,14 @@
 
 .no-presets {
     color: #727272;
-    @apply p-2.5;
+    @apply px-2.5;
 }
 
 .search-holder {
     @apply flex flex-row py-3 px-2.5 border-b;
+    &.not-found {
+        @apply border-0;
+    }
 }
 
 .search {
