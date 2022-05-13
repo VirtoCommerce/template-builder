@@ -1,5 +1,5 @@
-<button (click)="togglePopover()" class="root" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
-    <div class="grow text-left">
+<button (click)="togglePopover()" class="root" [title]="currentLabel" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+    <div class="grow text-left min-w-0 truncate">
         {{ currentLabel }}
     </div>
     <app-chevron [opened]="isOpen" [vertical]="true"></app-chevron>
@@ -9,7 +9,7 @@
              [cdkConnectedOverlayOpen]="isOpen"
              (detach)="close()"
              (overlayOutsideClick)="outsideClick($event)">
-    <div class="root-container">
+    <div class="multipage-select-panel-container {{ panelClass }}">
         <div class="px-4">
             <input [value]="filter"
                    [placeholder]="filterPlaceholder"
@@ -24,7 +24,8 @@
                 <app-separator></app-separator>
                 <ul class="flex-grow overflow-y-auto">
                     <li *ngFor="let item of items">
-                        <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
+                        <button class="list-item-btn"
+                                [attr.title]="getItemName(item)"
                                 (click)="showChildren(item)">
                             {{ getItemName(item) }}
                             <app-icon *ngIf="item.hasChildren">chevron_right</app-icon>

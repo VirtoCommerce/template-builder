@@ -37,7 +37,7 @@ export class TemplatesService {
                 previewUrl: 'https://st-storefront.dev.govirto.com/c'
             },
             'product': <any>{
-                name: 'Product',
+                name: 'Product template with long name that can be truncated',
                 previewUrl: 'https://st-storefront.dev.govirto.com/p/baa4931161214690ad51c50787b1ed94'
             },
             'cart': <any>{

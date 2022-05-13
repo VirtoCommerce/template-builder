@@ -11,6 +11,7 @@ export class ActionsDropdownComponent implements OnInit {
     isOpened = false;
 
     @Input() defaultTitle?: string;
+    @Input() panelClass?: string;
     @Input() displayChevron = true;
     @Input() displayCurrent = true;
     @Input() active?: string;

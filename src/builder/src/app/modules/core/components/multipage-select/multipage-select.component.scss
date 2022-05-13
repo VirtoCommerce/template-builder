@@ -1,15 +1,14 @@
 .root {
-    // @apply bg-gray-100 h-full rounded-lg text-left px-4 w-full flex fl;
     border-color: rgba(18, 18, 18, 0.08);
     padding: 0.4375rem;
-    @apply flex flex-row w-full border rounded items-center truncate text-ellipsis whitespace-nowrap;
+    @apply flex flex-row w-full border rounded items-center;
     &:hover {
         background: rgba(18, 18, 18, 0.04);
     }
 }
 
-.root-container {
-    @apply bg-white py-4 rounded shadow-md pb-2 flex flex-col overflow-hidden w-full;
+.multipage-select-panel-container {
+    @apply bg-white py-4 rounded shadow-md pb-2 flex flex-col overflow-hidden;
 }
 
 .search-input {
@@ -21,4 +20,11 @@
 .list-title {
     color: #545454;
     @apply uppercase truncate text-ellipsis whitespace-nowrap;
+}
+
+.list-item-btn {
+    @apply w-full py-2 px-4 text-left justify-between items-center truncate;
+    &:hover {
+        @apply bg-gray-100;
+    }
 }

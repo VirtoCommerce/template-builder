@@ -1,6 +1,7 @@
 <app-multipage-select
     filterPlaceholder="Search"
-    title="Templates"
+    panelClass="template-selector-panel"
+    [attr.title]="'Templates'"
     [items]="templates$|async"
     [default]="{ title: 'Choose template', alias: '' }"
     [current]="currentTemplate$|async"
