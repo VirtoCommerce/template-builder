@@ -35,7 +35,7 @@ export class ThemeUiEffects {
 
     exitPresets$ = createEffect(() => this.actions$.pipe(
         ofType(actions.exitPresets, actions.applyPreset),
-        mapTo(routingActions.go({ queryParams: { preset: undefined } }))
+        mapTo(routingActions.go({ path: ['/themes'], queryParams: { preset: undefined } }))
     ));
 
     exitSettings$ = createEffect(() => this.actions$.pipe(
