@@ -5,11 +5,12 @@
 @import './layout/variables.scss';
 @import './layout/theme.scss';
 @import './layout/toastr.scss';
+@import './layout/controls.scss';
 
 body {
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-size: 14px;
+    font-size: $default-font-size;
     line-height: 20px;
 }
 

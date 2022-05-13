@@ -3,12 +3,12 @@
                        [descriptors]="tab.ungrouped"
                        [context]="context">
     </app-controls-list>
-    <app-controls-group *ngFor="let group of tab.groups | keyvalue"
-                        [label]="group.key"
-                        [opened]="state[group.key].opened"
-                        (openedChanged)="state[group.key].opened = $event">
+    <app-controls-group *ngFor="let group of tab.groups"
+                        [label]="group.name"
+                        [opened]="state[group.name].opened"
+                        (openedChanged)="state[group.name].opened = $event">
         <app-controls-list [currentForm]="currentForm"
-                           [descriptors]="group.value"
+                           [descriptors]="group.descriptors"
                            [context]="context">
         </app-controls-list>
     </app-controls-group>

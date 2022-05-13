@@ -1,0 +1,18 @@
+.info {
+    color: #6D7175;
+    font-size: $default-font-size;
+}
+
+.label {
+    color: #646464;
+    font-size: $default-font-size;
+    font-weight: 400;
+}
+
+.control {
+    color: #202223;
+    border: 1px solid #BABFC3;
+    font-weight: inherit;
+    font-size: inherit;
+    @apply rounded;
+}

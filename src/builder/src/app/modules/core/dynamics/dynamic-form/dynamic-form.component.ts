@@ -19,7 +19,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     // @Input() activeTab: string | null = null;
 
-    @Input() get sectionModel(): SectionModel{
+    @Input() get sectionModel(): SectionModel {
         return this._sectionModel;
     }
     set sectionModel(value: SectionModel) {

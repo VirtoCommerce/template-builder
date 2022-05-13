@@ -1,3 +1,5 @@
+@import '../../../../../layout/variables.scss';
+
 :host {
     display: flex;
 }
@@ -17,7 +19,7 @@ button {
 
     &.link {
         color: #1665D8;
-        font-size: 13px;
+        font-size: $btn-icon-size;
         @apply p-0;
 
         &:hover {

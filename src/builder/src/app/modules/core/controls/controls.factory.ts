@@ -15,6 +15,7 @@ export class ControlsFactory {
         this.controls['files'] = editors.FilesComponent; // todo: files
         this.controls['images'] = editors.ImagesComponent; // todo: images
         this.controls['number'] = editors.NumberComponent;
+        this.controls['slider'] = editors.NumberComponent;
         this.controls['select'] = editors.SelectComponent;
         this.controls['string'] = editors.StringComponent;
         this.controls['text'] = editors.TextComponent;

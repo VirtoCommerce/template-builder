@@ -35,12 +35,12 @@ export class ThemeUiEffects {
 
     exitPresets$ = createEffect(() => this.actions$.pipe(
         ofType(actions.exitPresets, actions.applyPreset),
-        mapTo(routingActions.go({ path: ['/themes'], queryParams: { preset: undefined } }))
+        mapTo(routingActions.go({ queryParams: { preset: undefined } }))
     ));
 
     exitSettings$ = createEffect(() => this.actions$.pipe(
         ofType(actions.exitSettings),
-        mapTo(routingActions.go({ path: ['/pages'], queryParams: { preset: undefined } }))
+        mapTo(routingActions.jump({ path: ['/pages'] }))
     ));
 
 }

@@ -4,6 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 
 const routes: Routes = [
+    // todo: default path processed in routing state in shared module.
+    // todo: default path probably should be in the builder config
+    // {
+    //     path: '',
+    //     redirectTo: '/pages',
+    //     pathMatch: 'full'
+    // },
     {
         path: '',
         component: SidebarComponent,
@@ -20,7 +27,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'pages'
+        redirectTo: '/pages'
     }
 ];
 

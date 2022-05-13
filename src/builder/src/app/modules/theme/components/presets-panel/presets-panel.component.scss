@@ -1,3 +1,5 @@
+@import '../../../../../layout/variables.scss';
+
 :host{
     @apply select-none;
 }
@@ -50,6 +52,6 @@
 
 .search {
     border: 1px solid #A7ACB1;
-    font-size: 0.8125rem;
+    font-size: $default-font-size;
     @apply rounded grow py-1;
 }

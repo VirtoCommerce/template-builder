@@ -1,3 +1,5 @@
+@import '../../../../../layout/variables.scss';
+
 :host {
     @apply w-full flex items-stretch;
 
@@ -12,7 +14,7 @@
 
     .preview-name {
         line-height: 24px;
-        font-size: 15px;
+        font-size: $middle-font-size;
         background-color: #1665D8;
         color: #ffffff;
         text-align: center;

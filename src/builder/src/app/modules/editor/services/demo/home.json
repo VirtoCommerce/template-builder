@@ -6,7 +6,8 @@
         {
             "id": "1",
             "type": "cover-with-image",
-            "name": "Main slide"
+            "name": "Main slide",
+            "inlineCalendar": "2022-05-14"
         },
         {
             "id": "2",

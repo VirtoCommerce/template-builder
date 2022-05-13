@@ -1,3 +1,7 @@
 :host {
     @apply flex flex-col;
 }
+
+.has-thumb {
+    @apply mt-4;
+}

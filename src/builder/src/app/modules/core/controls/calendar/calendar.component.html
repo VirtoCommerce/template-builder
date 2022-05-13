@@ -1,27 +1,38 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<ng-container [formGroup]="form" [ngSwitch]="true">
-    <ngx-mat-timepicker *ngSwitchCase="descriptor.mode === 'time'"
-                        [showSpinners]="!descriptor.hideSpinners"
-                        [stepMinute]="descriptor.stepMinute || 1"
-                        [enableMeridian]="!!descriptor.showAmPm"
-                        [showSeconds]="!!descriptor.showSeconds"
-                        formControlName="time">
-    </ngx-mat-timepicker>
-    <ng-container *ngSwitchDefault>
-        <div class="flex relative">
-            <input formControlName="date" class="flex-grow" matInput [min]="descriptor.minDate"
-                   type="text"
-                   [max]="descriptor.maxDate"
-                   [ngxMatDatetimePicker]="picker" placeholder="Choose a date">
-            <!-- todo: remove $any function when it will be possible -->
-            <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-        </div>
-        <ngx-mat-datetime-picker (selectedChanged)="raiseValueChanged($event)" #picker
-                                 [showSeconds]="!!descriptor.showSeconds"
-                                 [showSpinners]="!descriptor.hideSpinners"
-                                 [enableMeridian]="!!descriptor.showAmPm"
-                                 [stepMinute]="descriptor.stepMinute || 1"
-                                 [hideTime]="descriptor.mode !== 'datetime'">
-        </ngx-mat-datetime-picker>
+<ng-container [formGroup]="form">
+    <ng-container [ngSwitch]="true">
+        <ngx-mat-timepicker *ngSwitchCase="descriptor.mode === 'time'"
+                            [showSpinners]="!descriptor.hideSpinners"
+                            [stepMinute]="descriptor.stepMinute || 1"
+                            [enableMeridian]="!!descriptor.showAmPm"
+                            [showSeconds]="!!descriptor.showSeconds"
+                            formControlName="time">
+        </ngx-mat-timepicker>
+        <ng-container *ngSwitchCase="descriptor.inline && descriptor.mode !== 'time'">
+            <ngx-mat-calendar (selectedChange)="selectDate($event)" [selected]="controlValue">
+            </ngx-mat-calendar>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <div class="flex relative">
+                <input formControlName="date"
+                       class="flex-grow"
+                       type="text"
+                       matInput
+                       [min]="descriptor.minDate"
+                       [max]="descriptor.maxDate"
+                       [ngxMatDatetimePicker]="picker"
+                       [placeholder]="descriptor.placeholder || ''">
+                <!-- todo: remove $any function when it will be possible -->
+                <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+            </div>
+            <ngx-mat-datetime-picker #picker
+                                     [showSeconds]="!!descriptor.showSeconds"
+                                     [showSpinners]="!descriptor.hideSpinners"
+                                     [enableMeridian]="!!descriptor.showAmPm"
+                                     [stepMinute]="descriptor.stepMinute || 1"
+                                     [hideTime]="descriptor.mode !== 'datetime'">
+            </ngx-mat-datetime-picker>
+        </ng-container>
     </ng-container>
 </ng-container>
+<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>

@@ -7,6 +7,12 @@ export const go = createAction('[router] router go', props<{
     extras?: NavigationExtras;
     data?: any;
 }>());
+export const jump = createAction('[router] router jump', props<{
+    path: any[];
+    queryParams?: object;
+    extras?: NavigationExtras;
+    data?: any;
+}>());
 export const skipNavigation = createAction('[Router] skip navigation', props<{ reason: string }>());
 export const back = createAction('[Router] back');
 export const forward = createAction('[Router] forward');

@@ -23,6 +23,7 @@ export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> 
             date: new FormControl(this.controlValue)
         });
         this._subscription = this.form.valueChanges.subscribe(value => {
+            console.log(value);
             if (this.descriptor.mode === 'time') {
                 this.onValueChanged(value.time);
             } else {
@@ -38,7 +39,7 @@ export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> 
         }
     }
 
-    raiseValueChanged(value: any) {
-        console.log(value);
+    selectDate(event: Date) {
+        this.form.setValue({ time: event, date: event })
     }
 }

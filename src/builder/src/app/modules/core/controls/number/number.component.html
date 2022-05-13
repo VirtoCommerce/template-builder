@@ -1,7 +1,12 @@
-<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<div class="flex flex-row items-center justify-between w-full">
+    <label [attr.title]="descriptor.hint" class="label">{{ descriptor.label }}</label>
+    <span *ngIf="descriptor.type === 'slider'">{{ controlValue }}</span>
+</div>
 
 <input #control
+    *ngIf="descriptor.type !== 'slider'"
     type="number"
+    class="control"
     [min]="descriptor.min"
     [max]="descriptor.max"
     [step]="descriptor.step"
@@ -12,3 +17,16 @@
     (change)="raiseOnChange($event.target)"
     (blur)="raiseOnTouched($event.target)"
 />
+
+<mat-slider
+    *ngIf="descriptor.type === 'slider'"
+    [min]="descriptor.min"
+    [max]="descriptor.max"
+    [step]="descriptor.step"
+    [value]="controlValue"
+    [thumbLabel]="descriptor.thumb || false"
+    [ngClass]="{ 'has-thumb': descriptor.thumb }"
+    (input)="sliderChanged($event)"
+></mat-slider>
+
+<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>

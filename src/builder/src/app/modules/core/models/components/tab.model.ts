@@ -1,9 +1,11 @@
 import { BaseControlDescriptor } from '@core/models';
 
 export interface TabModel {
+    label?: string;
     groups: {
-        [key: string]: BaseControlDescriptor[];
-    };
+        name: string;
+        descriptors: BaseControlDescriptor[];
+    }[];
     ungrouped: BaseControlDescriptor[];
 }
 

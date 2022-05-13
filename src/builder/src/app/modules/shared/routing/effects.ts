@@ -66,17 +66,36 @@ export class RoutingEffects {
             this.store$.select(fromRoute.selectQueryParams),
             this.store$.select(fromRoute.isEmpty)
         ),
-        filter(([,,, isEmpty]) => !isEmpty),
+        filter(([, , , isEmpty]) => !isEmpty),
         tap(([{ path, queryParams, extras }, currentPath, currentParams]) =>
             this.router.navigate(
                 // todo: use default route from config
-                path || [currentPath || '/pages'], // save current path if it isn't exists
+                path || [currentPath], // save current path if it isn't exists
                 {
                     queryParams: { ...currentParams, ...queryParams }, // save current query params too
                     ...extras
                 }
             )
         )
+    ), { dispatch: false });
+
+    navigateToOtherModule$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.jump),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectPreviewModeParameter)
+        ),
+        tap(([{ path, queryParams, extras }, template, previewMode]) =>
+            this.router.navigate(path,
+                {
+                    queryParams: {
+                        template: template || undefined, // todo: should be template stored between modules?
+                        'preview-mode': previewMode || undefined,
+                        ...queryParams
+                    },
+                    ...extras
+                }
+        ))
     ), { dispatch: false });
 
     skipNavigate$ = createEffect(() => this.actions$.pipe(

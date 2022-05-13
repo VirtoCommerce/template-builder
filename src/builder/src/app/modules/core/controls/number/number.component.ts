@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { WindowRef } from '@core/services';
 import { BaseControlDirective } from '@core/controls';
 import { NumberDescriptor } from '@core/models';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-number',
@@ -35,6 +36,10 @@ export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
         if (!!element) {
             this.onControlTouched(element.valueAsNumber);
         }
+    }
+
+    sliderChanged(event: MatSliderChange) {
+        this.onValueChanged(event.value);
     }
 
     override getFocusableControl(): ElementRef {

@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -47,6 +48,7 @@ const MATERIAL_MODULES = [
     MatIconModule,
     MatTabsModule,
     MatRippleModule,
+    MatSliderModule,
     DragDropModule,
     OverlayModule
 ];

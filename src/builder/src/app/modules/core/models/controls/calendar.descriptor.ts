@@ -7,5 +7,6 @@ export interface CalendarDescriptor extends BaseControlDescriptor {
     showAmPm?: boolean;
     minDate?: Date;
     maxDate?: Date;
+    inline?: boolean;
     stepMinute?: number;
 }

@@ -50,7 +50,7 @@ export class ToolbarHostComponent implements OnInit {
     onActionExecuted(action: string) {
         if (action === 'theme-settings') {
             // todo: move to effects
-            this.store.dispatch(router.go({ path: ['/themes'] }));
+            this.store.dispatch(router.jump({ path: ['/themes'] }));
         } else if (action === 'save') {
         } else if (action === 'undo') {
             this.notifications.demotr();

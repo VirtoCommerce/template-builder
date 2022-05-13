@@ -1,8 +1,9 @@
-<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<label [attr.title]="descriptor.hint" class="label">{{ descriptor.label }}</label>
 
 <input *ngIf="!descriptor.multiline"
     #control
     type="text"
+    class="control"
     [value]="controlValue"
     [placeholder]="descriptor.placeholder || ''"
     (paste)="onPaste($event)"
@@ -12,10 +13,11 @@
 <textarea *ngIf="descriptor.multiline"
     #textarea
     rows="4"
+    class="control"
     [value]="controlValue"
     [placeholder]="descriptor.placeholder || ''"
     (paste)="onPaste($event)"
     (keyup)="raiseOnChange($event)"
 ></textarea>
 
-<p *ngIf="descriptor.info">{{ descriptor.info }}</p>
+<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>

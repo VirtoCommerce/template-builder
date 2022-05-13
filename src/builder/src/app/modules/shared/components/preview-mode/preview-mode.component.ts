@@ -18,7 +18,7 @@ export class PreviewModeComponent implements OnInit {
     previewModes: ActionButtonDescriptor[] = [
         {
             icon: 'desktop_windows',
-            title: 'Desktop very long name to preview',
+            title: 'Desktop',
             alias: undefined
         },
         {

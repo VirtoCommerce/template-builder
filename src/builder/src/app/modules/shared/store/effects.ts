@@ -29,10 +29,18 @@ export class SharedEffects {
         withLatestFrom(this.store$.select(fromState.isAppInitialized)),
         filter(([, init]) => !init),
         switchMap(() => [
-            actions.initApp()
+            actions.initApp(),
         ])
     ));
 
+    selectDefaultTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(ROUTER_NAVIGATED),
+        withLatestFrom(this.store$.select(fromRoute.selectTemplateParameter)),
+        filter(([, template]) => !template),
+        switchMap(() => [
+            actions.selectDefaultTemplate()
+        ])
+    ));
 
     initApp$ = createEffect(() => this.actions$.pipe(
         ofType(actions.initApp),
@@ -50,10 +58,15 @@ export class SharedEffects {
     ));
 
     redirectToDefaultTemplate$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.loadTemplateEntriesSuccess),
-        withLatestFrom(this.store$.select(fromRoute.selectTemplateParameter)),
-        filter(([{ templatesEntries }, templateParameter]) => !templateParameter && !!Object.keys(templatesEntries).length),
-        map(([{ templatesEntries } ]) => actions.selectTemplate({ template: this.listHelpers.findInObjectOrFirst<TemplateEntry>(templatesEntries, (item, key) => !!item.isDefault).key!! }))
+        ofType(actions.loadTemplateEntriesSuccess, actions.selectDefaultTemplate),
+        withLatestFrom(
+            this.store$.select(fromState.selectTemplatesEntries),
+            this.store$.select(fromRoute.selectTemplateParameter)
+        ),
+        filter(([, templatesEntries, templateParameter]) => !templateParameter && !!templatesEntries.length),
+        map(([, templatesEntries]) => actions.selectTemplate({
+            template: (templatesEntries.find(item => !!item.isDefault) || templatesEntries[0]).alias
+        }))
     ));
 
     selectTemplate$ = createEffect(() => this.actions$.pipe(
@@ -62,7 +75,7 @@ export class SharedEffects {
             this.store$.select(fromRoute.selectTemplateParameter),
             this.store$.select(fromRoute.isEmpty)
         ),
-        filter(([{ template }, templateParameter, isEmpty]) => !isEmpty && template !== templateParameter),
+        filter(([{ template }, templateParameter, isEmpty]) => !isEmpty && template !== templateParameter || !templateParameter),
         map(([{ template }]) => router.go({ queryParams: { template } }))
     ));
 
