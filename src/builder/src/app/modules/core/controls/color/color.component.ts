@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
 import { ColorDescriptor } from '@core/models';
+import { ColorEvent } from 'ngx-color';
 
 @Component({
   selector: 'app-color',
@@ -9,11 +10,32 @@ import { ColorDescriptor } from '@core/models';
   styleUrls: ['./color.component.scss']
 })
 export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
+    isOpen = false;
+
     clearColor() {
         this.onValueChanged(this.descriptor.clearValue || null);
+        this.close();
     }
 
-    changeColor(value: string) {
-        this.onValueChanged(value);
+    changeColor(value: ColorEvent) {
+        console.log(value);
+        this.onValueChanged(value.color.hex);
+    }
+
+    togglePopover() {
+        this.isOpen = !this.isOpen;
+    }
+
+    close() {
+        this.isOpen = false;
+    }
+
+    applyColor() {
+        this.close();
+    }
+
+    outsideClick(event: MouseEvent) {
+        event.stopPropagation();
+        this.close();
     }
 }

@@ -1,23 +1,63 @@
 <ng-container *ngIf="!descriptor.inline; else inlinePicker">
     <div class="flex items-center justify-between"
-         [colorPicker]="controlValue"
-         [cpOutputFormat]="descriptor.outputFormat || 'auto'"
-         [cpColorMode]="descriptor.colorMode || 'color'"
-         [cpPresetColors]="descriptor.presets || []"
-         [cpAlphaChannel]="descriptor.alpha || 'enabled'"
-         [cpOKButton]="true"
-         [cpCancelButton]="true"
-         cpPosition="bottom"
-         cpCancelButtonText="Clear"
-         (colorPickerCancel)="clearColor()"
-         (colorPickerChange)="changeColor($event)">
+         #trigger="cdkOverlayOrigin"
+         cdkOverlayOrigin
+         (click)="togglePopover()">
         <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-        <div class="border rounded-full w-4 h-4 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
+        <div class="border rounded-2 w-7 h-7 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
     </div>
+    <ng-template cdkConnectedOverlay
+                 [cdkConnectedOverlayOrigin]="trigger"
+                 [cdkConnectedOverlayOpen]="isOpen"
+                 [cdkConnectedOverlayHasBackdrop]="true"
+                 [lockPosition]="true"
+                 (detach)="close()"
+                 (backdropClick)="outsideClick($event)">
+        <div class="picker-holder">
+            <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
+                          [color]="controlValue || ''"
+                          [presetColors]="descriptor.presets || []"
+                          [disableAlpha]="descriptor.disableAlpha || false"
+                          (onChangeComplete)="changeColor($event)"></color-sketch>
+            <color-twitter *ngIf="descriptor.colorMode === 'presets'"
+                           [color]="controlValue || ''"
+                           [colors]="descriptor.presets || []"
+                           (onChangeComplete)="changeColor($event)"></color-twitter>
+            <div class="m-4 flex flex-row-reverse space-x-4 space-x-reverse">
+                <button (click)="applyColor()">Ok</button>
+                <button (click)="clearColor()">Clear</button>
+            </div>
+        </div>
+        <!-- <div [colorPicker]="controlValue"
+             [cpOutputFormat]="descriptor.outputFormat || 'auto'"
+             [cpColorMode]="descriptor.colorMode || 'color'"
+             [cpPresetColors]="descriptor.presets || []"
+             [cpAlphaChannel]="descriptor.alpha || 'enabled'"
+             [cpOKButton]="true"
+             [cpCancelButton]="true"
+             [cpDialogDisplay]="'inline'"
+             [cpToggle]="true"
+             cpCancelButtonText="Clear"
+             (colorPickerCancel)="clearColor()"
+             (colorPickerChange)="changeColor($event)">
+        </div> -->
+    </ng-template>
+
 </ng-container>
 <ng-template #inlinePicker>
     <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-    <div class="inline-picker"
+
+    <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
+                  [color]="controlValue || ''"
+                  [presetColors]="descriptor.presets || []"
+                  [disableAlpha]="descriptor.disableAlpha || false"
+                  (onChangeComplete)="changeColor($event)"></color-sketch>
+    <color-twitter *ngIf="descriptor.colorMode === 'presets'"
+                   [color]="controlValue || ''"
+                   [colors]="descriptor.presets || []"
+                   (onChangeComplete)="changeColor($event)"></color-twitter>
+
+    <!-- <div class="inline-picker"
          cpCancelButtonText="Clear"
          [colorPicker]="controlValue"
          [cpOutputFormat]="descriptor.outputFormat || 'auto'"
@@ -29,5 +69,5 @@
          [cpToggle]="true"
          (colorPickerCancel)="clearColor()"
          (colorPickerChange)="changeColor($event)">
-    </div>
+    </div> -->
 </ng-template>

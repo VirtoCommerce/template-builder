@@ -1,11 +1,12 @@
-import { AlphaChannel, ColorMode, OutputFormat } from "ngx-color-picker/lib/helpers";
 import { BaseControlDescriptor } from "./base-control.descriptor";
 
 export interface ColorDescriptor extends BaseControlDescriptor {
-    outputFormat: OutputFormat;
+    // outputFormat: 'auto' | 'hex' | 'rgba' | 'hsla'; // 'auto'
+    // colorMode?: 'color' | 'grayscale' | 'presets'; // 'color'
+    // alpha?: 'enabled' | 'disabled' | 'always' | 'forced'; // 'enabled'
+    colorMode?: 'color' | 'presets'; // 'color'
+    disableAlpha?: boolean;
     clearValue?: string;
-    colorMode?: ColorMode;
     inline?: boolean;
     presets?: string[];
-    alpha?: AlphaChannel;
 }

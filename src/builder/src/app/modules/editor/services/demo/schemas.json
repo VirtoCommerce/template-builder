@@ -197,11 +197,51 @@
                     "tab": "Other"
                 },
                 {
-                    "id": "inlineColor",
-                    "label": "Inline colorpicker",
+                    "id": "inlineColorNoAlpha",
+                    "label": "Inline colorpicker without alpha",
                     "type": "color",
                     "inline": true,
+                    "disableAlpha": true,
                     "tab": "Other"
+                },
+                {
+                    "id": "hexColor",
+                    "label": "Colorpicker",
+                    "type": "color",
+                    "tab": "Other"
+                },
+                {
+                    "id": "withPresetsColor",
+                    "label": "Colorpicker with presets",
+                    "type": "color",
+                    "tab": "Other",
+                    "clearValue": null,
+                    "presets": [
+                        "red",
+                        "green",
+                        "blue",
+                        "yellow",
+                        "cyan",
+                        "black",
+                        "white"
+                    ]
+                },
+                {
+                    "id": "presetOnlyColors",
+                    "label": "Presets only colorpicker",
+                    "type": "color",
+                    "inline": true,
+                    "colorMode": "presets",
+                    "tab": "Other",
+                    "presets": [
+                        "red",
+                        "green",
+                        "blue",
+                        "yellow",
+                        "cyan",
+                        "black",
+                        "white"
+                    ]
                 }
             ]
         },

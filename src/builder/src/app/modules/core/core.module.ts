@@ -25,7 +25,8 @@ import {
 } from '@angular-material-components/datetime-picker';
 
 import { FileUploadModule } from '@iplab/ngx-file-upload';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorSketchModule } from 'ngx-color/sketch';
+import { ColorTwitterModule } from 'ngx-color/twitter';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -70,7 +71,8 @@ const MATERIAL_MODULES = [
         NgxMatNativeDateModule,
 
         FileUploadModule,
-        ColorPickerModule,
+        ColorSketchModule,
+        ColorTwitterModule,
         CKEditorModule,
         // todo: use options from builder config
         // https://www.npmjs.com/package/ngx-toastr

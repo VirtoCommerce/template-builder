@@ -6,3 +6,9 @@
         </app-controls-tabs>
     </form>
 </div>
+<div *ngIf="!descriptors || !descriptors.length">
+    <p class="px-4">
+        No settings for current section / block
+    </p>
+</div>
+
