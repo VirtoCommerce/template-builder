@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
-import { MatSelectModule } from '@angular/material/select';
+// import { MatSelectModule } from '@angular/material/select';
 // import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -27,6 +27,7 @@ import {
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { ColorTwitterModule } from 'ngx-color/twitter';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -41,7 +42,7 @@ const ALL_COMPONENTS = [
 ];
 
 const MATERIAL_MODULES = [
-    MatSelectModule,
+    // MatSelectModule,
     MatDatepickerModule,
     MatMomentDateModule,
     MatCheckboxModule,
@@ -73,6 +74,7 @@ const MATERIAL_MODULES = [
         FileUploadModule,
         ColorSketchModule,
         ColorTwitterModule,
+        NgSelectModule,
         CKEditorModule,
         // todo: use options from builder config
         // https://www.npmjs.com/package/ngx-toastr

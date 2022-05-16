@@ -1,5 +1,5 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<mat-select [multiple]="descriptor.multiple" [placeholder]="descriptor.placeholder || ''"
+<!-- <mat-select [multiple]="descriptor.multiple" [placeholder]="descriptor.placeholder || ''"
             [value]="controlValue"
             (selectionChange)="raiseValueChanged($event)">
     <mat-option *ngFor="let item of options.options" [value]="item.value">{{ item.label }}</mat-option>
@@ -8,4 +8,13 @@
             {{item.label}}
         </mat-option>
     </mat-optgroup>
-</mat-select>
+</mat-select> -->
+<ng-select [items]="options"
+           [multiple]="descriptor.multiple || false"
+           [placeholder]="descriptor.placeholder || ''"
+           [searchable]="false"
+           appendTo="body"
+           bindLabel="label"
+           bindValue="value"
+           (change)="raiseValueChanged($event)">
+</ng-select>

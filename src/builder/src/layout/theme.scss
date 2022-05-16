@@ -25,3 +25,4 @@ $builder-theme: mat.define-light-theme((
 // @include mat.all-component-themes($builder-theme);
 
 @import '@angular/cdk/overlay-prebuilt.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";

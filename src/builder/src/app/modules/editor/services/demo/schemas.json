@@ -22,6 +22,44 @@
             "displayPropertyName": "name",
             "settings": [
                 {
+                    "id": "simpleSelect",
+                    "type": "select",
+                    "label": "Simple select",
+                    "multiple": false,
+                    "placeholder": "Choose fruit",
+                    "options": [
+                        { "value": 1, "label": "apple" },
+                        { "value": 2, "label": "orange" },
+                        { "value": 3, "label": "pineapple" },
+                        { "value": 4, "label": "grape" },
+                        { "value": 5, "label": "banana" },
+                        { "value": 6, "label": "fig" },
+                        { "value": 7, "label": "kiwi" },
+                        { "value": 8, "label": "lime" },
+                        { "value": 9, "label": "melon" },
+                        { "value": 10, "label": "peach" }
+                    ]
+                },
+                {
+                    "id": "multiSelect",
+                    "type": "select",
+                    "label": "Multiple select",
+                    "multiple": true,
+                    "placeholder": "Choose fruits",
+                    "options": [
+                        { "value": 1, "label": "apple" },
+                        { "value": 2, "label": "orange" },
+                        { "value": 3, "label": "pineapple" },
+                        { "value": 4, "label": "grape" },
+                        { "value": 5, "label": "banana" },
+                        { "value": 6, "label": "fig" },
+                        { "value": 7, "label": "kiwi" },
+                        { "value": 8, "label": "lime" },
+                        { "value": 9, "label": "melon" },
+                        { "value": 10, "label": "peach" }
+                    ]
+                },
+                {
                     "type": "header",
                     "tab": "Text",
                     "group": "Textboxes",

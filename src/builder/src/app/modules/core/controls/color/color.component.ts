@@ -4,6 +4,11 @@ import { BaseControlDirective } from '@core/controls';
 import { ColorDescriptor } from '@core/models';
 import { ColorEvent } from 'ngx-color';
 
+/**
+ * https://ngx-color.vercel.app/
+ * https://www.npmjs.com/package/ngx-color
+ */
+
 @Component({
   selector: 'app-color',
   templateUrl: './color.component.html',
