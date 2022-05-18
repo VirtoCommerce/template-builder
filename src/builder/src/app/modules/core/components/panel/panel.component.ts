@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 @Component({
     selector: 'app-panel',

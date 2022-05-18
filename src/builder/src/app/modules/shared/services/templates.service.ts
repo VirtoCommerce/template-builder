@@ -2,56 +2,29 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from 'rxjs';
 import { TemplateEntryList } from '@shared/models';
 
+import home from './demo/home.json';
+import catalog from './demo/catalog.json';
+import product from './demo/product.json';
+import cart from './demo/cart.json';
+import page from './demo/page.json';
+import empty from './demo/empty.json';
+import wrong from './demo/wrong.json';
+import notFound from './demo/404.json';
+
 @Injectable({
     providedIn: 'root'
 })
 export class TemplatesService {
     getTemplatesList(): Observable<TemplateEntryList> {
         return of({
-            'home': <any>{
-                name: 'Home',
-                previewUrl: 'https://st-storefront.dev.govirto.com',
-                isDefault: true,
-                sections: ["products-list", "latest-news", "text", "video", "images", "share", 'carousel', 'cards', 'promo'],
-                settings: [
-                    {
-                        id: "displayType",
-                        label: "Default display type",
-                        type: "select",
-                        default: "table",
-                        options: [
-                            {
-                                "value": "grid",
-                                "label": "Grid"
-                            },
-                            {
-                                "value": "table",
-                                "label": "Table"
-                            }
-                        ]
-                    }
-                ]
-            },
-            'catalog': <any>{
-                name: 'Catalog',
-                previewUrl: 'https://st-storefront.dev.govirto.com/c'
-            },
-            'product': <any>{
-                name: 'Product template with long name that can be truncated',
-                previewUrl: 'https://st-storefront.dev.govirto.com/p/baa4931161214690ad51c50787b1ed94'
-            },
-            'cart': <any>{
-                name: 'Cart',
-                previewUrl: 'https://st-storefront.dev.govirto.com/checkout'
-            },
-            'page': <any>{
-                name: 'Page',
-                previewUrl: 'https://st-storefront.dev.govirto.com'
-            },
-            'empty': <any>{
-                name: 'Empty page',
-                previewUrl: 'https://st-storefront.dev.govirto.com'
-            }
+            'home': <any>home,
+            'catalog': <any>catalog,
+            'product': <any>product,
+            'cart': <any>cart,
+            'page': <any>page,
+            'empty': <any>empty,
+            'wrong': <any>wrong,
+            '404': <any>notFound
         });
     }
 }

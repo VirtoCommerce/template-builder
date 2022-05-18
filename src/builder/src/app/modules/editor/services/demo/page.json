@@ -53,106 +53,6 @@
             "name": "Cover variations"
         },
         {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
             "type": "product-info",
             "name": "Product info",
             "blocks": [
@@ -165,6 +65,86 @@
                     "type": "text"
                 }
             ]
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
+        },
+        {
+            "type": "cover-with-variations",
+            "name": "Cover variations"
         }
     ]
 }

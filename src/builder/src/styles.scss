@@ -3,7 +3,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import './layout/variables.scss';
-@import './layout/theme.scss';
+@import './layout/material-theme.scss';
+@import './layout/external.scss';
 @import './layout/toastr.scss';
 @import './layout/controls.scss';
 

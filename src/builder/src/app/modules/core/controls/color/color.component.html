@@ -4,7 +4,7 @@
          cdkOverlayOrigin
          (click)="togglePopover()">
         <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-        <div class="border rounded-2 w-7 h-7 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
+        <div class="border rounded-4 w-7 h-7 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
     </div>
     <ng-template cdkConnectedOverlay
                  [cdkConnectedOverlayOrigin]="trigger"
