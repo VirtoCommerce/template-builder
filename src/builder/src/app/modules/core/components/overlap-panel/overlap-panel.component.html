@@ -1,5 +1,7 @@
 <div class="background"></div>
 <div class="content" [style.width.px]="getContentWidth()">
     <ng-content></ng-content>
-    <app-icon *ngIf="expandable" (click)="isOpened = !isOpened" class="expand" [ngClass]="{ inverted: isOpened }">keyboard_double_arrow_right</app-icon>
+</div>
+<div *ngIf="expandable" (click)="isOpened = !isOpened" class="expand" [ngClass]="{ expanded: isOpened }">
+    <app-icon [ngClass]="{ inverted: isOpened }">keyboard_double_arrow_right</app-icon>
 </div>

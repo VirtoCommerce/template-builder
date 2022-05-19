@@ -7,21 +7,34 @@
     @apply absolute h-full w-full -left-8;
 }
 .content {
+    z-index: 1;
     @apply relative bg-white h-full w-full;
 }
 
 .expand {
     right: -.75rem;
-    top: 1rem;
+    top: calc(50% - 2.5rem);
     border-radius: 50%;
     background-color: white;
-    box-shadow: 0 0 .5rem 0 #999999;
-    transition: transform .1s;
-    @apply absolute;
+    box-shadow: 0 0 .5rem 0 #eeeeee;
+    transition: right .7s .3s, opacity .5s .5s;
+    z-index: 0;
+    width: 5rem;
+    height: 5rem;
+    opacity: .3;
+    @apply absolute flex items-center justify-end;
     &:hover {
-        box-shadow: 0 0 .5rem 0 #000000;
+        opacity: 1;
+        right: -2.5rem;
     }
-    &.inverted {
+    &.expanded {
         transform: rotate(180deg);
+        left: -.75rem;
+        right: none;
+        &:hover {
+            opacity: 1;
+            right: none;
+        }
     }
+    // .inverted { }
 }

@@ -3,15 +3,18 @@
         (menuOpened)="isOpened = true"
         (menuClosed)="isOpened = false">
     <ng-container *ngIf="activeItem">
-        <mat-icon *ngIf="activeItem.icon">{{ activeItem.icon }}</mat-icon>
-        <div *ngIf="activeItem.title" class="text active-item-text truncate" [attr.title]="activeItem.title">{{ activeItem.title }}</div>
+        <app-icon *ngIf="activeItem.icon">{{ activeItem.icon }}</app-icon>
+        <div *ngIf="activeItem.title" class="text active-item-text truncate" [attr.title]="activeItem.title">{{
+            activeItem.title }}</div>
     </ng-container>
     <div class="text default-title-text" *ngIf="!active && !!defaultTitle">{{ defaultTitle }}</div>
     <app-chevron *ngIf="displayChevron" [opened]="isOpened" [vertical]="true"></app-chevron>
 </button>
-<mat-menu #menu="matMenu" [class]="panelClass || ''">
-    <button mat-menu-item *ngFor="let action of actions" (click)="actionChoosed(action)">
-        <mat-icon *ngIf="action.icon">{{ action.icon }}</mat-icon>
-        <span [attr.title]="action.title">{{ action.title }}</span>
-    </button>
+<mat-menu #menu="matMenu" [class]="'menu-panel ' + panelClass || ''">
+    <div class="flex flex-col p-1">
+        <button mat-menu-item *ngFor="let action of actions" (click)="actionChoosed(action)">
+            <app-icon *ngIf="action.icon">{{ action.icon }}</app-icon>
+            <span class="text-item" [attr.title]="action.title">{{ action.title }}</span>
+        </button>
+    </div>
 </mat-menu>

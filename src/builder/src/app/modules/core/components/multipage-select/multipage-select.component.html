@@ -9,7 +9,7 @@
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
              [cdkConnectedOverlayOpen]="isOpen"
              [cdkConnectedOverlayHasBackdrop]="true"
-             [lockPosition]="true"
+             [cdkConnectedOverlayLockPosition]="true"
              (detach)="close()"
              (overlayOutsideClick)="outsideClick($event)">
     <div class="multipage-select-panel-container {{ panelClass }}">
