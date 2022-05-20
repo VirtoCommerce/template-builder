@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { FormsHelper } from '@core/services';
-import { ControlContext, BaseControlDescriptor, SectionModel } from '@core/models';
+import { ControlContext, BaseControlDescriptor, SectionModel, ModelChangedEventArgs } from '@core/models';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -38,7 +38,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
             this.generateForm();
         }
     }
-    @Output() modelChanged = new EventEmitter<any>();
+    @Output() modelChanged = new EventEmitter<ModelChangedEventArgs>();
 
     form: FormGroup | null = null;
 

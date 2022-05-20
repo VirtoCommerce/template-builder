@@ -11,14 +11,17 @@ button {
     }
 
     &.blue {
-        color: #1665D8;
+        color: $active-color;
+        app-icon {
+            color: $active-color;
+        }
         &:hover {
             background: rgba(22, 101, 216, 0.04);
         }
     }
 
     &.link {
-        color: #1665D8;
+        color: $active-color;
         font-size: $btn-icon-size;
         @apply p-0;
 
@@ -28,12 +31,12 @@ button {
     }
 
     &.solid-blue {
-        background: #1665D8;
+        background: $active-color;
         color: #ffffff;
         @apply py-1;
         &:hover {
             // background: rgba(22, 101, 216, 0.04);
-            background: #1665D8;
+            background: $active-color;
         }
     }
 }

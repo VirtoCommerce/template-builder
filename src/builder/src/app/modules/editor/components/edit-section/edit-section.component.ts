@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BuilderState } from '@editor/store/state';
-import { ContextMenuAction, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
+import { ContextMenuAction, ModelChangedEventArgs, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
 // import { SectionsSchemasList } from '@editor/models';
 import { helpers } from '@editor/services';
 import { Store } from '@ngrx/store';
@@ -26,8 +26,8 @@ export class EditSectionComponent implements OnInit {
         this.store.dispatch(actions.closeEditItemPanel());
     }
 
-    onModelChanged(event: any, vm: any) {
-        // console.log(event, vm);
+    onModelChanged(args: ModelChangedEventArgs) {
+        this.store.dispatch(actions.sectionChangedAction({ changes: args.changes }));
     }
 
     // @Input() section!: SectionModel;

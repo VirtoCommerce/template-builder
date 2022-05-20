@@ -1,13 +1,17 @@
+@import '../../../../../layout/variables.scss';
+
 :host {
     @apply flex flex-col h-full;
 }
 
 .panel-title {
     border-color: rgba(12, 12, 12, 0.08);
-    @apply flex flex-row items-center leading-5 text-base border-b truncate p-4;
+    color: $heading-color;
+    @apply flex flex-row items-center leading-5 text-base border-b truncate p-4 pl-6;
 }
 
 .panel-body {
+    color: $controls-text-color;
     @apply flex flex-col h-full relative;
     flex: 1 0 0; // scrollable
 }

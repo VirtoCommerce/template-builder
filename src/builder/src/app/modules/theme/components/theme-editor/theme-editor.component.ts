@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { ModelChangedEventArgs } from '@core/models';
+
 import * as fromTheme from '@theme/store/selectors';
 import * as actions from '@theme/store/actions';
 
@@ -35,7 +37,7 @@ export class ThemeEditorComponent implements OnInit {
         this.store$.dispatch(actions.gotoPresets());
     }
 
-    onSettingsChanged(settings: { model: any, value: any }) {
-        this.store$.dispatch(actions.updateSettings(settings));
+    onSettingsChanged(args: ModelChangedEventArgs) {
+        this.store$.dispatch(actions.updateSettings(args));
     }
 }

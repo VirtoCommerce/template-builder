@@ -4,7 +4,7 @@
             <app-dynamic-form [context]="vm.editContext"
                               [descriptors]="vm.schema.settings"
                               [sectionModel]="vm.section"
-                              (modelChanged)="onModelChanged($event, vm)"></app-dynamic-form>
+                              (modelChanged)="onModelChanged($event)"></app-dynamic-form>
         </ng-container>
         <ng-container title-content>
             <ng-container *ngIf="viewModel$|async as vm">

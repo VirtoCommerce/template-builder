@@ -1,3 +1,5 @@
+@import '../../../../../layout/variables.scss';
+
 .wrapper {
     transition: opacity .2s;
     @apply flex flex-col;
@@ -20,14 +22,22 @@ app-icon {
     color: rgba(72, 72, 72, 1);
 }
 
-.icon:hover {
-    background-color: #f6f6f6;
-    @apply rounded p-1 -m-1;
+.icon {
+    &.opened {
+        color: $active-color;
+    }
+    &:hover {
+        background-color: #f6f6f6;
+        @apply rounded p-1 -m-1;
+    }
 }
 
 .action-item {
     @apply flex flex-row w-full rounded items-center p-2 space-x-1 cursor-pointer;
     &:hover {
         background-color: #f6f6f6;
+    }
+    span {
+        color: $text-color;
     }
 }

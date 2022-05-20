@@ -35,6 +35,14 @@ export class TemplatesServiceSimulator {
                     }
                     section.id = appHelpers.generateSectionId(section);
                     ids[section.id] = true;
+
+                    section.blocks?.forEach((block: any) => {
+                        if (ids[block.id]) {
+                            block.id = null;
+                        }
+                        block.id = appHelpers.generateSectionId(block);
+                        ids[block.id] = true;
+                    });
                 });
                 return template;
             })

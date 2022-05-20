@@ -9,6 +9,9 @@ import {
     // SectionsSchemasList
 } from '@editor/models';
 
+// todo: refactor these
+// replace section/block in collection can be extracted and done with lodash
+
 export function addItemToTemplate(schema: SectionSchema, template: TemplateModel, section: SectionModel | null): TemplateModel {
     const model = generateModelBySchema(schema);
     model.id = generateSectionId(model); // id generator center requried
@@ -86,6 +89,48 @@ export function generateModelBySchema(schema: SectionSchema): SectionModel {
     return result;
 }
 
+export function applySectionChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            <SectionModel>{
+                ...section,
+                ...changes
+            },
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const block = section.blocks[blockIndex];
+    const newSection = {
+        ...section,
+        blocks: [
+            ...section.blocks.slice(0, blockIndex),
+            <SectionModel>{
+                ...block,
+                ...changes
+            },
+            ...section.blocks.slice(blockIndex + 1)
+        ]
+    };
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            newSection,
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
 function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'default' | 'preview' = 'default'): any {
     // todo: consder object and collections too
     return (settings || []).reduce((result, value) => ({
@@ -93,6 +138,7 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
         [value.id]: value[mode] || value['default']
     }), {});
 }
+
 
 // export function getTemplateName(templateSchema: TemplateSchema | null, key: string | null = null) {
 //     return templateSchema?.name || key || 'Select template';

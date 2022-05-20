@@ -1,10 +1,26 @@
 {
     "blocks": {
         "text": {
-            "icon": "text_fields"
+            "icon": "text_fields",
+            "settings": [
+                {
+                    "id": "header",
+                    "type": "string"
+                },
+                {
+                    "id": "text",
+                    "type": "text"
+                }
+            ]
         },
         "image": {
-            "icon": "image"
+            "icon": "image",
+            "settings": [
+                {
+                    "id": "image",
+                    "type": "image"
+                }
+            ]
         }
     },
     "sections": {
@@ -294,7 +310,13 @@
             "icon": "image",
             "displayNameProperty": "name",
             "group": "Content",
-            "groupIcon": "flight_takeoff"
+            "groupIcon": "flight_takeoff",
+            "settings": [
+                {
+                    "id": "image",
+                    "type": "image"
+                }
+            ]
         },
         "hero": {
             "name": "Hero block",
@@ -325,7 +347,17 @@
             "name": "Text",
             "icon": "image",
             "displayNameProperty": "name",
-            "group": "Content"
+            "group": "Content",
+            "settings": [
+                {
+                    "id": "header",
+                    "type": "string"
+                },
+                {
+                    "id": "text",
+                    "type": "text"
+                }
+            ]
         },
         "latest-news": {
             "name": "Latest news",

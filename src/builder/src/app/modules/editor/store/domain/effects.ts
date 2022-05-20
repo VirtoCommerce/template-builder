@@ -41,6 +41,42 @@ export class TemplateEditorDomainEffects {
         ])
     ));
 
+    // updateSection$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.sectionChangedAction),
+    //     withLatestFrom(
+    //         this.store$.select(selectors.selectCurrentTemplateModel),
+    //         this.store$.select(routingSelectors.selectTemplateParameter),
+    //         this.store$.select(routingSelectors.selectSectionIdParameter),
+    //         this.store$.select(routingSelectors.selectBlockIdParameter)
+    //     ),
+    //     filter(([, template,,sectionId]) => !!template),
+    //     switchMap(([{ changes }, template, templateId, sectionId]) => [
+    //         actions.updateTemplateAction({
+    //             template: editorHelpers.applySectionChanges(template!, changes, sectionId),
+    //             alias: templateId
+    //         }),
+    //     ])
+    // ));
+
+    updateEditableModel$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.sectionChangedAction),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(routingSelectors.selectTemplateParameter),
+            this.store$.select(routingSelectors.selectSectionIdParameter),
+            this.store$.select(routingSelectors.selectBlockIdParameter)
+        ),
+        filter(([, template]) => !!template),
+        switchMap(([{ changes }, template, templateId, sectionId, blockId]) => [
+            actions.updateTemplateAction({
+                template: blockId
+                    ? editorHelpers.applyBlockChanges(template!, changes, sectionId, blockId)
+                    : editorHelpers.applySectionChanges(template!, changes, sectionId),
+                alias: templateId
+            }),
+        ])
+    ));
+
     orderSections$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sortItems),
         filter(({ options }) => !options.parent),

@@ -64,4 +64,8 @@ export class TemplateEditorUiEffects {
             routingActions.go({ path: ['/pages', sectionId, blockId] })
         ])
     ));
+
+    updateSectionInPreview$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.sectionChangedAction),
+    ));
 }

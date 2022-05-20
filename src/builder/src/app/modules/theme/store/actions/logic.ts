@@ -1,4 +1,5 @@
 import { createAction, props } from "@ngrx/store";
+import { ModelChangedEventArgs } from "@core/models";
 
 export const applyPreset = createAction('[theme presets] apply preset', props<{ preset: string }>());
 
@@ -8,4 +9,4 @@ export const previewPreset = createAction('[theme settings] preview preset', pro
 export const exitPresets = createAction('[theme settings] exit presets');
 export const exitSettings = createAction('[theme settings] exit settings');
 
-export const updateSettings = createAction('[theme data] update settings', props<{ model: any, value: any }>());
+export const updateSettings = createAction('[theme data] update settings', props<ModelChangedEventArgs>());

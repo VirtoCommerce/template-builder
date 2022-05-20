@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ModelChangedEventArgs } from '@core/models';
 
 @Component({
     selector: 'app-settings-panel',
@@ -12,7 +13,7 @@ export class SettingsPanelComponent implements OnInit {
     @Input() context = {};
 
     @Output() backClick = new EventEmitter();
-    @Output() settingsChanged = new EventEmitter();
+    @Output() settingsChanged = new EventEmitter<ModelChangedEventArgs>();
 
     constructor() { }
 
@@ -23,7 +24,7 @@ export class SettingsPanelComponent implements OnInit {
         this.backClick.emit();
     }
 
-    onSettingsChanged(settings: { model: any, value: any }) {
-        this.settingsChanged.emit(settings);
+    onSettingsChanged(args: ModelChangedEventArgs) {
+        this.settingsChanged.emit(args);
     }
 }

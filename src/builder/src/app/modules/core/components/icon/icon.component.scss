@@ -1,11 +1,20 @@
 @import '../../../../../layout/variables.scss';
 
 :host {
+    color: $icons-color;
     @apply flex items-center;
 }
 
-mat-icon {
+// todo: theme?
+::ng-deep .mat-menu-item .mat-icon-no-color,
+::ng-deep .mat-menu-submenu-icon,
+::ng-deep .mat-menu-item .mat-icon-no-color,
+::ng-deep .mat-menu-submenu-icon {
+    color: revert;
+}
+
+::ng-deep app-icon mat-icon.app-icon.mat-icon {
     margin: 0 !important;
     padding: 0 !important;
-    color: $icons-color !important;
+    color: inherit;
 }

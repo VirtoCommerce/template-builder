@@ -1,4 +1,3 @@
-
 $default-font-size: 0.875rem;
 $middle-font-size: 0.9375rem;
 $small-font-size: 0.6875rem;
@@ -6,13 +5,14 @@ $icon-size: 1rem;
 $btn-icon-size: 0.8125rem;
 
 // todo: also here should be colors
-$controls-text-color: #363636;
+$controls-text-color: #363636; // dropdowns in toolbar, sections in template editor
 $icons-color: #484848;
 $heading-color: #121212;
-$text-color: #121212; // ?
+$text-color: #363636;
 $placeholder-color: #121212; // ?
 $input-text-color: #121212; // ?
+$active-color: #1665D8;
+$secondary-element-color: rgba(72, 72, 72, 0.48);
 
 $border-color: #e0e0e0; // ?
 $border-active-color: #e0e0e0; // ?
-

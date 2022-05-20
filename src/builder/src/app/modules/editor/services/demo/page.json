@@ -1,150 +1,20 @@
 {
     "settings": {
-        "name": "Product"
+        "name": "Custom page"
     },
     "content": [
         {
-            "type": "cover-with-image",
-            "name": "Main slide",
-            "inlineCalendar": "2022-05-14"
+            "id": "block-1",
+            "name": "Image",
+            "type": "image",
+            "image": "https://ik.imagekit.io/je8lpsqkoi/assets/pages/19_qRTyG7N7X6-2_j9uMkjajn9.png"
         },
         {
-            "type": "cover-with-variations",
-            "name": "Cover with variations with very long name for it",
-            "title": "Headline title and some other info",
-            "content": "Section content",
-            "color": "#43ebaa",
-            "singleFile": "path/to/file/single-file-name.txt",
-            "multipleFiles": [
-                "different/urls/for/files/filename-1.ext",
-                "different/urls/for/files/filename-2.ext",
-                "different/urls/for/files/filename-3.ext",
-                "different/urls/for/files/filename-4.ext"
-            ]
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover with variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "product-info",
-            "name": "Product info",
-            "blocks": [
-                {
-                    "name": "Image",
-                    "type": "image"
-                },
-                {
-                    "name": "text",
-                    "type": "text"
-                }
-            ]
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "product-info",
-            "name": "Product info",
-            "blocks": [
-                {
-                    "name": "Image",
-                    "type": "image"
-                },
-                {
-                    "name": "text",
-                    "type": "text"
-                }
-            ]
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover variations"
+            "id": "block-2",
+            "name": "text",
+            "type": "text",
+            "header": "Header",
+            "text": "<p>Block content text</p>"
         }
     ]
 }

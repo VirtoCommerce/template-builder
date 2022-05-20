@@ -8,5 +8,4 @@ export const editBlockAction = createAction('[template editor] edit block', prop
 export const closeEditItemPanel = createAction('[template editor] close edit item panel');
 export const sortItems = createAction('[template editor] sort items', props<{ options: ReoderItemsModel }>());
 
-export const sectionChangedAction = createAction('[template editor] section changed', props<{ changes: SectionModel, sectionId: string }>());
-export const blockChangedAction = createAction('[template editor] block changed', props<{ changes: SectionModel, sectionId: string, blockId: string }>());
+export const sectionChangedAction = createAction('[template editor] section changed', props<{ changes: Partial<SectionModel> }>());
