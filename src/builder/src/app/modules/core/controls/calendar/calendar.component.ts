@@ -5,6 +5,14 @@ import { Subscription } from 'rxjs';
 import { BaseControlDirective } from '@core/controls';
 import { CalendarDescriptor } from '@core/models';
 
+/**
+ * source: https://h2qutc.github.io/angular-material-components/datetimepicker
+ *
+ * this component set current time in time mode when control value is null
+ * todo: fix this behaviour
+ * in this case event should not be fired
+ */
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -23,6 +31,8 @@ export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> 
             date: new FormControl(this.controlValue)
         });
         this._subscription = this.form.valueChanges.subscribe(value => {
+
+            console.log(this.form, this.descriptor);
             if (this.descriptor.mode === 'time') {
                 this.onValueChanged(value.time);
             } else {

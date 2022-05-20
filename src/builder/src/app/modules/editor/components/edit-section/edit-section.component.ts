@@ -26,6 +26,10 @@ export class EditSectionComponent implements OnInit {
         this.store.dispatch(actions.closeEditItemPanel());
     }
 
+    onModelChanged(event: any, vm: any) {
+        // console.log(event, vm);
+    }
+
     // @Input() section!: SectionModel;
     // @Input() schema!: SectionSchema;
     // @Input() context: ControlContext = {};

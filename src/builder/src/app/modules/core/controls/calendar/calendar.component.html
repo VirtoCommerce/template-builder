@@ -6,6 +6,7 @@
                             [stepMinute]="descriptor.stepMinute || 1"
                             [enableMeridian]="!!descriptor.showAmPm"
                             [showSeconds]="!!descriptor.showSeconds"
+                            [defaultTime]="[]"
                             formControlName="time">
         </ngx-mat-timepicker>
         <ng-container *ngSwitchCase="descriptor.inline && descriptor.mode !== 'time'">

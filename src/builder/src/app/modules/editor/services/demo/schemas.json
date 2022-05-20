@@ -185,7 +185,7 @@
                     "info": "Date and time picker"
                 },
                 {
-                    "id": "timeCalendar",
+                    "id": "timeCalendarWithSeconds",
                     "label": "Choose time",
                     "type": "calendar",
                     "mode": "time",
