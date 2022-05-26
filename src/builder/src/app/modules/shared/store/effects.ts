@@ -61,7 +61,7 @@ export class SharedEffects {
     redirectToDefaultTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateEntriesSuccess, actions.selectDefaultTemplate),
         withLatestFrom(
-            this.store$.select(fromState.selectTemplatesEntries),
+            this.store$.select(fromState.selectTemplatesEntriesAsList),
             this.store$.select(fromRoute.selectTemplateParameter)
         ),
         filter(([, templatesEntries, templateParameter]) => !templateParameter && !!templatesEntries.length),
@@ -84,6 +84,14 @@ export class SharedEffects {
         ofType(actions.changePreviewMode),
         map(({ mode }) => router.go({ queryParams: { 'preview-mode': mode } }))
     ));
+
+    broadcastNavigation$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.selectTemplate),
+        withLatestFrom(
+            this.store$.select(fromState.selectTemplatesEntries)
+        ),
+        tap(([{ template }, entries]) => this.eventsBus.emit({ type: 'navigate', url: entries[template]?.previewUrl }))
+    ), { dispatch: false });
 
     broadcastMessage$ = createEffect(() => this.actions$.pipe(
         ofType(actions.broadcastMessage),

@@ -13,7 +13,8 @@ function startApp(frame) {
     console.log(frame);
 
     window.addEventListener('message', (event) => {
-        frame.contentWindow.postMessage(event.data, 'http://localhost:2082');
+        // todo: get url from parameters from preview template?? or something else
+        frame.contentWindow.postMessage(event.data, window.location.origin);
     });
 
 }

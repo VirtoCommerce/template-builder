@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
 import { EventsBusService } from '@core/services';
@@ -26,6 +26,9 @@ export class LivePreviewComponent implements OnInit {
     //     map(url => this.sanitizer.bypassSecurityTrustResourceUrl(url))
     // );
 
+    previewUrl!: SafeResourceUrl;
+    url!: string;
+
     constructor(
         private store: Store<BuilderState>,
         private sanitizer: DomSanitizer,
@@ -36,6 +39,11 @@ export class LivePreviewComponent implements OnInit {
         this.eventBus.on(() => true, msg => {
             this.sendMessage(msg);
         });
+
+        // todo: url to config flow
+        const isLocal = window.location.host.indexOf('localhost') !== -1;
+        this.url = isLocal ? 'http://localhost:2082/' : 'https://st-storefront.dev.govirto.com/';
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url + 'designer-preview?ep=' + window.location.origin);
     }
 
     private sendMessage(msg: any) {
@@ -43,7 +51,7 @@ export class LivePreviewComponent implements OnInit {
             console.log(this.frame);
             const frame = this.frame.nativeElement as HTMLIFrameElement;
             // todo: url to config flow
-            frame.contentWindow?.postMessage({ ...msg, source: 'builder' }, 'http://localhost:2082');
+            frame.contentWindow?.postMessage({ ...msg, source: 'builder' }, this.url);
         }
     }
 }

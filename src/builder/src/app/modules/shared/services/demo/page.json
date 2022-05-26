@@ -1,5 +1,5 @@
 {
     "name": "Page",
-    "previewUrl": "http://localhost:3000/demo-page",
+    "previewUrl": "/demo-page",
     "sections": ["image", "text"]
 }

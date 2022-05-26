@@ -1,6 +1,6 @@
 {
     "name": "Home",
-    "previewUrl": "https://st-storefront.dev.govirto.com",
+    "previewUrl": "/",
     "isDefault": true,
     "sections": [
         "products-list",

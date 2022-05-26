@@ -17,7 +17,7 @@ import { map } from 'rxjs';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    templates$ = this.store$.select(fromState.selectTemplatesEntries).pipe(
+    templates$ = this.store$.select(fromState.selectTemplatesEntriesAsList).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
     );
     currentTemplate$ = this.store$.select(fromState.selectCurrentTemplateEntry).pipe(
