@@ -2,9 +2,9 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { catchError, switchMap, map, of, withLatestFrom, filter } from "rxjs";
+import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
 
-import { ListHelpers } from "@core/services";
+import { ListHelpers, EventsBusService } from "@core/services";
 import { TemplatesService } from '@shared/services';
 
 import { BuilderState } from "./state";
@@ -21,7 +21,8 @@ export class SharedEffects {
     constructor(private store$: Store<BuilderState>,
         private actions$: Actions,
         private templatesService: TemplatesService,
-        private listHelpers: ListHelpers
+        private listHelpers: ListHelpers,
+        private eventsBus: EventsBusService
     ) { }
 
     raiseInitApp$ = createEffect(() => this.actions$.pipe(
@@ -83,4 +84,9 @@ export class SharedEffects {
         ofType(actions.changePreviewMode),
         map(({ mode }) => router.go({ queryParams: { 'preview-mode': mode } }))
     ));
+
+    broadcastMessage$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.broadcastMessage),
+        tap(({ msg }) => this.eventsBus.emit(msg))
+    ), { dispatch: false });
 }

@@ -10,14 +10,16 @@
             <ng-container *ngIf="viewModel$|async as vm">
                 <div class="title">
                     <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
-                    <div class="info">
+                    <div class="info" [ngClass]="{ 'invisible-section': vm.section.hidden }">
                         <div class="whitespace-normal">{{ sectionName$|async }}</div>
                         <div class="section-info">
                             Type: {{ vm.section.type }}<br />
                             ID: {{ vm.section.id }}
                         </div>
                     </div>
-                    <app-context-menu [visible]="true" [actions]="itemActions"></app-context-menu>
+                    <app-context-menu [visible]="true"
+                                      [getActions]="getItemActionsFactory(vm.section)"
+                                      (onAction)="onContextMenuAction($event, vm.section)"></app-context-menu>
                 </div>
             </ng-container>
         </ng-container>

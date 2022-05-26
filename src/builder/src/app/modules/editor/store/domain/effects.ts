@@ -77,6 +77,29 @@ export class TemplateEditorDomainEffects {
         ])
     ));
 
+    showItem$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeContextMenuAction),
+        filter(x => x.action === 'show' || x.action === 'hide'),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(routingSelectors.selectTemplateParameter),
+            this.store$.select(routingSelectors.selectSectionIdParameter),
+            this.store$.select(routingSelectors.selectBlockIdParameter)
+        ),
+        filter(([, template]) => !!template),
+        map(([{ action, section, block }, template, templateId, sectionId, blockId]) => [
+            action, template, templateId, sectionId || section?.id, blockId || block?.id
+        ]),
+        switchMap(([action, template, templateId, sectionId, blockId]) => [
+            actions.updateTemplateAction({
+                template: blockId
+                    ? editorHelpers.applyBlockChanges(template!, { hidden: action === 'hide' }, sectionId, blockId)
+                    : editorHelpers.applySectionChanges(template!, { hidden: action === 'hide' }, sectionId),
+                alias: templateId
+            }),
+        ])
+    ));
+
     orderSections$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sortItems),
         filter(({ options }) => !options.parent),

@@ -1,3 +1,4 @@
+import { ContextMenuHelper } from '@editor/services';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -28,54 +29,7 @@ export class SectionItemComponent implements OnInit {
     @Output() actionClick = new EventEmitter<string>();
     @Output() itemClick = new EventEmitter();
 
-    itemActions = [
-        <ContextMenuAction>{
-            action: 'hide',
-            title: 'Hide',
-            icon: 'visibility',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>'|',
-        <ContextMenuAction>{
-            action: 'copy',
-            title: 'Copy',
-            icon: 'content_copy',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>{
-            action: 'paste-before',
-            title: 'Paste before',
-            icon: 'content_paste',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>{
-            action: 'paste-after',
-            title: 'Paste after',
-            icon: 'content_paste',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>{
-            action: 'duplicate',
-            title: 'Duplicate',
-            icon: 'file_copy',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>'|',
-        <ContextMenuAction>{
-            action: 'delete',
-            title: 'Delete',
-            icon: 'delete_outline',
-            selected: false,
-            inactive: false
-        }
-    ];
-
-    constructor() { }
+    constructor(private helper: ContextMenuHelper) { }
 
     ngOnInit(): void {
 
@@ -105,4 +59,10 @@ export class SectionItemComponent implements OnInit {
         return this.section.type;
     }
 
+    getItemActions: () => ContextMenuAction[] = () => {
+        console.log(this.helper);
+        const result = this.helper.getSectionsActions(this.section);
+        console.log(result, this.section);
+        return result;
+    };
 }

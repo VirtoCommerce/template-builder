@@ -12,3 +12,5 @@ export const loadTemplateEntriesFails = createAction('[shared] load template ent
 export const selectTemplate = createAction('[shared] select template', props<{ template: string }>());
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
+
+export const broadcastMessage = createAction('[shared] broadcast message', props<{ msg: any }>());

@@ -9,3 +9,4 @@ export const closeEditItemPanel = createAction('[template editor] close edit ite
 export const sortItems = createAction('[template editor] sort items', props<{ options: ReoderItemsModel }>());
 
 export const sectionChangedAction = createAction('[template editor] section changed', props<{ changes: Partial<SectionModel> }>());
+export const executeContextMenuAction = createAction('[template editor] execute context menu action', props<{ action: string, source: string, section?: SectionModel, block?: SectionModel }>());

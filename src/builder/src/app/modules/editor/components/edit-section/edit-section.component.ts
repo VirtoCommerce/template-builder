@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ContextMenuHelper } from './../../services/context-menu.helper';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BuilderState } from '@editor/store/state';
 import { ContextMenuAction, ModelChangedEventArgs, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
 // import { SectionsSchemasList } from '@editor/models';
@@ -11,14 +12,16 @@ import * as fromState from '@editor/store/selectors';
 @Component({
     selector: 'app-edit-section',
     templateUrl: './edit-section.component.html',
-    styleUrls: ['./edit-section.component.scss']
+    styleUrls: ['./edit-section.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditSectionComponent implements OnInit {
 
-    viewModel$ = this.store.select(fromState.selectEditSectionContext)
-    sectionName$ = this.store.select(fromState.selectCurrentItemName)
+    viewModel$ = this.store.select(fromState.selectEditSectionContext);
+    sectionName$ = this.store.select(fromState.selectCurrentItemName);
 
-    constructor(private store: Store<BuilderState>) { }
+    constructor(private store: Store<BuilderState>,
+        private helper: ContextMenuHelper) { }
 
     ngOnInit(): void { }
 
@@ -30,99 +33,13 @@ export class EditSectionComponent implements OnInit {
         this.store.dispatch(actions.sectionChangedAction({ changes: args.changes }));
     }
 
-    // @Input() section!: SectionModel;
-    // @Input() schema!: SectionSchema;
-    // @Input() context: ControlContext = {};
-
-    // // @Input() sectionsSchemas!: SectionsSchemasList | null;
-    // // @Input() blocksSchemas!: SectionsSchemasList | null;
-
-    // @Output() backClick = new EventEmitter<any>();
-    // // @Output() deleteClick = new EventEmitter<any>();
-    // // @Output() cloneClick = new EventEmitter<any>();
-    // // @Output() sectionChanged = new EventEmitter<SectionModel>();
-
-    itemActions = [
-        <ContextMenuAction>{
-            action: 'hide',
-            title: 'Hide',
-            icon: 'visibility',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>'|',
-        <ContextMenuAction>{
-            action: 'copy',
-            title: 'Copy',
-            icon: 'content_copy',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>{
-            action: 'paste-before',
-            title: 'Paste before',
-            icon: 'content_paste',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>{
-            action: 'paste-after',
-            title: 'Paste after',
-            icon: 'content_paste',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>{
-            action: 'duplicate',
-            title: 'Duplicate',
-            icon: 'file_copy',
-            selected: false,
-            inactive: false
-        },
-        <ContextMenuAction>'|',
-        <ContextMenuAction>{
-            action: 'delete',
-            title: 'Delete',
-            icon: 'delete_outline',
-            selected: false,
-            inactive: false
+    onContextMenuAction(action: ContextMenuAction, section: SectionModel) {
+        if (action !== '|') {
+            this.store.dispatch(actions.executeContextMenuAction({ action: action.action, source: 'editor', section }));
         }
-    ];
+    }
 
-
-    // onBackClick() {
-    //     this.backClick.emit();
-    // }
-
-    // getTitle(): string {
-    //     return '';
-    //     // if (!!this.sectionsSchemas) {
-    //     //     if (!!this.blocksSchemas) {
-    //     //         return helpers.getSectionName(this.section, this.blocksSchemas)
-    //     //             || helpers.getSectionName(this.section, this.sectionsSchemas);
-    //     //     }
-    //     //     return helpers.getSectionName(this.section, this.sectionsSchemas!);
-    //     // }
-    //     // return this.section.type;
-    // }
-
-    // getSectionName(): string {
-    //     // todo: refactor this (the same is written in section-item.component)
-    //     if (this.schema.displayNameProperty) {
-    //         return <string>this.section[this.schema.displayNameProperty] || this.section.type;
-    //     }
-    //     return this.section.type;
-    // }
-
-
-    // // onDeleteClick(event: MouseEvent) {
-    // //     this.deleteClick.emit();
-    // // }
-
-    // // onCloneClick(event: MouseEvent) {
-    // //     this.cloneClick.emit();
-    // // }
-    // // onValueChanged(value: SectionModel) {
-    // //     this.sectionChanged.emit(value);
-    // // }
+    getItemActionsFactory(item: SectionModel): () => ContextMenuAction[] {
+        return () => this.helper.getSectionsActions(item);
+    }
 }

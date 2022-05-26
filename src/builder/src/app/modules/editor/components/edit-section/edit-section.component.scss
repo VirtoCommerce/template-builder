@@ -10,6 +10,9 @@
 
 .info {
     @apply grow flex flex-col;
+    &.invisible-section {
+        opacity: .6;
+    }
 }
 
 .section-info {

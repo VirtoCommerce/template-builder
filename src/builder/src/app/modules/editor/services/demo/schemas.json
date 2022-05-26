@@ -351,10 +351,12 @@
             "settings": [
                 {
                     "id": "header",
+                    "label": "Header",
                     "type": "string"
                 },
                 {
                     "id": "text",
+                    "label": "Content",
                     "type": "text"
                 }
             ]

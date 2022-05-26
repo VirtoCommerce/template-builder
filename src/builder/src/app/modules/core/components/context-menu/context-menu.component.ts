@@ -1,15 +1,17 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ContextMenuAction } from '@core/models';
 
 @Component({
     selector: 'app-context-menu',
     templateUrl: './context-menu.component.html',
-    styleUrls: ['./context-menu.component.scss']
+    styleUrls: ['./context-menu.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContextMenuComponent implements OnInit {
 
-    @Input() actions!: ContextMenuAction[];
+    @Input() actions: ContextMenuAction[] | null = null;
     @Input() visible: boolean = false;
+    @Input() getActions: (() => ContextMenuAction[]) | null = null;
 
     @Output() onAction = new EventEmitter<ContextMenuAction>();
 
@@ -20,11 +22,21 @@ export class ContextMenuComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    getActionsList() {
+        if (!this.actions && this.getActions) {
+            this.actions = this.getActions();
+        }
+        return this.actions || [];
+    }
+
     showActions() {
         this.isOpen = true;
     }
 
     hideActions() {
+        if (!!this.getActions) {
+            this.actions = null;
+        }
         this.isOpen = false;
     }
 

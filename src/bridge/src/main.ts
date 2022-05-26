@@ -1,14 +1,23 @@
 import { Initializator } from './init/initializator.bridge';
 import { ServiceLocator } from './service-locator';
 
-function startApp() {
-    const initializator = new Initializator();
-    initializator.preStart();
+function startApp(frame) {
+    // const initializator = new Initializator();
+    // initializator.preStart();
 
-    const app = ServiceLocator.createApp();
-    app.run();
+    // const app = ServiceLocator.createApp();
+    // app.run();
 
-    initializator.postStart();
+    // initializator.postStart();
+
+    console.log(frame);
+
+    window.addEventListener('message', (event) => {
+        frame.contentWindow.postMessage(event.data, 'http://localhost:2082');
+    });
+
 }
 
-startApp();
+window['designerPreviewApp'] = startApp;
+
+// startApp();

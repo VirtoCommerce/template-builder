@@ -8,7 +8,7 @@ export class Initializator {
             Environment.DesignerUrl = builderUrl.substring(3);
         }
 
-        ServiceLocator.getPreviewInteractor().init();
+        // ServiceLocator.getPreviewInteractor().init();
     }
 
     postStart() {

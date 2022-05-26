@@ -98,6 +98,10 @@ export const selectCurrentItemName = createSelector(
     (block /*, section*/) => block ? 'Edit current block' : 'Edit current section'
 );
 
+// export const selectCurrentItemActions = createSelector(
+
+// );
+
 export const selectEditSectionContext = createSelector(
     fromData.selectCurrentItemForEdit,
     fromData.selectCurrentSchemaForEdit,

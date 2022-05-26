@@ -16,7 +16,7 @@
                                 <app-section-item [sectionSchema]="vm.sectionsSchemas![section.type]"
                                                   [section]="section"
                                                   (itemClick)="onSectionClick(section)"
-                                                  (actionClick)="onActionClick($event)">
+                                                  (actionClick)="onActionClick($event, section)">
                                 </app-section-item>
                                 <app-drag-handle cdkDragHandle></app-drag-handle>
                             </div>

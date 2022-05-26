@@ -36,8 +36,15 @@ app-icon {
     @apply flex flex-row w-full rounded items-center p-2 space-x-1 cursor-pointer;
     &:hover {
         background-color: #f6f6f6;
+        &.inactive {
+            background-color: inherit;
+        }
     }
     span {
         color: $text-color;
+    }
+    &.inactive {
+        opacity: 0.5;
+        cursor: default;
     }
 }

@@ -6,6 +6,7 @@ import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap } from 
 
 // import { ThemeSettingsService } from '@theme/services';
 
+import { broadcastMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
 import * as routingSelectors from '@shared/routing'
 
@@ -67,5 +68,7 @@ export class TemplateEditorUiEffects {
 
     updateSectionInPreview$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sectionChangedAction),
+        withLatestFrom(this.store$.select(selectors.selectCurrentItemForEdit)),
+        map(([x, item]) => broadcastMessage({ msg: { type: 'changed', model: item } }))
     ));
 }

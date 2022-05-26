@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-icon',
@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class IconComponent implements OnInit {
 
-    // @Input() icon: string | null = null;
+    @Input() @HostBinding('class.inline') inline: boolean = false;
 
     constructor() { }
 
