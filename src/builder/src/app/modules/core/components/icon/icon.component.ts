@@ -8,6 +8,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 export class IconComponent implements OnInit {
 
     @Input() @HostBinding('class.inline') inline: boolean = false;
+    @Input() @HostBinding('class.hoverable') hoverable: boolean = false;
 
     constructor() { }
 

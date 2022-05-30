@@ -9,12 +9,12 @@
         <ng-container title-content>
             <ng-container *ngIf="viewModel$|async as vm">
                 <div class="title">
-                    <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
+                    <app-icon class="back-icon" (click)="onBackClick()" [hoverable]="true" title="Back">chevron_left</app-icon>
                     <div class="info" [ngClass]="{ 'invisible-section': vm.section.hidden }">
                         <div class="whitespace-normal">{{ sectionName$|async }}</div>
                         <div class="section-info">
-                            Type: {{ vm.section.type }}<br />
-                            ID: {{ vm.section.id }}
+                            <span [cdkCopyToClipboard]="vm.section.type">Type: {{ vm.section.type }}<app-icon [inline]="true">content_copy</app-icon></span><br />
+                            <span [cdkCopyToClipboard]="vm.section.id">ID: {{ vm.section.id }}<app-icon [inline]="true">content_copy</app-icon></span>
                         </div>
                     </div>
                     <app-context-menu [visible]="true"

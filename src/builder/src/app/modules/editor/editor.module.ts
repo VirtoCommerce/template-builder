@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { OverlayModule } from '@angular/cdk/overlay';
-
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -27,8 +24,6 @@ import { EditorFeatureName, editorReducers, EFFECTS } from './store';
     ],
     imports: [
         CommonModule,
-        OverlayModule,
-        DragDropModule,
 
         StoreModule.forFeature(EditorFeatureName, editorReducers),
         EffectsModule.forFeature(EFFECTS),

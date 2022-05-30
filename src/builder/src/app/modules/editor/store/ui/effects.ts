@@ -12,6 +12,8 @@ import * as routingSelectors from '@shared/routing'
 
 import * as editorHelpers from '@editor/services/editor.helpers';
 
+import * as sharedActions from '@shared/store/actions';
+
 import { BuilderState } from "../state";
 import * as actions from "../actions";
 import * as selectors from "../selectors";
@@ -45,10 +47,17 @@ export class TemplateEditorUiEffects {
         ])
     ));
 
+    templateChanged$ = createEffect(() => this.actions$.pipe(
+        ofType(sharedActions.templateChanged),
+        switchMap(({ template }) => [
+            routingActions.go({ path: ['/pages'], queryParams: { template } })
+        ])
+    ));
+
     completeEditSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.closeEditItemPanel),
         switchMap(() => [
-            routingActions.go({ path: ['/pages'] }),
+            routingActions.go({ path: ['/pages'] })
         ])
     ));
 

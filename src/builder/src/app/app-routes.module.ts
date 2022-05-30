@@ -22,6 +22,10 @@ const routes: Routes = [
             {
                 path: 'themes',
                 loadChildren: () => import('./modules/theme/theme.module').then(m => m.ThemeModule)
+            },
+            {
+                path: '**',
+                redirectTo: '/pages'
             }
         ]
     },

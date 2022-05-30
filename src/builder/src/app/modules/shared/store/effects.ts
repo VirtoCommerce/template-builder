@@ -34,6 +34,18 @@ export class SharedEffects {
         ])
     ));
 
+    redirectOnStart$ = createEffect(() => this.actions$.pipe(
+        ofType(ROUTER_NAVIGATED),
+        withLatestFrom(
+            this.store$.select(fromState.isAppInitialized),
+            this.store$.select(fromRoute.selectPath)
+        ),
+        filter(([, init, path]) => !init && path === '/'),
+        switchMap(() => [
+            router.go({ path: ['/pages'] }),
+        ])
+    ));
+
     selectDefaultTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         withLatestFrom(this.store$.select(fromRoute.selectTemplateParameter)),
@@ -77,7 +89,10 @@ export class SharedEffects {
             this.store$.select(fromRoute.isEmpty)
         ),
         filter(([{ template }, templateParameter, isEmpty]) => !isEmpty && template !== templateParameter || !templateParameter),
-        map(([{ template }]) => router.go({ queryParams: { template } }))
+        switchMap(([{ template }]) => [
+            router.go({ queryParams: { template } }),
+            actions.templateChanged({ template })
+        ])
     ));
 
     changePreviewMode$ = createEffect(() => this.actions$.pipe(

@@ -76,8 +76,11 @@ export function reorderBlocks(template: TemplateModel, section: SectionModel, cu
     };
 }
 
-export function generateSectionId(section: SectionModel): string {
-    return section.id || appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
+export function generateSectionId(section: SectionModel, force: boolean = false): string {
+    if (!force && section.id) {
+        return section.id;
+    }
+    return appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
 }
 
 export function generateModelBySchema(schema: SectionSchema): SectionModel {
@@ -125,6 +128,44 @@ export function applyBlockChanges(template: TemplateModel, changes: Partial<Sect
         ...template,
         content: [
             ...template.content.slice(0, sectionIndex),
+            newSection,
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function duplicateBlock(template: TemplateModel, sectionId: string, blockId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const block = section.blocks[blockIndex];
+    const newBlock = { ...block, id: generateSectionId(block, true) };
+    const newSection = {
+        ...section,
+        blocks: [
+            ...section.blocks.slice(0, blockIndex + 1),
+            newBlock,
+            ...section.blocks.slice(blockIndex + 1)
+        ]
+    };
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            newSection,
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function duplicateSection(template: TemplateModel, sectionId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const newSection = { ...section, id: generateSectionId(section, true) };
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex + 1),
             newSection,
             ...template.content.slice(sectionIndex + 1)
         ]

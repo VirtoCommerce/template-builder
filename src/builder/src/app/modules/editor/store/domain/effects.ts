@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
-import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap } from "rxjs/operators";
+import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, tap } from "rxjs/operators";
 
 // import { ThemeSettingsService } from '@theme/services';
 
@@ -14,6 +14,7 @@ import * as editorHelpers from '@editor/services/editor.helpers';
 import { BuilderState } from "../state";
 import * as actions from "../actions";
 import * as selectors from "../selectors";
+import { ClipboardService } from "@core/services";
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,8 @@ import * as selectors from "../selectors";
 export class TemplateEditorDomainEffects {
     constructor(
         private store$: Store<BuilderState>,
-        private actions$: Actions
+        private actions$: Actions,
+        private clipboard: ClipboardService
     ) { }
 
     addItem$ = createEffect(() => this.actions$.pipe(
@@ -99,6 +101,40 @@ export class TemplateEditorDomainEffects {
             }),
         ])
     ));
+
+    duplicateItem$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeContextMenuAction),
+        filter(x => x.action === 'duplicate'),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(routingSelectors.selectTemplateParameter),
+            this.store$.select(routingSelectors.selectSectionIdParameter),
+            this.store$.select(routingSelectors.selectBlockIdParameter)
+        ),
+        filter(([, template]) => !!template),
+        map(([{ action, section, block }, template, templateId, sectionId, blockId]) => [
+            action, template, templateId, sectionId || section?.id, blockId || block?.id
+        ]),
+        switchMap(([action, template, templateId, sectionId, blockId]) => [
+            actions.updateTemplateAction({
+                template: blockId
+                    ? editorHelpers.duplicateBlock(template!, sectionId, blockId)
+                    : editorHelpers.duplicateSection(template!, sectionId),
+                alias: templateId
+            }),
+        ])
+    ));
+
+    copyItemToClipboard$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeContextMenuAction),
+        filter(x => x.action === 'copy'),
+        tap(({ section, block }) => {
+            this.clipboard.copy({
+                content: { ...(block || section), id: undefined },
+                type: block ? 'block' : 'section'
+            });
+        })
+    ), { dispatch: false });
 
     orderSections$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sortItems),

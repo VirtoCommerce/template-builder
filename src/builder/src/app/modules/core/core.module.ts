@@ -15,6 +15,7 @@ import { MatSliderModule } from '@angular/material/slider';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import {
     NgxMatDatetimePickerModule,
@@ -52,20 +53,28 @@ const MATERIAL_MODULES = [
     MatIconModule,
     MatTabsModule,
     MatRippleModule,
-    MatSliderModule,
+    MatSliderModule
+];
+
+const CDK_MODULES = [
     DragDropModule,
-    OverlayModule
+    OverlayModule,
+    ClipboardModule
 ];
 
 @NgModule({
     declarations: ALL_COMPONENTS,
-    exports: ALL_COMPONENTS,
+    exports: [
+        ...ALL_COMPONENTS,
+        ...CDK_MODULES
+    ],
     entryComponents: [...CONTROLS],
     imports: [
         CommonModule,
         ReactiveFormsModule,
 
         ...MATERIAL_MODULES,
+        ...CDK_MODULES,
 
         NgxMatDatetimePickerModule,
         NgxMatTimepickerModule,

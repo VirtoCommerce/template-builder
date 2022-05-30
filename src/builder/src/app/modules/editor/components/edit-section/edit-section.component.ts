@@ -13,7 +13,7 @@ import * as fromState from '@editor/store/selectors';
     selector: 'app-edit-section',
     templateUrl: './edit-section.component.html',
     styleUrls: ['./edit-section.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditSectionComponent implements OnInit {
 

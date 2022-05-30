@@ -18,12 +18,8 @@ import * as fromRoute from '@shared/routing';
 
 import { ModuleInfo } from "@editor/module.info";
 
-
-
 import { SchemasServiceSimulator } from './../../services/schemas.service-simulator';
 import { TemplatesServiceSimulator } from "../../services/templates.service-simulator";
-
-
 
 @Injectable({
     providedIn: 'root'

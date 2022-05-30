@@ -3,6 +3,21 @@
 :host {
     color: $icons-color;
     @apply flex items-center;
+    &.hoverable:hover {
+        background: rgba(246, 246, 246, 1);
+    }
+    &.inline {
+        font-size: inherit;
+        mat-icon {
+            font-size: inherit;
+            width: inherit;
+            height: inherit;
+        }
+        @apply inline-block cursor-pointer px-1;
+        &:hover {
+            background-color: none;
+        }
+    }
 }
 
 // todo: theme?
