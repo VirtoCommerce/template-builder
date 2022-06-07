@@ -1,6 +1,6 @@
 import { SectionModel } from "../section.model";
 
-export interface ReoderItemsModel {
+export interface ReorderItemsModel {
     item: SectionModel;
     parent?: SectionModel;
     currentIndex: number;

@@ -1,5 +1,5 @@
 import { ContextMenuAction } from './../../../core/models/components/context-menu-action.model';
-import { ReoderItemsModel } from './../../../core/models/ui/reorder-items.model';
+import { ReorderItemsModel } from './../../../core/models/ui/reorder-items.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CdkDragSortEvent, CdkDragStart, CdkDragRelease } from '@angular/cdk/drag-drop';
@@ -48,7 +48,7 @@ export class TemplateEditorComponent implements OnInit {
         this.store.dispatch(actions.releaseDragSection({ sectionId: section.id }));
     }
 
-    reorderBlocks(options: ReoderItemsModel) {
+    reorderBlocks(options: ReorderItemsModel) {
         this.store.dispatch(actions.sortItems({ options }))
     }
 

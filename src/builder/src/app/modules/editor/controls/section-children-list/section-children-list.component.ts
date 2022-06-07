@@ -1,7 +1,7 @@
 import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SectionsSchemasList } from '@editor/models';
-import { SectionModel, ReoderItemsModel } from '@core/models';
+import { SectionModel, ReorderItemsModel } from '@core/models';
 
 @Component({
     selector: 'app-section-children-list',
@@ -15,7 +15,7 @@ export class SectionChildrenListComponent implements OnInit {
 
     @Output() itemClick = new EventEmitter<SectionModel>();
     @Output() addBlockClick = new EventEmitter();
-    @Output() reorderBlocks = new EventEmitter<ReoderItemsModel>();
+    @Output() reorderBlocks = new EventEmitter<ReorderItemsModel>();
 
     constructor() { }
 

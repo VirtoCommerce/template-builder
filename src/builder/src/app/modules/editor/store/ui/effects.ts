@@ -7,9 +7,9 @@ import { withLatestFrom, filter, tap, map, catchError, switchMap } from "rxjs/op
 import { NotificationsService } from '@core/services';
 import { broadcastMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
-import * as routingSelectors from '@shared/routing'
 
-import * as editorHelpers from '@editor/services/editor.helpers';
+// import * as routingSelectors from '@shared/routing'
+// import * as editorHelpers from '@editor/services/editor.helpers';
 
 import * as sharedActions from '@shared/store/actions';
 
@@ -75,10 +75,21 @@ export class TemplateEditorUiEffects {
         ])
     ));
 
-    updateSectionInPreview$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.sectionChangedAction),
-        withLatestFrom(this.store$.select(selectors.selectCurrentItemForEdit)),
-        map(([{ changes }, item]) => broadcastMessage({ msg: { type: 'changed', model: { ...item, ...changes } } }))
+    raiseUpdateTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(
+            actions.addItemAction,
+            actions.sectionChangedAction,
+            actions.sortItems
+        ),
+        map(() => actions.templateContentChanged())
+    ));
+
+    templateContentChanged$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.templateContentChanged),
+        // withLatestFrom(this.store$.select(selectors.selectCurrentItemForEdit)),
+        // todo: should be only one section
+        withLatestFrom(this.store$.select(selectors.selectCurrentTemplateModel)),
+        map(([, template]) => broadcastMessage({ msg: { type: 'changed', model: { template } } }))
     ));
 
     navigateToThemeSettings$ = createEffect(() => this.actions$.pipe(
