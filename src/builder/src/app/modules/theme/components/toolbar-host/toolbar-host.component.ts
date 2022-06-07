@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { BuilderState } from '@theme/store/state';
 import * as actions from '@theme/store/actions';
+import * as selectors from '@theme/store/selectors';
 
 @Component({
     selector: 'app-toolbar-host',
@@ -10,38 +12,15 @@ import * as actions from '@theme/store/actions';
 })
 export class ToolbarHostComponent implements OnInit {
 
-    panels = [
-        [
-            {
-                icon: 'undo',
-                alias: 'undo'
-            },
-            {
-                icon: 'redo',
-                alias: 'redo'
-            }
-        ],
-        [
-            {
-                title: 'Cancel',
-                alias: 'cancel',
-                type: 'secondary'
-            },
-            {
-                title: 'Save settings',
-                alias: 'save',
-                type: 'primary'
-            }
-        ]
-    ];
+    panels$ = this.store$.select(selectors.selectToolbarButtonsState);
 
-    constructor(private store: Store) { }
+    constructor(private store$: Store<BuilderState>) { }
 
     ngOnInit(): void {
     }
 
     onActionExecuted(action: string) {
-        this.store.dispatch(actions.executeAction({ action }));
+        this.store$.dispatch(actions.executeAction({ action }));
     }
 
 }

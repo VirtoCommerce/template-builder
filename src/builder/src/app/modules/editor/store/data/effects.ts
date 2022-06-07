@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { of } from "rxjs";
-import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap } from "rxjs/operators";
+import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, exhaustMap } from "rxjs/operators";
 
 import { Store } from "@ngrx/store";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -12,14 +12,15 @@ import { RouterStateUrl } from '@shared/routing';
 
 import { BuilderState } from "../state";
 import * as actions from "../actions";
+import * as shared from '@shared/store/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";
 import * as selectors from "../selectors";
 import * as fromRoute from '@shared/routing';
+import * as fromShared from '@shared/store/selectors';
 
 import { ModuleInfo } from "@editor/module.info";
 
-import { SchemasServiceSimulator } from './../../services/schemas.service-simulator';
-import { TemplatesServiceSimulator } from "../../services/templates.service-simulator";
+import { SchemasService, TemplatesService } from "@editor/services";
 
 @Injectable({
     providedIn: 'root'
@@ -28,8 +29,8 @@ export class TemplateEditorDataEffects {
     constructor(
         private store$: Store<BuilderState>,
         private actions$: Actions,
-        private schemas: SchemasServiceSimulator,
-        private templates: TemplatesServiceSimulator
+        private schemas: SchemasService,
+        private templates: TemplatesService
     ) { }
 
     loadTemplateData$ = createEffect(() => this.actions$.pipe(
@@ -42,16 +43,24 @@ export class TemplateEditorDataEffects {
         ])
     ));
 
+    loadTemplateDataOnInit$ = createEffect(() => this.actions$.pipe(
+        ofType(shared.initApp),
+        switchMap(() => [
+            actions.raiseLoadData()
+        ])
+    ));
+
     raiseLoadTemplateModel$ = createEffect(() => this.actions$.pipe(
         ofType(actions.raiseLoadData),
         withLatestFrom(
             this.store$.select(selectors.selectCurrentTemplateModel),
             this.store$.select(selectors.selectCurrentTemplateState),
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
             this.store$.select(fromRoute.selectTemplateParameter),
         ),
         // load when template still is not loaded or hasn't been changed yet
-        filter(([, template, state]) => !template || !state || !state.isDirty),
-        switchMap(([, , , alias]) => [actions.loadTemplateModel({ alias })])
+        filter(([, template, state, entry]) => !template || !state || !state.isDirty || !entry),
+        switchMap(([, , , , alias]) => [actions.loadTemplateModel({ alias })])
     ));
 
     raiseLoadTemplateSchemas$ = createEffect(() => this.actions$.pipe(
@@ -65,7 +74,7 @@ export class TemplateEditorDataEffects {
 
     loadSchemas$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateSchemas),
-        switchMap(() => this.schemas.getSchemas().pipe(
+        exhaustMap(() => this.schemas.getSchemas().pipe(
             map(schemas => actions.loadTemplateSchemasSuccess({ schemas })),
             catchError(error => of(actions.loadTemplateSchemasFails({ error })))
         ))
@@ -73,11 +82,32 @@ export class TemplateEditorDataEffects {
 
     loadTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateModel),
-        switchMap(({ alias }) => this.templates.getTemplate(alias).pipe(
+        withLatestFrom(
+            this.store$.select(fromShared.selectCurrentTemplateEntry)
+        ),
+        filter(([, templateEntry]) => !!templateEntry),
+        switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry.path).pipe(
             map(template => actions.loadTemplateModelSuccess({ template, alias })),
             catchError(error => of(actions.loadTemplateModelFails({ error })))
         ))
     ));
+
+    saveTemplates$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        withLatestFrom(
+            // todo: only current template will be processed
+            // question: should we save all templates?
+            this.store$.select(selectors.selectCurrentTemplateState),
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(fromShared.selectCurrentTemplateEntry)
+        ),
+        filter(([x, state, model]) => x.action === 'save' && state!.isDirty && !!model),
+        switchMap(([, , model, entry]) => this.templates.saveTemplate({ [entry.path]: model! }).pipe(
+            map(() => actions.saveTemplateSuccess({ alias: entry!.alias })),
+            catchError(error => of(actions.saveTemplateFails({ error })))
+        ))
+    ));
+
 
 
     // loadSettingsData$ = createEffect(() => this.actions$.pipe(

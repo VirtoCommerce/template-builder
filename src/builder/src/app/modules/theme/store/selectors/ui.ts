@@ -1,7 +1,9 @@
 import { createSelector } from "@ngrx/store";
 
+import { ActionButtonDescriptor } from '@core/models';
+
 import { selectSettingsSchema, selectFilteredPresets } from "./data";
-import { selectOpenedGroups, selectPresetsState } from "./domain";
+import { selectOpenedGroups, selectPresetsState, selectIsDirty } from "./domain";
 
 export const selectGroupsState = createSelector(
     selectSettingsSchema,
@@ -18,4 +20,36 @@ export const selectPresetsContext = createSelector(
     selectFilteredPresets,
     selectPresetsState,
     (presets, state) => ({ presets, state })
+);
+
+export const selectToolbarButtonsState = createSelector(
+    selectIsDirty,
+    isDirty => (<ActionButtonDescriptor[][]>[
+            [
+                {
+                    canAction: false,
+                    icon: 'undo',
+                    alias: 'undo'
+                },
+                {
+                    canAction: false,
+                    icon: 'redo',
+                    alias: 'redo'
+                }
+            ],
+            [
+                {
+                    title: 'Cancel',
+                    alias: 'cancel',
+                    type: 'secondary'
+                },
+                {
+                    canAction: isDirty,
+                    title: 'Save settings',
+                    alias: 'save',
+                    type: 'primary'
+                }
+            ]
+        ]
+    )
 );

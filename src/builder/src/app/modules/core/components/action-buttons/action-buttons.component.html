@@ -1,6 +1,8 @@
 <ng-container *ngFor="let action of actions">
-    <button class="btn {{ 'btn-' + action.type }}" (click)="raiseOnClick(action)">
-        <app-icon *ngIf="action.icon">{{ action.icon }}</app-icon>
-        <div>{{ action.title }}</div>
-    </button>
+    <app-icon-button [icon]="action.icon"
+                     [text]="action.title"
+                     [skin]="action.type"
+                     [disabled]="action.canAction === false"
+                     (click)="raiseOnClick(action)">
+    </app-icon-button>
 </ng-container>

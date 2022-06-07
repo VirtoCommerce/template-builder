@@ -1,0 +1,12 @@
+// todo: settings should be loaded from specified url
+export const AppConfig = {
+    templatesListUrl: '/api/pagebuilder/templates?storeId=B2B-store',
+    sectionsListUrl: '/api/pagebuilder/sections?storeId=B2B-store',
+    templateUrl: '/api/pagebuilder/template?storeId=B2B-store',
+    saveTemplates: '/api/pagebuilder/save?storeId=B2B-store',
+    settingsDataUrl: '/api/pagebuilder/template?storeId=B2B-store&path=config/settings_data.json',
+    settingsSchemaUrl: '/api/pagebuilder/template?storeId=B2B-store&path=config/settings_schema.json',
+
+    saveSettings: '/api/pagebuilder/save?storeId=B2B-store',
+    settingsPath: 'config/settings_data.json'
+};

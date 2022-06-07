@@ -25,30 +25,20 @@ export class SharedEffects {
         private eventsBus: EventsBusService
     ) { }
 
-    raiseInitApp$ = createEffect(() => this.actions$.pipe(
+    raiseInitModule$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         withLatestFrom(this.store$.select(fromState.isAppInitialized)),
         filter(([, init]) => !init),
         switchMap(() => [
-            actions.initApp(),
-        ])
-    ));
-
-    redirectOnStart$ = createEffect(() => this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        withLatestFrom(
-            this.store$.select(fromState.isAppInitialized),
-            this.store$.select(fromRoute.selectPath)
-        ),
-        filter(([, init, path]) => !init && path === '/'),
-        switchMap(() => [
-            router.go({ path: ['/pages'] }),
+            actions.initShared()
         ])
     ));
 
     selectDefaultTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
-        withLatestFrom(this.store$.select(fromRoute.selectTemplateParameter)),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectTemplateParameter)
+        ),
         filter(([, template]) => !template),
         switchMap(() => [
             actions.selectDefaultTemplate()
@@ -56,7 +46,7 @@ export class SharedEffects {
     ));
 
     initApp$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.initApp),
+        ofType(actions.initShared),
         switchMap(() => [
             actions.loadTemplateEntries()
         ])
@@ -70,14 +60,22 @@ export class SharedEffects {
         )),
     ));
 
+    raiseInitApp$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadTemplateEntriesSuccess),
+        switchMap(() => [
+            actions.initApp()
+        ])
+    ));
+
     redirectToDefaultTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateEntriesSuccess, actions.selectDefaultTemplate),
         withLatestFrom(
+            this.store$.select(fromState.selectTemplatesEntries),
             this.store$.select(fromState.selectTemplatesEntriesAsList),
             this.store$.select(fromRoute.selectTemplateParameter)
         ),
-        filter(([, templatesEntries, templateParameter]) => !templateParameter && !!templatesEntries.length),
-        map(([, templatesEntries]) => actions.selectTemplate({
+        filter(([, entriesAsObject, templatesEntriesAsList, templateParameter]) => !templateParameter && !!templatesEntriesAsList.length || !entriesAsObject[templateParameter]),
+        map(([, , templatesEntries]) => actions.selectTemplate({
             template: (templatesEntries.find(item => !!item.isDefault) || templatesEntries[0]).alias
         }))
     ));

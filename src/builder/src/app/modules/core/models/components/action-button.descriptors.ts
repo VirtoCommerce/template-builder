@@ -3,4 +3,5 @@ export interface ActionButtonDescriptor {
     title?: string;
     alias?: string;
     type?: string;
+    canAction?: boolean;
 }

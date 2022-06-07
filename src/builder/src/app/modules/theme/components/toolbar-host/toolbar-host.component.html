@@ -1,8 +1,1 @@
-<app-default-toolbar [panels]="panels" (actionExecuted)="onActionExecuted($event)"></app-default-toolbar>
-
-<!-- <app-custom-actions></app-custom-actions>
-<div class="flex-grow flex justify-center">
-    <app-template-selector></app-template-selector>
-</div>
-<app-actions-panel [panels]="panels"
-                   (actionExecuted)="onActionExecuted($event)"></app-actions-panel> -->
+<app-default-toolbar [panels]="panels$|async" (actionExecuted)="onActionExecuted($event)"></app-default-toolbar>

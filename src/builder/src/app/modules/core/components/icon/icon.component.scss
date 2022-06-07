@@ -18,6 +18,9 @@
             background-color: none;
         }
     }
+    &.disabled {
+        color: $disable-icon-color;
+    }
 }
 
 // todo: theme?

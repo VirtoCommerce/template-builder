@@ -17,7 +17,7 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
                 ...state.states[alias],
                 isLoading: true,
                 isDirty: false,
-                sections: state.states[alias]?.sections || { }
+                sections: state.states[alias]?.sections || {}
             }
         }
     })),
@@ -29,7 +29,27 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
                 ...state.states[alias],
                 isLoading: false,
                 isDirty: false,
-                sections: state.states[alias]?.sections || { }
+                sections: state.states[alias]?.sections || {}
+            }
+        }
+    })),
+    on(actions.updateTemplateAction, (state, { alias }) => ({
+        ...state,
+        states: {
+            ...state.states,
+            [alias]: {
+                ...state.states[alias],
+                isDirty: true
+            }
+        }
+    })),
+    on(actions.saveTemplateSuccess, (state, { alias }) => ({
+        ...state,
+        states: {
+            ...state.states,
+            [alias]: {
+                ...state.states[alias],
+                isDirty: false
             }
         }
     }))

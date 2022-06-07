@@ -7,9 +7,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class IconButtonComponent implements OnInit {
 
-    @Input() icon: string | null = null;
-    @Input() text: string | null = null;
-    @Input() skin: string | null = null;
+    @Input() icon?: string;
+    @Input() text?: string;
+    @Input() skin?: string;
+    @Input() disabled: boolean = false;
 
     @Output() onClick = new EventEmitter<MouseEvent>();
 

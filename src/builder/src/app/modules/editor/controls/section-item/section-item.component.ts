@@ -53,7 +53,7 @@ export class SectionItemComponent implements OnInit {
     }
 
     getSectionName(): string {
-        if (this.sectionSchema.displayNameProperty) {
+        if (this.sectionSchema?.displayNameProperty) {
             return <string>this.section[this.sectionSchema.displayNameProperty] || this.section.type;
         }
         return this.section.type;

@@ -15,3 +15,6 @@ export const loadTemplateSchemasFails = createAction('[template editor] load tem
 
 export const updateTemplateAction = createAction('[template editor] update template', props<{ template: TemplateModel, alias: string }>());
 export const addItemAction = createAction('[template editor] add item', props<{ schema: SectionSchema }>());
+
+export const saveTemplateSuccess = createAction('[template editor] save template success', props<{ alias: string }>());
+export const saveTemplateFails = createAction('[template editor] save template fails', props<{ error: HttpErrorResponse }>());

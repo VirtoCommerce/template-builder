@@ -3,6 +3,7 @@ import { createAction, props } from "@ngrx/store";
 
 import { TemplateEntryList } from '@shared/models';
 
+export const initShared = createAction('[shared] init');
 export const initApp = createAction('[app] init');
 
 export const loadTemplateEntries = createAction('[shared] load template entries');

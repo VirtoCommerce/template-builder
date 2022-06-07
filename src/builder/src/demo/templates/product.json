@@ -1,35 +1,4 @@
 {
-    "settings": {
-        "name": "Product"
-    },
-    "content": [
-        {
-            "type": "cover-with-image",
-            "name": "Cover with image"
-        },
-        {
-            "type": "cover-with-variations",
-            "name": "Cover with variations",
-            "title": "Headline title and some other info",
-            "content": "Section content",
-            "color": "#43ebaa",
-            "singleFile": "path/to/file/single-file-name.txt",
-            "multipleFiles": [
-                "different/urls/for/files/filename-1.ext",
-                "different/urls/for/files/filename-2.ext",
-                "different/urls/for/files/filename-3.ext",
-                "different/urls/for/files/filename-4.ext"
-            ]
-        },
-        { "type": "cover-with-variations", "name": "Cover with variations" },
-        { "type": "cover-with-variations", "name": "Cover variations" },
-        {
-            "type": "product-info",
-            "name": "Product info",
-            "blocks": [
-                { "name": "Image", "type": "image" },
-                { "name": "text", "type": "text" }
-            ]
-        }
-    ]
+    "name": "Product template with long name that can be truncated",
+    "previewUrl": "/p/baa4931161214690ad51c50787b1ed94"
 }

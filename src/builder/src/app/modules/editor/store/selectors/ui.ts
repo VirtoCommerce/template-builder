@@ -1,5 +1,6 @@
 import { createSelector } from "@ngrx/store";
 
+import { ActionButtonDescriptor } from '@core/models';
 import {
     selectTemplateUIState,
     selectCurrentSectionsFilter
@@ -110,4 +111,41 @@ export const selectEditSectionContext = createSelector(
         section: model,
         editContext: {}
     }
+);
+
+export const selectToolbarButtonsState = createSelector(
+    fromDomain.selectCurrentTemplateState,
+    // todo: undo
+    // todo: redo
+    // todo: have settings
+    state => <ActionButtonDescriptor[][]>([
+        [
+            {
+                icon: 'settings',
+                alias: 'theme-settings',
+                title: 'Theme settings',
+                type: 'outline'
+            }
+        ],
+        [
+            {
+                canAction: false,
+                icon: 'undo',
+                alias: 'undo'
+            },
+            {
+                canAction: false,
+                icon: 'redo',
+                alias: 'redo'
+            }
+        ],
+        [
+            {
+                canAction: state?.isDirty,
+                title: 'Save',
+                alias: 'save',
+                type: 'primary'
+            }
+        ]
+    ])
 );

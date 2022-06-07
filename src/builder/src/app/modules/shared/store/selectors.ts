@@ -13,13 +13,19 @@ export const selectTemplatesEntries = createSelector(
 
 export const selectTemplatesEntriesAsList = createSelector(
     selectTemplatesEntries,
-    templates => Object.keys(templates).map(key => ({ ...templates[key], alias: key })) || []
+    templates => Object.keys(templates)
+        .map(key => ({ ...templates[key], alias: key }))
+        .sort((x, y) => x.sort === undefined
+            ? 1
+            : y.sort === undefined
+                ? -1
+                : x.sort - y.sort) || []
 );
 
 export const selectCurrentTemplateEntry = createSelector(
     selectTemplatesEntries,
     selectTemplateParameter,
-    (templates, key) => templates[key!] || <TemplateEntry>{} // todo: key must be non-nullable
+    (templates, key) => ({ ...templates[key!], alias: key }) // todo: key must be non-nullable
 );
 
 export const selectTemplatesEntriesLoading = createSelector(

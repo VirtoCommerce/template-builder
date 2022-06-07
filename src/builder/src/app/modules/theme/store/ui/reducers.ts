@@ -8,6 +8,5 @@ export const themeUIReducers = createReducer<ThemeUIState>(
     on(actions.presetsListMode, (state) => ({ ...state, mode: 'list' })),
     on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),
 
-    on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter })),
-
+    on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter }))
 );

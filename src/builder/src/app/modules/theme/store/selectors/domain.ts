@@ -1,6 +1,7 @@
 import { createSelector } from "@ngrx/store";
 
 import { selectGroupsParameter, selectPresetParameter } from '@shared/routing'
+import { selectThemeDomainState } from './common';
 import { selectSettingsSchema, selectPresetsNames } from "./data";
 
 export const selectOpenedGroups = createSelector(
@@ -18,4 +19,9 @@ export const selectPresetsState = createSelector(
     selectPresetsNames,
     selectPresetParameter,
     (presets, preset) => presets ? presets.reduce((acc, cur) => ({ ...acc, [cur]: { current: cur === preset } }), {}) : <any>{}
+);
+
+export const selectIsDirty = createSelector(
+    selectThemeDomainState,
+    state => state.isDirty
 );
