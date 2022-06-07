@@ -6,7 +6,6 @@
     class="control"
     [value]="controlValue"
     [placeholder]="descriptor.placeholder || ''"
-    (paste)="onPaste($event)"
     (keyup)="raiseOnChange($event)"
 />
 
@@ -16,7 +15,6 @@
     class="control"
     [value]="controlValue"
     [placeholder]="descriptor.placeholder || ''"
-    (paste)="onPaste($event)"
     (keyup)="raiseOnChange($event)"
 ></textarea>
 

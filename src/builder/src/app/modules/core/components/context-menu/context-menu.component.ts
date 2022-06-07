@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ContextMenuAction } from '@core/models';
 
 @Component({
@@ -11,20 +11,23 @@ export class ContextMenuComponent implements OnInit {
 
     @Input() actions: ContextMenuAction[] | null = null;
     @Input() visible: boolean = false;
-    @Input() getActions: (() => ContextMenuAction[]) | null = null;
+    @Input() getActions: (() => Promise<ContextMenuAction[]>) | null = null;
 
     @Output() onAction = new EventEmitter<ContextMenuAction>();
 
     isOpen = false;
 
-    constructor() { }
+    constructor(private cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
     }
 
-    getActionsList() {
+    getActionsList(): ContextMenuAction[] {
         if (!this.actions && this.getActions) {
-            this.actions = this.getActions();
+            this.getActions().then(actions => {
+                this.actions = actions;
+                this.cdr.detectChanges();
+            });
         }
         return this.actions || [];
     }

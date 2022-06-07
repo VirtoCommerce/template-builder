@@ -13,15 +13,6 @@ export class StringComponent extends BaseControlDirective<StringDescriptor> {
     @ViewChild('control') control: ElementRef | null = null;
     @ViewChild('textarea') textarea: ElementRef | null = null;
 
-    constructor(private windowRef: WindowRef) {
-        super();
-    }
-
-    onPaste(event: ClipboardEvent) {
-        const value = (event.clipboardData || this.windowRef.nativeWindow.clipboardData).getData('text');
-        this.onValueChanged(value);
-    }
-
     override getFocusableControl(): ElementRef {
         return this.descriptor.multiline
             ? this.textarea!

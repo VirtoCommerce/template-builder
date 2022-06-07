@@ -23,7 +23,6 @@ export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     }
 
     changeColor(value: ColorEvent) {
-        console.log(value);
         this.onValueChanged(value.color.hex);
     }
 

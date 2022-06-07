@@ -11,6 +11,7 @@ import { RouterStateUrl } from '@shared/routing';
 // import { ThemeSettingsService } from '@theme/services';
 
 import { BuilderState } from "../state";
+import * as editorHelpers from '@editor/services/editor.helpers';
 import * as actions from "../actions";
 import * as shared from '@shared/store/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";
@@ -59,7 +60,7 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromRoute.selectTemplateParameter),
         ),
         // load when template still is not loaded or hasn't been changed yet
-        filter(([, template, state, entry]) => !template || !state || !state.isDirty || !entry),
+        filter(([, template, state, entry]) => !template || !state || !entry),
         switchMap(([, , , , alias]) => [actions.loadTemplateModel({ alias })])
     ));
 
@@ -87,6 +88,7 @@ export class TemplateEditorDataEffects {
         ),
         filter(([, templateEntry]) => !!templateEntry),
         switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry.path).pipe(
+            map(template => editorHelpers.prepareTemplate(template)),
             map(template => actions.loadTemplateModelSuccess({ template, alias })),
             catchError(error => of(actions.loadTemplateModelFails({ error })))
         ))

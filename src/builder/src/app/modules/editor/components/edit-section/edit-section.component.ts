@@ -39,7 +39,7 @@ export class EditSectionComponent implements OnInit {
         }
     }
 
-    getItemActionsFactory(item: SectionModel): () => ContextMenuAction[] {
+    getItemActionsFactory(item: SectionModel): () => Promise<ContextMenuAction[]> {
         return () => this.helper.getSectionsActions(item);
     }
 }

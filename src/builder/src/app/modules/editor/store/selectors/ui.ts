@@ -106,11 +106,13 @@ export const selectCurrentItemName = createSelector(
 export const selectEditSectionContext = createSelector(
     fromData.selectCurrentItemForEdit,
     fromData.selectCurrentSchemaForEdit,
-    (model, schema) => <any>{
-        schema: schema,
-        section: model,
-        editContext: {}
-    }
+    (model, schema) => !!schema && !!model
+        ? <any>{
+            schema: schema,
+            section: model,
+            editContext: {}
+        }
+        : null
 );
 
 export const selectToolbarButtonsState = createSelector(

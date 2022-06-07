@@ -185,21 +185,19 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
 //     return templateSchema?.name || key || 'Select template';
 // }
 
-// export function prepareTemplate(template: TemplateModel): TemplateModel {
-//     return {
-//         ...template,
-//         content: template?.content.map((section, index) => ({
-//             ...section,
-//             __id: generateItemId(section),
-//             __index: index,
-//             blocks: section.blocks?.map((block, jndex) => ({
-//                 ...block,
-//                 __id: generateItemId(block),
-//                 __index: jndex
-//             }))
-//         }))
-//     };
-// }
+export function prepareTemplate(template: TemplateModel): TemplateModel {
+    return {
+        ...template,
+        content: template?.content.map(section => ({
+            ...section,
+            id: generateSectionId(section),
+            blocks: section.blocks?.map((block, jndex) => ({
+                ...block,
+                id: generateSectionId(block)
+            }))
+        }))
+    };
+}
 
 export function getSectionName(item: SectionModel, schemas: SectionsSchemasList): string {
     const schema = schemas[item.type];

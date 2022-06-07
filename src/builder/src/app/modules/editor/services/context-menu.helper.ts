@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { EditorServicesModule } from '@editor/editor-services.module';
+
+import { ClipboardService } from '@core/services';
 import { ContextMenuAction, Dictionary, SectionModel } from '@core/models';
 
 @Injectable({
@@ -43,6 +45,27 @@ export class ContextMenuHelper {
             selected: false,
             inactive: false
         },
+        'paste-section': {
+            action: 'paste-section',
+            title: 'Paste section',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
+        'paste-block': {
+            action: 'paste-block',
+            title: 'Paste block',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
+        'paste-template': {
+            action: 'paste-template',
+            title: 'Paste template',
+            icon: 'content_paste',
+            selected: false,
+            inactive: false
+        },
         'duplicate': {
             action: 'duplicate',
             title: 'Duplicate',
@@ -57,6 +80,8 @@ export class ContextMenuHelper {
         }
     }
 
+    constructor(private clipboard: ClipboardService) { }
+
     getActions(actions: (string | [string, boolean])[]): ContextMenuAction[] {
         return actions.map(x => {
             if (typeof x === 'string') {
@@ -69,8 +94,8 @@ export class ContextMenuHelper {
         });
     }
 
-    getSectionsActions(item: SectionModel): ContextMenuAction[] {
-        const emptyClipboardData = !this.hasClipboardData();
+    async getSectionsActions(item: SectionModel): Promise<ContextMenuAction[]> {
+        const emptyClipboardData = !(await this.hasClipboardData(item));
 
         const result: (string | [string, boolean])[] = [
             item.hidden ? 'show' : 'hide',
@@ -86,7 +111,14 @@ export class ContextMenuHelper {
         return this.getActions(result);
     }
 
-    private hasClipboardData(): boolean {
-        return false;
+    private async hasClipboardData(item: SectionModel): Promise<boolean> {
+        const clipboardData = await this.clipboard.getData();
+        return clipboardData != null &&
+            (
+                clipboardData.wrongData
+                || (clipboardData.type === 'block' && !!item.blocks && !!item.blocks.length)
+                || (clipboardData.type === 'section' && (!item.blocks || !item.blocks.length)
+                )
+            );
     }
 }

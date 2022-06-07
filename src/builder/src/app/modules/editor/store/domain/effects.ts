@@ -130,11 +130,16 @@ export class TemplateEditorDomainEffects {
         filter(x => x.action === 'copy'),
         tap(({ section, block }) => {
             this.clipboard.copy({
-                content: { ...(block || section), id: undefined },
+                content: { ...(block || section) },
                 type: block ? 'block' : 'section'
             });
         })
     ), { dispatch: false });
+
+    // pasteItemFromClipboard$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.executeContextMenuAction),
+    //     filter(x => x.action === 'paste'),
+    // ));
 
     orderSections$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sortItems),
