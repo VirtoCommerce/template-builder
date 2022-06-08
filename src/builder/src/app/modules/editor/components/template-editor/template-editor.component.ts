@@ -66,8 +66,8 @@ export class TemplateEditorComponent implements OnInit {
         this.store.dispatch(actions.toggleSectionAction({ sectionId, template }));
     }
 
-    onActionClick(event: string, section: SectionModel) {
-        this.store.dispatch(actions.executeContextMenuAction({ action: event, source: 'list', section }));
+    onActionClick(event: string, section: SectionModel, block?: SectionModel) {
+        this.store.dispatch(actions.executeContextMenuAction({ action: event, source: 'list', section, block }));
     }
 
 }

@@ -6,7 +6,8 @@
              cdkDrag>
             <app-section-item [sectionSchema]="$any(blocksSchemas[block.type])"
                               [section]="block"
-                              (itemClick)="onItemClick(block)">
+                              (itemClick)="onItemClick(block)"
+                              (actionClick)="onActionExecuted($event, block)">
             </app-section-item>
             <app-drag-handle cdkDragHandle></app-drag-handle>
         </div>

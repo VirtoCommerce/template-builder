@@ -131,6 +131,13 @@ export const selectToolbarButtonsState = createSelector(
         ],
         [
             {
+                alias: 'preview',
+                title: 'Preview',
+                type: 'outline'
+            }
+        ],
+        [
+            {
                 canAction: false,
                 icon: 'undo',
                 alias: 'undo'

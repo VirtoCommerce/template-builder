@@ -16,6 +16,7 @@ export class SectionChildrenListComponent implements OnInit {
     @Output() itemClick = new EventEmitter<SectionModel>();
     @Output() addBlockClick = new EventEmitter();
     @Output() reorderBlocks = new EventEmitter<ReorderItemsModel>();
+    @Output() executeAction = new EventEmitter<{ action: string, block: SectionModel }>();
 
     constructor() { }
 
@@ -32,5 +33,9 @@ export class SectionChildrenListComponent implements OnInit {
 
     onAddBlockClick() {
         this.addBlockClick.emit();
+    }
+
+    onActionExecuted(action: string, block: SectionModel) {
+        this.executeAction.emit({ action, block });
     }
 }
