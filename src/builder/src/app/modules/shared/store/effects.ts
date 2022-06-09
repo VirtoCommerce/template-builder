@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
 
-import { ListHelpers, EventsBusService } from "@core/services";
+import { EventsBusService, NotificationsService } from "@core/services";
 import { TemplatesService } from '@shared/services';
 
 import { BuilderState } from "./state";
@@ -21,8 +21,8 @@ export class SharedEffects {
     constructor(private store$: Store<BuilderState>,
         private actions$: Actions,
         private templatesService: TemplatesService,
-        private listHelpers: ListHelpers,
-        private eventsBus: EventsBusService
+        private eventsBus: EventsBusService,
+        private notification: NotificationsService
     ) { }
 
     raiseInitModule$ = createEffect(() => this.actions$.pipe(
@@ -109,5 +109,10 @@ export class SharedEffects {
     broadcastMessage$ = createEffect(() => this.actions$.pipe(
         ofType(actions.broadcastMessage),
         tap(({ msg }) => this.eventsBus.emit(msg))
+    ), { dispatch: false });
+
+    showNotification$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.showNotification),
+        tap(({ message, msgType, top }) => this.notification.show(message, msgType, top ? 'tr' : 'bl'))
     ), { dispatch: false });
 }

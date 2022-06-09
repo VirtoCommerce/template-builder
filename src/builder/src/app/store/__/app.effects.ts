@@ -5,12 +5,12 @@ import { switchMap, tap } from "rxjs";
 
 import { actions } from ".";
 // import * as editors from '@editor/store/editor.actions';
-import { PreviewService } from "@app/services";
+// import { PreviewService } from "@app/services";
 
 @Injectable()
 export class AppEffects {
     constructor(
-        private preview: PreviewService,
+        // private preview: PreviewService,
         private actions$: Actions,
         private store$: Store) { }
 

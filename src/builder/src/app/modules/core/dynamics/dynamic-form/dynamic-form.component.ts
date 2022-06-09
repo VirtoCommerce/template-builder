@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, ChangeDetect
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { FormsHelper } from '@core/services';
+import { FormsHelper } from '@core/helpers';
 import { ControlContext, BaseControlDescriptor, SectionModel, ModelChangedEventArgs } from '@core/models';
 
 @Component({

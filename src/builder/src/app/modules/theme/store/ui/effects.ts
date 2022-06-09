@@ -3,8 +3,6 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { withLatestFrom, filter, mapTo, map, tap } from "rxjs/operators";
 
-import { NotificationsService } from '@core/services';
-
 import * as actions from "../actions";
 import { BuilderState } from "../state";
 

@@ -8,8 +8,10 @@ import {
 
 import { SectionStatesList, SectionState } from '@editor/models';
 
+import * as fromRoute from '@shared/routing';
 import * as fromDomain from "./domain";
 import * as fromData from "./data";
+import * as fromShared from '@shared/store';
 
 export const selectAddItemTitle = createSelector(
     fromData.selectSectionModelFromRoute,
@@ -113,6 +115,20 @@ export const selectEditSectionContext = createSelector(
             editContext: {}
         }
         : null
+);
+
+export const changeTemplateContext = createSelector(
+    fromData.selectCurrentTemplateModel,
+    fromData.selectSectionModelFromRoute,
+    fromData.selectBlockModelFromRoute,
+    fromData.selectSectionsSchemas,
+    fromData.selectBlocksSchemas,
+    fromRoute.selectTemplateParameter,
+    fromRoute.selectSectionIdParameter,
+    fromRoute.selectBlockIdParameter,
+    fromShared.selectCurrentTemplateEntry,
+    (template, section, block, sectionsSchemas, blocksSchemas, templateId, sectionId, blockId, templateEntry) =>
+        ({ template, section, block, sectionsSchemas, blocksSchemas, templateId, sectionId, blockId, templateEntry })
 );
 
 export const selectToolbarButtonsState = createSelector(

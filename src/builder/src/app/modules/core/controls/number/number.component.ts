@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
-import { WindowRef } from '@core/services';
+import { EnvironmentRef } from '@core/services';
 import { BaseControlDirective } from '@core/controls';
 import { NumberDescriptor } from '@core/models';
 import { MatSliderChange } from '@angular/material/slider';
@@ -13,7 +13,7 @@ import { MatSliderChange } from '@angular/material/slider';
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     @ViewChild('control') control!: ElementRef<HTMLInputElement>;
 
-    constructor(private windowRef: WindowRef) {
+    constructor(private windowRef: EnvironmentRef) {
         super();
     }
 

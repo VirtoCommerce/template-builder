@@ -6,7 +6,6 @@ import { SectionSchema, ItemsGroup } from '@core/models';
     providedIn: 'root'
 })
 export class ListHelpers {
-
     findInObjectOrFirst<T>(obj: Dictionary<T>, comparerFn: (item: T, key: string) => boolean): { key: string | null, obj: T | null } {
         const keys = Object.keys(obj);
         if (keys.length) {

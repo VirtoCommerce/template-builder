@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -36,12 +37,14 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
+import { DIALOGS } from './dialogs';
 import { DYNAMIC_COMPONENTS } from './dynamics';
 
 const ALL_COMPONENTS = [
     ...COMPONENTS,
     ...CONTROLS,
-    ...DYNAMIC_COMPONENTS
+    ...DYNAMIC_COMPONENTS,
+    ...DIALOGS
 ];
 
 const MATERIAL_MODULES = [
@@ -53,7 +56,8 @@ const MATERIAL_MODULES = [
     MatIconModule,
     MatTabsModule,
     MatRippleModule,
-    MatSliderModule
+    MatSliderModule,
+    MatDialogModule
 ];
 
 const CDK_MODULES = [
@@ -66,9 +70,9 @@ const CDK_MODULES = [
     declarations: ALL_COMPONENTS,
     exports: [
         ...ALL_COMPONENTS,
-        ...CDK_MODULES
+        ...CDK_MODULES,
     ],
-    entryComponents: [...CONTROLS],
+    entryComponents: [...CONTROLS, ...DIALOGS],
     imports: [
         CommonModule,
         ReactiveFormsModule,

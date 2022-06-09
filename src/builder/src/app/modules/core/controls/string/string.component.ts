@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { WindowRef } from '@core/services';
+import { EnvironmentRef } from '@core/services';
 import { BaseControlDirective } from '@core/controls';
 import { StringDescriptor } from '@core/models';
 

@@ -3,10 +3,10 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { withLatestFrom, filter, switchMap, map, tap } from "rxjs/operators";
 
-import { NotificationsService } from '@core/services';
-
 import * as actions from "../actions";
 import { BuilderState } from "../state";
+
+import * as sharedActions from '@shared/store/actions';
 
 import * as routingActions from '@shared/routing/actions';
 import * as routingSelectors from '@shared/routing'
@@ -19,8 +19,7 @@ import * as domainSelectors from "../selectors";
 export class ThemeDomainEffects {
     constructor(
         private store$: Store<BuilderState>,
-        private actions$: Actions,
-        private notifications: NotificationsService
+        private actions$: Actions
     ) { }
 
     toggleGroup$ = createEffect(() => this.actions$.pipe(
@@ -37,18 +36,19 @@ export class ThemeDomainEffects {
 
     presetApplied$ = createEffect(() => this.actions$.pipe(
         ofType(actions.applyPreset),
-        tap(() => this.notifications.successLeft('Preset applied')),
-    ), { dispatch: false });
+        map(() => sharedActions.showNotification({ message: 'Preset applied', msgType: 'success' }))
+    ));
 
     saveSettingsSuccess$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveSettingsSuccess),
-        tap(() => this.notifications.successRight('Settings were successfully saved')),
-    ), { dispatch: false });
+        map(() => sharedActions.showNotification({ message: 'Settings were successfully saved', msgType: 'success', top: true }))
+    ));
 
     saceSettingsFail$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveSettingsFail),
-        tap(() => this.notifications.errorRight('Could not save settings'))
-    ), { dispatch: false });
+        tap((error) => console.log(error)),
+        map(() => sharedActions.showNotification({ message: 'Could not save settings', msgType: 'error', top: true }))
+    ));
 
     cancelAction$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeAction),

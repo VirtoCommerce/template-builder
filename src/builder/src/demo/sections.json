@@ -53,7 +53,7 @@
     "cover-with-variations": {
         "name": "Cover with image and some other",
         "icon": "image",
-        "displayNameProperty": "title",
+        "displayField": "title",
         "settings": [
             {
                 "id": "title",

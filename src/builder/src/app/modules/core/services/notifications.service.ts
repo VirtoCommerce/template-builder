@@ -7,6 +7,8 @@ import { IndividualConfig, ToastrService } from "ngx-toastr";
 export class NotificationsService {
 
     // todo: use options from config
+    private _options = {
+    };
     private _successOptions = {
         // timeOut: 0,
         // extendedTimeOut: 0
@@ -38,6 +40,14 @@ export class NotificationsService {
             ...options,
             positionClass: "toast-top-right"
         });
+    }
+
+    show(message: string, type: 'error'|'success'|'info'|'warning', position: 'tr'|'bl') {
+        const options = {
+            ...this._options,
+            positionClass: position === 'tr' ? "toast-top-right" : "toast-bottom-left"
+        };
+        this.toastr[type](message, undefined, options);
     }
 
     demotr() {

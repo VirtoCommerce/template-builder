@@ -4,7 +4,7 @@ import { SmartHttpClient } from '@core/services';
 import { TemplateModel } from '@editor/models';
 import { map, Observable, of } from "rxjs";
 
-import * as appHelpers from './editor.helpers';
+// import { helpers } from '@editor/helpers';
 import { AppConfig } from '@shared/services';
 
 @Injectable({

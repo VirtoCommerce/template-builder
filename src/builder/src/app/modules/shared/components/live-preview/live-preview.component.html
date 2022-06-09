@@ -5,7 +5,7 @@
     </div>
     <div class="iframe-holder" [class]="previewMode$|async">
         <!-- todo: move to config flow -->
-        <iframe #frame id="preview-frame-component" [src]="previewUrl"></iframe>
+        <iframe class="shadow-md" #frame id="preview-frame-component" [src]="previewUrl"></iframe>
         <!-- <ng-container *ngIf="previewUrl$|async as previewUrl">
             <iframe #frame id="preview-frame-component" [src]="previewUrl"></iframe>
         </ng-container> -->

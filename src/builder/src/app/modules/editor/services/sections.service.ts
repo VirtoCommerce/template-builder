@@ -2,7 +2,7 @@ import { TemplateModel } from '@editor/models';
 import { SectionModel, SectionSchema } from '@core/models';
 import { Injectable } from "@angular/core";
 
-import { appHelpers } from '@core/services';
+// import { appHelpers } from '@core/services';
 
 @Injectable({
     providedIn: 'root'

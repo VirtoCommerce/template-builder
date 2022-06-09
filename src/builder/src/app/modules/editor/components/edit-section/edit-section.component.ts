@@ -1,10 +1,9 @@
-import { ContextMenuHelper } from './../../services/context-menu.helper';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BuilderState } from '@editor/store/state';
-import { ContextMenuAction, ModelChangedEventArgs, ControlContext, SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
-// import { SectionsSchemasList } from '@editor/models';
-import { helpers } from '@editor/services';
 import { Store } from '@ngrx/store';
+
+import { ContextMenuAction, ModelChangedEventArgs, SectionModel, SectionSchema } from '@core/models';
+import { ContextMenuHelper } from '@editor/helpers';
 
 import * as actions from '@editor/store/actions';
 import * as fromState from '@editor/store/selectors';
@@ -39,7 +38,7 @@ export class EditSectionComponent implements OnInit {
         }
     }
 
-    getItemActionsFactory(item: SectionModel): () => Promise<ContextMenuAction[]> {
-        return () => this.helper.getSectionsActions(item);
+    getItemActionsFactory(item: SectionModel, schema: SectionSchema): () => Promise<ContextMenuAction[]> {
+        return () => this.helper.getSectionsActions(item, !!schema.blocks?.length);
     }
 }

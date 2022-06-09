@@ -1,4 +1,4 @@
-import { WindowRef } from './../../services/window.ref';
+import { EnvironmentRef } from '../../services/environment.ref';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -12,7 +12,7 @@ export class OverlapPanelComponent implements OnInit {
 
     isOpened = false; // todo: maybe should be stored in state or in url
 
-    constructor(private windowRef: WindowRef) {}
+    constructor(private windowRef: EnvironmentRef) {}
 
     ngOnInit(): void { }
 

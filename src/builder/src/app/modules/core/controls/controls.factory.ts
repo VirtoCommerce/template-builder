@@ -21,10 +21,10 @@ export class ControlsFactory {
         this.controls['text'] = editors.TextComponent;
         // this.controls['list'] = editors.ListItemComponent;
         // this.controls['object'] = editors.ObjectItemComponent;
+
         // this.controls['popup-list'] = editors.PopupListItemComponent;
         // this.controls['search'] = editors.SearchItemComponent;
         // this.controls['url'] = editors.UrlItemComponent;
-        // this.controls['slider'] = editors.SliderItemComponent;
     }
 
     resolve(type: string): Type<any> {

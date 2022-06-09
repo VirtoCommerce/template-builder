@@ -5,6 +5,7 @@ import { TemplateEntryList } from '@shared/models';
 
 export const initShared = createAction('[shared] init');
 export const initApp = createAction('[app] init');
+export const empty = createAction('[app] empty');
 
 export const loadTemplateEntries = createAction('[shared] load template entries');
 export const loadTemplateEntriesSuccess = createAction('[shared] load template entries success', props<{ templatesEntries: TemplateEntryList }>());
@@ -16,3 +17,4 @@ export const selectDefaultTemplate = createAction('[shared] select first templat
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
 
 export const broadcastMessage = createAction('[shared] broadcast message', props<{ msg: any }>());
+export const showNotification = createAction('[shared] show notification', props<{ message: string, msgType: 'error'|'success'|'info'|'warning', top?: boolean }>());

@@ -77,6 +77,11 @@ export class ContextMenuHelper {
             action: 'delete',
             title: 'Delete',
             icon: 'delete_outline'
+        },
+        'reset-template': {
+            action: 'reset-template',
+            title: 'Reset template',
+            icon: 'restart_alt'
         }
     }
 
@@ -94,31 +99,38 @@ export class ContextMenuHelper {
         });
     }
 
-    async getSectionsActions(item: SectionModel): Promise<ContextMenuAction[]> {
-        const emptyClipboardData = !(await this.hasClipboardData(item));
+    async getSectionsActions(item: SectionModel, canAddBlock: boolean): Promise<ContextMenuAction[]> {
+        const emptyClipboardData = !(await this.hasClipboardData());
 
         const result: (string | [string, boolean])[] = [
             item.hidden ? 'show' : 'hide',
             '|',
             'copy',
             ['paste-before', emptyClipboardData],
-            ['paste-after', emptyClipboardData],
+            ['paste-after', emptyClipboardData]
+        ];
+        if (canAddBlock) {
+            result.push(['paste-block', emptyClipboardData]);
+        }
+        result.push(
             'duplicate',
             '|',
-            'delete'
-        ]
+            'delete');
 
         return this.getActions(result);
     }
 
-    private async hasClipboardData(item: SectionModel): Promise<boolean> {
+    async getPageActions(): Promise<ContextMenuAction[]> {
+        const emptyClipboardData = !(await this.hasClipboardData());
+        const result: (string | [string, boolean])[] = [
+            ['paste-section', emptyClipboardData],
+            'reset-template'
+        ];
+        return this.getActions(result);
+    }
+
+    private async hasClipboardData(): Promise<boolean> {
         const clipboardData = await this.clipboard.getData();
-        return clipboardData != null &&
-            (
-                clipboardData.wrongData
-                || (clipboardData.type === 'block' && !!item.blocks && !!item.blocks.length)
-                || (clipboardData.type === 'section' && (!item.blocks || !item.blocks.length)
-                )
-            );
+        return clipboardData != null;
     }
 }

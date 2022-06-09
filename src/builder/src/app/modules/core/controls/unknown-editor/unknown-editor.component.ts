@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
 import { BaseControlDescriptor } from '@core/models';
-import { WindowRef } from '@core/services';
+import { EnvironmentRef } from '@core/services';
 
 @Component({
   selector: 'app-unknown-editor',
@@ -11,7 +11,7 @@ import { WindowRef } from '@core/services';
 })
 export class UnknownEditorComponent extends BaseControlDirective<BaseControlDescriptor> {
 
-    constructor(private windowRef: WindowRef) {
+    constructor(private windowRef: EnvironmentRef) {
         super();
     }
 }

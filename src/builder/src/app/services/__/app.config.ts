@@ -4,8 +4,9 @@ import { firstValueFrom, Observable, of } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 
-import { appHelpers, WindowRef } from '@core/services';
-import { HttpWrapper } from '@app/services';
+// import { appHelpers } from '@core/helpers';
+import { EnvironmentRef } from '@core/services';
+import { HttpWrapper } from '@app/services/__';
 import { ApplicationContext, ConfigModel } from '@app/models';
 
 // import { IEditorConfig } from '@editor/di/editor.config';
@@ -20,7 +21,7 @@ export class AppConfig /* implements IThemeConfig /*, IEditorConfig  */{
 
     config!: ConfigModel;
 
-    constructor(private http: HttpWrapper, private windowRef: WindowRef) { }
+    constructor(private http: HttpWrapper, private windowRef: EnvironmentRef) { }
 
     init(): Promise<any> {
 

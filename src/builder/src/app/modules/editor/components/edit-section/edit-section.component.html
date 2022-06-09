@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <app-context-menu [visible]="true"
-                                      [getActions]="getItemActionsFactory(vm.section)"
+                                      [getActions]="getItemActionsFactory(vm.section, vm.schema)"
                                       (onAction)="onContextMenuAction($event, vm.section)"></app-context-menu>
                 </ng-container>
             </div>

@@ -1,4 +1,4 @@
-interface ContextMenuActionType {
+export interface ContextMenuActionType {
     icon: string;
     title: string;
     action: string;

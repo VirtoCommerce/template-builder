@@ -1,22 +1,15 @@
-import { ContextMenuAction } from './../../../core/models/components/context-menu-action.model';
-import { ReorderItemsModel } from './../../../core/models/ui/reorder-items.model';
 import { Component, OnInit } from '@angular/core';
+import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
-import { CdkDragSortEvent, CdkDragStart, CdkDragRelease } from '@angular/cdk/drag-drop';
 
+import { ContextMenuAction, ReorderItemsModel, SectionModel } from '@core/models';
+
+import { ContextMenuHelper } from '@editor/helpers';
 import { BuilderState } from '@editor/store/state';
 
 import * as fromRoute from '@shared/routing';
 import * as fromState from '@editor/store/selectors';
 import * as actions from '@editor/store/actions';
-
-import {
-    SectionsSchemasList,
-    TemplateModel
-} from '@editor/models';
-import { SectionModel, SectionSchema } from '@core/models';
-
-import { helpers } from '@editor/services';
 
 @Component({
     selector: 'app-template-editor',
@@ -31,7 +24,8 @@ export class TemplateEditorComponent implements OnInit {
     templateName$ = this.store.select(fromState.selectCurrentTemplateName);
     templateParameter$ = this.store.select(fromRoute.selectTemplateParameter);
 
-    constructor(private store: Store<BuilderState>) { }
+    constructor(private store: Store<BuilderState>, private helper: ContextMenuHelper) { }
+
     ngOnInit(): void { }
 
     addSectionClick() {
@@ -66,8 +60,12 @@ export class TemplateEditorComponent implements OnInit {
         this.store.dispatch(actions.toggleSectionAction({ sectionId, template }));
     }
 
-    onActionClick(event: string, section: SectionModel, block?: SectionModel) {
+    onActionClick(event: string, section?: SectionModel, block?: SectionModel) {
         this.store.dispatch(actions.executeContextMenuAction({ action: event, source: 'list', section, block }));
     }
 
+    getPageActions: () => Promise<ContextMenuAction[]> = () => {
+        const result = this.helper.getPageActions();
+        return result;
+    };
 }

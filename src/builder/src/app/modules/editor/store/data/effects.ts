@@ -11,7 +11,7 @@ import { RouterStateUrl } from '@shared/routing';
 // import { ThemeSettingsService } from '@theme/services';
 
 import { BuilderState } from "../state";
-import * as editorHelpers from '@editor/services/editor.helpers';
+import { helpers as editorHelpers } from '@editor/helpers';
 import * as actions from "../actions";
 import * as shared from '@shared/store/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";

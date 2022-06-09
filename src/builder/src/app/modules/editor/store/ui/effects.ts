@@ -4,7 +4,6 @@ import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 import { withLatestFrom, filter, tap, map, catchError, switchMap } from "rxjs/operators";
 
-import { NotificationsService } from '@core/services';
 import { broadcastMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
 
@@ -23,8 +22,7 @@ import * as selectors from "../selectors";
 export class TemplateEditorUiEffects {
     constructor(
         private store$: Store<BuilderState>,
-        private actions$: Actions,
-        private notifications: NotificationsService
+        private actions$: Actions
     ) { }
 
     navigateToAddSection$ = createEffect(() => this.actions$.pipe(
@@ -79,7 +77,8 @@ export class TemplateEditorUiEffects {
         ofType(
             actions.addItemAction,
             actions.sectionChangedAction,
-            actions.sortItems
+            actions.sortItems,
+            actions.updateTemplateAction
         ),
         map(() => actions.templateContentChanged())
     ));
@@ -100,14 +99,14 @@ export class TemplateEditorUiEffects {
 
     notifySuccessSave$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplateSuccess),
-        tap(() => this.notifications.successRight('Template saved successfully'))
-    ), { dispatch: false });
+        map(() => sharedActions.showNotification({ message: 'Template saved successfully', msgType: 'success', top: true }))
+    ));
 
     notifyFailsSave$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplateFails),
         tap(({ error }) => {
-            this.notifications.errorRight('Could not save template');
             console.log(error)
-        })
-    ), { dispatch: false });
+        }),
+        map(() => sharedActions.showNotification({ message: 'Could not save template', msgType: 'error', top: true }))
+    ));
 }

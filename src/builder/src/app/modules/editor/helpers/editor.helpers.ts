@@ -1,0 +1,344 @@
+import { appHelpers } from '@core/helpers';
+import { SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
+import {
+    SectionsSchemasList,
+    TemplateModel,
+    // TemplatesList,
+    // TemplateSchema,
+    // SectionsSchemasList
+} from '@editor/models';
+
+// todo: refactor these
+// replace section/block in collection can be extracted and done with lodash
+
+export function addItemToTemplate(schema: SectionSchema, template: TemplateModel, section: SectionModel | null): TemplateModel {
+    const model = generateModelBySchema(schema);
+    model.id = generateSectionId(model); // id generator center requried
+
+    if (!section) {
+        return {
+            ...template,
+            content: [
+                ...template.content,
+                model
+            ]
+        };
+    } else {
+        const sectionIndex = template.content.findIndex(item => item.id === section.id);
+        if (sectionIndex === -1) {
+            return template;
+        }
+        return {
+            ...template,
+            content: [
+                ...template.content.slice(0, sectionIndex),
+                {
+                    ...section,
+                    blocks: [
+                        ...section.blocks,
+                        model
+                    ]
+                },
+                ...template.content.slice(sectionIndex + 1)
+            ]
+        };
+    }
+}
+
+function reorderSectionsInList(list: SectionModel[], currentIndex: number, previousIndex: number): SectionModel[] {
+    const newList = [...list];
+    const item = newList[previousIndex];
+    newList.splice(previousIndex, 1);
+    newList.splice(currentIndex, 0, item);
+    return newList;
+}
+
+export function reorderSections(template: TemplateModel, currentIndex: number, previousIndex: number): TemplateModel {
+    return {
+        ...template,
+        content: reorderSectionsInList(template.content, currentIndex, previousIndex)
+    };
+}
+
+export function reorderBlocks(template: TemplateModel, section: SectionModel, currentIndex: number, previousIndex: number): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === section.id);
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            {
+                ...section,
+                blocks: reorderSectionsInList(section.blocks, currentIndex, previousIndex)
+            },
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function generateSectionId(section: SectionModel, force: boolean = false): string {
+    if (!force && section.id) {
+        return section.id;
+    }
+    return appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
+}
+
+export function generateModelBySchema(schema: SectionSchema): SectionModel {
+    const result: SectionModel = {
+        ...schema.default,
+        ...generateModelBySettings(schema.settings, 'default'),
+        type: schema.type
+    };
+    return result;
+}
+
+export function applySectionChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            <SectionModel>{
+                ...section,
+                ...changes
+            },
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const block = section.blocks[blockIndex];
+    const newSection = {
+        ...section,
+        blocks: [
+            ...section.blocks.slice(0, blockIndex),
+            <SectionModel>{
+                ...block,
+                ...changes
+            },
+            ...section.blocks.slice(blockIndex + 1)
+        ]
+    };
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            newSection,
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function duplicateBlock(
+    template: TemplateModel,
+    sectionId: string,
+    blockId?: string): {
+        template: TemplateModel,
+        sectionId: string,
+        blockId: string
+    } {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const block = section.blocks[blockIndex];
+    const newBlock = { ...block, id: generateSectionId(block, true) };
+    const newSection = {
+        ...section,
+        blocks: [
+            ...section.blocks.slice(0, blockIndex + 1),
+            newBlock,
+            ...section.blocks.slice(blockIndex + 1)
+        ]
+    };
+    return {
+        template: {
+            ...template,
+            content: [
+                ...template.content.slice(0, sectionIndex),
+                newSection,
+                ...template.content.slice(sectionIndex + 1)
+            ]
+        },
+        sectionId,
+        blockId: newBlock.id
+    };
+}
+
+export function duplicateSection(template: TemplateModel, sectionId: string): {
+    template: TemplateModel,
+    sectionId: string,
+    blockId?: string
+} {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const newSection = { ...section, id: generateSectionId(section, true) };
+    return {
+        template: {
+            ...template,
+            content: [
+                ...template.content.slice(0, sectionIndex + 1),
+                newSection,
+                ...template.content.slice(sectionIndex + 1)
+            ]
+        },
+        sectionId: newSection.id
+    };
+}
+
+export function removeBlock(template: TemplateModel, sectionId: string, blockId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const section = template.content[sectionIndex];
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const newSection = {
+        ...section,
+        blocks: [
+            ...section.blocks.slice(0, blockIndex),
+            ...section.blocks.slice(blockIndex + 1)
+        ]
+    };
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            newSection,
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+export function removeSection(template: TemplateModel, sectionId: string): TemplateModel {
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    return {
+        ...template,
+        content: [
+            ...template.content.slice(0, sectionIndex),
+            ...template.content.slice(sectionIndex + 1)
+        ]
+    };
+}
+
+function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'default' | 'preview' = 'default'): any {
+    // todo: consder object and collections too
+    return (settings || []).reduce((result, value) => ({
+        ...result,
+        [value.id]: value[mode] || value['default']
+    }), {});
+}
+
+
+// export function getTemplateName(templateSchema: TemplateSchema | null, key: string | null = null) {
+//     return templateSchema?.name || key || 'Select template';
+// }
+
+export function prepareTemplate(template: TemplateModel): TemplateModel {
+    return {
+        ...template,
+        content: template?.content.map(section => ({
+            ...section,
+            id: generateSectionId(section),
+            blocks: section.blocks?.map((block, jndex) => ({
+                ...block,
+                id: generateSectionId(block)
+            }))
+        }))
+    };
+}
+
+export function getSectionName(item: SectionModel, schemas: SectionsSchemasList): string {
+    const schema = schemas[item.type];
+    if (!!schema) {
+        if (schema.displayField) {
+            const result = item[schema.displayField];
+            if (!!result) {
+                return <string>result;
+            }
+        }
+    }
+    const result = <string>item['name'];
+    if (!!result) {
+        return result;
+    }
+    return item.type || '[no name]';
+}
+
+export function insertBlock(template: TemplateModel, sectionId: string, blockId: string | null, block: SectionModel, direction: number): {
+    template: TemplateModel,
+    sectionId: string,
+    blockId?: string
+} {
+
+    const newBlock = {
+        ...block,
+        id: generateSectionId(block, true)
+    };
+
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    if (sectionIndex !== -1) {
+        const section = template.content[sectionIndex];
+        const blockIndex = direction === -1 ? -1 : section.blocks.findIndex(item => item.id === blockId);
+        const newSection = blockIndex !== -1
+            ? {
+                ...section,
+                blocks: [
+                    ...section.blocks.slice(0, blockIndex + direction),
+                    newBlock,
+                    ...section.blocks.slice(blockIndex + direction)
+                ]
+            }
+            : {
+                ...section,
+                blocks: [
+                    ...section.blocks,
+                    newBlock
+                ]
+            };
+        return {
+            template: {
+                ...template,
+                content: [
+                    ...template.content.slice(0, sectionIndex),
+                    newSection,
+                    ...template.content.slice(sectionIndex + 1)
+                ]
+            },
+            sectionId,
+            blockId: newBlock.id
+        };
+    }
+    return { template, sectionId };
+}
+
+export function insertSection(template: TemplateModel, sectionId: string | null, section: SectionModel, direction: number): {
+    template: TemplateModel,
+    sectionId: string,
+    blockId?: string
+} {
+
+    const newSection = {
+        ...section,
+        id: generateSectionId(section, true)
+    };
+
+    const sectionIndex = direction === -1 ? -1 : template.content.findIndex(item => item.id === sectionId);
+    const changedTemplate = {
+        ...template,
+        content: sectionIndex !== -1
+            ? [
+                ...template.content.slice(0, sectionIndex + direction),
+                newSection,
+                ...template.content.slice(sectionIndex + direction)
+            ]
+            : [
+                ...template.content,
+                newSection
+            ]
+    };
+    return {
+        template: changedTemplate,
+        sectionId: newSection.id
+    };
+}

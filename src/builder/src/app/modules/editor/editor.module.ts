@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -11,19 +12,22 @@ import { EditorServicesModule } from './editor-services.module';
 
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
+import { DIALOGS } from './dialogs';
 
 import { EditorFeatureName, editorReducers, EFFECTS } from './store';
 
 @NgModule({
     declarations: [
         ...COMPONENTS,
-        ...CONTROLS
+        ...CONTROLS,
+        ...DIALOGS
     ],
     exports: [
         COMPONENTS
     ],
     imports: [
         CommonModule,
+        ReactiveFormsModule,
 
         StoreModule.forFeature(EditorFeatureName, editorReducers),
         EffectsModule.forFeature(EFFECTS),

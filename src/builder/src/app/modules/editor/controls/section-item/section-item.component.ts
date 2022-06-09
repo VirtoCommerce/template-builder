@@ -1,10 +1,8 @@
-import { ContextMenuHelper } from '@editor/services';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+// import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { trigger, state, style, animate, transition } from '@angular/animations';
-// import { SectionsSchemasList } from '@editor/models';
 import { ContextMenuAction, SectionModel, SectionSchema } from '@core/models';
-import { helpers } from '@editor/services';
+import { ContextMenuHelper } from '@editor/helpers';
 
 @Component({
     selector: 'app-section-item',
@@ -36,7 +34,9 @@ export class SectionItemComponent implements OnInit {
     }
 
     onItemClick() {
-        this.itemClick.emit();
+        if (!!this.sectionSchema) {
+            this.itemClick.emit();
+        }
     }
 
     onActionClick(event: ContextMenuAction) {
@@ -49,18 +49,18 @@ export class SectionItemComponent implements OnInit {
         if (!this.sectionSchema) {
             return null; // todo: unknown schema icon
         }
-        return this.sectionSchema.icon || null; // todo: schema hasn't icon
+        return this.sectionSchema.icon || 'blur_on'; // todo: schema hasn't icon
     }
 
     getSectionName(): string {
-        if (this.sectionSchema?.displayNameProperty) {
-            return <string>this.section[this.sectionSchema.displayNameProperty] || this.section.type;
+        if (this.sectionSchema?.displayField) {
+            return <string>this.section[this.sectionSchema.displayField] || this.section.type;
         }
         return this.section.type;
     }
 
     getItemActions: () => Promise<ContextMenuAction[]> = () => {
-        const result = this.helper.getSectionsActions(this.section);
+        const result = this.helper.getSectionsActions(this.section, !!this.sectionSchema.blocks?.length);
         return result;
     };
 }

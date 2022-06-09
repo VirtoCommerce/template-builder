@@ -130,3 +130,10 @@ export function toList(obj: any, keyPropertyName: string) {
     return Object.keys(obj).map(key => ({ [keyPropertyName]: key, ...obj[key] }));
 }
 
+export function tryParseJson(value: string): any {
+    try {
+        return JSON.parse(value);
+    } catch (e) {
+        return null;
+    }
+}

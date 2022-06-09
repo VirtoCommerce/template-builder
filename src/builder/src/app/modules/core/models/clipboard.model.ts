@@ -1,5 +1,6 @@
 export interface ClipboardModel {
-    content: any;
+    content?: any;
     type?: string;
     wrongData?: boolean;
+    sourceContent?: string;
 }

@@ -36,7 +36,9 @@
     <div title-content class="w-full">
         <div class="w-full flex flex-row">
             <div [attr.title]="templateName$|async" class="template-name">{{ templateName$ | async }}</div>
-            <app-context-menu [visible]="true" [actions]="$any([{ title: 'Reset template', icon: 'restart_alt' }])"></app-context-menu>
+            <app-context-menu [visible]="true"
+                              [getActions]="getPageActions"
+                              (onAction)="onActionClick($event.action)"></app-context-menu>
         </div>
     </div>
     <div footer-content>

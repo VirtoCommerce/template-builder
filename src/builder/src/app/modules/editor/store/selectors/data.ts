@@ -4,7 +4,7 @@ import { selectTemplateParameter } from '@shared/routing';
 import { selectTemplateDataState, selectCurrentSectionsFilter } from "./common";
 
 import { SectionsSchemasList } from '@editor/models';
-import { appHelpers } from "@core/services";
+import { appHelpers } from "@core/helpers";
 
 import * as fromRoute from '@shared/routing/selectors';
 import * as fromShared from '@shared/store/selectors';
