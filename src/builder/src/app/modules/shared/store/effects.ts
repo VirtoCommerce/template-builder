@@ -5,7 +5,7 @@ import { Store } from "@ngrx/store";
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
-import { TemplatesService } from '@shared/services';
+import { AppConfig, TemplatesService } from '@shared/services';
 
 import { BuilderState } from "./state";
 import * as actions from "./actions";
@@ -103,7 +103,10 @@ export class SharedEffects {
         withLatestFrom(
             this.store$.select(fromState.selectTemplatesEntries)
         ),
-        tap(([{ template }, entries]) => this.eventsBus.emit({ type: 'navigate', url: entries[template]?.previewUrl }))
+        tap(([{ template }, entries]) => this.eventsBus.emit({
+            type: 'navigate',
+            url: entries[template]?.previewUrl || AppConfig.defaultPreviewUrl || '/'
+        }))
     ), { dispatch: false });
 
     broadcastMessage$ = createEffect(() => this.actions$.pipe(

@@ -8,5 +8,8 @@ export const AppConfig = {
     settingsSchemaUrl: '/api/pagebuilder/template?storeId=B2B-store&path=config/settings_schema.json',
 
     saveSettings: '/api/pagebuilder/save?storeId=B2B-store',
-    settingsPath: 'config/settings_data.json'
+    settingsPath: 'config/settings_data.json',
+
+
+    defaultPreviewUrl: '/'
 };

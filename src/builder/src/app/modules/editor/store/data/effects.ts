@@ -90,7 +90,14 @@ export class TemplateEditorDataEffects {
         switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry.path).pipe(
             map(template => editorHelpers.prepareTemplate(template)),
             map(template => actions.loadTemplateModelSuccess({ template, alias })),
-            catchError(error => of(actions.loadTemplateModelFails({ error })))
+            catchError(error => [
+                actions.loadTemplateModelFails({ error }),
+                shared.showNotification({
+                    message: 'Could not load template',
+                    msgType: 'error',
+                    top: true
+                })
+            ])
         ))
     ));
 
@@ -110,21 +117,4 @@ export class TemplateEditorDataEffects {
         ))
     ));
 
-
-
-    // loadSettingsData$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.loadSettingsData),
-    //     switchMap(() => this.service.loadSettingsData().pipe(
-    //         map(settingsData => actions.loadSettingsDataSuccess({ settingsData })),
-    //         catchError(error => of(actions.loadSettingsDataFail({ error })))
-    //     ))
-    // ));
-
-    // loadSettingsSchema$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.loadSettingsSchema),
-    //     switchMap(() => this.service.loadSettingsSchema().pipe(
-    //         map(schema => actions.loadSettingsSchemaSuccess({ schema })),
-    //         catchError(error => of(actions.loadSettingsSchemaFail({ error })))
-    //     ))
-    // ));
 }
