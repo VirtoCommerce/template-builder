@@ -7,7 +7,7 @@
 .panel-title {
     border-color: rgba(12, 12, 12, 0.08);
     color: $heading-color;
-    @apply flex flex-row items-center leading-5 text-base border-b truncate p-4 pl-6;
+    @apply flex flex-row items-center leading-5 text-base border-b truncate p-4;
 }
 
 .panel-body {

@@ -231,7 +231,7 @@ export class TemplateEditorDomainEffects {
                             ...action.value,
                             wrongData: undefined,
                             sourceContent: result.value,
-                            content: appHelpers.tryParseJson(result.value)
+                            ...appHelpers.tryParseJson(result.value)
                         }
                     })
                     : sharedActions.empty()

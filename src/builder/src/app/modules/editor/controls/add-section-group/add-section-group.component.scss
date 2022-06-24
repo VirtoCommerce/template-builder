@@ -1,9 +1,11 @@
+@import '../../../../../layout/variables.scss';
+
 .group {
     @apply flex flex-row items-center cursor-pointer space-x-1;
     padding-left: 0.625rem;
     padding-right: 0.625rem;
     &:hover {
-        background: rgba(246, 246, 246, 1);
+        background: $hover-color;
     }
 }
 

@@ -2,15 +2,15 @@
     <app-panel>
         <div>
             <ul class="flex flex-col">
-                <li class="search-holder">
-                    <input placeholder="Enter block name"
-                           class="search"
-                           type="search"
-                           [value]="filter$|async"
-                           (keyup)="applySectionsFilter($event)"
-                           (search)="applySectionsFilter($event)" />
-                </li>
                 <ng-container *ngIf="viewModel$|async as vm">
+                    <li class="search-holder">
+                        <input [placeholder]="!!vm.parentSection ? 'Enter block name' : 'Enter section name'"
+                               class="search"
+                               type="search"
+                               [value]="filter$|async"
+                               (keyup)="applySectionsFilter($event)"
+                               (search)="applySectionsFilter($event)" />
+                    </li>
                     <li *ngFor="let group of vm.groups" class="border-b">
                         <app-add-section-group [group]="group"
                                                [opened]="vm.states.groups[group.name].opened"
@@ -26,9 +26,10 @@
                                               (onPreview)="onPreviewItem(item)"
                                               (onAdd)="onAddItem(item)"></app-add-section-item>
                     </li>
-                    <ng-container *ngIf="(filter$|async) && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length">
+                    <ng-container
+                                  *ngIf="(filter$|async) && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length">
                         <li class="p-4 text-gray-300">
-                            No blocks found
+                            {{ !!vm.parentSection ? 'No blocks found' : 'No sections found' }}
                         </li>
                     </ng-container>
                 </ng-container>
@@ -36,7 +37,8 @@
         </div>
         <ng-container title-content>
             <div class="title">
-                <app-icon (click)="onCancelClick()" title="Cancel">chevron_left</app-icon>
+                <app-icon class="back-icon" [hoverable]="true" (click)="onCancelClick()" title="Cancel">chevron_left
+                </app-icon>
                 <div>{{ title$|async }}</div>
             </div>
         </ng-container>

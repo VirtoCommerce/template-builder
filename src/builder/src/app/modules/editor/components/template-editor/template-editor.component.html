@@ -5,7 +5,7 @@
                 <ng-container *ngFor="let section of vm.template!.content">
                     <app-collapsible-list-item [expandable]="vm.sectionsState![section.id]?.canHaveChildren || false"
                                                [opened]="vm.sectionsState![section.id]?.expanded || false"
-                                               cdkDragBoundary=".sections-container"
+                                               cdkDragBoundary=".ps"
                                                cdkDragLockAxis="y"
                                                cdkDrag="section"
                                                (cdkDragStarted)="sectionDragStarted(section)"
@@ -34,7 +34,7 @@
         </ng-container>
     </div>
     <div title-content class="w-full">
-        <div class="w-full flex flex-row">
+        <div class="w-full flex flex-row pl-2">
             <div [attr.title]="templateName$|async" class="template-name">{{ templateName$ | async }}</div>
             <app-context-menu [visible]="true"
                               [getActions]="getPageActions"

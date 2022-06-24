@@ -79,9 +79,11 @@ export const selectAddItemContext = createSelector(
     selectSectionGroupStates,
     selectPreviewItemType,
     selectCurrentSectionsFilter,
-    ({ groups, items }, states, previewItemType, filter) => ({
+    fromData.selectSectionModelFromRoute,
+    ({ groups, items }, states, previewItemType, filter, section) => ({
         groups,
         items,
+        parentSection: section,
         states: {
             groups: groups.reduce((acc, value) => ({
                 ...acc,

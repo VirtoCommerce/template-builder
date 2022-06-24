@@ -1,8 +1,20 @@
-::ng-deep.mat-tab-label {
-    min-width: inherit !important;
-    padding: 0 1.25rem !important;
-    user-select: none;
-}
-::ng-deep.mat-tab-header-pagination {
-    min-width: 0.8125rem !important;
+@import '../../../../../layout/variables.scss';
+
+:host {
+    ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+        background-color: $active-color;
+    }
+    ::ng-deep .mat-tab-label-active .mat-tab-label-content {
+        color: $active-color;
+    }
+
+    ::ng-deep .mat-tab-label {
+        min-width: inherit;
+        padding: 0 1.25rem;
+        user-select: none;
+    }
+    ::ng-deep .mat-tab-header-pagination {
+        min-width: 0.8125rem;
+    }
+
 }

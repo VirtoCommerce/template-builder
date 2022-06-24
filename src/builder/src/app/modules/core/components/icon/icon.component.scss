@@ -4,7 +4,7 @@
     color: $icons-color;
     @apply flex items-center;
     &.hoverable:hover {
-        background: rgba(246, 246, 246, 1);
+        background: $hover-color;
     }
     &.inline {
         font-size: inherit;

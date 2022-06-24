@@ -1,5 +1,5 @@
 <div [formGroup]="currentForm">
-    <app-controls-list [currentForm]="currentForm"
+    <app-controls-list *ngIf="tab.ungrouped && tab.ungrouped.length" [currentForm]="currentForm"
                        [descriptors]="tab.ungrouped"
                        [context]="context">
     </app-controls-list>

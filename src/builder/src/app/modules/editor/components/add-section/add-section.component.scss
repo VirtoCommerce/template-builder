@@ -6,9 +6,8 @@
 
 .title {
     @apply flex flex-row space-x-1 items-center;
-    app-icon:hover {
-        background: rgba(246, 246, 246, 1);
-        @apply rounded;
+    .back-icon:hover {
+        @apply rounded p-1 -m-1 cursor-pointer;
     }
 }
 

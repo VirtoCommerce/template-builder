@@ -75,9 +75,6 @@ export class TemplateEditorUiEffects {
 
     raiseUpdateTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(
-            actions.addItemAction,
-            actions.sectionChangedAction,
-            actions.sortItems,
             actions.updateTemplateAction
         ),
         map(() => actions.templateContentChanged())

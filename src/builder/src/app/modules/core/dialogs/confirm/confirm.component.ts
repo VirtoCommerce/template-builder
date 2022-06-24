@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConfirmComponent implements OnInit {
 
     title: string;
+    icon: string;
 
     confirmText: string;
     declineText: string;
@@ -18,6 +19,7 @@ export class ConfirmComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) data: any
     ) {
         this.title = data.title;
+        this.icon = data.icon;
         this.confirmText = data.confirmText || 'OK';
         this.declineText = data.declineText || 'Cancel';
     }

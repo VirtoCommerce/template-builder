@@ -7,11 +7,11 @@
                               (modelChanged)="onModelChanged($event)"></app-dynamic-form>
         </ng-container>
         <ng-container title-content>
-            <div class="title">
+            <div class="title pl-2">
                 <app-icon class="back-icon" (click)="onBackClick()" [hoverable]="true" title="Back">chevron_left
                 </app-icon>
                 <ng-container *ngIf="viewModel$|async as vm">
-                    <div class="info" [ngClass]="{ 'invisible-section': vm.section.hidden }">
+                    <div class="edit-section-title" [ngClass]="{ 'invisible-section': vm.section.hidden }">
                         <div class="whitespace-normal">{{ sectionName$|async }}</div>
                         <div class="section-info">
                             <span [cdkCopyToClipboard]="vm.section.type">Type: {{ vm.section.type }}<app-icon

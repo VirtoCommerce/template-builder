@@ -31,6 +31,7 @@ export class ClipboardService {
                 return <ClipboardModel>{ wrongData: true, sourceContent: data };
             }
         } catch (error) {
+            console.log(error);
             return null; // can't access clipboard
         }
     }
