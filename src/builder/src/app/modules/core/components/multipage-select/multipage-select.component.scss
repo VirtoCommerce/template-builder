@@ -17,6 +17,11 @@
     @apply w-full border p-1 rounded mb-2;
 }
 
+.is-dirty {
+    background: #F0AD4E;
+    @apply rounded-full;
+}
+
 .list-title {
     color: #545454;
     @apply uppercase truncate text-ellipsis whitespace-nowrap;

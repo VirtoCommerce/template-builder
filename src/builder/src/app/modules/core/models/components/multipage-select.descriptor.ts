@@ -3,4 +3,5 @@ export interface MultipageSelectDescriptor {
     alias: string;
     hasChildren?: boolean;
     children?: MultipageSelectDescriptor[];
+    isDirty?: boolean;
 }

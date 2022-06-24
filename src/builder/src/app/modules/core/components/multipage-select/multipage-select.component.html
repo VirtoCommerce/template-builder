@@ -31,6 +31,7 @@
                                 [attr.title]="getItemName(item)"
                                 (click)="showChildren(item)">
                             {{ getItemName(item) }}
+                            <span *ngIf="item.isDirty" class="is-dirty"></span>
                             <app-icon *ngIf="item.hasChildren">chevron_right</app-icon>
                         </button>
                     </li>

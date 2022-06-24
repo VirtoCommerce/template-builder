@@ -22,6 +22,12 @@ export const selectTemplatesEntriesAsList = createSelector(
                 : x.sort - y.sort) || []
 );
 
+// export const selectTemplatesEntriesWithState = createSelector(
+//     selectTemplatesEntriesAsList,
+//     selectTemplatesS
+//     templates =>
+// );
+
 export const selectCurrentTemplateEntry = createSelector(
     selectTemplatesEntries,
     selectTemplateParameter,
