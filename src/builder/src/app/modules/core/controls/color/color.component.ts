@@ -1,3 +1,4 @@
+import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
@@ -16,6 +17,20 @@ import { ColorEvent } from 'ngx-color';
 })
 export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     isOpen = false;
+
+    positions: ConnectedPosition[] = [{
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+        weight: 2
+    }, {
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'end',
+        overlayY: 'bottom',
+        weight: 1
+    }];
 
     clearColor() {
         this.onValueChanged(this.descriptor.clearValue || null);

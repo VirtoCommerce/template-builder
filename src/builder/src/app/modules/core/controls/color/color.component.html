@@ -1,25 +1,32 @@
+<!-- picker on click -->
 <ng-container *ngIf="!descriptor.inline; else inlinePicker">
     <div class="flex items-center justify-between"
-         #trigger="cdkOverlayOrigin"
-         cdkOverlayOrigin
          (click)="togglePopover()">
-        <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-        <div class="border rounded-4 w-7 h-7 mr-2" [ngStyle]="{ backgroundColor: controlValue }"></div>
+        <label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+        <div #trigger="cdkOverlayOrigin"
+             class="border rounded w-7 h-7 mr-2"
+             cdkOverlayOrigin
+             [ngStyle]="{ backgroundColor: controlValue }"></div>
     </div>
     <ng-template cdkConnectedOverlay
                  [cdkConnectedOverlayOrigin]="trigger"
                  [cdkConnectedOverlayOpen]="isOpen"
+                 [cdkConnectedOverlayPositions]="positions"
                  [cdkConnectedOverlayHasBackdrop]="true"
                  [cdkConnectedOverlayLockPosition]="true"
                  (detach)="close()"
                  (backdropClick)="outsideClick($event)">
         <div class="picker-holder">
             <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
+                          class="sketch-color-picker-component"
+                          [className]="'popup-color-picker'"
                           [color]="controlValue || ''"
                           [presetColors]="descriptor.presets || []"
                           [disableAlpha]="descriptor.disableAlpha || false"
                           (onChangeComplete)="changeColor($event)"></color-sketch>
             <color-twitter *ngIf="descriptor.colorMode === 'presets'"
+                           [className]="'popup-color-picker'"
+                           triangle="hide"
                            [color]="controlValue || ''"
                            [colors]="descriptor.presets || []"
                            (onChangeComplete)="changeColor($event)"></color-twitter>
@@ -28,46 +35,21 @@
                 <button (click)="clearColor()">Clear</button>
             </div>
         </div>
-        <!-- <div [colorPicker]="controlValue"
-             [cpOutputFormat]="descriptor.outputFormat || 'auto'"
-             [cpColorMode]="descriptor.colorMode || 'color'"
-             [cpPresetColors]="descriptor.presets || []"
-             [cpAlphaChannel]="descriptor.alpha || 'enabled'"
-             [cpOKButton]="true"
-             [cpCancelButton]="true"
-             [cpDialogDisplay]="'inline'"
-             [cpToggle]="true"
-             cpCancelButtonText="Clear"
-             (colorPickerCancel)="clearColor()"
-             (colorPickerChange)="changeColor($event)">
-        </div> -->
     </ng-template>
 
 </ng-container>
 <ng-template #inlinePicker>
     <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-
     <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
+                  [className]="'inline-color-picker max-w-sm'"
                   [color]="controlValue || ''"
                   [presetColors]="descriptor.presets || []"
                   [disableAlpha]="descriptor.disableAlpha || false"
                   (onChangeComplete)="changeColor($event)"></color-sketch>
     <color-twitter *ngIf="descriptor.colorMode === 'presets'"
+                   triangle="hide"
+                   [className]="'inline-color-picker'"
                    [color]="controlValue || ''"
                    [colors]="descriptor.presets || []"
                    (onChangeComplete)="changeColor($event)"></color-twitter>
-
-    <!-- <div class="inline-picker"
-         cpCancelButtonText="Clear"
-         [colorPicker]="controlValue"
-         [cpOutputFormat]="descriptor.outputFormat || 'auto'"
-         [cpColorMode]="descriptor.colorMode || 'color'"
-         [cpPresetColors]="descriptor.presets || []"
-         [cpOKButton]="false"
-         [cpCancelButton]="true"
-         [cpDialogDisplay]="'inline'"
-         [cpToggle]="true"
-         (colorPickerCancel)="clearColor()"
-         (colorPickerChange)="changeColor($event)">
-    </div> -->
 </ng-template>

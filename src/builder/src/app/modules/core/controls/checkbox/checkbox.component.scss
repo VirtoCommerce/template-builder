@@ -1,0 +1,19 @@
+@import '../../../../../layout/variables.scss';
+
+:host {
+
+    // must be in the material theme
+
+    ::ng-deep .mat-checkbox-label {
+        color: $label-color;
+    }
+
+    ::ng-deep .mat-checkbox-frame {
+        border-color: #8C9196;
+    }
+
+    ::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+    ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+        background-color: #1665D8;
+    }
+}

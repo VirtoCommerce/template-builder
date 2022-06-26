@@ -1,12 +1,8 @@
 import { BaseControlDescriptor } from "./base-control.descriptor";
 
 export interface CalendarDescriptor extends BaseControlDescriptor {
-    mode?: 'date' | 'time' | 'datetime';
-    showSeconds?: boolean;
-    hideSpinners?: boolean;
-    showAmPm?: boolean;
+    mode: 'date' | 'datetime' | 'time' | 'month' | 'year';
     minDate?: Date;
     maxDate?: Date;
     inline?: boolean;
-    stepMinute?: number;
 }

@@ -1,39 +1,40 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<ng-container [formGroup]="form">
-    <ng-container [ngSwitch]="true">
-        <ngx-mat-timepicker *ngSwitchCase="descriptor.mode === 'time'"
-                            [showSpinners]="!descriptor.hideSpinners"
-                            [stepMinute]="descriptor.stepMinute || 1"
-                            [enableMeridian]="!!descriptor.showAmPm"
-                            [showSeconds]="!!descriptor.showSeconds"
-                            [defaultTime]="[]"
-                            formControlName="time">
-        </ngx-mat-timepicker>
-        <ng-container *ngSwitchCase="descriptor.inline && descriptor.mode !== 'time'">
-            <ngx-mat-calendar (selectedChange)="selectDate($event)" [selected]="controlValue">
-            </ngx-mat-calendar>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-            <div class="flex relative">
-                <input formControlName="date"
-                       class="flex-grow"
-                       type="text"
-                       matInput
-                       [min]="descriptor.minDate"
-                       [max]="descriptor.maxDate"
-                       [ngxMatDatetimePicker]="picker"
-                       [placeholder]="descriptor.placeholder || ''">
-                <!-- todo: remove $any function when it will be possible -->
-                <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-            </div>
-            <ngx-mat-datetime-picker #picker
-                                     [showSeconds]="!!descriptor.showSeconds"
-                                     [showSpinners]="!descriptor.hideSpinners"
-                                     [enableMeridian]="!!descriptor.showAmPm"
-                                     [stepMinute]="descriptor.stepMinute || 1"
-                                     [hideTime]="descriptor.mode !== 'datetime'">
-            </ngx-mat-datetime-picker>
-        </ng-container>
-    </ng-container>
+<!-- <ng-container>
+    <input [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker type="datetime" #picker></mat-datepicker>
+</ng-container> -->
+<ng-container>
+    <div *ngIf="!descriptor.inline" class="flex relative">
+        <input class="flex-grow"
+               type="text"
+               readonly
+               matInput
+               [value]="controlValue"
+               [min]="descriptor.minDate"
+               [max]="descriptor.maxDate"
+               [matDatepicker]="picker"
+               [placeholder]="descriptor.placeholder || ''"
+               (dateChange)="raiseValueChanged($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker
+                        xPosition="end"
+                        yPosition="below"
+                        [type]="descriptor.mode || 'date'">
+            <mat-datepicker-actions>
+                <div class="m-4 flex flex-row-reverse space-x-4 space-x-reverse">
+                    <button matDatepickerApply>Ok</button>
+                    <button matDatepickerCancel>Cancel</button>
+                </div>
+            </mat-datepicker-actions>
+        </mat-datepicker>
+    </div>
+    <div *ngIf="descriptor.inline">
+        <mat-calendar class="max-w-sm"
+                      [selected]="controlValue"
+                      [type]="descriptor.mode || 'date'"
+                      [twelveHour]="true"
+                      (selectedChange)="raiseValueChanged($event)"></mat-calendar>
+    </div>
 </ng-container>
 <p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>

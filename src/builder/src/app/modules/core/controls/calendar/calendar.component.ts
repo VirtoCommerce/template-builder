@@ -18,35 +18,32 @@ import { CalendarDescriptor } from '@core/models';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> implements OnDestroy {
+export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> { // implements OnDestroy {
 
-    private _subscription: Subscription | null = null;
+    // private _subscription: Subscription | null = null;
 
-    form!: FormGroup;
+    // // todo: find the way to avoid form using
+    // form!: FormGroup;
 
-    override ngOnInit() {
-        super.ngOnInit();
-        this.form = new FormGroup({
-            time: new FormControl(this.controlValue),
-            date: new FormControl(this.controlValue)
-        });
-        this._subscription = this.form.valueChanges.subscribe(value => {
-            if (this.descriptor.mode === 'time') {
-                this.onValueChanged(value.time);
-            } else {
-                this.onValueChanged(value.date);
-            }
-        });
-    }
+    // override ngOnInit() {
+    //     super.ngOnInit();
+    //     this.form = new FormGroup({
+    //         internalDate: new FormControl(this.controlValue)
+    //     });
+    //     this._subscription = this.form.valueChanges.subscribe((value: any) => {
+    //         this.onValueChanged(value.internalDate);
+    //     });
+    // }
 
-    ngOnDestroy() {
-        if (!!this._subscription) {
-            this._subscription.unsubscribe();
-            this._subscription = null;
-        }
-    }
+    // ngOnDestroy() {
+    //     if (!!this._subscription) {
+    //         this._subscription.unsubscribe();
+    //         this._subscription = null;
+    //     }
+    // }
 
-    selectDate(event: Date) {
-        this.form.setValue({ time: event, date: event })
+    raiseValueChanged(event: Date) {
+        // console.log(event);
+        this.onValueChanged(event);
     }
 }
