@@ -1,5 +1,5 @@
-import { SectionModel } from '@core/models';
-import { Dictionary } from '@core/models';
+import { SectionModel } from './section.model';
+import { Dictionary } from '../dictionary.model';
 
 /**
  * @description describe templates, like static page, catalog, product, cart, etc.

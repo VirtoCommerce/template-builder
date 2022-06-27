@@ -1,4 +1,4 @@
-import { SectionPropertyDescriptor } from "./controls";
+import { SectionPropertyDescriptor } from "../controls";
 import { SectionModel } from "./section.model";
 
 export interface SectionSchema {

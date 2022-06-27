@@ -1,4 +1,4 @@
-import { BaseControlDescriptor } from '@core/models';
+import { BaseControlDescriptor } from '@models/controls';
 
 export interface TabModel {
     label?: string;

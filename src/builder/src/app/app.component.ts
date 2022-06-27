@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { Component, HostListener, OnInit } from '@angular/core';
 
-import { SectionModel, SectionSchema } from '@core/models';
+import { SectionModel, SectionSchema } from '@models/document';
 
 // import * as fromEditor from '@editor/store';
 // import { editorActions } from '@editor/store';

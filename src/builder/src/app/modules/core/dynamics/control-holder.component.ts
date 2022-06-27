@@ -13,7 +13,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/for
 import { ControlHostDirective } from './control-host.directive';
 import { ControlsFactory, BaseControlDirective } from '@core/controls';
 
-import { BaseControlDescriptor, ControlContext } from '@core/models';
+import { ControlContext } from '@core/models';
+import { BaseControlDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-control-holder',

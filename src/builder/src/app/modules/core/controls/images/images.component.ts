@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
-import { ImagesDescriptor } from '@core/models';
+import { ImagesDescriptor } from '@models/controls';
 @Component({
   selector: 'app-images',
   templateUrl: './images.component.html',

@@ -1,4 +1,4 @@
-import { EnvironmentRef } from '../../services/environment.ref';
+import { EnvironmentRef } from '@integration/services';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CKEditor4 } from 'ckeditor4-angular';
 import { BaseControlDirective } from '@core/controls';
-import { TextDescriptor } from '@core/models';
+import { TextDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-text',

@@ -2,8 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpErrorResponse } from '@angular/common/http';
 import { map, Observable, of } from 'rxjs';
 
-import { SmartHttpClient } from '@core/services';
-import { AppConfig } from '@shared/services';
+import { BuilderHttpClient, AppConfig } from '@integration/services';
 import { SettingsDataModel, SettingsSchemaModel } from '@theme/models';
 
 @Injectable({
@@ -12,19 +11,24 @@ import { SettingsDataModel, SettingsSchemaModel } from '@theme/models';
 export class ThemeSettingsService {
 
     constructor(
-        private http: SmartHttpClient
+        private http: BuilderHttpClient,
+        private appConfig: AppConfig
     ) { }
 
     loadSettingsData(): Observable<SettingsDataModel> {
-        return this.http.get<SettingsDataModel>(AppConfig.settingsDataUrl);
+        const settingsDataUrl = this.appConfig.getValue('settingsDataUrl');
+        return this.http.get<SettingsDataModel>(settingsDataUrl);
     }
 
     loadSettingsSchema(): Observable<SettingsSchemaModel> {
-        return this.http.get<SettingsSchemaModel>(AppConfig.settingsSchemaUrl);
+        const settingsSchemaUrl = this.appConfig.getValue('settingsSchemaUrl')
+        return this.http.get<SettingsSchemaModel>(settingsSchemaUrl);
     }
 
     saveSettings(settings: SettingsDataModel): Observable<boolean> {
-        const files = JSON.stringify({ [AppConfig.settingsPath]: settings });
-        return this.http.post(AppConfig.saveSettings, { files }).pipe(map(() => true));
+        const saveSettings = this.appConfig.getValue('saveSettings');
+        const settingsPath = this.appConfig.getValue('settingsPath');
+        const files = JSON.stringify({ [settingsPath]: settings });
+        return this.http.post(saveSettings, { files }).pipe(map(() => true));
     }
 }

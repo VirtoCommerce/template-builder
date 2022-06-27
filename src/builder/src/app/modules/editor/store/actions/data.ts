@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from "@ngrx/store";
-import { SectionSchema } from '@core/models';
-import { TemplateModel, SchemasList } from '@editor/models';
+import { SchemasList } from '@editor/models';
+import { TemplateModel } from '@models/document';
 
 export const raiseLoadData = createAction('[template editor] raise load data');
 

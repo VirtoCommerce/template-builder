@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BuilderState } from '@editor/store/state';
 import { Store } from '@ngrx/store';
 
-import { ContextMenuAction, ModelChangedEventArgs, SectionModel, SectionSchema } from '@core/models';
+import { ContextMenuAction, ModelChangedEventArgs  } from '@core/models';
+import { SectionModel, SectionSchema } from '@models/document';
 import { ContextMenuHelper } from '@editor/helpers';
 
 import * as actions from '@editor/store/actions';

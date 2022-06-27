@@ -2,8 +2,10 @@ import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, ChangeDetect
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { FormsHelper } from '@core/helpers';
-import { ControlContext, BaseControlDescriptor, SectionModel, ModelChangedEventArgs } from '@core/models';
+import { formsHelpers } from '@core/helpers';
+import { ControlContext, ModelChangedEventArgs } from '@core/models';
+import { BaseControlDescriptor } from '@models/controls';
+import { SectionModel } from '@models/document';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -16,8 +18,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     private _descriptors!: BaseControlDescriptor[];
     private _currentSectionId: string | null = null;
     private _subscription: Subscription | null = null;
-
-    // @Input() activeTab: string | null = null;
 
     @Input() get sectionModel(): SectionModel {
         return this._sectionModel;
@@ -42,7 +42,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     form: FormGroup | null = null;
 
-    constructor(private formsHelper: FormsHelper, private cdr: ChangeDetectorRef, private zone: NgZone) { }
+    constructor(private cdr: ChangeDetectorRef, private zone: NgZone) { }
 
     ngOnInit(): void {
         this.generateForm();
@@ -59,7 +59,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
             this.form = null;
             this.unsubscribe();
             setTimeout(() => {
-                const form = this.formsHelper.generateForm(m, this.descriptors);
+                const form = formsHelpers.generateForm(m, this.descriptors);
                 const subscription = form.valueChanges.subscribe(value => {
                     this.modelChanged.emit({
                         model: {

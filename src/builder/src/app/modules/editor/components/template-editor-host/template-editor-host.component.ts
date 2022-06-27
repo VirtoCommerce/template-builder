@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateModel, SectionsSchemasList } from '@editor/models';
-import { SectionSchema } from '@core/models';
 
 @Component({
     selector: 'app-template-editor-host',

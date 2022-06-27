@@ -1,7 +1,8 @@
 import { AfterContentInit, Directive, ElementRef, Input, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 // import { FormGroup } from '@angular/forms';
-import { BaseControlDescriptor, ControlContext } from '@core/models';
+import { ControlContext } from '@core/models';
+import { BaseControlDescriptor } from '@models/controls';
 
 @Directive()
 export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit {

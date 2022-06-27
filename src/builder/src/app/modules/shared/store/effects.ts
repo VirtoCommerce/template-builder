@@ -5,7 +5,8 @@ import { Store } from "@ngrx/store";
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
-import { AppConfig, TemplatesService } from '@shared/services';
+import { TemplatesService } from '@shared/services';
+import { AppConfig } from '@integration/services';
 
 import { BuilderState } from "./state";
 import * as actions from "./actions";
@@ -22,7 +23,8 @@ export class SharedEffects {
         private actions$: Actions,
         private templatesService: TemplatesService,
         private eventsBus: EventsBusService,
-        private notification: NotificationsService
+        private notification: NotificationsService,
+        private appConfig: AppConfig
     ) { }
 
     raiseInitModule$ = createEffect(() => this.actions$.pipe(
@@ -105,7 +107,7 @@ export class SharedEffects {
         ),
         tap(([{ template }, entries]) => this.eventsBus.emit({
             type: 'navigate',
-            url: entries[template]?.previewUrl || AppConfig.defaultPreviewUrl || '/'
+            url: entries[template]?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
         }))
     ), { dispatch: false });
 

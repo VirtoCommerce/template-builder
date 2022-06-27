@@ -19,14 +19,17 @@ import { RouterSerializer } from '@shared/routing/serializer';
 import { EditorModule } from '@editor/editor.module';
 import { ThemeModule } from '@theme/theme.module';
 
+import { AppConfig } from '@integration/services';
+
 // import { EDITOR_SERVICE } from '@editor/di';
-// import { PlatformService } from '@app/services';
+// import { PlatformService, AppConfig } from '@app/services';
 // import { AppEffects } from '@app/store';
 
 // import {
 //     AppConfig,
 //     RefreshTokenInterceptor
 // } from '@app/services';
+import { RefreshTokenInterceptor } from '@integration/services';
 
 import { AppComponent } from './app.component';
 import { LAYOUT_COMPONENTS } from './layout';
@@ -67,18 +70,18 @@ import { LAYOUT_COMPONENTS } from './layout';
         ThemeModule
     ],
     providers: [
-        // {
-        //     provide: HTTP_INTERCEPTORS,
-        //     useClass: RefreshTokenInterceptor, multi: true
-        // },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RefreshTokenInterceptor, multi: true
+        },
         // { provide: EDITOR_SERVICE, useClass: PlatformService },
-        // {
-        //     provide: APP_INITIALIZER,
-        //     useFactory: (config: AppConfig) =>
-        //         () => config.init(),
-        //     deps: [AppConfig],
-        //     multi: true
-        // }
+        {
+            provide: APP_INITIALIZER,
+            useFactory: (config: AppConfig) =>
+                () => config.init(),
+            deps: [AppConfig],
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

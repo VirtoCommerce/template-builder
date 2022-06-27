@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
-import { CalendarDescriptor } from '@core/models';
+import { CalendarDescriptor } from '@models/controls';
 
 /**
  * source: https://h2qutc.github.io/angular-material-components/datetimepicker

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { EnvironmentRef } from './environment.ref'
+import { EnvironmentRef } from '@integration/services'
 import { ClipboardModel } from '@core/models';
 
 @Injectable({

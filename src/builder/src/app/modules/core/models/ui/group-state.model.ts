@@ -1,4 +1,4 @@
-import { Dictionary } from './dictionary.model';
+import { Dictionary } from '@models/index';
 
 export interface GroupStateModel {
     opened: boolean;

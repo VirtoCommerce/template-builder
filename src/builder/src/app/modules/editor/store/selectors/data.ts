@@ -4,7 +4,8 @@ import { selectTemplateParameter } from '@shared/routing';
 import { selectTemplateDataState, selectCurrentSectionsFilter } from "./common";
 
 import { SectionsSchemasList } from '@editor/models';
-import { appHelpers } from "@core/helpers";
+import { appHelpers } from "@integration/helpers";
+import { coreHelpers } from "@core/helpers";
 
 import * as fromRoute from '@shared/routing/selectors';
 import * as fromShared from '@shared/store/selectors';
@@ -118,7 +119,7 @@ export const selectCurrentFilteredSectionSchemas = createSelector(
 export const selectGroupedSectionSchemas = createSelector(
     selectCurrentFilteredSectionSchemas,
     sections => {
-        const groups = appHelpers.groupSections(sections);
+        const groups = coreHelpers.groupSections(sections);
         return {
             groups: groups.filter(x => x.items.length && !x.noname),
             items: groups.find(x => x.noname)?.items || []

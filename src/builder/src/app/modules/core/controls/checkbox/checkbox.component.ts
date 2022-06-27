@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
-import { CheckboxDescriptor } from '@core/models';
+import { CheckboxDescriptor } from '@models/controls';
 
 @Component({
   selector: 'app-checkbox',

@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
-import { EnvironmentRef } from '@core/services';
+import { EnvironmentRef } from '@integration/services';
 import { BaseControlDirective } from '@core/controls';
-import { NumberDescriptor } from '@core/models';
+import { NumberDescriptor } from '@models/controls';
 import { MatSliderChange } from '@angular/material/slider';
 
 @Component({

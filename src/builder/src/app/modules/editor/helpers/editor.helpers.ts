@@ -1,8 +1,8 @@
-import { appHelpers } from '@core/helpers';
-import { SectionModel, SectionPropertyDescriptor, SectionSchema } from '@core/models';
+import { appHelpers } from '@integration/helpers';
+import { SectionPropertyDescriptor } from '@models/controls';
+import { SectionModel, SectionSchema, TemplateModel } from '@models/document';
 import {
     SectionsSchemasList,
-    TemplateModel,
     // TemplatesList,
     // TemplateSchema,
     // SectionsSchemasList

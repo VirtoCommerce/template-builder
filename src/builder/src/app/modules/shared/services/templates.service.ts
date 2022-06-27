@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
 
-import { AppConfig } from './app.config';
-import { SmartHttpClient } from '@core/services';
+import { AppConfig } from '@integration/services';
+import { BuilderHttpClient } from '@integration/services';
 import { TemplateEntryList } from '@shared/models';
 
 @Injectable({
@@ -10,9 +10,10 @@ import { TemplateEntryList } from '@shared/models';
 })
 export class TemplatesService {
 
-    constructor(private http: SmartHttpClient) { }
+    constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
     getTemplatesList(): Observable<TemplateEntryList> {
-        return this.http.get<TemplateEntryList>(AppConfig.templatesListUrl);
+        const templatesListUrl = this.appConfig.getValue('templatesListUrl');
+        return this.http.get<TemplateEntryList>(templatesListUrl);
     }
 }

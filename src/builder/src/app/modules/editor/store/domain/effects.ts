@@ -11,7 +11,7 @@ import {
 } from "rxjs/operators";
 
 import { ModalService } from '@core/services';
-import { appHelpers } from "@core/helpers";
+import { appHelpers } from "@integration/helpers";
 import * as sharedActions from "@shared/store/actions";
 
 import { PasteContentComponent } from '@editor/dialogs';

@@ -1,0 +1,21 @@
+import { SelectValueDescriptor } from "./select-value.descriptor";
+
+export interface ServerRequestDescriptor {
+    url: string;
+    method: string;
+    body: any;
+    form?: any;
+    options?: any;
+    response?: ServerResponseDescriptor;
+    // cacheContextPath?: string;
+    // value: string | (string | ValueDescriptorModel)[];
+    // resultField: string;
+    // searchField: string;
+}
+
+export interface ServerResponseDescriptor {
+    result: string; // path to result field
+    isArray: boolean; // result should be array
+    value: string | (string | SelectValueDescriptor)[];
+}
+

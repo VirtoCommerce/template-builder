@@ -1,4 +1,4 @@
-import { Dictionary } from "@core/models";
+import { Dictionary } from "@models/index";
 
 export interface EditorUIState {
     states: Dictionary<{

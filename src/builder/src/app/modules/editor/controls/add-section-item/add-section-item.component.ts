@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SectionSchema } from '@core/models';
+import { SectionSchema } from '@models/document';
 
 @Component({
     selector: 'app-add-section-item',

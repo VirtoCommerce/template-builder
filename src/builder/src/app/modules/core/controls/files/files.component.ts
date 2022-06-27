@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileUploadControl } from '@iplab/ngx-file-upload';
 
 import { BaseControlDirective } from '@core/controls';
-import { FilesDescriptor } from '@core/models';
+import { FilesDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-files',

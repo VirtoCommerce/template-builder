@@ -18,7 +18,7 @@ export class ThemeEditorComponent implements OnInit {
     schema$ = this.store$.select(fromTheme.selectSettingsSchema);
     uiState$ = this.store$.select(fromTheme.selectGroupsState);
 
-    context = {};
+    context = <any>{}; // todo: select from state
 
 
     constructor(private store$: Store<any>) { }

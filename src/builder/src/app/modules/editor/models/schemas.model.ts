@@ -1,5 +1,3 @@
-import { Dictionary } from '@core/models';
-import { SectionSchema } from '@core/models';
 import { SectionsSchemasList } from '@editor/models';
 
 /**

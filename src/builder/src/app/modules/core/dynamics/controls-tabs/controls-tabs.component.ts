@@ -2,7 +2,8 @@ import { GroupsStateModel, TabModel } from '@core/models';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BaseControlDescriptor, ControlContext, TabsModel } from '@core/models';
+import { ControlContext } from '@core/models';
+import { BaseControlDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-controls-tabs',

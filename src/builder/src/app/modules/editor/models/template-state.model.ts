@@ -1,5 +1,4 @@
-import { Dictionary } from '@core/models';
-import { TemplateModel } from "./template.model";
+import { Dictionary } from '@models/index';
 
 export interface TemplateState {
     id: string;

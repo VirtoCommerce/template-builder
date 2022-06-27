@@ -1,8 +1,9 @@
-import { DisplayTextDescriptor } from './../../models/controls/display-text.descriptor';
+import { DisplayTextDescriptor } from '@models/controls';
 import { Component, Input, OnInit } from "@angular/core";
 import { FormGroup } from '@angular/forms';
 
-import { ControlContext, SectionModel, BaseControlDescriptor } from '@core/models';
+import { ControlContext } from '@core/models';
+import { BaseControlDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-controls-list',

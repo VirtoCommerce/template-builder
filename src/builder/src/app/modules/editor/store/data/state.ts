@@ -1,7 +1,5 @@
-import {
-    TemplateModelsList,
-    SchemasList
-} from '@editor/models';
+import { SchemasList } from '@editor/models';
+import { TemplateModelsList } from '@models/document';
 
 export interface EditorDataState {
     templates: TemplateModelsList;

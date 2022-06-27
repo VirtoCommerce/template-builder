@@ -9,6 +9,7 @@ export * from './color.descriptor';
 export * from './checkbox.descriptor';
 export * from './calendar.descriptor';
 export * from './display-text.descriptor';
+export * from './select-option.model';
 
 // todo: list, object, search, popup (list|object), url? (maybe should be object)
 

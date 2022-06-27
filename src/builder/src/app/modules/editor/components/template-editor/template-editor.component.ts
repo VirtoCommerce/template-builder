@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 
-import { ContextMenuAction, ReorderItemsModel, SectionModel } from '@core/models';
+import { ContextMenuAction, ReorderItemsModel } from '@core/models';
+import { SectionModel } from '@models/document';
 
 import { ContextMenuHelper } from '@editor/helpers';
 import { BuilderState } from '@editor/store/state';

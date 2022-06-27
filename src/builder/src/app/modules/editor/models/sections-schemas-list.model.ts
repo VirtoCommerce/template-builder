@@ -1,5 +1,5 @@
-import { Dictionary } from '@core/models';
-import { SectionSchema } from '@core/models';
+import { Dictionary } from '@models/index';
+import { SectionSchema } from '@models/document';
 
 /**
  * @description describe list of schemas for blocks and sections

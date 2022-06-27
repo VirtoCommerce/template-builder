@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { SectionSchema, ReorderItemsModel } from '@core/models';
+import { SectionSchema } from '@models/document';
 
 export const toggleSectionAction = createAction('[template editor] toggle section', props<{ sectionId: string, template: string }>());
 export const toggleGroupAction = createAction('[template editor] toggle group', props<{ groupId: string }>());

@@ -1,7 +1,17 @@
-import { Component } from '@angular/core';
-// import { MatSelectChange } from '@angular/material/select';
+import { catchError } from 'rxjs';
+import { switchMap } from 'rxjs';
+import { tap } from 'rxjs';
+import { of } from 'rxjs';
+import { DataService } from './../../services/data.service';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { concat, Observable, Subject } from 'rxjs';
+import { takeUntil, debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+
+import { cloneDeep, isArray } from 'lodash-es';
+
+import { SelectDescriptor, SelectOptionModel } from '@models/controls';
 import { BaseControlDirective } from '@core/controls';
-import { SelectDescriptor } from '@core/models';
+import { FormControl, FormGroup } from '@angular/forms';
 
 /**
  * https://ng-select.github.io/ng-select#/data-sources
@@ -15,35 +25,71 @@ import { SelectDescriptor } from '@core/models';
 })
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
-    options: any[] = [];
+    form!: FormGroup;
+    options$!: Observable<any[]>;
+    searchEvent$ = new Subject<string>();
+    loading: boolean = false;
+
+    constructor(
+        private data: DataService
+    ) {
+        super();
+    }
 
     raiseValueChanged(event: any) {
+        if (!event) {
+            this.onValueChanged(null);
+        }
         // todo: select value
-        this.onValueChanged(event);
+        if (isArray(event)) {
+            this.onValueChanged(event.map(x => x.value));
+        } else {
+            this.onValueChanged(event.value);
+        }
+    }
+
+    trackBy = (item: any) => {
+        return item[this.descriptor.equalKey || 'value']
     }
 
     override initContent() {
         super.initContent();
+        this.form = new FormGroup({
+            value: new FormControl(this.controlValue)
+        });
         this.updateOptions();
         // load options if need
     }
 
     private updateOptions() {
-        if (this.descriptor && this.descriptor.options) {
-            this.options = this.descriptor.options;
-            // const grouped = this.descriptor.options.reduce((acc, item) => {
-            //     if (item.group) {
-            //         if (!acc.groups[item.group]) {
-            //             acc.groups[item.group] = [];
-            //         }
-            //         acc.groups[item.group].push(item);
-            //     } else {
-            //         acc.options.push(item);
-            //     }
-            //     return acc;
-            // }, { options: <any[]>[], groups: <any>{} });
-            // this.options.options = grouped.options;
-            // this.options.groups = Object.keys(grouped.groups).map(key => ({ group: key, options: grouped.groups[key] }));
-        }
+
+        const loadedItems = !this.descriptor.searchable && !!this.descriptor.request
+            ? this.doRequest(null)
+            : this.descriptor.searchable
+                ? this.searchEvent$.pipe(
+                    distinctUntilChanged(),
+                    tap(() => this.loading = true),
+                    switchMap(searchQuery => this.doRequest(searchQuery))
+                )
+                : of([]);
+
+        this.options$ = concat(
+            of(this.descriptor.options || []),
+            loadedItems
+        ).pipe(tap(x => { console.log(this.descriptor.id, x); }));
+    }
+
+    private doRequest(filter: string | null): Observable<any[]> {
+        console.log('request');
+        const context = cloneDeep(this.context);
+        context.__searchQuery = filter;
+        return this.data.getData(this.descriptor.request, context).pipe(
+            map(items => items?.map((x: any) => ({
+                label: x[this.descriptor.request.label],
+                group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,
+                value: x
+            }) || [])),
+            tap(() => this.loading = false)
+        );
     }
 }

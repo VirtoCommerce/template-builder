@@ -88,7 +88,8 @@ export class TemplateEditorDataEffects {
         ),
         filter(([, templateEntry]) => !!templateEntry),
         switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry.path).pipe(
-            map(template => editorHelpers.prepareTemplate(template)),
+            filter(template => !!template),
+            map(template => editorHelpers.prepareTemplate(template!)),
             map(template => actions.loadTemplateModelSuccess({ template, alias })),
             catchError(error => [
                 actions.loadTemplateModelFails({ error }),

@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { EditorServicesModule } from '@editor/editor-services.module';
 
 import { ClipboardService } from '@core/services';
-import { ContextMenuAction, Dictionary, SectionModel } from '@core/models';
+import { ContextMenuAction } from '@core/models';
+import { Dictionary, SectionModel } from '@models/index';
 
 @Injectable({
     providedIn: EditorServicesModule

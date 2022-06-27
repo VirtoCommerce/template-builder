@@ -1,3 +1,3 @@
-export * from './forms.helper';
-export * from './list.helper';
-export * as appHelpers from './utils';
+export * as formsHelpers from './forms.helper';
+export * as listHelpers from './list.helper';
+export * as coreHelpers from './utils';

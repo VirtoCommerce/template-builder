@@ -1,31 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-
-import { RequestDescriptor, ResponseDescriptor, ValueDescriptorModel } from '@app/models';
-import { appHelpers } from '@core/helpers';
+import { ServerRequestDescriptor, ServerResponseDescriptor } from '@models/http';
+import { appHelpers } from '@integration/helpers';
 
 @Injectable({
     providedIn: 'root'
 })
-export class HttpWrapper {
-
-    constructor(private http: HttpClient) { }
-
-    get<T>(url: string): Observable<T> {
-        return this.http.get<T>(url);
-    }
-
-    sendRequest<T>(request: RequestDescriptor): Observable<T> {
+export class BuilderHttpClient extends HttpClient {
+    doRequest<T>(request: ServerRequestDescriptor): Observable<T | null> {
         if (!request) {
-            return of(<any>null);
+            return of(null);
         }
         const { method, url, body, options } = request;
 
         if (!url) {
-            return of(<any>null);
+            return of(null);
         }
 
         let result;
@@ -33,26 +24,27 @@ export class HttpWrapper {
         const uppercaseMethod = method && method.toUpperCase();
         switch (uppercaseMethod) {
             case 'POST':
-                result = this.http.post<T>(url, body, options);
+                result = super.post<T>(url, body, options);
                 break;
             case 'GET':
             default:
-                result = this.http.get<T>(url, options);
+                result = super.get<T>(url, options);
                 break;
         }
         return result.pipe(
             map(response => {
-                return this.mapResponseToResult(response, <ResponseDescriptor>request.response);
+                return this.mapResponseToResult(response, request.response || null);
             }),
             catchError(error => {
-                return of(<any>null);
+                console.log(error);
+                return of(null);
             })
         );
     }
 
-    generateRequest(request: string | RequestDescriptor, data: any = null): RequestDescriptor {
+    generateRequest(request: string | ServerRequestDescriptor | null, data: any = null): ServerRequestDescriptor | null {
         if (!request) {
-            return <any>null;
+            return null;
         }
         if (typeof request === 'string') {
             return {
@@ -96,7 +88,7 @@ export class HttpWrapper {
         return result;
     }
 
-    private mapResponseToResult(response: any, descriptor: ResponseDescriptor): any {
+    private mapResponseToResult(response: any, descriptor: ServerResponseDescriptor | null): any {
         if (!descriptor) {
             return response;
         }
@@ -104,7 +96,7 @@ export class HttpWrapper {
         if (!!result) {
             if (descriptor.result) {
                 result = appHelpers.getValueByPath(result, descriptor.result);
-                result = this.arrayCastByConfig(result, descriptor.isArray);
+                result = appHelpers.arrayCastByConfig(result, descriptor.isArray);
             }
         }
         if (!result) {
@@ -112,13 +104,16 @@ export class HttpWrapper {
         }
 
         if (descriptor.value && descriptor.value.length) {
-            // todo: refactor this!
+            // we need to get value from response
+            // result may be array or object
+            // response also may be array or object
+            // so we need to get value from response by path or by object, where each property is path
             const resultMapper = Array.isArray(result)
-                ? (value: any[], arrayMapper: (s: any, t: any) => any) => (<any[]>value).map(v => arrayMapper(v, descriptor.value))
-                : (value: any, elementMapper: (s: any, t: any) => any) => elementMapper(value, descriptor.value);
+                ? (value: any, arrayMapper: any) => (<any[]>value).map(v => arrayMapper(v, descriptor.value))
+                : (value: any, elementMapper: any) => elementMapper(value, descriptor.value);
             const itemMapper = (typeof descriptor.value === 'string')
-                ? (v: any, d: string) => appHelpers.getValueByPath(v, d)
-                : (v: any, d: any) => this.getItemValue(v, d);
+                ? (v: any, d: any) => appHelpers.getValueByPath(v, d)
+                : (v: any, d: any) => appHelpers.getItemValue(v, d);
 
             result = resultMapper(result, itemMapper);
 
@@ -126,29 +121,4 @@ export class HttpWrapper {
         return result;
     }
 
-    private getItemValue(item: any, descriptor: (string | ValueDescriptorModel)[]): any {
-        const result: any = {};
-        descriptor.forEach(p => {
-            const [query, property, isArray] = typeof p === 'string' ? [p, p, null] : [p.query, p.key, p.isArray];
-            const x = appHelpers.getValueByPath(item, query);
-            result[property] = this.arrayCastByConfig(x, isArray);
-        });
-        return result;
-    }
-
-    private arrayCastByConfig(item: any, isArray: boolean | null = null): any {
-        if (isArray === null) {
-            return item;
-        }
-        if (Array.isArray(item) && !isArray) {
-            if (item.length > 0) {
-                return item[0];
-            } else {
-                return null;
-            }
-        } else if (!Array.isArray(item) && isArray) {
-            return [item];
-        }
-        return item;
-    }
 }

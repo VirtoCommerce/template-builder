@@ -2,7 +2,7 @@ import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
-import { ColorDescriptor } from '@core/models';
+import { ColorDescriptor } from '@models/controls';
 import { ColorEvent } from 'ngx-color';
 
 /**

@@ -1,4 +1,5 @@
-import { SectionSchema, ItemsGroup } from '@core/models';
+import { ItemsGroup } from '@core/models';
+import { SectionSchema } from '@models/document';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 

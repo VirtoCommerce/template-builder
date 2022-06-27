@@ -1,8 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import { EnvironmentRef } from '@core/services';
 import { BaseControlDirective } from '@core/controls';
-import { StringDescriptor } from '@core/models';
+import { StringDescriptor } from '@models/controls';
 
 @Component({
   selector: 'app-string',

@@ -1,20 +1,20 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<!-- <mat-select [multiple]="descriptor.multiple" [placeholder]="descriptor.placeholder || ''"
-            [value]="controlValue"
-            (selectionChange)="raiseValueChanged($event)">
-    <mat-option *ngFor="let item of options.options" [value]="item.value">{{ item.label }}</mat-option>
-    <mat-optgroup *ngFor="let group of options.groups" [label]="group.group">
-        <mat-option *ngFor="let item of group.options" [value]="item.value">
-            {{item.label}}
-        </mat-option>
-    </mat-optgroup>
-</mat-select> -->
-<ng-select [items]="options"
-           [multiple]="descriptor.multiple || false"
-           [placeholder]="descriptor.placeholder || ''"
-           [searchable]="false"
-           appendTo="body"
-           bindLabel="label"
-           bindValue="value"
-           (change)="raiseValueChanged($event)">
-</ng-select>
+<ng-container [formGroup]="form">
+    <ng-select appendTo="body"
+               bindLabel="label"
+               bindValue="value"
+               groupBy="group"
+               formControlName="value"
+               [items]="options$ | async"
+               [multiple]="descriptor.multiple || false"
+               [placeholder]="descriptor.placeholder || ''"
+               [searchable]="descriptor.searchable || false"
+               [hideSelected]="true"
+               [loading]="loading"
+               [typeToSearchText]="descriptor.placeholder || ''"
+               [trackByFn]="trackBy"
+               [typeahead]="searchEvent$"
+               (change)="raiseValueChanged($event)"
+               (clear)="raiseValueChanged(null)">
+    </ng-select>
+</ng-container>

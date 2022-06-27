@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
-import { BaseControlDescriptor } from '@core/models';
-import { EnvironmentRef } from '@core/services';
+import { BaseControlDescriptor } from '@models/controls';
 
 @Component({
   selector: 'app-unknown-editor',
@@ -10,8 +9,4 @@ import { EnvironmentRef } from '@core/services';
   styleUrls: ['./unknown-editor.component.scss']
 })
 export class UnknownEditorComponent extends BaseControlDirective<BaseControlDescriptor> {
-
-    constructor(private windowRef: EnvironmentRef) {
-        super();
-    }
 }
