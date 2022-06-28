@@ -41,7 +41,7 @@ export class BuilderHttpClient extends HttpClient {
                     result = super.get<T>(url, options);
                     break;
             }
-            result.pipe(
+            result = result.pipe(
                 tap(x => {
                     if(request.cacheable) {
                         this._cache.set(cacheKey, x);

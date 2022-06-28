@@ -39,7 +39,7 @@
 
 </ng-container>
 <ng-template #inlinePicker>
-    <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+    <label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
     <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
                   [className]="'inline-color-picker max-w-sm'"
                   [color]="controlValue || ''"

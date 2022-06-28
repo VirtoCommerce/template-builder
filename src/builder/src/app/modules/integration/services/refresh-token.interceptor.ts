@@ -34,18 +34,19 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
         : Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any> | any> {
 
         return next.handle(this.addTokenToRequest(request, this.jwt.getToken()))
-            .pipe(
-                catchError(err => {
-                    if (err instanceof HttpErrorResponse) {
-                        switch (err.status) {
-                            case 401:
-                                return this.handle401Error(request, next);
-                            // case 400:
-                            //     return <any>this.authService.logout();
-                        }
-                    }
-                    return throwError(err);
-                }));
+            // .pipe(
+            //     catchError(err => {
+            //         if (err instanceof HttpErrorResponse) {
+            //             switch (err.status) {
+            //                 case 401:
+            //                     return this.handle401Error(request, next);
+            //                 // case 400:
+            //                 //     return <any>this.authService.logout();
+            //             }
+            //         }
+            //         return throwError(err);
+            //     }))
+                ;
     }
 
     private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {

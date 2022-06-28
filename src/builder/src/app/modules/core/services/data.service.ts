@@ -1,3 +1,4 @@
+import { tap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BuilderHttpClient, EvaluatorService } from '@integration/services';
 import { Observable } from 'rxjs';

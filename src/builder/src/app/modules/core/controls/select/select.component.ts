@@ -64,7 +64,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     private updateOptions() {
 
         const options = [
-            of([]), // start value
+            of(this.descriptor.options || []), // start value
             this.doRequest(null), // initial loaded items
         ];
 
@@ -90,7 +90,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
                     label: x[this.descriptor.request.label],
                     group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,
                     value: x
-                }) || [])),
+                })) || []),
                 tap(() => this.loading = false)
             );
         }
