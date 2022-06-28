@@ -7,6 +7,7 @@ export interface ServerRequestDescriptor {
     form?: any;
     options?: any;
     response?: ServerResponseDescriptor;
+    cacheable?: boolean;
     // cacheContextPath?: string;
     // value: string | (string | ValueDescriptorModel)[];
     // resultField: string;

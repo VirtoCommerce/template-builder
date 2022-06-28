@@ -49,7 +49,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     }
 
     trackBy = (item: any) => {
-        return item[this.descriptor.equalKey || 'value']
+        return item?.[this.descriptor.equalKey || 'value'];
     }
 
     override initContent() {
@@ -63,33 +63,43 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     private updateOptions() {
 
-        const loadedItems = !this.descriptor.searchable && !!this.descriptor.request
-            ? this.doRequest(null)
-            : this.descriptor.searchable
-                ? this.searchEvent$.pipe(
+        const options = [
+            of([]), // start value
+            this.doRequest(null), // initial loaded items
+        ];
+
+        if (this.descriptor.searchable) {
+            options.push(
+                this.searchEvent$.pipe(
                     distinctUntilChanged(),
                     tap(() => this.loading = true),
                     switchMap(searchQuery => this.doRequest(searchQuery))
-                )
-                : of([]);
+            ));
+        }
 
-        this.options$ = concat(
-            of(this.descriptor.options || []),
-            loadedItems
-        ).pipe(tap(x => { console.log(this.descriptor.id, x); }));
+        this.options$ = concat(...options);
     }
 
     private doRequest(filter: string | null): Observable<any[]> {
-        console.log('request');
-        const context = cloneDeep(this.context);
-        context.__searchQuery = filter;
-        return this.data.getData(this.descriptor.request, context).pipe(
-            map(items => items?.map((x: any) => ({
-                label: x[this.descriptor.request.label],
-                group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,
-                value: x
-            }) || [])),
-            tap(() => this.loading = false)
+        let result: Observable<any[]> = of([]);
+        if (this.descriptor.request) {
+            const context = cloneDeep(this.context);
+            context.__searchQuery = filter;
+            result = this.data.getData(this.descriptor.request, context).pipe(
+                map(items => items?.map((x: any) => ({
+                    label: x[this.descriptor.request.label],
+                    group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,
+                    value: x
+                }) || [])),
+                tap(() => this.loading = false)
+            );
+        }
+        return result.pipe(
+            map(items => [...this.descriptor.options || [], ...items]),
+            map(items => !filter || !this.descriptor.searchable
+                ? items
+                : items.filter(item => item.label.toLocaleUpperCase().indexOf(filter.toLocaleUpperCase()) !== -1)
+            )
         );
     }
 }

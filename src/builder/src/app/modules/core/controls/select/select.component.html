@@ -14,7 +14,6 @@
                [typeToSearchText]="descriptor.placeholder || ''"
                [trackByFn]="trackBy"
                [typeahead]="searchEvent$"
-               (change)="raiseValueChanged($event)"
-               (clear)="raiseValueChanged(null)">
+               (change)="raiseValueChanged($event)">
     </ng-select>
 </ng-container>

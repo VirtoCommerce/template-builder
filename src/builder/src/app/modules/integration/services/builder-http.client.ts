@@ -1,3 +1,4 @@
+import { tap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
@@ -9,6 +10,11 @@ import { appHelpers } from '@integration/helpers';
     providedIn: 'root'
 })
 export class BuilderHttpClient extends HttpClient {
+
+    private cacheSize = 100;
+
+    private _cache: Map<string, any> = new Map();
+
     doRequest<T>(request: ServerRequestDescriptor): Observable<T | null> {
         if (!request) {
             return of(null);
@@ -21,15 +27,30 @@ export class BuilderHttpClient extends HttpClient {
 
         let result;
 
-        const uppercaseMethod = method && method.toUpperCase();
-        switch (uppercaseMethod) {
-            case 'POST':
-                result = super.post<T>(url, body, options);
-                break;
-            case 'GET':
-            default:
-                result = super.get<T>(url, options);
-                break;
+        const cacheKey = JSON.stringify({ method, url, body, options });
+        if (this._cache.has(cacheKey)) {
+            result = of(this._cache.get(cacheKey));
+        } else {
+            const uppercaseMethod = method && method.toUpperCase();
+            switch (uppercaseMethod) {
+                case 'POST':
+                    result = super.post<T>(url, body, options);
+                    break;
+                case 'GET':
+                default:
+                    result = super.get<T>(url, options);
+                    break;
+            }
+            result.pipe(
+                tap(x => {
+                    if(request.cacheable) {
+                        this._cache.set(cacheKey, x);
+                    }
+                    if (this._cache.size > this.cacheSize) {
+                        this._cache.delete(this._cache.keys().next().value);
+                    }
+                })
+            );
         }
         return result.pipe(
             map(response => {
