@@ -25,3 +25,20 @@
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
     background-color: #F6F6F6;
 }
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-input>input {
+    font-size: 0.875rem;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    background-color: #E4E5E7;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+    border-left: 1px solid #C9CCD0;
+    border-right: none;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+    background-color: #C9CCD0;
+}

@@ -10,10 +10,18 @@
                [placeholder]="descriptor.placeholder || ''"
                [searchable]="descriptor.searchable || false"
                [hideSelected]="true"
+               [addTag]="true"
                [loading]="loading"
                [typeToSearchText]="descriptor.placeholder || ''"
-               [trackByFn]="trackBy"
+               [compareWith]="compareWith"
                [typeahead]="searchEvent$"
                (change)="raiseValueChanged($event)">
+        <ng-template ng-label-tmp let-item="item">
+            <span class="ng-value-label">
+                <span>{{ item.label || item[descriptor.displayField!] }}</span>
+            </span>
+            <span class="ng-value-icon left" (click)="unselect(item);" aria-hidden="true">×</span>
+        </ng-template>
     </ng-select>
 </ng-container>
+

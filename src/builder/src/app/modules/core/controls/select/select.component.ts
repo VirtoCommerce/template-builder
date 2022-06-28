@@ -31,25 +31,18 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     loading: boolean = false;
 
     constructor(
+        private cdr: ChangeDetectorRef,
         private data: DataService
     ) {
         super();
     }
 
-    raiseValueChanged(event: any) {
-        if (!event) {
-            this.onValueChanged(null);
-        }
-        // todo: select value
-        if (isArray(event)) {
-            this.onValueChanged(event.map(x => x.value));
-        } else {
-            this.onValueChanged(event.value);
-        }
-    }
+    raiseValueChanged(event: any) { }
 
-    trackBy = (item: any) => {
-        return item?.[this.descriptor.equalKey || 'value'];
+    compareWith = (itemInSelect: any, itemInSource: any) => {
+        const vA = (itemInSelect.value || itemInSelect)[this.descriptor.equalKey || 'value'] || itemInSelect.value || itemInSelect;
+        const v0 = (itemInSource.value || itemInSource)[this.descriptor.equalKey || 'value'] || itemInSource.value || itemInSource;
+        return vA === v0;
     }
 
     override initContent() {
@@ -58,7 +51,11 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             value: new FormControl(this.controlValue)
         });
         this.updateOptions();
-        // load options if need
+        this.form.valueChanges.subscribe({
+            next: (v) => {
+                this.onValueChanged(v.value);
+            }
+        });
     }
 
     private updateOptions() {
@@ -78,6 +75,13 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
         }
 
         this.options$ = concat(...options);
+    }
+
+    unselect(item: any) {
+        this.form.controls['value'].setValue(
+            this.controlValue.filter((x: any) => !this.compareWith(x, item)),
+            { emitEvent: true }
+        );
     }
 
     private doRequest(filter: string | null): Observable<any[]> {
