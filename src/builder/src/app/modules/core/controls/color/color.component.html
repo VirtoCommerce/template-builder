@@ -4,7 +4,7 @@
          (click)="togglePopover()">
         <label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
         <div #trigger="cdkOverlayOrigin"
-             class="border rounded w-7 h-7 mr-2"
+             class="border rounded w-7 h-7 mr-2 cursor-pointer"
              cdkOverlayOrigin
              [ngStyle]="{ backgroundColor: controlValue }"></div>
     </div>

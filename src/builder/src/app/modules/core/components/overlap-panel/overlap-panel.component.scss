@@ -8,33 +8,35 @@
 }
 .content {
     z-index: 1;
+    transition: width .5s;
     @apply relative bg-white h-full w-full;
 }
 
 .expand {
-    right: -.75rem;
+    left: 4rem;
     top: calc(50% - 2.5rem);
     border-radius: 50%;
     background-color: white;
     box-shadow: 0 0 .5rem 0 #eeeeee;
-    transition: right .7s .3s, opacity .5s .5s;
+    transition: transform .5s, opacity .5s, left .5s;
     z-index: 0;
     width: 5rem;
     height: 5rem;
     opacity: .3;
+    transform: translateX(-4rem);
     @apply absolute flex items-center justify-end;
     &:hover {
-        opacity: 1;
-        right: -2.5rem;
+        opacity: .8;
+        transform: translateX(-3rem)
+        // right: -2rem;
     }
-    &.expanded {
+    // &.expanded {
+    //     &:hover {
+    //         opacity: 1;
+    //     }
+    // }
+    .inverted {
         transform: rotate(180deg);
-        left: -.75rem;
-        right: none;
-        &:hover {
-            opacity: 1;
-            right: none;
-        }
+        transition: transform .5s;
     }
-    // .inverted { }
 }
