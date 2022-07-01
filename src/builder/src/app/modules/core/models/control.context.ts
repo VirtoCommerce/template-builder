@@ -9,7 +9,7 @@ export interface ControlContext {
     item: any;
     parent?: ControlContext
 
-    filter: string;
+    // filter: string | null; note! was used to filter by tabs in old version. should not be used in new version
     mode: string;
     __searchQuery: string | null;
 }

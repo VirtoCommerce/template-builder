@@ -1,4 +1,4 @@
-import { SectionsSchemasList } from '@editor/models';
+import { SectionsSchemasList, ObjectsSchemasList } from '@editor/models';
 
 /**
  * @description describe all schemas
@@ -6,4 +6,5 @@ import { SectionsSchemasList } from '@editor/models';
 export type SchemasList = {
     blocks: SectionsSchemasList;
     sections: SectionsSchemasList;
+    objects: ObjectsSchemasList;
 };

@@ -1,4 +1,4 @@
-<div [formGroup]="currentForm" class="p-4">
+<div [formGroup]="currentForm" class="controls-holder">
     <ng-container *ngFor="let control of descriptors">
         <!-- Header or Paragraph -->
         <h2 class="control-title" *ngIf="control.type === 'header'">{{ getContent(control) }}</h2>

@@ -13,4 +13,3 @@ export function generateForm(model: any, properties: SectionPropertyDescriptor[]
 export function generateFormArray(items: any[], properties: SectionPropertyDescriptor[]): FormArray {
     return new FormArray(items.map(item => generateForm(item, properties)));
 }
-

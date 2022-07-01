@@ -86,7 +86,7 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             this.store$.select(fromShared.selectCurrentTemplateEntry)
         ),
-        filter(([, templateEntry]) => !!templateEntry),
+        filter(([, templateEntry]) => !!templateEntry && !!templateEntry.path),
         switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry.path).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
