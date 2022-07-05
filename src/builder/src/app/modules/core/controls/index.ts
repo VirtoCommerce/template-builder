@@ -3,6 +3,7 @@ export * from './base-control.directive';
 
 export * from './calendar/calendar.component';
 export * from './checkbox/checkbox.component';
+export * from './collection/collection.component';
 export * from './color/color.component';
 export * from './files/files.component';
 export * from './images/images.component';
@@ -15,6 +16,7 @@ export * from './unknown-editor/unknown-editor.component';
 
 import { CalendarComponent } from './calendar/calendar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { CollectionComponent } from './collection/collection.component';
 import { ColorComponent } from './color/color.component';
 import { FilesComponent } from './files/files.component';
 import { ImagesComponent } from './images/images.component';
@@ -28,6 +30,7 @@ import { UnknownEditorComponent } from './unknown-editor/unknown-editor.componen
 export const CONTROLS = [
     CalendarComponent,
     CheckboxComponent,
+    CollectionComponent,
     ColorComponent,
     FilesComponent,
     ImagesComponent,

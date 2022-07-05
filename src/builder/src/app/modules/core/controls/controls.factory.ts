@@ -14,7 +14,7 @@ export class ControlsFactory {
         this.controls['color'] = editors.ColorComponent;
         this.controls['files'] = editors.FilesComponent; // todo: files
         this.controls['images'] = editors.ImagesComponent; // todo: images
-        // this.controls['list'] = editors.CollectionComponent;
+        this.controls['list'] = editors.CollectionComponent;
         this.controls['number'] = editors.NumberComponent;
         this.controls['object'] = editors.ObjectComponent;
         this.controls['slider'] = editors.NumberComponent;
