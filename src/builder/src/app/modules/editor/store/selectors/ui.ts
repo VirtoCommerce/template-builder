@@ -13,11 +13,18 @@ import * as fromDomain from "./domain";
 import * as fromData from "./data";
 import * as fromShared from '@shared/store';
 
+import { helpers } from "@editor/helpers";
+
 export const selectAddItemTitle = createSelector(
     fromData.selectSectionModelFromRoute,
-    section => !section
-        ? 'Add section'
-        : `Add block to '${section['name']}'` // todo: must be property that displayed in sections list
+    fromData.selectCurrentSchemaForEdit,
+    (section, schema) => {
+        if (!section)
+            return 'Add section';
+        const name = helpers.getSectionName(section, schema || null, 'section');
+        const result = `Add block to '${name}'`;
+        return result;
+    }
 );
 
 export const selectSectionGroupStates = createSelector(
@@ -99,22 +106,28 @@ export const selectAddItemContext = createSelector(
 
 export const selectCurrentItemName = createSelector(
     fromData.selectBlockModelFromRoute,
-    // fromData.selectSectionModelFromRoute,
-    (block /*, section*/) => block ? 'Edit current block' : 'Edit current section'
+    fromData.selectSectionModelFromRoute,
+    fromData.selectCurrentSchemaForEdit,
+    (block, section, schema) => {
+        const defaultName = block ? 'current block' : 'current section';
+        const name = helpers.getSectionName(block || section || null, schema || null, defaultName);
+        return 'Edit ' + name;
+    }
 );
 
-// export const selectCurrentItemActions = createSelector(
-
-// );
-
 export const selectEditSectionContext = createSelector(
+    fromData.selectBlockModelFromRoute,
+    fromData.selectSectionModelFromRoute,
+    fromData.selectBlockSchemaFromRoute,
+    fromData.selectSectionSchemaFromRoute,
     fromData.selectCurrentItemForEdit,
     fromData.selectCurrentSchemaForEdit,
-    (model, schema) => !!schema && !!model
+    (block, section, blockSchema, sectionSchema, model, schema) => !!schema && !!model
         ? <any>{
-            schema: schema,
-            section: model,
-            editContext: {}
+            block, section, blockSchema, sectionSchema, schema, model,
+            editContext: {
+                // todo: here should be context of editing, current page, block, section and so on
+            }
         }
         : null
 );

@@ -2,7 +2,9 @@ import { SectionPropertyDescriptor } from "@models/controls";
 
 export interface TemplateEntry {
     name: string;
-    path: string;
+    path?: string;
+    type?: string;
+    searchPath?: SearchPathEntry[];
     sort?: number;
     alias: string;
     previewUrl: string;
@@ -10,4 +12,11 @@ export interface TemplateEntry {
     sections?: string[];
     settings?: SectionPropertyDescriptor[];
     children?: any;
+    hasChildren: boolean;
+}
+
+export interface SearchPathEntry {
+    path: string;
+    type: string;
+    excludes?: string[];
 }

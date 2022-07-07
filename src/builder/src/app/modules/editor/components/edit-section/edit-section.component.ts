@@ -33,9 +33,9 @@ export class EditSectionComponent implements OnInit {
         this.store.dispatch(actions.sectionChangedAction({ changes: args.changes }));
     }
 
-    onContextMenuAction(action: ContextMenuAction, section: SectionModel) {
+    onContextMenuAction(action: ContextMenuAction, section: SectionModel, block: SectionModel) {
         if (action !== '|') {
-            this.store.dispatch(actions.executeContextMenuAction({ action: action.action, source: 'editor', section }));
+            this.store.dispatch(actions.executeContextMenuAction({ action: action.action, source: 'editor', section, block }));
         }
     }
 

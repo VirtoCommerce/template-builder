@@ -28,6 +28,7 @@ export function addItemToTemplate(schema: SectionSchema, template: TemplateModel
         if (sectionIndex === -1) {
             return template;
         }
+        const blocks = section.blocks || [];
         return {
             ...template,
             content: [
@@ -35,7 +36,7 @@ export function addItemToTemplate(schema: SectionSchema, template: TemplateModel
                 {
                     ...section,
                     blocks: [
-                        ...section.blocks,
+                        ...blocks,
                         model
                     ]
                 },
@@ -235,22 +236,28 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
 // }
 
 export function prepareTemplate(template: TemplateModel): TemplateModel {
-    return {
+    const result = {
         ...template,
-        content: template?.content.map(section => ({
-            ...section,
-            id: generateSectionId(section),
-            blocks: section.blocks?.map((block, jndex) => ({
-                ...block,
-                id: generateSectionId(block)
-            }))
-        }))
+        content: template?.content.map(section => {
+            const res = {
+                ...section,
+                id: generateSectionId(section)
+            };
+            if (section.blocks) {
+                res.blocks = section.blocks.map((block, jndex) => ({
+                    ...block,
+                    id: generateSectionId(block)
+                }));
+            }
+            return res;
+        })
     };
+
+    return result;
 }
 
-export function getSectionName(item: SectionModel, schemas: SectionsSchemasList): string {
-    const schema = schemas[item.type];
-    if (!!schema) {
+export function getSectionName(item: SectionModel | null, schema: SectionSchema | null, defaultValue: string | null = null): string {
+    if (!!schema && !!item) {
         if (schema.displayField) {
             const result = item[schema.displayField];
             if (!!result) {
@@ -258,11 +265,13 @@ export function getSectionName(item: SectionModel, schemas: SectionsSchemasList)
             }
         }
     }
-    const result = <string>item['name'];
-    if (!!result) {
-        return result;
+    if (!!item) {
+        const result = <string>item['name'];
+        if (!!result) {
+            return result;
+        }
     }
-    return item.type || '[no name]';
+    return defaultValue || item?.type || '[no name]';
 }
 
 export function insertBlock(template: TemplateModel, sectionId: string, blockId: string | null, block: SectionModel, direction: number): {
@@ -280,19 +289,20 @@ export function insertBlock(template: TemplateModel, sectionId: string, blockId:
     if (sectionIndex !== -1) {
         const section = template.content[sectionIndex];
         const blockIndex = direction === -1 ? -1 : section.blocks.findIndex(item => item.id === blockId);
+        const blocks = section.blocks || [];
         const newSection = blockIndex !== -1
             ? {
                 ...section,
                 blocks: [
-                    ...section.blocks.slice(0, blockIndex + direction),
+                    ...blocks.slice(0, blockIndex + direction),
                     newBlock,
-                    ...section.blocks.slice(blockIndex + direction)
+                    ...blocks.slice(blockIndex + direction)
                 ]
             }
             : {
                 ...section,
                 blocks: [
-                    ...section.blocks,
+                    ...blocks,
                     newBlock
                 ]
             };

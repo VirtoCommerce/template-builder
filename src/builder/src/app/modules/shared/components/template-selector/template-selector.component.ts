@@ -36,8 +36,12 @@ export class TemplateSelectorComponent implements OnInit {
     private convertTemplateToItem(value: TemplateEntry): MultipageSelectDescriptor {
         return {
             title: value.name,
-            alias: value.alias,
-            hasChildren: !!value.children
+            alias: this.generateTemplateAlias(value),
+            hasChildren: value.hasChildren
         };
+    }
+
+    private generateTemplateAlias(value: TemplateEntry): string {
+        return value.alias || (value.type!! + value.path!!);
     }
 }

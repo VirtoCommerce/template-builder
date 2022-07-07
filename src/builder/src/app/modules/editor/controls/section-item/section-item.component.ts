@@ -3,7 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ContextMenuAction } from '@core/models';
 import { SectionModel, SectionSchema } from '@models/document';
-import { ContextMenuHelper } from '@editor/helpers';
+import { ContextMenuHelper, helpers } from '@editor/helpers';
+
 
 @Component({
     selector: 'app-section-item',
@@ -54,10 +55,11 @@ export class SectionItemComponent implements OnInit {
     }
 
     getSectionName(): string {
-        if (this.sectionSchema?.displayField) {
-            return <string>this.section[this.sectionSchema.displayField] || this.section.type;
-        }
-        return this.section.type;
+        return helpers.getSectionName(this.section, this.sectionSchema);
+        // if (this.sectionSchema?.displayField) {
+        //     return <string>this.section[this.sectionSchema.displayField] || <string>this.section['name'] || this.section.type;
+        // }
+        // return <string>this.section['name'] || this.section.type;
     }
 
     getItemActions: () => Promise<ContextMenuAction[]> = () => {

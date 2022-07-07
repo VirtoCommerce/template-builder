@@ -150,9 +150,29 @@ export class TemplateEditorDomainEffects {
                     ? 0 // before
                     : -1; // to end of list
             if (value.wrongData !== true) {
+
+                // case when we paste block after or before section
+                // it's a wrong case, therefore we must display paste window
+                if(!!action.section && !action.block && value.type === 'block' && action.action !== 'paste-block') {
+                    return [
+                        sharedActions.showNotification({
+                            message: `Block can be inserted into section only`,
+                            msgType: 'info'
+                        }),
+                        actions.showClipboardModal({ ...action })
+                    ];
+                }
                 // paste block after or before
-                if (!!action.section && value.type === 'block') {
-                    if (sectionsSchemas[action.section.type].blocks?.includes(value.content.type)) {
+                else if (!!action.section && value.type === 'block') {
+                    let accept = false;
+                    try {
+                        const blocks = sectionsSchemas[action.section.type].blocks;
+                        accept = !!(blocks && blocks.includes(value.content.type));
+                    } catch (error) {
+                        console.log(error);
+                    }
+
+                    if (accept) {
                         const changedTemplate = editorHelpers.insertBlock(template!, action.section.id, action.block?.id || null, value.content, direction);
                         return [
                             actions.updateTemplateAction({
@@ -179,7 +199,8 @@ export class TemplateEditorDomainEffects {
                 }
                 // paste section after or before
                 if (value.type === 'section') {
-                    if ((!action.section || !!sectionsSchemas[action.section.type]) && templateEntry.sections?.includes(value.content.type)) {
+                    if ((!action.section || !!sectionsSchemas[action.section.type]) &&
+                        (!templateEntry.sections || !templateEntry.sections.length || templateEntry.sections?.includes(value.content.type))) {
                         const changedTemplate = editorHelpers.insertSection(template!, action.section?.id || null, value.content, direction);
                         return [
                             actions.updateTemplateAction({

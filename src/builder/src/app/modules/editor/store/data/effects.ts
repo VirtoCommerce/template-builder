@@ -87,7 +87,7 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromShared.selectCurrentTemplateEntry)
         ),
         filter(([, templateEntry]) => !!templateEntry && !!templateEntry.path),
-        switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry.path).pipe(
+        switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             map(template => actions.loadTemplateModelSuccess({ template, alias })),
@@ -112,7 +112,7 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromShared.selectCurrentTemplateEntry)
         ),
         filter(([x, state, model]) => x.action === 'save' && state!.isDirty && !!model),
-        switchMap(([, , model, entry]) => this.templates.saveTemplate({ [entry.path]: model! }).pipe(
+        switchMap(([, , model, entry]) => this.templates.saveTemplate([{ path: entry.path!, type: entry.type!, content: model! }]).pipe(
             map(() => actions.saveTemplateSuccess({ alias: entry!.alias })),
             catchError(error => of(actions.saveTemplateFails({ error })))
         ))

@@ -40,7 +40,7 @@ import { MultipageSelectDescriptor } from '@core/models';
 })
 export class MultipageSelectComponent implements OnInit {
 
-    @Input() title: string = '';
+    @Input() title: string = 'Templates';
     @Input() filter: string = '';
     @Input() panelClass: string = '';
     @Input() filterPlaceholder: string = '';
@@ -50,6 +50,7 @@ export class MultipageSelectComponent implements OnInit {
 
     @Output() itemSelected = new EventEmitter<MultipageSelectDescriptor>();
     @Output() filterChanged = new EventEmitter<string>();
+    @Output() childrenRequested = new EventEmitter<MultipageSelectDescriptor>();
 
     isOpen = false;
     parent: MultipageSelectDescriptor | null = null;
@@ -88,6 +89,7 @@ export class MultipageSelectComponent implements OnInit {
     showChildren(item: MultipageSelectDescriptor) {
         if (item.hasChildren) {
             this.parent = item;
+            this.childrenRequested.emit(item);
         } else {
             this.selectItem(item);
         }

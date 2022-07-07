@@ -3,7 +3,7 @@
         <ng-container *ngIf="viewModel$|async as vm">
             <app-dynamic-form [context]="vm.editContext"
                               [descriptors]="vm.schema.settings"
-                              [sectionModel]="vm.section"
+                              [sectionModel]="vm.model"
                               (modelChanged)="onModelChanged($event)"></app-dynamic-form>
         </ng-container>
         <ng-container title-content>
@@ -11,18 +11,18 @@
                 <app-icon class="back-icon" (click)="onBackClick()" [hoverable]="true" title="Back">chevron_left
                 </app-icon>
                 <ng-container *ngIf="viewModel$|async as vm">
-                    <div class="edit-section-title" [ngClass]="{ 'invisible-section': vm.section.hidden }">
+                    <div class="edit-section-title" [ngClass]="{ 'invisible-section': vm.model.hidden }">
                         <div class="whitespace-normal">{{ sectionName$|async }}</div>
                         <div class="section-info">
-                            <span [cdkCopyToClipboard]="vm.section.type">Type: {{ vm.section.type }}<app-icon
+                            <span [cdkCopyToClipboard]="vm.model.type">Type: {{ vm.model.type }}<app-icon
                                           [inline]="true">content_copy</app-icon></span><br />
-                            <span [cdkCopyToClipboard]="vm.section.id">ID: {{ vm.section.id }}<app-icon [inline]="true">
+                            <span [cdkCopyToClipboard]="vm.model.id">ID: {{ vm.model.id }}<app-icon [inline]="true">
                                     content_copy</app-icon></span>
                         </div>
                     </div>
                     <app-context-menu [visible]="true"
-                                      [getActions]="getItemActionsFactory(vm.section, vm.schema)"
-                                      (onAction)="onContextMenuAction($event, vm.section)"></app-context-menu>
+                                      [getActions]="getItemActionsFactory(vm.model, vm.schema)"
+                                      (onAction)="onContextMenuAction($event, vm.section, vm.block)"></app-context-menu>
                 </ng-container>
             </div>
         </ng-container>

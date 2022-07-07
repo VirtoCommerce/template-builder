@@ -14,7 +14,7 @@ export const selectTemplatesEntries = createSelector(
 export const selectTemplatesEntriesAsList = createSelector(
     selectTemplatesEntries,
     templates => Object.keys(templates)
-        .map(key => ({ ...templates[key], alias: key }))
+        .map(key => ({ ...templates[key], alias: key, hasChildren: !!templates[key].children || (!!templates[key].searchPath && !!templates[key].searchPath!.length ) }))
         .sort((x, y) => x.sort === undefined
             ? 1
             : y.sort === undefined
