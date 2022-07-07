@@ -7,6 +7,7 @@ export interface ControlContext {
     settings: SectionModel;
     index: number;
     item: any;
+    element?: any; // element in the collection
     parent?: ControlContext
 
     // filter: string | null; note! was used to filter by tabs in old version. should not be used in new version

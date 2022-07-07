@@ -1,0 +1,18 @@
+.item-wrapper {
+    @apply flex flex-col;
+}
+.label-wrapper {
+    @apply flex flex-row border-y p-2 items-center;
+    &:hover, &.expanded {
+        background: #EDEDED;
+    }
+    &.expanded {
+        .chevron {
+            transform: rotate(90deg);
+        }
+    }
+    .pb-label {
+        @apply grow;
+    }
+    // transition: height .2s; // todo: animate expand/collapse
+}

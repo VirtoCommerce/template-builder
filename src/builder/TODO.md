@@ -34,3 +34,6 @@
 * remove from tsconfig.json
   * "resolveJsonModule": true,
   * "allowSyntheticDefaultImports": true,
+
+* theme name is always 'default' in module
+

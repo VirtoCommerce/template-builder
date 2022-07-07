@@ -1,5 +1,32 @@
-<div class="collection-wrapper">
-    Collection
+<label [attr.title]="descriptor.hint" class="pb-label">{{ descriptor.label }}</label>
+<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>
+<div class="collection-wrapper" [formGroup]="form">
+    <div formArrayName="list" *ngFor="let item of collectionFormArray.controls; let i = index">
+        <div class="item-wrapper">
+            <div class="label-wrapper"
+                 (mouseenter)="hoverItem = item"
+                 (mouseleave)="hoverItem = null"
+                 (click)="toggle(item)">
+                <app-icon class="chevron" [hoverable]="true">chevron_right</app-icon>
+                <label [attr.title]="descriptor.hint" class="pb-label">{{ getTitle(item.value, i) }}</label>
+                <app-context-menu [actions]="itemActions"
+                                  [visible]="hoverItem === item"
+                                  (onAction)="onActionClick($event)"></app-context-menu>
+                <!-- <app-drag-handle cdkDragHandle></app-drag-handle> -->
+                <app-drag-handle></app-drag-handle>
+            </div>
+            <div *ngIf="item === openedItem">
+                <app-controls-list [currentForm]="$any(item)"
+                                   [descriptors]="descriptor.element"
+                                   [context]="getContext($any(item), i)"></app-controls-list>
+                <p *ngIf="descriptor.info" class="info px-2">{{ descriptor.info }}</p>
+            </div>
+        </div>
+    </div>
+    <app-icon-button icon="add"
+                     skin="blue"
+                     [text]="descriptor.addText || 'Add item'"
+                     (click)="addItem()"></app-icon-button>
 </div>
 
 <!-- <div class="object-wrapper" [ngClass]="{ expanded: expanded }">
