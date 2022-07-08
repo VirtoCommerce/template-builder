@@ -12,4 +12,7 @@ export class DragHandleComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    onClick(event: MouseEvent) {
+        event.stopPropagation();
+    }
 }

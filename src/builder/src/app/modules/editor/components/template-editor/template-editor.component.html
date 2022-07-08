@@ -7,7 +7,7 @@
                                                [opened]="vm.sectionsState![section.id]?.expanded || false"
                                                cdkDragBoundary=".ps"
                                                cdkDragLockAxis="y"
-                                               cdkDrag="section"
+                                               cdkDrag
                                                (cdkDragStarted)="sectionDragStarted(section)"
                                                (cdkDragReleased)="sectionDragCompleted(section)"
                                                (openChanged)="toggleSection(section.id, vm.templateState!.id)">

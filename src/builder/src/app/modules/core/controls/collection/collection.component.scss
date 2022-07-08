@@ -1,9 +1,17 @@
+:host {
+    @apply border-y block p-4 -m-4;
+}
+
 .item-wrapper {
-    @apply flex flex-col;
+    user-select: none;
+    @apply flex flex-col bg-white;
 }
 .label-wrapper {
-    @apply flex flex-row border-y p-2 items-center;
-    &:hover, &.expanded {
+    @apply flex flex-row border-y py-2 px-4 items-center;
+    &.expanded, &.expanded:hover {
+        background-color: #F6F9FD;
+    }
+    &:hover {
         background: #EDEDED;
     }
     &.expanded {
@@ -15,4 +23,21 @@
         @apply grow;
     }
     // transition: height .2s; // todo: animate expand/collapse
+}
+.chevron {
+    transition: transform .2s;
+}
+.editor-wrapper {
+    background-color: #F6F9FD;
+    @apply px-4 py-2;
+}
+.collection-wrapper {
+    @apply -mx-4;
+}
+.info {
+    font-size: 0.75rem;
+}
+
+::ng-deep .add-button button {
+    @apply px-4;
 }

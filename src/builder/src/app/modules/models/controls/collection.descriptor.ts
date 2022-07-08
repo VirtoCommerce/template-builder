@@ -4,5 +4,7 @@ import { BaseControlDescriptor } from '.';
 export interface CollectionDescriptor extends BaseControlDescriptor {
     addText?: string;
     displayField?: string;
+    skipRemoveConfirmation?: boolean;
+    removeMessage?: string;
     element: ControlDescriptor[];
 }

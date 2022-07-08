@@ -1,12 +1,14 @@
+import { ModalService } from './../../services/modal.service';
 import { Component } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
 import { CollectionDescriptor } from '@models/controls';
 
-import { ContextMenuAction, ControlContext } from '@core/models';
+import { ContextMenuAction, ContextMenuActionType, ControlContext } from '@core/models';
 import { coreHelpers, formsHelpers } from '@core/helpers';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'app-collection',
@@ -34,15 +36,6 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
 
     form!: FormGroup;
     collectionFormArray!: FormArray;
-    // expanded = false;
-
-    // constructor() {
-    //     super();
-    // }
-
-    // getTitle(): string {
-    //     return (!!this.descriptor.displayField && this.controlValue[this.descriptor.displayField]) || this.descriptor.label || this.descriptor.title || '[no title]';
-    // }
 
     toggle(item: any) {
         if (this.openedItem === item) {
@@ -50,6 +43,10 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         } else {
             this.openedItem = item;
         }
+    }
+
+    constructor(private modals: ModalService) {
+        super();
     }
 
     getContext(item: FormGroup, index: number): ControlContext {
@@ -67,6 +64,10 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
             super.setControlValue(value);
             this.collectionFormArray = formsHelpers.generateFormArray(value, this.descriptor.element);
             this.form = new FormGroup({ list: this.collectionFormArray });
+            this.unsubscribe();
+            this.subscription = this.form.valueChanges.subscribe(x => {
+                this.onValueChanged(x.list);
+            });
         }
     }
 
@@ -75,38 +76,42 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }
 
     addItem() {
-        this.collectionFormArray.push(formsHelpers.generateForm(coreHelpers.createDefaultObject(this.descriptor.element), this.descriptor.element));
+        const item = formsHelpers.generateForm(
+            coreHelpers.createDefaultObject(this.descriptor.element),
+            this.descriptor.element
+        );
+        this.collectionFormArray.push(item);
+        this.openedItem = item;
     }
 
-    onActionClick(event: any) {
-        console.log(event);
+    onActionClick(event: ContextMenuActionType, item: AbstractControl, index: number) {
+        if (event.action === 'duplicate') {
+            const newItem = formsHelpers.generateForm(item.value, this.descriptor.element);
+            this.collectionFormArray.insert(index + 1, newItem);
+            this.openedItem = newItem;
+        } else if (event.action === 'delete') {
+            if (!this.descriptor.skipRemoveConfirmation) {
+                this.modals.confirm(this.descriptor.removeMessage || 'Do you want to delete this item?').subscribe((data: any) => {
+                    if (data) {
+                        this.collectionFormArray.removeAt(index);
+                    }
+                });
+            } else {
+                this.collectionFormArray.removeAt(index);
+            }
+        }
     }
 
+    reorderItems(event: CdkDragDrop<any>) {
+        const item = this.collectionFormArray.at(event.previousIndex);
+        this.collectionFormArray.removeAt(event.previousIndex);
+        this.collectionFormArray.insert(event.currentIndex, item);
+    }
 
-
-    // override setControlValue(value: any) {
-    //     if (this.controlValue !== value || !this.objectForm) {
-    //         const v = value || coreHelpers.createDefaultObject(this.descriptor.element);
-    //         super.setControlValue(v);
-    //         this.objectForm = formsHelpers.generateForm(v, this.descriptor.element);
-    //         this.unsubscribe();
-    //         this.subscription = this.objectForm.valueChanges.subscribe(x => {
-    //             this.onValueChanged(x);
-    //         });
-    //     }
-    // }
-
-    // override registerOnValueChanged(fn: any): void {
-    //     this.onValueChanged = value => {
-    //         this.controlValue = value;
-    //         fn(value);
-    //     };
-    // }
-
-    // private unsubscribe() {
-    //     if (!!this.subscription) {
-    //         this.subscription.unsubscribe();
-    //         this.subscription = null;
-    //     }
-    // }
+    private unsubscribe() {
+        if (!!this.subscription) {
+            this.subscription.unsubscribe();
+            this.subscription = null;
+        }
+    }
 }

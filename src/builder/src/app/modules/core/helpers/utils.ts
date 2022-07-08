@@ -27,6 +27,9 @@ export function groupSections(list: SectionSchema[]): ItemsGroup<SectionSchema>[
     return [];
 }
 
-export function createDefaultObject(settings: ControlDescriptor[]) {
+export function createDefaultObject(settings: ControlDescriptor[]): any {
+    if (!settings) {
+        return {};
+    }
     return settings.filter(x => typeof(x.default) !== 'undefined').reduce((acc, value) => ({...acc, [<string>value.id] : value.default}), {});
 }

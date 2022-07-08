@@ -9,6 +9,7 @@ export class ChevronComponent implements OnInit {
 
     @Input() opened = false;
     @Input() vertical = false;
+    @Input() hoverable = true;
 
     constructor() { }
 
