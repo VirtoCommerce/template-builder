@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FileUploadControl } from '@iplab/ngx-file-upload';
@@ -31,7 +31,8 @@ export class FilesComponent extends BaseControlDirective<FilesDescriptor> {
 
     constructor(
         private modals: ModalService,
-        private data: AssetsService) {
+        private data: AssetsService,
+        private cdr: ChangeDetectorRef) {
         super();
     }
 
@@ -95,6 +96,7 @@ export class FilesComponent extends BaseControlDirective<FilesDescriptor> {
     uploadItem(file: AssetFile, index: number, items: Array<AssetFile>) {
         if (!file.uploaded && !file.uploading) {
             file.uploading = true;
+            file.error = null;
             const context = this.getContext(file, index);
             this.data.uploadAsset(file, this.descriptor, context, value => {
                 file.progress = value;
@@ -102,15 +104,16 @@ export class FilesComponent extends BaseControlDirective<FilesDescriptor> {
                 next: (_) => {
                     // result of request is the same object as file
                     file.uploaded = true;
+                    file.uploading = false;
                     file.previewUrl = this.data.getPreviewUrl(file, this.descriptor, context);
                     file.error = null;
                     this.raiseValueChanged();
+                    this.cdr.detectChanges();
                 },
                 error: (error: HttpErrorResponse) => {
                     file.error = error.message;
-                },
-                complete: () => {
                     file.uploading = false;
+                    this.cdr.detectChanges();
                 }
             });
         }

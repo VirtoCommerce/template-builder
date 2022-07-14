@@ -36,7 +36,7 @@
                 <app-drag-handle *ngIf="descriptor.sortable" cdkDragHandle></app-drag-handle>
             </div>
             <div class="progress" *ngIf="$any(file).uploading">{{ $any(file).progress }}</div>
-            <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="blue" (click)="uploadItem($any(file), i, $any(control.value))">reload</span></div>
+            <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload" (click)="uploadItem($any(file), i, $any(control.value))">reload</span></div>
             <div *ngIf="selectedFile === file && elementForm" class="px-4">
                 <app-controls-list [currentForm]="elementForm"
                                    [descriptors]="descriptor.element"

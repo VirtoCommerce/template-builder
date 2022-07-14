@@ -9,9 +9,9 @@ import { ServerRequestDescriptor } from '@models/http';
 export class DataService {
     constructor(private http: BuilderHttpClient, private evaluator: EvaluatorService) { }
 
-    doRequest(request: ServerRequestDescriptor | string, context: any, data: any = null): Observable<any> {
+    doRequest(request: ServerRequestDescriptor | string, context: any, data: any = null, httpServiceOptions: any = null): Observable<any> {
         const targetRequest = this.evaluator.evaluate(request, context);
         const serverRequest = this.http.generateRequest(targetRequest, data);
-        return this.http.doRequest(serverRequest);
+        return this.http.doRequest(serverRequest, httpServiceOptions);
     }
 }

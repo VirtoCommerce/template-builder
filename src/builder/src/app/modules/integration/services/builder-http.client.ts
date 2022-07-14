@@ -11,15 +11,20 @@ import { appHelpers } from '@integration/helpers';
 })
 export class BuilderHttpClient extends HttpClient {
 
+    private _defaultOpts = {
+        nullWhenError: true
+    };
+
     private cacheSize = 100;
 
     private _cache: Map<string, any> = new Map();
 
-    doRequest<T>(request: ServerRequestDescriptor | null): Observable<T | null> {
+    doRequest<T>(request: ServerRequestDescriptor | null, additionalOptions: any = null): Observable<T | null> {
         if (!request) {
             return of(null);
         }
         const { method, url, body, options } = request;
+        const opts = { ...this._defaultOpts, ...additionalOptions};
 
         if (!url) {
             return of(null);
@@ -52,15 +57,20 @@ export class BuilderHttpClient extends HttpClient {
                 })
             );
         }
-        return result.pipe(
+        result = result.pipe(
             map(response => {
                 return this.mapResponseToResult(response, request.response || null);
-            }),
-            catchError(error => {
-                console.log(error);
-                return of(null);
             })
         );
+        if (opts.nullWhenError) {
+            result = result.pipe(
+                catchError(error => {
+                    console.log(error);
+                    return of(null);
+                })
+            );
+        }
+        return result;
     }
 
     generateRequest(request: string | ServerRequestDescriptor | null, data: any = null): ServerRequestDescriptor | null {

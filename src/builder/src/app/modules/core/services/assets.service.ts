@@ -41,7 +41,7 @@ export class AssetsService {
             file.assetName = this.randomizeAssetName(file.name);
             request = this.getRequest(descriptor, context);
         }
-        return this.data.doRequest(<AssetsRequest>request, context, file).pipe(
+        return this.data.doRequest(<AssetsRequest>request, context, file, { nullWhenError: false }).pipe(
             map(response => {
                 const req = <AssetsRequest>request;
                 if (req.resultTemplate) {

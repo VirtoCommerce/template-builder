@@ -55,3 +55,11 @@ file-upload {
         background: #F0F0F0;
     }
 }
+.error {
+    color: #FF0000;
+    font-size: .75rem;
+    .reload {
+        @apply cursor-pointer;
+        color: #1665d8;
+    }
+}
