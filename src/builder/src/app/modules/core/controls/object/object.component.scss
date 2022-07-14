@@ -10,12 +10,6 @@
     &:hover, &.expanded {
         background-color: #F6F9FD;
     }
-    &.expanded {
-        .chevron {
-            transform: rotate(90deg);
-        }
-    }
-    // transition: height .2s; // todo: animate expand/collapse
 }
 
 .chevron {

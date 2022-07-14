@@ -20,6 +20,16 @@
     @apply rounded;
 }
 
+app-icon {
+    font-size: 1.5rem;
+}
+
+app-chevron {
+    height: 1.5rem;
+    width: 1.5rem;
+    font-size: 1.5rem;
+}
+
 // select control
 
 // check, may be it can be overrided for whole theme

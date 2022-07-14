@@ -7,6 +7,10 @@
 button {
     @apply flex flex-row items-center w-full p-2 rounded space-x-2;
 
+    app-icon {
+        font-size: 1.5rem;
+    }
+
     &:hover {
         background: #F6F6F6;
     }

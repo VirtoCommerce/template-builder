@@ -29,6 +29,7 @@ file-upload {
     .delete-icon {
         visibility: hidden;
         cursor: pointer;
+        font-size: 1rem;
     }
     &:hover {
         background: #F6F6F6;
@@ -39,6 +40,9 @@ file-upload {
 }
 .file-name {
     @apply whitespace-nowrap truncate grow min-w-0;
+}
+.file-type {
+    font-size: 1rem;
 }
 .show-all {
     background: #F6F6F6;

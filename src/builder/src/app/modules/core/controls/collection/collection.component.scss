@@ -2,12 +2,16 @@
     @apply border-y block p-4 -m-4;
 }
 
+.toggler {
+    transform: scale(.75);
+}
+
 .item-wrapper {
     user-select: none;
-    @apply flex flex-col bg-white;
+    @apply flex flex-col bg-white border-y;
 }
 .label-wrapper {
-    @apply flex flex-row border-y py-2 px-4 items-center;
+    @apply flex flex-row py-2 px-4 items-center;
     &.expanded, &.expanded:hover {
         background-color: #F6F9FD;
     }
@@ -36,8 +40,13 @@
 }
 .info {
     font-size: 0.75rem;
+    padding-bottom: .75rem;
 }
 
 ::ng-deep .add-button button {
     @apply px-4;
+}
+
+.collection-title {
+    font-weight: bold;
 }

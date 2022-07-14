@@ -29,7 +29,7 @@
                  cdkDragBoundary=".file-list"
                  cdkDragLockAxis="y"
                  cdkDrag>
-                <app-chevron *ngIf="descriptor.element && descriptor.element.length" [opened]="selectedFile === file"></app-chevron>
+                <app-chevron *ngIf="descriptor.element && descriptor.element.length" [opened]="selectedFile === file" (click)="selectFile($any(file))"></app-chevron>
                 <app-icon class="file-type">attachment</app-icon>
                 <div class="file-name" [title]="file.name" (click)="selectFile($any(file))">{{ file.name }}</div>
                 <app-icon class="delete-icon" (click)="deleteFile($any(file))">delete</app-icon>
