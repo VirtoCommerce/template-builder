@@ -1,16 +1,6 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
 <div *ngIf="control">
     <file-upload [control]="control" [multiple]="!!descriptor.multiple">
-        <!-- <ng-template let-i="index" let-file="file" let-control="control" #item>
-            <div class="flex flex-row">
-                <span class="grow file-name">
-                    <a [href]="file.webkitRelativePath" download>
-                        {{ file.name }}
-                    </a>
-                </span>
-                <button (click)="control.removeFile(file)">X</button>
-            </div>
-        </ng-template> -->
         <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
             <div *ngIf="isFileDragDropAvailable" class="add-files">
                 Add file or drop files to upload
@@ -22,9 +12,9 @@
     <div class="file-list"
          cdkDropList
          [ngStyle]="{ 'max-height': getMaxListHeight() }"
-         *ngIf="control.value.length > 0"
+         *ngIf="innerValue.length > 0"
          (cdkDropListDropped)="reorderItems($event)">
-        <ng-container *ngFor="let file of control.value; let i = index">
+        <ng-container *ngFor="let file of innerValue; let i = index">
             <div class="file-item"
                  cdkDragBoundary=".file-list"
                  cdkDragLockAxis="y"
@@ -36,7 +26,7 @@
                 <app-drag-handle *ngIf="descriptor.sortable" cdkDragHandle></app-drag-handle>
             </div>
             <div class="progress" *ngIf="$any(file).uploading">{{ $any(file).progress }}</div>
-            <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload" (click)="uploadItem($any(file), i, $any(control.value))">reload</span></div>
+            <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload" (click)="uploadItem($any(file), i)">reload</span></div>
             <div *ngIf="selectedFile === file && elementForm" class="px-4">
                 <app-controls-list [currentForm]="elementForm"
                                    [descriptors]="descriptor.element"
