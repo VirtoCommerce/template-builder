@@ -7,5 +7,21 @@
     "settingsSchemaUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_schema.json&type=themes",
     "saveSettings": "/api/pagebuilder/save?storeId=B2B-store",
     "settingsPath": "config/settings_data.json",
-    "defaultPreviewUrl": "/"
+    "defaultPreviewUrl": "/",
+    "uploadAssetsRequest": {
+        "url": "/api/content/pages/B2B-store?folderUrl=/assets/pages&name={{file.assetName}}",
+        "method": "POST",
+        "form": { "name": "uploadedFile", "fileName": "{{file.assetName}}" },
+        "response": { "result": "$[0].url", "isArray": false }
+    },
+    "inlineAssetsRequest": "inline",
+    "fullUploadAssetsRequest": {
+        "url": "/api/content/pages/B2B-store?folderUrl=/assets/pages&name={{file.assetName}}",
+        "method": "POST",
+        "randomizeAssetName": true,
+        "resultTemplate": "{{response}}",
+        "previewTemplate": "http://localhost:2082{{response}}",
+        "form": { "name": "uploadedFile", "fileName": "{{file.assetName}}" },
+        "response": { "result": "$[0].url", "isArray": false }
+    }
 }

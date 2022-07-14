@@ -89,7 +89,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
         if (this.descriptor.request) {
             const context = cloneDeep(this.context);
             context.__searchQuery = filter;
-            result = this.data.getData(this.descriptor.request, context).pipe(
+            result = this.data.doRequest(this.descriptor.request, context).pipe(
                 map(items => items?.map((x: any) => ({
                     label: x[this.descriptor.request.label],
                     group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,

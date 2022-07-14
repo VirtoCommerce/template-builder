@@ -160,25 +160,25 @@ export const selectToolbarButtonsState = createSelector(
                 type: 'outline'
             }
         ],
-        [
-            {
-                alias: 'preview',
-                title: 'Preview',
-                type: 'outline'
-            }
-        ],
-        [
-            {
-                canAction: false,
-                icon: 'undo',
-                alias: 'undo'
-            },
-            {
-                canAction: false,
-                icon: 'redo',
-                alias: 'redo'
-            }
-        ],
+        // [
+        //     {
+        //         alias: 'preview',
+        //         title: 'Preview',
+        //         type: 'outline'
+        //     }
+        // ],
+        // [
+        //     {
+        //         canAction: false,
+        //         icon: 'undo',
+        //         alias: 'undo'
+        //     },
+        //     {
+        //         canAction: false,
+        //         icon: 'redo',
+        //         alias: 'redo'
+        //     }
+        // ],
         [
             {
                 canAction: state?.isDirty,

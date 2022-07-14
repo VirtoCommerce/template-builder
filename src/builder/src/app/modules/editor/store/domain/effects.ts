@@ -37,13 +37,17 @@ export class TemplateEditorDomainEffects {
         ofType(actions.addItemAction),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, { template }]) => !!template),
-        switchMap(([{ schema }, { template, section, templateId }]) => [
-            actions.updateTemplateAction({
-                template: editorHelpers.addItemToTemplate(schema, template!, section!), // section can be null
-                alias: templateId
-            }),
-            actions.closeAddItemPanel()
-        ])
+        switchMap(([{ schema }, { template, section, templateId }]) => {
+            const result = editorHelpers.addItemToTemplate(schema, template!, section!); // section can be null
+            return [
+                actions.updateTemplateAction({
+                    template: result.template,
+                    alias: templateId
+                }),
+                actions.closeAddItemPanel(),
+                result.blockId ? actions.editBlockAction({ blockId: result.blockId, sectionId: result.sectionId }) : actions.editSectionAction({ sectionId: result.sectionId })
+            ]
+        })
     ));
 
     updateEditableModel$ = createEffect(() => this.actions$.pipe(
@@ -153,7 +157,7 @@ export class TemplateEditorDomainEffects {
 
                 // case when we paste block after or before section
                 // it's a wrong case, therefore we must display paste window
-                if(!!action.section && !action.block && value.type === 'block' && action.action !== 'paste-block') {
+                if (!!action.section && !action.block && value.type === 'block' && action.action !== 'paste-block') {
                     return [
                         sharedActions.showNotification({
                             message: `Block can be inserted into section only`,

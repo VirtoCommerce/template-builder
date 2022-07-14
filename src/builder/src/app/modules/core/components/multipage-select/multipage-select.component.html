@@ -25,7 +25,7 @@
                     <h3 class="list-title">{{ title }}</h3>
                 </div>
                 <app-separator></app-separator>
-                <ul class="flex-grow overflow-y-auto relative" [perfectScrollbar]>
+                <ul class="grow overflow-y-auto relative" [perfectScrollbar]>
                     <li *ngFor="let item of items">
                         <button class="list-item-btn"
                                 [attr.title]="getItemName(item)"
@@ -45,7 +45,7 @@
                     <h3 class="list-title">{{ parent.title }}</h3>
                 </div>
                 <app-separator></app-separator>
-                <ul class="flex-grow overflow-y-auto">
+                <ul class="grow overflow-y-auto">
                     <li *ngFor="let item of parent.children">
                         <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
                                 (click)="selectItem(item)">

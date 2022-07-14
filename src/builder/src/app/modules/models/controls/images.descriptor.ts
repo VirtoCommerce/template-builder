@@ -1,4 +1,4 @@
-import { BaseControlDescriptor } from "./base-control.descriptor";
+import { FilesDescriptor } from './files.descriptor';
 
-export interface ImagesDescriptor extends BaseControlDescriptor {
+export interface ImagesDescriptor extends FilesDescriptor {
 }

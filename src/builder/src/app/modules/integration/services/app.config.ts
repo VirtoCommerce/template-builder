@@ -246,7 +246,8 @@ export type OptionName = 'templatesListUrl'
     | 'settingsSchemaUrl'
     | 'saveSettings'
     | 'settingsPath'
-    | 'defaultPreviewUrl';
+    | 'defaultPreviewUrl'
+    | 'uploadAssetsRequest';
 
 // 'fullPreviewUrl'
 //     | 'waitPreviewResponseTimeout'

@@ -1,11 +1,11 @@
-import { AfterContentInit, Directive, ElementRef, Input, OnInit } from "@angular/core";
+import { AfterContentInit, Directive, ElementRef, Input, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 // import { FormGroup } from '@angular/forms';
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
 
 @Directive()
-export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit {
+export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit, OnDestroy {
 
     descriptor!: T;
     context!: ControlContext;
@@ -18,6 +18,10 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     ngOnInit(): void {
         this.initContent();
+    }
+
+    ngOnDestroy(): void {
+        this.destroyContent();
     }
 
     ngAfterContentInit(): void {
@@ -68,4 +72,5 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     }
 
     protected initContent() { }
+    protected destroyContent() { }
 }

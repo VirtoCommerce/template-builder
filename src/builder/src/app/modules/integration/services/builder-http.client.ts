@@ -15,7 +15,7 @@ export class BuilderHttpClient extends HttpClient {
 
     private _cache: Map<string, any> = new Map();
 
-    doRequest<T>(request: ServerRequestDescriptor): Observable<T | null> {
+    doRequest<T>(request: ServerRequestDescriptor | null): Observable<T | null> {
         if (!request) {
             return of(null);
         }

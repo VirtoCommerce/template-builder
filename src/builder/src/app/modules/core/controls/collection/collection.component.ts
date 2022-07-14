@@ -108,6 +108,10 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         this.collectionFormArray.insert(event.currentIndex, item);
     }
 
+    protected override destroyContent(): void {
+        this.unsubscribe();
+    }
+
     private unsubscribe() {
         if (!!this.subscription) {
             this.subscription.unsubscribe();

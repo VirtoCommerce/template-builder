@@ -12,7 +12,7 @@
 }
 
 .items {
-    @apply flex-grow overflow-y-auto flex flex-col;
+    @apply grow overflow-y-auto flex flex-col;
 }
 
 .search-holder {

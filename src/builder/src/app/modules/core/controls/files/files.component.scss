@@ -1,0 +1,53 @@
+file-upload {
+    @apply bg-white flex flex-col items-center justify-center;
+    border: 2px dashed #8C9196;
+    min-height: 4rem;
+    border-radius: .5rem;
+    outline: none;
+    padding: .5rem;
+    ::ng-deep .upload-input {
+        transform: none;
+        @apply block static text-center;
+    }
+    &.dragover {
+        background: #F6F6F6;
+    }
+}
+.file-list {
+    @apply flex flex-col mt-1 overflow-hidden;
+    app-icon.file-type, app-icon.delete-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+    transition: height 2s;
+}
+.file-item {
+    @apply flex flex-row items-center space-x-1 p-1 rounded bg-white cursor-default select-none;
+    &.has-extra-props {
+        @apply cursor-pointer;
+    }
+    .delete-icon {
+        visibility: hidden;
+        cursor: pointer;
+    }
+    &:hover {
+        background: #F6F6F6;
+        .delete-icon {
+            visibility: visible;
+        }
+    }
+}
+.file-name {
+    @apply whitespace-nowrap truncate grow min-w-0;
+}
+.show-all {
+    background: #F6F6F6;
+    color: #1665d8;
+    @apply mt-2 block text-center rounded;
+    ::ng-deep .text {
+        @apply block grow;
+    }
+    &:hover ::ng-deep button {
+        background: #F0F0F0;
+    }
+}

@@ -11,37 +11,48 @@ import {
 // todo: refactor these
 // replace section/block in collection can be extracted and done with lodash
 
-export function addItemToTemplate(schema: SectionSchema, template: TemplateModel, section: SectionModel | null): TemplateModel {
+export function addItemToTemplate(schema: SectionSchema, template: TemplateModel, section: SectionModel | null): {
+    template: TemplateModel,
+    sectionId: string,
+    blockId?: string
+} {
     const model = generateModelBySchema(schema);
     model.id = generateSectionId(model); // id generator center requried
 
     if (!section) {
         return {
-            ...template,
-            content: [
-                ...template.content,
-                model
-            ]
+            template: {
+                ...template,
+                content: [
+                    ...template.content,
+                    model
+                ]
+            },
+            sectionId: model.id
         };
     } else {
         const sectionIndex = template.content.findIndex(item => item.id === section.id);
         if (sectionIndex === -1) {
-            return template;
+            return { template, sectionId: section.id };
         }
         const blocks = section.blocks || [];
         return {
-            ...template,
-            content: [
-                ...template.content.slice(0, sectionIndex),
-                {
-                    ...section,
-                    blocks: [
-                        ...blocks,
-                        model
-                    ]
-                },
-                ...template.content.slice(sectionIndex + 1)
-            ]
+            template: {
+                ...template,
+                content: [
+                    ...template.content.slice(0, sectionIndex),
+                    {
+                        ...section,
+                        blocks: [
+                            ...blocks,
+                            model
+                        ]
+                    },
+                    ...template.content.slice(sectionIndex + 1)
+                ]
+            },
+            sectionId: section.id,
+            blockId: model.id
         };
     }
 }
