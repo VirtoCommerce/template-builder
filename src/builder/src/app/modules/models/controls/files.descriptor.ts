@@ -6,6 +6,7 @@ export interface FilesDescriptor extends BaseControlDescriptor {
     multiple?: boolean;
     sortable?: boolean;
     accept?: string;
+    maxFileSize?: number;
     collapseThreshold?: number;
     collapseCount?: number;
     skipRemoveConfirmation?: boolean;

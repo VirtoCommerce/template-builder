@@ -1,0 +1,132 @@
+file-upload {
+    @apply bg-white flex flex-col items-center justify-center;
+    border: 2px dashed #8C9196;
+    min-height: 4rem;
+    border-radius: .5rem;
+    outline: none;
+    padding: .5rem;
+
+    ::ng-deep .upload-input {
+        transform: none;
+        @apply block static text-center;
+    }
+
+    &.dragover {
+        background: #F6F6F6;
+    }
+}
+
+.images-list {
+    @apply flex flex-row flex-wrap mt-1 overflow-hidden relative;
+    gap: 1rem;
+}
+
+.image-item-wrapper {
+    @apply w-32 h-32 rounded cursor-default select-none overflow-hidden;
+    &:empty {
+        display: none;
+    }
+}
+
+.cdk-drag-preview {
+    opacity: 0.5;
+}
+
+.image-item {
+    background-color: #F6F6F6;
+    background-position: center center;
+    background-size: cover;
+    @apply w-full h-full;
+    // & :nth-child(n+2){
+    //     display: none;
+    // }
+}
+
+.show-all {
+    background: #F6F6F6;
+    color: #1665d8;
+    @apply mt-2 block text-center rounded;
+
+    ::ng-deep .text {
+        @apply block grow;
+    }
+
+    &:hover ::ng-deep button {
+        background: #F0F0F0;
+    }
+}
+
+.error {
+    color: #FF0000;
+    font-size: .5rem;
+    line-height: .75rem;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    grid-column: 1;
+    word-break: break-all;
+    user-select: text;
+}
+
+.actions {
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.actions-holder {
+    @apply w-full h-full;
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+
+    &:hover .actions {
+        opacity: 1;
+    }
+}
+
+.spinner {
+    grid-row-start: 1;
+    grid-row-end: 4;
+    grid-column: 1;
+    @apply flex flex-row justify-center items-center;
+}
+
+.bottom-actions {
+    grid-row: 3;
+    grid-column: 1;
+    @apply flex flex-row justify-end;
+
+    app-icon {
+        transform: scale(.75);
+        background-color: rgba($color: #000000, $alpha: .05);
+        color: white;
+        @apply rounded cursor-pointer p-0.5;
+
+        &:hover {
+            background-color: rgba($color: #000000, $alpha: .3);
+        }
+
+        &.reload-image {
+            color: #E13939;
+        }
+    }
+}
+
+.top-actions {
+    grid-row: 1;
+    grid-column: 1;
+    @apply flex flex-row justify-start;
+
+    app-drag-handle {
+        transform: scale(.75);
+        background-color: rgba($color: #000000, $alpha: .05);
+
+        ::ng-deep app-icon {
+            color: white;
+        }
+
+        @apply rounded p-0.5;
+
+        &:hover {
+            background-color: rgba($color: #000000, $alpha: .3);
+        }
+    }
+}

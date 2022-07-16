@@ -9,6 +9,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -49,7 +51,9 @@ const MATERIAL_MODULES = [
     MatTabsModule,
     MatRippleModule,
     MatSliderModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
 ];
 
 const CDK_MODULES = [
