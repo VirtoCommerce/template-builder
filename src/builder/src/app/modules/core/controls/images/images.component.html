@@ -9,18 +9,26 @@
         </ng-template>
     </file-upload>
     <p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>
+    <!-- [ngStyle]="{ 'max-height': getMaxListHeight() }" -->
     <div class="images-list"
          cdkDropListGroup
-         [ngStyle]="{ 'max-height': getMaxListHeight() }"
-         *ngIf="innerValue.length > 0">
+         #listGroup>
+
+        <div class="placeholder"
+             cdkDropList
+             (cdkDropListEntered)="entered($event)"
+             (cdkDropListDropped)="dropped()"
+             #placeholder></div>
+
         <div class="image-item-wrapper"
              cdkDropList
              (cdkDragReleased)="onReleaseDrag()"
-             *ngFor="let file of innerValue; let i = index">
+             *ngFor="let file of innerValue; let i = index"
+             (cdkDropListEntered)="entered($event)"
+             (cdkDropListDropped)="dropped()">
             <div class="image-item"
                  cdkDrag
                  cdkDragBoundary=".file-list"
-                 (cdkDragEntered)="dragEntered($event)"
                  [ngStyle]="{ backgroundImage: 'url(' + file.previewUrl + ')' }">
                 <div class="actions-holder">
                     <div class="spinner" *ngIf="$any(file).loading">
@@ -44,35 +52,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="images-list"
-         cdkDropList
-         [ngStyle]="{ 'max-height': getMaxListHeight() }"
-         *ngIf="innerValue.length > 0"
-         (cdkDropListDropped)="reorderItems($event)">
-        <ng-container *ngFor="let file of innerValue; let i = index">
-            <div class="image-item" [ngStyle]="{ backgroundImage: 'url(' + file.previewUrl + ')' }"
-                 cdkDragBoundary=".images-list"
-                 cdkDrag
-                 (cdkDragReleased)="onReleaseDrag()">
-                <div class="actions-holder">
-                    <div class="spinner" *ngIf="$any(file).loading">
-                        <mat-spinner></mat-spinner>
-                    </div>
-                    <div *ngIf="file.error" class="error">{{ file.error }}</div>
-                    <div class="actions top-actions">
-                        <app-drag-handle *ngIf="sortable" class="drag-handle" cdkDragHandle (mousedown)="onStartDrag()" (mouseup)="onReleaseDrag()"></app-drag-handle>
-                    </div>
-                    <div class="actions bottom-actions">
-                        <app-icon class="remove-image" (click)="deleteFile($any(file))">delete</app-icon>
-                        <app-icon *ngIf="!file.error" class="edit-image">edit</app-icon>
-                        <app-icon *ngIf="file.error" class="reload-image" (click)="uploadItem($any(file), i)">refresh
-                        </app-icon>
-                    </div>
-                </div>
-            </div>
-
-        </ng-container>
-    </div> -->
     <app-icon-button *ngIf="control.value.length > (descriptor.collapseThreshold || 6)" class="show-all"
                      [text]="expanded ? 'Show less' : 'Show all'"
                      (click)="toggleList()"></app-icon-button>

@@ -37,9 +37,9 @@ file-upload {
     background-position: center center;
     background-size: cover;
     @apply w-full h-full;
-    // & :nth-child(n+2){
-    //     display: none;
-    // }
+    &:nth-child(n+2){
+        display: none;
+    }
 }
 
 .show-all {
