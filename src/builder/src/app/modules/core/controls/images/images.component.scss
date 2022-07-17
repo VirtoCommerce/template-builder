@@ -19,13 +19,13 @@ file-upload {
 .images-list {
     @apply flex flex-row flex-wrap mt-1 overflow-hidden relative;
     gap: 1rem;
+    &.sort-mode {
+        @apply flex-col;
+    }
 }
 
 .image-item-wrapper {
     @apply w-32 h-32 rounded cursor-default select-none overflow-hidden;
-    &:empty {
-        display: none;
-    }
 }
 
 .cdk-drag-preview {
@@ -37,9 +37,6 @@ file-upload {
     background-position: center center;
     background-size: cover;
     @apply w-full h-full;
-    &:nth-child(n+2){
-        display: none;
-    }
 }
 
 .show-all {

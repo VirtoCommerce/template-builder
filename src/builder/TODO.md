@@ -38,6 +38,7 @@
 * [ ] интеграция с маркетплейсом
 * [ ] check todo list
 * [ ] authorization
+* [ ] animation
 
 * remove from tsconfig.json
   * "resolveJsonModule": true,

@@ -73,6 +73,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
             this.unsubscribeElement();
             if (file === this.selectedFile) {
                 this.selectedFile = null;
+                this.elementForm = null;
             } else {
                 this.elementForm = formsHelpers.generateForm(file.data, this.descriptor.element);
                 this.elementSubscription = this.elementForm.valueChanges.subscribe(value => {
@@ -96,11 +97,11 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         }
     }
 
-    uploadItem(file: AssetFile, index: number) {
+    uploadItem(file: AssetFile) {
         if (!file.uploaded && !file.uploading) {
             file.uploading = true;
             file.error = null;
-            const context = this.getContext(file, index);
+            const context = this.getContext(file);
             this.data.uploadAsset(file, this.descriptor, context, value => {
                 file.progress = value;
             }).subscribe({
@@ -125,7 +126,8 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         }
     }
 
-    getContext(item: AssetFile, index: number): ControlContext {
+    getContext(item: AssetFile): ControlContext {
+        const index = this.innerValue.indexOf(item);
         const element = this.convertFileToValue(item);
         return {
             ...this.context,
@@ -222,14 +224,14 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
                 uploaded: true
             };
         }
-        const context = this.getContext(result, index);
+        const context = this.getContext(result);
         result.previewUrl = this.data.getPreviewUrl(result, this.descriptor, context);
         return result;
     }
 
     private uploadFiles(items: Array<AssetFile>) {
-        items.forEach((x: AssetFile, index: number) => {
-            this.uploadItem(x, index);
+        items.forEach((x: AssetFile) => {
+            this.uploadItem(x);
         });
     }
 

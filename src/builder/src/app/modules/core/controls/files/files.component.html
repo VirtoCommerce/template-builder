@@ -29,11 +29,11 @@
                 </div>
                 <mat-progress-bar *ngIf="$any(file).uploading" mode="indeterminate"></mat-progress-bar>
                 <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload"
-                          (click)="uploadItem($any(file), i)">reload</span></div>
+                          (click)="uploadItem($any(file))">reload</span></div>
                 <div *ngIf="selectedFile === file && elementForm && !isDrag" class="selected-file-properties">
                     <app-controls-list [currentForm]="elementForm"
                                        [descriptors]="descriptor.element"
-                                       [context]="getContext($any(file), i)"></app-controls-list>
+                                       [context]="getContext($any(file))"></app-controls-list>
                 </div>
             </div>
         </ng-container>

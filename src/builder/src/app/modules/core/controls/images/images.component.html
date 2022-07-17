@@ -8,27 +8,22 @@
             <span *ngIf="!isFileDragDropAvailable">Add file</span>
         </ng-template>
     </file-upload>
-    <p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>
-    <!-- [ngStyle]="{ 'max-height': getMaxListHeight() }" -->
+    <div class="flex flex-row">
+        <p *ngIf="descriptor.info" class="info grow">{{ descriptor.info }}</p>
+        <mat-slide-toggle *ngIf="sortable" (change)="sortMode = !sortMode">Sort mode</mat-slide-toggle>
+    </div>
     <div class="images-list"
-         cdkDropListGroup
-         #listGroup>
-
-        <div class="placeholder"
-             cdkDropList
-             (cdkDropListEntered)="entered($event)"
-             (cdkDropListDropped)="dropped()"
-             #placeholder></div>
-
+         [ngClass]="{ 'sort-mode': sortMode }"
+         [ngStyle]="{ 'max-height': getMaxListHeight() }"
+         cdkDropList
+         (cdkDropListDropped)="onReorderItems($event)">
         <div class="image-item-wrapper"
-             cdkDropList
+             cdkDrag
+             cdkDragBoundary=".images-list"
+             cdkDragLockAxis="y"
              (cdkDragReleased)="onReleaseDrag()"
-             *ngFor="let file of innerValue; let i = index"
-             (cdkDropListEntered)="entered($event)"
-             (cdkDropListDropped)="dropped()">
+             *ngFor="let file of innerValue; let i = index">
             <div class="image-item"
-                 cdkDrag
-                 cdkDragBoundary=".file-list"
                  [ngStyle]="{ backgroundImage: 'url(' + file.previewUrl + ')' }">
                 <div class="actions-holder">
                     <div class="spinner" *ngIf="$any(file).loading">
@@ -36,15 +31,15 @@
                     </div>
                     <div *ngIf="file.error" class="error">{{ file.error }}</div>
                     <div class="actions top-actions">
-                        <app-drag-handle *ngIf="sortable"
+                        <app-drag-handle *ngIf="sortable && sortMode"
                                          cdkDragHandle
                                          (mousedown)="onStartDrag()"
                                          (mouseup)="onReleaseDrag()"></app-drag-handle>
                     </div>
                     <div class="actions bottom-actions">
                         <app-icon class="remove-image" (click)="deleteFile($any(file))">delete</app-icon>
-                        <app-icon *ngIf="!file.error" class="edit-image">edit</app-icon>
-                        <app-icon *ngIf="file.error" class="reload-image" (click)="uploadItem($any(file), i)">
+                        <app-icon *ngIf="!file.error && descriptor.element && descriptor.element.length" class="edit-image" (click)="selectFile(file)">edit</app-icon>
+                        <app-icon *ngIf="file.error" class="reload-image" (click)="uploadItem($any(file))">
                             refresh
                         </app-icon>
                     </div>
@@ -52,7 +47,25 @@
             </div>
         </div>
     </div>
-    <app-icon-button *ngIf="control.value.length > (descriptor.collapseThreshold || 6)" class="show-all"
+    <app-icon-button *ngIf="innerValue.length > (descriptor.collapseThreshold || 4) && !sortMode" class="show-all"
                      [text]="expanded ? 'Show less' : 'Show all'"
                      (click)="toggleList()"></app-icon-button>
 </div>
+<!-- <app-overlap-panel *ngIf="selectedFile && elementForm">
+    <app-panel>
+        <ng-container>
+            <app-controls-list [currentForm]="elementForm"
+                               [descriptors]="descriptor.element"
+                               [context]="getContext($any(selectedFile))"></app-controls-list>
+        </ng-container>
+        <ng-container title-content>
+            <div class="title pl-2">
+                <app-icon class="back-icon" (click)="onBackClick()" [hoverable]="true" title="Back">chevron_left
+                </app-icon>
+                <div class="edit-image-title">
+                    <div class="whitespace-normal">Edit image</div>
+                </div>
+            </div>
+        </ng-container>
+    </app-panel>
+</app-overlap-panel> -->
