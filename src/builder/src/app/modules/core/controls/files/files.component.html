@@ -18,8 +18,9 @@
             <div cdkDragBoundary=".file-list"
                  cdkDragLockAxis="y"
                  cdkDrag
+                 [cdkDragDisabled]="!sortable"
                  (cdkDragReleased)="onReleaseDrag()">
-                <div class="file-item">
+                <div class="file-item" [ngClass]="{ 'has-extra-props': descriptor.element && descriptor.element.length }">
                     <app-chevron *ngIf="descriptor.element && descriptor.element.length"
                                  [opened]="selectedFile === file" (click)="selectFile($any(file))"></app-chevron>
                     <app-icon class="file-type">attachment</app-icon>

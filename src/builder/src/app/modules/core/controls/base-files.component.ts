@@ -36,10 +36,10 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
 
     protected override initContent(): void {
         super.initContent();
-        this.control = this.createUploadControl();
         this.multiple = this.descriptor.multiple !== false;
         this.sortable = this.descriptor.sortable !== false && this.multiple;
         this.innerValue = this.getValue();
+        this.control = this.createUploadControl();
         this.subscription = this.control.valueChanges.subscribe(items => {
             if (items && items.length) {
                 const files = items.map((x, index) => this.convertValueToFile(x, index));

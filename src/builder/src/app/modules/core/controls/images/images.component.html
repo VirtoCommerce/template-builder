@@ -1,53 +1,58 @@
 <label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
 <div *ngIf="control">
-    <file-upload [control]="control" [multiple]="!!descriptor.multiple">
+    <file-upload [control]="control" [multiple]="!!multiple">
         <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
             <div *ngIf="isFileDragDropAvailable" class="add-files">
-                Add file or drop files to upload
+                Add image or drop images to upload
             </div>
-            <span *ngIf="!isFileDragDropAvailable">Add file</span>
+            <span *ngIf="!isFileDragDropAvailable">Add image</span>
         </ng-template>
     </file-upload>
-    <div class="flex flex-row">
-        <p *ngIf="descriptor.info" class="info grow">{{ descriptor.info }}</p>
-        <mat-slide-toggle *ngIf="sortable" (change)="sortMode = !sortMode">Sort mode</mat-slide-toggle>
-    </div>
+    <p *ngIf="descriptor.info" class="info grow">{{ descriptor.info }}</p>
     <div class="images-list"
-         [ngClass]="{ 'sort-mode': sortMode }"
          [ngStyle]="{ 'max-height': getMaxListHeight() }"
          cdkDropList
          (cdkDropListDropped)="onReorderItems($event)">
-        <div class="image-item-wrapper"
+        <div class="list-item"
              cdkDrag
+             [cdkDragDisabled]="!sortable"
              cdkDragBoundary=".images-list"
              cdkDragLockAxis="y"
              (cdkDragReleased)="onReleaseDrag()"
              *ngFor="let file of innerValue; let i = index">
-            <div class="image-item"
-                 [ngStyle]="{ backgroundImage: 'url(' + file.previewUrl + ')' }">
-                <div class="actions-holder">
+            <div class="file-item">
+                <app-chevron *ngIf="descriptor.element && descriptor.element.length"
+                             [opened]="selectedFile === file" (click)="selectFile($any(file))"></app-chevron>
+                <div class="image-item"
+                     [ngStyle]="{ backgroundImage: getBackground(file) }">
                     <div class="spinner" *ngIf="$any(file).loading">
                         <mat-spinner></mat-spinner>
                     </div>
-                    <div *ngIf="file.error" class="error">{{ file.error }}</div>
-                    <div class="actions top-actions">
-                        <app-drag-handle *ngIf="sortable && sortMode"
-                                         cdkDragHandle
-                                         (mousedown)="onStartDrag()"
-                                         (mouseup)="onReleaseDrag()"></app-drag-handle>
-                    </div>
-                    <div class="actions bottom-actions">
-                        <app-icon class="remove-image" (click)="deleteFile($any(file))">delete</app-icon>
-                        <app-icon *ngIf="!file.error && descriptor.element && descriptor.element.length" class="edit-image" (click)="selectFile(file)">edit</app-icon>
-                        <app-icon *ngIf="file.error" class="reload-image" (click)="uploadItem($any(file))">
-                            refresh
-                        </app-icon>
-                    </div>
+                </div>
+                <div class="file-name"
+                     [ngClass]="{ 'has-extra-props': descriptor.element && descriptor.element.length }"
+                     [title]="file.name"
+                     (click)="selectFile($any(file))">{{ file.name }}</div>
+                <div class="actions">
+                    <app-icon class="remove-image" (click)="deleteFile($any(file))">delete</app-icon>
+                    <app-drag-handle *ngIf="sortable"
+                                     cdkDragHandle
+                                     (mousedown)="onStartDrag()"
+                                     (mouseup)="onReleaseDrag()"></app-drag-handle>
                 </div>
             </div>
+            <ng-container>
+                <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload"
+                          (click)="uploadItem($any(file))">reload</span></div>
+                <div *ngIf="selectedFile === file && elementForm && !isDrag" class="selected-file-properties">
+                    <app-controls-list [currentForm]="elementForm"
+                                       [descriptors]="descriptor.element"
+                                       [context]="getContext($any(file))"></app-controls-list>
+                </div>
+            </ng-container>
         </div>
     </div>
-    <app-icon-button *ngIf="innerValue.length > (descriptor.collapseThreshold || 4) && !sortMode" class="show-all"
+    <app-icon-button *ngIf="innerValue.length > (descriptor.collapseThreshold || 4)" class="show-all"
                      [text]="expanded ? 'Show less' : 'Show all'"
                      (click)="toggleList()"></app-icon-button>
 </div>

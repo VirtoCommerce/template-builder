@@ -77,7 +77,7 @@ export const selectSectionIdParameter = createSelector(
 export const selectSettingsTypeParameter = createSelector(
     selectPathParams,
     getModeName,
-    (params, mode) => mode ? (params && params['settingsType'] || '') : null
+    (params, mode) => mode === 'edit-settings' ? (params && params['settingsType'] || '') : null
 );
 
 export const selectBlockIdParameter = createSelector(

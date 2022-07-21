@@ -1,5 +1,7 @@
+@import '../../../../../layout/variables.scss';
+
 file-upload {
-    @apply bg-white flex items-stretch justify-items-stretch;
+    @apply bg-white flex flex-row justify-items-stretch;
     border: 2px dashed #8C9196;
     min-height: 4rem;
     border-radius: .5rem;
@@ -8,7 +10,7 @@ file-upload {
 
     ::ng-deep .upload-input {
         transform: none;
-        @apply block static text-center;
+        @apply static text-center grow flex flex-col justify-center items-center;
     }
 
     &.dragover {
@@ -16,27 +18,35 @@ file-upload {
     }
 }
 
-.images-list {
-    @apply flex flex-row flex-wrap mt-1 overflow-hidden relative;
-    gap: 1rem;
-    &.sort-mode {
-        @apply flex-col;
-    }
-}
-
-.image-item-wrapper {
-    @apply w-32 h-32 rounded cursor-default select-none overflow-hidden;
-}
-
-.cdk-drag-preview {
-    opacity: 0.5;
-}
-
 .image-item {
-    background-color: #F6F6F6;
-    background-position: center center;
+    background-color: $no-image;
     background-size: cover;
-    @apply w-full h-full;
+}
+
+.images-list {
+    @apply flex flex-col space-y-3 overflow-hidden mt-1;
+}
+
+.list-item {
+    @apply flex flex-col;
+}
+
+.file-item {
+    @apply flex flex-row space-x-2 items-center bg-white;
+
+    &:hover .actions {
+        opacity: 1;
+        @apply cursor-pointer;
+    }
+
+}
+
+.file-name {
+    @apply grow truncate;
+
+    &.has-extra-props {
+        @apply cursor-pointer;
+    }
 }
 
 .show-all {
@@ -53,77 +63,41 @@ file-upload {
     }
 }
 
+mat-spinner {
+    width: 100% !important;
+    height: 100% !important;
+
+    ::ng-deep svg {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
 .error {
     color: #FF0000;
-    font-size: .5rem;
-    line-height: .75rem;
-    grid-row-start: 1;
-    grid-row-end: 4;
-    grid-column: 1;
-    word-break: break-all;
-    user-select: text;
+    background-color: white;
+    font-size: .75rem;
+    @apply break-all px-6;
+
+    .reload {
+        @apply cursor-pointer;
+        color: #1665d8;
+    }
 }
 
 .actions {
     opacity: 0;
     transition: opacity .3s;
+    @apply flex flex-row space-x-1;
 }
 
-.actions-holder {
-    @apply w-full h-full;
-    display: grid;
-    grid-template-rows: max-content 1fr max-content;
-
-    &:hover .actions {
-        opacity: 1;
-    }
+.spinner,
+.image-item {
+    min-width: 3.5rem;
+    @apply flex flex-row justify-center items-center w-14 h-14;
 }
 
-.spinner {
-    grid-row-start: 1;
-    grid-row-end: 4;
-    grid-column: 1;
-    @apply flex flex-row justify-center items-center;
-}
-
-.bottom-actions {
-    grid-row: 3;
-    grid-column: 1;
-    @apply flex flex-row justify-end;
-
-    app-icon {
-        transform: scale(.75);
-        background-color: rgba($color: #000000, $alpha: .05);
-        color: white;
-        @apply rounded cursor-pointer p-0.5;
-
-        &:hover {
-            background-color: rgba($color: #000000, $alpha: .3);
-        }
-
-        &.reload-image {
-            color: #E13939;
-        }
-    }
-}
-
-.top-actions {
-    grid-row: 1;
-    grid-column: 1;
-    @apply flex flex-row justify-start;
-
-    app-drag-handle {
-        transform: scale(.75);
-        background-color: rgba($color: #000000, $alpha: .05);
-
-        ::ng-deep app-icon {
-            color: white;
-        }
-
-        @apply rounded p-0.5;
-
-        &:hover {
-            background-color: rgba($color: #000000, $alpha: .3);
-        }
-    }
+.selected-file-properties {
+    padding-left: 1.75rem;
+    padding-right: 2rem;
 }

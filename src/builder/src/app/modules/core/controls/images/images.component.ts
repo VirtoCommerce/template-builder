@@ -11,10 +11,8 @@ import { ImagesDescriptor } from '@models/controls';
 })
 export class ImagesComponent extends BaseFilesComponent<ImagesDescriptor> {
 
-    sortMode: boolean = false;
-
     getMaxListHeight(): string {
-        return this.innerValue.length <= (this.descriptor.collapseThreshold || 4) || this.expanded || this.sortMode
+        return this.innerValue.length <= (this.descriptor.collapseThreshold || 4) || this.expanded || !!this.selectedFile
             ? 'inherit'
             : '12rem'
     }
@@ -23,10 +21,21 @@ export class ImagesComponent extends BaseFilesComponent<ImagesDescriptor> {
         this.reorderItems(event.previousIndex, event.currentIndex);
     }
 
-    onBackClick() {
-        if (this.selectedFile !== null) {
-            this.selectFile(this.selectedFile);
-        }
+    // onBackClick() {
+    //     if (this.selectedFile !== null) {
+    //         this.selectFile(this.selectedFile);
+    //     }
+    // }
+
+    getBackground(item: any) {
+        return `url('${item.previewUrl}')`;
     }
 
+    protected override getControlOptions() {
+        const result = super.getControlOptions();
+        if (!result.accept?.length) {
+            result.accept = ['image/*'];
+        }
+        return result;
+    }
 }

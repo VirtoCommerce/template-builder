@@ -30,12 +30,12 @@ const routes: Routes = [
             {
                 path: 'settings',
                 component: EditSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'edit-settings' }
+                data: { module: ModuleInfo.name, mode: 'edit-settings' /* used in routing selectors */ }
             },
             {
                 path: 'settings/:settingsType',
                 component: EditSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'edit-settings' }
+                data: { module: ModuleInfo.name, mode: 'edit-settings' /* used in routing selectors */ }
             },
             {
                 path: ':sectionId',

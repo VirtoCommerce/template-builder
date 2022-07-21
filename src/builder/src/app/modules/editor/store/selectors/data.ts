@@ -137,14 +137,14 @@ export const selectCurrentItemForEdit = createSelector(
     selectBlockModelFromRoute,
     selectSectionModelFromRoute,
     selectSettingsFromRoute,
-    (block, section, settings) => settings || block || section
+    (block, section, settings) => block || section || settings
 );
 
 export const selectCurrentSchemaForEdit = createSelector(
     selectBlockSchemaFromRoute,
     selectSectionSchemaFromRoute,
     selectSettingsSchemaFromRoute,
-    (block, section, settings) => settings || block || section
+    (block, section, settings) => block || section || settings
 );
 
 const selectSectionBlockSchemasFromRoute = createSelector(
