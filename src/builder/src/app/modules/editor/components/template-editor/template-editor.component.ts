@@ -3,7 +3,7 @@ import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 
 import { ContextMenuAction, ReorderItemsModel } from '@core/models';
-import { SectionModel } from '@models/document';
+import { SectionModel, SectionSchema } from '@models/document';
 
 import { ContextMenuHelper } from '@editor/helpers';
 import { BuilderState } from '@editor/store/state';
@@ -31,6 +31,10 @@ export class TemplateEditorComponent implements OnInit {
 
     addSectionClick() {
         this.store.dispatch(actions.showBlankSections({ sectionId: null }));
+    }
+
+    onSettingsClick(schema: SectionSchema) {
+        this.store.dispatch(actions.editSettings({ schema }))
     }
 
     reorderSections(event: CdkDragSortEvent<SectionModel>) {

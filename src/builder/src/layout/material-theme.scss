@@ -7,7 +7,14 @@
 $custom-typography: mat.define-typography-config($font-family: 'Inter');
 @include mat.core($custom-typography);
 
+/*
+todo: use correct way to redefine material theme colors
+check: files
 
+here is some example of how to redefine material theme colors
+https://stackoverflow.com/questions/48869915/angular-material-progressbar-custom-color
+
+*/
 
 /*
 

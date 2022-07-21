@@ -72,10 +72,12 @@ export const editTemplateContext = createSelector(
     selectSectionsState,
     fromData.selectSectionsSchemas,
     fromData.selectBlocksSchemas,
-    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas) => (
+    fromData.selectTemplateSettings,
+    fromData.selectCurrentTemplateSettingsSchemas,
+    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas) => (
         template && sectionsSchemas && blocksSchemas
             ? {
-                template, templateState, sectionsState, sectionsSchemas, blocksSchemas
+                template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas
             }
             : null
     )

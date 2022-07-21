@@ -43,9 +43,20 @@ export const selectPathParams = createSelector(
     route => route?.state.params
 );
 
+export const selectDataParams = createSelector(
+    selectFeature,
+    route => route?.state?.data || {}
+);
+
 export const selectGroupsParameter = createSelector(
     selectQueryParams,
     queryParams => queryParams && queryParams['groups'] || ''
+);
+
+
+export const getModeName = createSelector(
+    selectDataParams,
+    data => data['mode'] || null
 );
 
 export const selectPresetParameter = createSelector(
@@ -61,6 +72,12 @@ export const selectTemplateParameter = createSelector(
 export const selectSectionIdParameter = createSelector(
     selectPathParams,
     params => params && params['sectionId'] || ''
+);
+
+export const selectSettingsTypeParameter = createSelector(
+    selectPathParams,
+    getModeName,
+    (params, mode) => mode ? (params && params['settingsType'] || '') : null
 );
 
 export const selectBlockIdParameter = createSelector(
@@ -163,12 +180,6 @@ export const selectPath = createSelector(
 //     selectRouterFeature,
 //     route => route?.state?.data?.module
 // );
-
-// export const getModeName = createSelector(
-//     selectRouterFeature,
-//     route => route?.state?.data?.mode
-// );
-
 // export const getNeedNavigationInsideTheModule = createSelector(
 //     selectRouterFeature,
 //     route => route?.state?.data?.needNavigationInsideTheModule

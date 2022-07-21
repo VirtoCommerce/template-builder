@@ -27,6 +27,8 @@ export class ContextMenuComponent implements OnInit {
             this.getActions().then(actions => {
                 this.actions = actions;
                 this.cdr.detectChanges();
+            }).catch(() => {
+                this.cdr.detectChanges();
             });
         }
         return this.actions || [];

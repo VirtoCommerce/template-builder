@@ -22,6 +22,8 @@ export const templateContentChanged = createAction('[template editor] template c
 
 export const addItemAction = createAction('[template editor] add item', props<{ schema: SectionSchema }>());
 
+export const editSettings = createAction('[template editor] edit settings', props<{ schema: SectionSchema }>());
+
 export const sectionChangedAction = createAction('[template editor] section changed', props<{ changes: Partial<SectionModel> }>());
 export const executeContextMenuAction = createAction('[template editor] execute context menu action', props<{ action: string, source: 'list' | 'editor', section?: SectionModel, block?: SectionModel }>());
 

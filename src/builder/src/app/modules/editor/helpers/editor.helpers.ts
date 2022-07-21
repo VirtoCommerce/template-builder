@@ -119,6 +119,16 @@ export function applySectionChanges(template: TemplateModel, changes: Partial<Se
     };
 }
 
+export function applySettingsChanges(template: TemplateModel, changes: Partial<SectionModel>): TemplateModel {
+    return {
+        ...template,
+        settings: <SectionModel>{
+            ...template.settings,
+            ...changes
+        }
+    }
+}
+
 export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {
     const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];
@@ -274,15 +284,14 @@ export function getSectionName(item: SectionModel | null, schema: SectionSchema 
             if (!!result) {
                 return <string>result;
             }
+        } else {
+            const result = <string>item['name'];
+            if (!!result) {
+                return result;
+            }
         }
     }
-    if (!!item) {
-        const result = <string>item['name'];
-        if (!!result) {
-            return result;
-        }
-    }
-    return defaultValue || item?.type || '[no name]';
+    return defaultValue || schema?.name || item?.type || '[no name]';
 }
 
 export function insertBlock(template: TemplateModel, sectionId: string, blockId: string | null, block: SectionModel, direction: number): {

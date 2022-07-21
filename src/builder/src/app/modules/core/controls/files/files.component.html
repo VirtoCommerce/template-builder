@@ -1,8 +1,8 @@
-<label [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
 <div *ngIf="control">
     <file-upload [control]="control" [multiple]="multiple">
         <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
-            <div *ngIf="isFileDragDropAvailable" class="add-files">
+            <div *ngIf="isFileDragDropAvailable">
                 Add file or drop files to upload
             </div>
             <span *ngIf="!isFileDragDropAvailable">Add file</span>
@@ -25,16 +25,19 @@
                     <app-icon class="file-type">attachment</app-icon>
                     <div class="file-name" [title]="file.name" (click)="selectFile($any(file))">{{ file.name }}</div>
                     <app-icon class="delete-icon" (click)="deleteFile($any(file))">delete</app-icon>
-                    <app-drag-handle *ngIf="sortable" cdkDragHandle (mousedown)="onStartDrag()" (mouseup)="onReleaseDrag()"></app-drag-handle>
+                    <app-drag-handle *ngIf="sortable" cdkDragHandle (mousedown)="onStartDrag()"
+                                     (mouseup)="onReleaseDrag()"></app-drag-handle>
                 </div>
-                <mat-progress-bar *ngIf="$any(file).uploading" mode="indeterminate"></mat-progress-bar>
-                <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload"
-                          (click)="uploadItem($any(file))">reload</span></div>
-                <div *ngIf="selectedFile === file && elementForm && !isDrag" class="selected-file-properties">
-                    <app-controls-list [currentForm]="elementForm"
-                                       [descriptors]="descriptor.element"
-                                       [context]="getContext($any(file))"></app-controls-list>
-                </div>
+                <ng-container>
+                    <mat-progress-bar *ngIf="$any(file).uploading" mode="indeterminate"></mat-progress-bar>
+                    <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload"
+                              (click)="uploadItem($any(file))">reload</span></div>
+                    <div *ngIf="selectedFile === file && elementForm && !isDrag" class="selected-file-properties">
+                        <app-controls-list [currentForm]="elementForm"
+                                           [descriptors]="descriptor.element"
+                                           [context]="getContext($any(file))"></app-controls-list>
+                    </div>
+                </ng-container>
             </div>
         </ng-container>
     </div>

@@ -53,12 +53,24 @@ export class TemplateEditorDomainEffects {
     updateEditableModel$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sectionChangedAction),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
-        filter(([, { template }]) => !!template),
+        filter(([, { template, sectionId }]) => !!template && !!sectionId),
         switchMap(([{ changes }, { template, templateId, sectionId, blockId }]) => [
             actions.updateTemplateAction({
                 template: blockId
                     ? editorHelpers.applyBlockChanges(template!, changes, sectionId, blockId)
                     : editorHelpers.applySectionChanges(template!, changes, sectionId),
+                alias: templateId
+            }),
+        ])
+    ));
+
+    updateTemplateSettings$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.sectionChangedAction),
+        withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
+        filter(([, { template, sectionId }]) => !!template && !sectionId),
+        switchMap(([{ changes }, { template, templateId }]) => [
+            actions.updateTemplateAction({
+                template: editorHelpers.applySettingsChanges(template!, changes),
                 alias: templateId
             }),
         ])

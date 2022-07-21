@@ -28,6 +28,16 @@ const routes: Routes = [
                 data: { module: ModuleInfo.name, mode: 'add-block' }
             },
             {
+                path: 'settings',
+                component: EditSectionComponent,
+                data: { module: ModuleInfo.name, mode: 'edit-settings' }
+            },
+            {
+                path: 'settings/:settingsType',
+                component: EditSectionComponent,
+                data: { module: ModuleInfo.name, mode: 'edit-settings' }
+            },
+            {
                 path: ':sectionId',
                 component: EditSectionComponent,
                 data: { module: ModuleInfo.name, mode: 'edit-section' }

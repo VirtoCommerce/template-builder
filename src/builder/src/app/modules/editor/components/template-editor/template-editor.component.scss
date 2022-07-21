@@ -14,3 +14,20 @@ div[item] {
 .template-name {
     @apply grow min-w-0 whitespace-nowrap truncate cursor-default;
 }
+
+.settings-container {
+    @apply flex flex-col space-y-1 w-full;
+    &.top {
+        border-bottom: 1px solid #12121229;
+    }
+    &.bottom {
+        border-top: 1px solid #12121229;
+    }
+}
+
+.static-item {
+    @apply py-2 rounded px-6 block;
+    &:hover {
+        background: rgba(246, 246, 246, 1);
+    }
+}

@@ -1,11 +1,13 @@
-import { createSelector } from "@ngrx/store";
+import { TemplateEntry } from '@shared/models';
+import { SectionModel, SectionSchema } from '@models/index';
+import { createSelector } from '@ngrx/store';
 
 import { selectTemplateParameter } from '@shared/routing';
-import { selectTemplateDataState, selectCurrentSectionsFilter } from "./common";
+import { selectTemplateDataState, selectCurrentSectionsFilter } from './common';
 
 import { SectionsSchemasList } from '@editor/models';
-import { appHelpers } from "@integration/helpers";
-import { coreHelpers } from "@core/helpers";
+import { appHelpers } from '@integration/helpers';
+import { coreHelpers } from '@core/helpers';
 
 import * as fromRoute from '@shared/routing/selectors';
 import * as fromShared from '@shared/store/selectors';
@@ -38,17 +40,67 @@ export const selectBlocksSchemas = createSelector(
     state => state.schemas?.blocks || {}
 );
 
+export const selectTemplateSettings = createSelector(
+    selectCurrentTemplateModel,
+    template => template?.settings || <SectionModel>{}
+);
+
 export const selectBlocksSchemasList = createSelector(
     selectBlocksSchemas,
     blocks => Object.keys(blocks).map(key => blocks[key])
 );
 
-export const selectCurrentTemplateSectionSchemas = createSelector(
+const selectCurrentTemplateAllSectionsSchemas = createSelector(
     selectSectionsSchemas,
     fromShared.selectCurrentTemplateEntry,
     (schemas, entry) => entry.sections
         ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x)
         : appHelpers.toList(schemas, 'type')
+);
+
+const selectCurrentTemplateEmbeddedSettingsSchemas = createSelector(
+    fromShared.selectCurrentTemplateEntry,
+    (entry: TemplateEntry) => entry.settings && entry.settings.length
+        ? <SectionSchema> {
+            // todo: should it be in config?
+            icon: 'construction',
+            type: '',
+            name: 'Settings',
+            displayField: 'default',
+            settings: entry.settings
+        }
+        : null
+);
+
+export const selectCurrentTemplateSettingsSchemas = createSelector(
+    selectCurrentTemplateAllSectionsSchemas,
+    selectCurrentTemplateEmbeddedSettingsSchemas,
+    (schemas, entry) => ({
+        top: [ entry, ...schemas.filter(x => x.static === true || x.static === 'top')].filter(x => !!x),
+        bottom: schemas.filter(x => x.static === 'bottom')
+    })
+);
+
+export const selectCurrentTemplateSectionsSchemas = createSelector(
+    selectCurrentTemplateAllSectionsSchemas,
+    schemas => schemas.filter(x => !x.static)
+);
+
+export const selectSettingsFromRoute = createSelector(
+    fromRoute.selectSettingsTypeParameter,
+    selectCurrentTemplateModel,
+    (settingsType, template) => settingsType === null
+        ? null
+        : template?.settings
+);
+
+export const selectSettingsSchemaFromRoute = createSelector(
+    fromRoute.selectSettingsTypeParameter,
+    selectSectionsSchemas,
+    selectCurrentTemplateEmbeddedSettingsSchemas,
+    (settingsType, schemas, settingsSchema) => settingsType === null
+        ? null
+        : settingsType === '' ? settingsSchema : schemas[settingsType]
 );
 
 export const selectSectionModelFromRoute = createSelector(
@@ -84,13 +136,15 @@ export const selectBlockSchemaFromRoute = createSelector(
 export const selectCurrentItemForEdit = createSelector(
     selectBlockModelFromRoute,
     selectSectionModelFromRoute,
-    (block, section) => block || section
+    selectSettingsFromRoute,
+    (block, section, settings) => settings || block || section
 );
 
 export const selectCurrentSchemaForEdit = createSelector(
     selectBlockSchemaFromRoute,
     selectSectionSchemaFromRoute,
-    (block, section) => block || section
+    selectSettingsSchemaFromRoute,
+    (block, section, settings) => settings || block || section
 );
 
 const selectSectionBlockSchemasFromRoute = createSelector(
@@ -103,7 +157,7 @@ const selectSectionBlockSchemasFromRoute = createSelector(
 );
 
 const selectCurrentItemsSchemas = createSelector(
-    selectCurrentTemplateSectionSchemas,
+    selectCurrentTemplateSectionsSchemas,
     selectSectionBlockSchemasFromRoute,
     (sectionSchemas, blockSchemas) => blockSchemas || sectionSchemas
 );

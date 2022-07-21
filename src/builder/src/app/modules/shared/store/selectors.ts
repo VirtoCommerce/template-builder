@@ -31,7 +31,7 @@ export const selectTemplatesEntriesAsList = createSelector(
 export const selectCurrentTemplateEntry = createSelector(
     selectTemplatesEntries,
     selectTemplateParameter,
-    (templates, key) => ({ ...templates[key!], alias: key }) // todo: key must be non-nullable
+    (templates, key) => (<TemplateEntry>{ ...templates[key!], alias: key }) // todo: key must be non-nullable
 );
 
 export const selectTemplatesEntriesLoading = createSelector(

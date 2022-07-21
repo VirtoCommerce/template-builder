@@ -25,6 +25,7 @@ export class SectionItemComponent implements OnInit {
 
     @Input() section!: SectionModel;
     @Input() sectionSchema!: SectionSchema;
+    @Input() static: boolean = false;
 
     @Output() actionClick = new EventEmitter<string>();
     @Output() itemClick = new EventEmitter();

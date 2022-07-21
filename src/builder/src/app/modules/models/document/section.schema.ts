@@ -5,6 +5,7 @@ export interface SectionSchema {
     icon: string;
     type: string;
     name: string;
+    static?: boolean | string;
     displayField?: string;
     group?: string;
     groupIcon?: string;

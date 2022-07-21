@@ -1,7 +1,7 @@
 <div class="object-wrapper" [ngClass]="{ expanded: expanded }">
     <div class="label-wrapper" (click)="toggle()">
         <app-chevron [opened]="expanded" [hoverable]="true">chevron_right</app-chevron>
-        <label [attr.title]="descriptor.hint" class="pb-label">{{ getTitle() }}</label>
+        <label [attr.title]="descriptor.hint || getTitle()" class="pb-label">{{ getTitle() }}</label>
     </div>
     <div *ngIf="expanded && objectForm && descriptor.view !== 'panel' && descriptor.view !== 'popup'">
         <app-controls-list [currentForm]="objectForm"

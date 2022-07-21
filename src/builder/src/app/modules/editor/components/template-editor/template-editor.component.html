@@ -1,6 +1,17 @@
 <app-panel>
     <div class="p-4">
         <ng-container *ngIf="viewModel$|async as vm">
+            <div class="settings-container top"
+                 *ngIf="vm.settingsSchemas?.top && vm.settingsSchemas?.top?.length">
+                <ng-container *ngFor="let schema of vm.settingsSchemas.top">
+                    <app-section-item class="static-item"
+                                      [sectionSchema]="schema"
+                                      [section]="vm.settings"
+                                      [static]="true"
+                                      (itemClick)="onSettingsClick(schema)">
+                    </app-section-item>
+                </ng-container>
+            </div>
             <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
                 <ng-container *ngFor="let section of vm.template!.content">
                     <app-collapsible-list-item [expandable]="vm.sectionsState![section.id]?.canHaveChildren || false"
@@ -29,6 +40,17 @@
                                                    (executeAction)="onActionClick($event.action, section, $event.block)">
                         </app-section-children-list>
                     </app-collapsible-list-item>
+                </ng-container>
+            </div>
+            <div class="settings-container bottom"
+                 *ngIf="vm.settingsSchemas?.bottom && vm.settingsSchemas?.bottom?.length">
+                 <ng-container *ngFor="let schema of vm.settingsSchemas.bottom">
+                    <app-section-item class="static-item"
+                                      [sectionSchema]="schema"
+                                      [section]="vm.settings"
+                                      [static]="true"
+                                      (itemClick)="onSettingsClick(schema)">
+                    </app-section-item>
                 </ng-container>
             </div>
         </ng-container>

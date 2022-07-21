@@ -16,6 +16,10 @@
     transition: transform .2s;
 }
 
+.pb-label {
+    @apply truncate cursor-pointer;
+}
+
 app-controls-list {
     @apply p-2 pt-4 pl-6;
 }

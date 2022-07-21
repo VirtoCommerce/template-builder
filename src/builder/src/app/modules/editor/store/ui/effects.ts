@@ -45,6 +45,13 @@ export class TemplateEditorUiEffects {
         ])
     ));
 
+    navigateToEditSettings$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.editSettings),
+        switchMap(({ schema }) => [
+            routingActions.go({ path: ['/pages', 'settings', schema.type] })
+        ])
+    ));
+
     templateChanged$ = createEffect(() => this.actions$.pipe(
         ofType(sharedActions.templateChanged),
         switchMap(({ template }) => [
