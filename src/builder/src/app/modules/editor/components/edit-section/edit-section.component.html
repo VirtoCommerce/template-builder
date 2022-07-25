@@ -11,16 +11,16 @@
                 <app-icon class="back-icon" (click)="onBackClick()" [hoverable]="true" title="Back">chevron_left
                 </app-icon>
                 <ng-container *ngIf="viewModel$|async as vm">
-                    <div class="edit-section-title" [ngClass]="{ 'invisible-section': vm.model.hidden }">
+                    <div class="edit-section-title" [ngClass]="{ 'invisible-section': vm.model.hidden, 'name-only': vm.isEditSettings }">
                         <div class="whitespace-normal">{{ sectionName$|async }}</div>
-                        <div class="section-info">
+                        <div class="section-info" *ngIf="!vm.isEditSettings">
                             <span [cdkCopyToClipboard]="vm.model.type">Type: {{ vm.model.type }}<app-icon
                                           [inline]="true">content_copy</app-icon></span><br />
                             <span [cdkCopyToClipboard]="vm.model.id">ID: {{ vm.model.id }}<app-icon [inline]="true">
                                     content_copy</app-icon></span>
                         </div>
                     </div>
-                    <app-context-menu [visible]="true"
+                    <app-context-menu *ngIf="!vm.isEditSettings" [visible]="true"
                                       [getActions]="getItemActionsFactory(vm.model, vm.schema)"
                                       (onAction)="onContextMenuAction($event, vm.section, vm.block)"></app-context-menu>
                 </ng-container>

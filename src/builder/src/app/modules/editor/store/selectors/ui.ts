@@ -7,6 +7,7 @@ import {
 } from './common';
 
 import { SectionStatesList, SectionState } from '@editor/models';
+import { EditorModuleInfo } from '@models/modules';
 
 import * as fromRoute from '@shared/routing';
 import * as fromDomain from "./domain";
@@ -106,13 +107,21 @@ export const selectAddItemContext = createSelector(
     })
 );
 
+const isEditSettings = createSelector(
+    fromRoute.getModeName,
+    mode => mode === EditorModuleInfo.mode.editSettings
+);
+
 export const selectCurrentItemName = createSelector(
     fromData.selectBlockModelFromRoute,
     fromData.selectSectionModelFromRoute,
+    fromData.selectSettingsFromRoute,
     fromData.selectCurrentSchemaForEdit,
-    (block, section, schema) => {
-        const defaultName = block ? 'current block' : 'current section';
-        const name = helpers.getSectionName(block || section || null, schema || null, defaultName);
+    (block, section, settings, schema) => {
+        const defaultName = !!settings
+            ? (<string>schema?.['name'] || 'settings')
+            : (block ? 'current block' : 'current section');
+        const name = helpers.getSectionName(block || section || settings || null, schema || null, defaultName);
         return 'Edit ' + name;
     }
 );
@@ -124,9 +133,11 @@ export const selectEditSectionContext = createSelector(
     fromData.selectSectionSchemaFromRoute,
     fromData.selectCurrentItemForEdit,
     fromData.selectCurrentSchemaForEdit,
-    (block, section, blockSchema, sectionSchema, model, schema) => !!schema && !!model
+    isEditSettings,
+    (block, section, blockSchema, sectionSchema, model, schema, isSettings) => !!schema && !!model
         ? <any>{
             block, section, blockSchema, sectionSchema, schema, model,
+            isEditSettings: isSettings,
             editContext: {
                 // todo: here should be context of editing, current page, block, section and so on
             }

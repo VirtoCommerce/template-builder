@@ -9,43 +9,43 @@ import {
  } from '@editor/components';
 
 // import { AtmsListComponent, AtmsDetailsComponent } from '@atms/pages';
-import { ModuleInfo } from './module.info';
+import { EditorModuleInfo } from '@models/modules';
 
 const routes: Routes = [
     {
         path: '',
         component: TemplateEditorHostComponent,
-        data: { module: ModuleInfo.name, toolbar: ToolbarHostComponent },
+        data: { module: EditorModuleInfo.name, toolbar: ToolbarHostComponent },
         children: [
             {
                 path: 'add',
                 component: AddSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'add-section' }
+                data: { module: EditorModuleInfo.name, mode: 'add-section' }
             },
             {
                 path: 'add/:sectionId',
                 component: AddSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'add-block' }
+                data: { module: EditorModuleInfo.name, mode: 'add-block' }
             },
             {
                 path: 'settings',
                 component: EditSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'edit-settings' /* used in routing selectors */ }
+                data: { module: EditorModuleInfo.name, mode: EditorModuleInfo.mode.editSettings /* used in routing selectors */ }
             },
             {
                 path: 'settings/:settingsType',
                 component: EditSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'edit-settings' /* used in routing selectors */ }
+                data: { module: EditorModuleInfo.name, mode: EditorModuleInfo.mode.editSettings /* used in routing selectors */ }
             },
             {
                 path: ':sectionId',
                 component: EditSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'edit-section' }
+                data: { module: EditorModuleInfo.name, mode: 'edit-section' }
             },
             {
                 path: ':sectionId/:blockId',
                 component: EditSectionComponent,
-                data: { module: ModuleInfo.name, mode: 'edit-block' }
+                data: { module: EditorModuleInfo.name, mode: 'edit-block' }
             }
         ]
     },

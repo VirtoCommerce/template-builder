@@ -19,7 +19,7 @@ import * as selectors from "../selectors";
 import * as fromRoute from '@shared/routing';
 import * as fromShared from '@shared/store/selectors';
 
-import { ModuleInfo } from "@editor/module.info";
+import { EditorModuleInfo } from "@models/modules";
 
 import { SchemasService, TemplatesService } from "@editor/services";
 
@@ -38,7 +38,7 @@ export class TemplateEditorDataEffects {
         ofType(ROUTER_NAVIGATED),
         filter((action: RouterNavigatedAction<RouterStateUrl>) => !!action?.payload?.routerState?.data),
         map((action: RouterNavigatedAction<RouterStateUrl>) => action.payload.routerState.data),
-        filter((data: any) => data.module === ModuleInfo.name),
+        filter((data: any) => data.module === EditorModuleInfo.name),
         switchMap(() => [
             actions.raiseLoadData()
         ])

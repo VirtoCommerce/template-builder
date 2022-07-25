@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 // import { RouterReducerState, getSelectors } from '@ngrx/router-store';
 import { BuilderState } from './state';
+import { EditorModuleInfo } from '@models/modules';
 
 // import { appHelpers } from '@core/services';
 
@@ -77,7 +78,7 @@ export const selectSectionIdParameter = createSelector(
 export const selectSettingsTypeParameter = createSelector(
     selectPathParams,
     getModeName,
-    (params, mode) => mode === 'edit-settings' ? (params && params['settingsType'] || '') : null
+    (params, mode) => mode === EditorModuleInfo.mode.editSettings ? (params && params['settingsType'] || '') : null
 );
 
 export const selectBlockIdParameter = createSelector(
