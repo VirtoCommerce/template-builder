@@ -42,7 +42,7 @@
                 </div>
             </div>
             <ng-container>
-                <div class="error" *ngIf="$any(file).error">{{ $any(file).error }} <span class="reload"
+                <div class="error" *ngIf="$any(file).error">{{ $any(file).error }}<br /><span class="reload"
                           (click)="uploadItem($any(file))">reload</span></div>
                 <div *ngIf="selectedFile === file && elementForm && !isDrag" class="selected-file-properties">
                     <app-controls-list [currentForm]="elementForm"
