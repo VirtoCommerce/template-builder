@@ -1,10 +1,11 @@
+import { ServerRequestDescriptor } from '@models/index';
 import { SectionPropertyDescriptor } from "@models/controls";
 
 export interface TemplateEntry {
     name: string;
     path?: string;
     type?: string;
-    searchPath?: SearchPathEntry[];
+    request?: ServerRequestDescriptor | ServerRequestDescriptor[] | string | string[];
     sort?: number;
     alias: string;
     previewUrl: string;
@@ -15,8 +16,8 @@ export interface TemplateEntry {
     hasChildren: boolean;
 }
 
-export interface SearchPathEntry {
-    path: string;
-    type: string;
-    excludes?: string[];
-}
+// export interface SearchPathEntry {
+//     path: string;
+//     type: string;
+//     excludes?: string[];
+// }

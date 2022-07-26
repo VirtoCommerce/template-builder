@@ -194,7 +194,7 @@ export const selectToolbarButtonsState = createSelector(
         // ],
         [
             {
-                canAction: state?.isDirty,
+                canAction: false, // todo: state?.isDirty,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'

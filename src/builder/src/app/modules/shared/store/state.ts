@@ -1,18 +1,27 @@
 import * as routerSelectors from '@shared/routing'
-import { TemplateEntryList } from '@shared/models';
+import { TemplateSelectorState, TemplateEntryList } from '@shared/models';
 
 export interface SharedState {
+    appInitialized: boolean;
+    isLoading: boolean;
     templatesEntriesLoading: boolean;
     templatesEntriesLoaded: boolean;
     templatesEntries: TemplateEntryList;
-    appInitialized: boolean;
+    templatesFilter: string | null;
+    templateSelected: string | null;
+    childrenTemplatesState: { [alias: string] : TemplateSelectorState };
+    // childrenTemplates:
 }
 
 export const initialState: SharedState = {
+    appInitialized: false,
+    isLoading: false,
     templatesEntriesLoading: false,
     templatesEntriesLoaded: false,
     templatesEntries: {},
-    appInitialized: false
+    templatesFilter: null,
+    templateSelected: null,
+    childrenTemplatesState: {}
 }
 
 export interface BuilderState extends routerSelectors.BuilderState {

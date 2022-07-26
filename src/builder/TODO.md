@@ -39,6 +39,11 @@
 * [ ] check todo list
 * [ ] authorization
 * [ ] animation
+* [ ] visibility eval-scripts
+* [ ] select eval-scripts for options
+* [ ] check other evals
+* [ ] ref can be a full request
+* [ ] custom ref
 
 * remove from tsconfig.json
   * "resolveJsonModule": true,

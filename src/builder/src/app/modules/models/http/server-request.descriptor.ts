@@ -15,6 +15,7 @@ export interface ServerRequestDescriptor {
 }
 
 export interface ServerResponseDescriptor {
+    selector?: string; // script to eval over response
     result: string; // path to result field
     isArray: boolean; // result should be array
     value: string | (string | SelectValueDescriptor)[];

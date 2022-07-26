@@ -125,6 +125,10 @@ export class BuilderHttpClient extends HttpClient {
         }
         let result = response;
         if (!!result) {
+            if (!!descriptor.selector) {
+                const script = descriptor.selector;
+                result = function(){ return eval(script); }.call({ response: result }); // todo: maybe here should be some additional data
+            }
             if (descriptor.result) {
                 result = appHelpers.getValueByPath(result, descriptor.result);
                 result = appHelpers.arrayCastByConfig(result, descriptor.isArray);

@@ -107,12 +107,11 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             // todo: only current template will be processed
             // question: should we save all templates?
-            this.store$.select(selectors.selectCurrentTemplateState),
             this.store$.select(selectors.selectCurrentTemplateModel),
             this.store$.select(fromShared.selectCurrentTemplateEntry)
         ),
-        filter(([x, state, model]) => x.action === 'save' && state!.isDirty && !!model),
-        switchMap(([, , model, entry]) => this.templates.saveTemplate([{ path: entry.path!, type: entry.type!, content: model! }]).pipe(
+        filter(([x, model]) => x.action === 'save' && !!model),
+        switchMap(([, model, entry]) => this.templates.saveTemplate([{ path: entry.path!, type: entry.type!, content: model! }]).pipe(
             map(() => actions.saveTemplateSuccess({ alias: entry!.alias })),
             catchError(error => of(actions.saveTemplateFails({ error })))
         ))

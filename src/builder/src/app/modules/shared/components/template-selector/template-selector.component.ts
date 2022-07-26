@@ -33,6 +33,14 @@ export class TemplateSelectorComponent implements OnInit {
         this.store$.dispatch(actions.selectTemplate({ template: item.alias }));
     }
 
+    onChildrenRequested(item: MultipageSelectDescriptor) {
+        this.store$.dispatch(actions.requestChildrenTemplates({ template: item.alias }));
+    }
+
+    onFilterChanged(value: string) {
+        this.store$.dispatch(actions.filterTemplates({ filter: value }));
+    }
+
     private convertTemplateToItem(value: TemplateEntry): MultipageSelectDescriptor {
         return {
             title: value.name,

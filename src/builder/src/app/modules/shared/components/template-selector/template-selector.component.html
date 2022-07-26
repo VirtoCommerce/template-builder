@@ -5,5 +5,7 @@
     [items]="templates$|async"
     [default]="{ title: 'Choose template', alias: '' }"
     [current]="currentTemplate$|async"
+    (filterChanged)="onFilterChanged($event)"
     (itemSelected)="onTemplateSelected($event)"
+    (childrenRequested)="onChildrenRequested($event)"
 ></app-multipage-select>

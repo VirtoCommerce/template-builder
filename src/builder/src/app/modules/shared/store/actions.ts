@@ -15,6 +15,8 @@ export const selectTemplate = createAction('[shared] select template', props<{ t
 export const templateChanged = createAction('[shared] template changed', props<{ template: string }>());
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
+export const requestChildrenTemplates = createAction('[shared] requested children requested', props<{ template: string }>());
+export const filterTemplates = createAction('[shared] filter templates', props<{ filter: string }>());
 
 export const broadcastMessage = createAction('[shared] broadcast message', props<{ msg: any }>());
 export const showNotification = createAction('[shared] show notification', props<{ message: string, msgType: 'error'|'success'|'info'|'warning', top?: boolean }>());
