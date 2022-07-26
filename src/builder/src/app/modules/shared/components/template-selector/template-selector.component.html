@@ -1,11 +1,12 @@
-<app-multipage-select
-    filterPlaceholder="Search"
-    panelClass="template-selector-panel"
-    [attr.title]="'Templates'"
-    [items]="templates$|async"
-    [default]="{ title: 'Choose template', alias: '' }"
-    [current]="currentTemplate$|async"
-    (filterChanged)="onFilterChanged($event)"
-    (itemSelected)="onTemplateSelected($event)"
-    (childrenRequested)="onChildrenRequested($event)"
-></app-multipage-select>
+<app-multipage-select filterPlaceholder="Search"
+                      panelClass="template-selector-panel"
+                      [filter]="currentFilter$ | async"
+                      [titleText]="listTitle$ | async"
+                      [default]="defaultTemplate"
+                      [current]="currentTemplate$ | async"
+                      [parentItems]="rootTemplates$ | async"
+                      [childrenItems]="childrenItems$ | async"
+
+                      (filterChanged)="onFilterChanged($event)"
+                      (itemSelected)="onTemplateSelected($event)"
+                      (backClick)="onBackClick()"></app-multipage-select>

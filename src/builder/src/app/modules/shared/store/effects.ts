@@ -85,14 +85,35 @@ export class SharedEffects {
     selectTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.selectTemplate),
         withLatestFrom(
+            this.store$.select(fromState.selectParentTemplateAlias),
             this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectParentTemplateParameter),
             this.store$.select(fromRoute.isEmpty)
         ),
-        filter(([{ template }, templateParameter, isEmpty]) => !isEmpty && template !== templateParameter || !templateParameter),
-        switchMap(([{ template }]) => [
-            router.go({ queryParams: { template } }),
-            actions.templateChanged({ template })
+        filter(([{ template }, parentTemplate, templateParameter, parentTemplateParameter, isEmpty]) =>
+            !isEmpty // if route is not initialized yet
+            && (
+                template !== templateParameter // and template entry was changed
+                || parentTemplate !== parentTemplateParameter // or parent template was changed
+            )
+            || !templateParameter), // or template parameter from route is empty
+        switchMap(([{ template }, parentTemplate]) => [
+            router.go({ queryParams: { template, in: parentTemplate } }),
+            // remove it because in editour.ui.effects occurs extra router.go action
+            // actions.templateChanged({ template, in: parentTemplate })
         ])
+    ));
+
+    loadChildrenTemplates$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadChildrenTemplates),
+        withLatestFrom( this.store$.select(fromState.selectTemplatesEntries)),
+        switchMap(([{ template }, entries]) => {
+            const templateEntry = <TemplateEntry>entries[template]!;
+            return this.templatesService.getChildrenTemplates(templateEntry).pipe(
+                map(childrenEntries => actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: template })),
+                catchError(error => of(actions.loadChildrenTemplatesFails({ error, parentTemplate: template })))
+            );
+        })
     ));
 
     changePreviewMode$ = createEffect(() => this.actions$.pipe(

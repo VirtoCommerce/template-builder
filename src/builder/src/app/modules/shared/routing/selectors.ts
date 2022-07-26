@@ -7,6 +7,23 @@ import { EditorModuleInfo } from '@models/modules';
 
 export const selectFeature = (state: BuilderState) => state.router;
 
+/*
+
+used parameters
+    common
+        template - current template
+        in - template group (pages, blog etc)
+    theme settings
+        groups - opened groups
+        mode - settings from route config (edit-settings, or edit-section and so on, see <module-name>-routes.module.ts)
+        preset - name of preset under preview
+    template editor
+        sectionId - section id
+        blockId - block id
+        settingsType - settings under preview
+        preview-mode - preview mode, i.e. mobile, tablet, fullscreen, empty value = desktop
+
+ */
 
 // export const {
 //     selectCurrentRoute,   // select the current route
@@ -68,6 +85,11 @@ export const selectPresetParameter = createSelector(
 export const selectTemplateParameter = createSelector(
     selectQueryParams,
     queryParams => queryParams && queryParams['template'] || ''
+);
+
+export const selectParentTemplateParameter = createSelector(
+    selectQueryParams,
+    queryParams => queryParams && queryParams['in'] || ''
 );
 
 export const selectSectionIdParameter = createSelector(

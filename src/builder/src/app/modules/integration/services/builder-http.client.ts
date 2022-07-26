@@ -19,7 +19,7 @@ export class BuilderHttpClient extends HttpClient {
 
     private _cache: Map<string, any> = new Map();
 
-    doRequest<T>(request: ServerRequestDescriptor | null, additionalOptions: any = null): Observable<T | null> {
+    doRequest<T>(request: ServerRequestDescriptor | null, additionalOptions: any = null, context: any = null): Observable<T | null> {
         if (!request) {
             return of(null);
         }
@@ -59,7 +59,7 @@ export class BuilderHttpClient extends HttpClient {
         }
         result = result.pipe(
             map(response => {
-                return this.mapResponseToResult(response, request.response || null);
+                return this.mapResponseToResult(response, request.response || null, context);
             })
         );
         if (opts.nullWhenError) {
@@ -119,7 +119,7 @@ export class BuilderHttpClient extends HttpClient {
         return result;
     }
 
-    private mapResponseToResult(response: any, descriptor: ServerResponseDescriptor | null): any {
+    private mapResponseToResult(response: any, descriptor: ServerResponseDescriptor | null, context: any | null): any {
         if (!descriptor) {
             return response;
         }
@@ -127,7 +127,7 @@ export class BuilderHttpClient extends HttpClient {
         if (!!result) {
             if (!!descriptor.selector) {
                 const script = descriptor.selector;
-                result = function(){ return eval(script); }.call({ response: result }); // todo: maybe here should be some additional data
+                result = function(){ return eval(script); }.call({ ...context, response: result }); // todo: maybe here should be some additional data
             }
             if (descriptor.result) {
                 result = appHelpers.getValueByPath(result, descriptor.result);

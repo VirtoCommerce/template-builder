@@ -52,12 +52,13 @@ export class TemplateEditorUiEffects {
         ])
     ));
 
-    templateChanged$ = createEffect(() => this.actions$.pipe(
-        ofType(sharedActions.templateChanged),
-        switchMap(({ template }) => [
-            routingActions.go({ path: ['/pages'], queryParams: { template } })
-        ])
-    ));
+    // remove it because in shared effects already occurs router go action
+    // templateChanged$ = createEffect(() => this.actions$.pipe(
+    //     ofType(sharedActions.templateChanged),
+    //     switchMap(({ template, in }) => [
+    //         routingActions.go({ path: ['/pages'], queryParams: { template, in } })
+    //     ])
+    // ));
 
     completeEditSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.closeEditItemPanel),

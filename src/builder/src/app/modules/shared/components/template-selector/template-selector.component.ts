@@ -8,7 +8,7 @@ import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
 import * as actions from '@shared/store/actions';
 
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 
 @Component({
     selector: 'app-template-selector',
@@ -17,12 +17,20 @@ import { map } from 'rxjs';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    templates$ = this.store$.select(fromState.selectTemplatesEntriesAsList).pipe(
+    defaultTemplate = { title: 'Choose template', alias: '' };
+
+    rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesAsList).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
     );
     currentTemplate$ = this.store$.select(fromState.selectCurrentTemplateEntry).pipe(
         map(value => !!value ? this.convertTemplateToItem(value) : null)
     );
+    currentFilter$ = this.store$.select(fromState.selectCurrentFilter);
+    listTitle$ = this.store$.select(fromState.selectRootTemplateTitle);
+    childrenItems$ = this.store$.select(fromState.selectChildrenTemplatesEntriesAsList).pipe(
+        map(value => value?.map(x => this.convertTemplateToItem(x)) || null)
+    );
+
 
     constructor(private store$: Store<BuilderState>) { }
 
@@ -30,15 +38,36 @@ export class TemplateSelectorComponent implements OnInit {
     }
 
     onTemplateSelected(item: MultipageSelectDescriptor) {
-        this.store$.dispatch(actions.selectTemplate({ template: item.alias }));
-    }
 
-    onChildrenRequested(item: MultipageSelectDescriptor) {
-        this.store$.dispatch(actions.requestChildrenTemplates({ template: item.alias }));
+
+        // this.currentTemplate$ = item;
+        // if (item.hasChildren) {
+        //     this.titleText = item.title;
+        //     this.childrenItems$ = this.childrenList;
+        //     this.filter = '';
+        // }
+        if (item.hasChildren) {
+            this.store$.dispatch(actions.loadChildrenTemplates({ template: item.alias }));
+        } else {
+            this.store$.dispatch(actions.selectTemplate({ template: item.alias }));
+        }
     }
 
     onFilterChanged(value: string) {
         this.store$.dispatch(actions.filterTemplates({ filter: value }));
+        // this.filter = value;
+        // if (this.childrenItems$) {
+        //     this.childrenItems$ = this.filter ? this.childrenList.filter(x => x.title.toLowerCase().includes(value.toLowerCase())) : this.childrenList;
+        // } else {
+        //     this.rootTemplates$ = this.filter ? this.items.filter(x => x.title.indexOf(value) !== -1 || x.alias.indexOf(value) !== -1) : this.items;
+        // }
+    }
+
+    onBackClick() {
+        this.store$.dispatch(actions.displayRootTemplates());
+        // this.childrenItems$ = null;
+        // this.filter = '';
+        // this.titleText = 'Templates';
     }
 
     private convertTemplateToItem(value: TemplateEntry): MultipageSelectDescriptor {

@@ -1,5 +1,6 @@
 import { ServerRequestDescriptor } from '@models/index';
 import { SectionPropertyDescriptor } from "@models/controls";
+import { TemplateEntryList } from './template-entry-list.model';
 
 export interface TemplateEntry {
     name: string;
@@ -12,7 +13,7 @@ export interface TemplateEntry {
     isDefault?: boolean | null;
     sections?: string[];
     settings?: SectionPropertyDescriptor[];
-    children?: any;
+    children?: TemplateEntryList;
     hasChildren: boolean;
 }
 

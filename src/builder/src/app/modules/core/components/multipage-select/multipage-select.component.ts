@@ -40,20 +40,21 @@ import { MultipageSelectDescriptor } from '@core/models';
 })
 export class MultipageSelectComponent implements OnInit {
 
-    @Input() title: string = 'Templates';
-    @Input() filter: string = '';
     @Input() panelClass: string = '';
+
+    @Input() titleText: string | null = null;
+    @Input() filter: string | null = null;
     @Input() filterPlaceholder: string = '';
     @Input() default?: MultipageSelectDescriptor;
     @Input() current: MultipageSelectDescriptor | null = null;
-    @Input() items: MultipageSelectDescriptor[] | null = [];
+    @Input() parentItems: MultipageSelectDescriptor[] | null = [];
+    @Input() childrenItems: MultipageSelectDescriptor[] | null = null;
 
     @Output() itemSelected = new EventEmitter<MultipageSelectDescriptor>();
     @Output() filterChanged = new EventEmitter<string>();
-    @Output() childrenRequested = new EventEmitter<MultipageSelectDescriptor>();
+    @Output() backClick = new EventEmitter();
 
     isOpen = false;
-    parent: MultipageSelectDescriptor | null = null;
 
     get currentLabel(): string {
         return this.current?.title || this.default?.title || '';
@@ -86,21 +87,14 @@ export class MultipageSelectComponent implements OnInit {
         return item.title;
     }
 
-    showChildren(item: MultipageSelectDescriptor) {
-        if (item.hasChildren) {
-            this.parent = item;
-            this.childrenRequested.emit(item);
-        } else {
-            this.selectItem(item);
+    selectItem(item: MultipageSelectDescriptor) {
+        this.itemSelected.emit(item);
+        if (!item.hasChildren) {
+            this.isOpen = false;
         }
     }
 
-    selectItem(item: MultipageSelectDescriptor) {
-        this.itemSelected.emit(item);
-        this.isOpen = false;
-    }
-
     back() {
-        this.parent = null;
+        this.backClick.emit();
     }
 }

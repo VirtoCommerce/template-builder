@@ -19,17 +19,17 @@
                    (keyup)="updateFilter($event)"
                    class="search-input" />
         </div>
-        <div *ngIf="!parent" class="max-h-80">
+        <div *ngIf="!childrenItems" class="max-h-80">
             <div class="flex flex-col h-full mt-2 relative">
                 <div class="px-4 mb-2 text-gray-400">
-                    <h3 class="list-title">{{ title }}</h3>
+                    <h3 class="list-title">{{ titleText }}</h3>
                 </div>
                 <app-separator></app-separator>
                 <ul class="grow overflow-y-auto relative" [perfectScrollbar]>
-                    <li *ngFor="let item of items">
+                    <li *ngFor="let item of parentItems">
                         <button class="list-item-btn"
                                 [attr.title]="getItemName(item)"
-                                (click)="showChildren(item)">
+                                (click)="selectItem(item)">
                             <span class="min-w-0 truncate">{{ getItemName(item) }}</span>
                             <span *ngIf="item.isDirty" class="is-dirty"></span>
                             <app-icon *ngIf="item.hasChildren">chevron_right</app-icon>
@@ -38,18 +38,19 @@
                 </ul>
             </div>
         </div>
-        <div *ngIf="parent" class="max-h-80">
+        <div *ngIf="!!childrenItems" class="max-h-80">
             <div class="flex flex-col h-full">
                 <div class="px-4 mb-2 text-gray-400 flex flex-row items-center cursor-pointer" (click)="back()">
                     <app-icon>chevron_left</app-icon>
-                    <h3 class="list-title">{{ parent.title }}</h3>
+                    <h3 class="list-title">{{ titleText }}</h3>
                 </div>
                 <app-separator></app-separator>
                 <ul class="grow overflow-y-auto">
-                    <li *ngFor="let item of parent.children">
-                        <button class="w-full py-2 px-4 text-left flex justify-between items-center hover:bg-gray-100"
+                    <li *ngFor="let item of childrenItems">
+                        <button class="list-item-btn"
                                 (click)="selectItem(item)">
-                            {{item.title}}
+                            <span class="min-w-0 truncate">{{ getItemName(item) }}</span>
+                            <span *ngIf="item.isDirty" class="is-dirty"></span>
                         </button>
                     </li>
                 </ul>
