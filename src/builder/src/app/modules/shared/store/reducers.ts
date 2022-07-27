@@ -50,7 +50,33 @@ export const sharedReducers = createReducer<SharedState>(
                 error
             }
         }
-    }))
+    })),
+    on(actions.setRootDirtyState, (state, { template, dirty }) => ({
+        ...state,
+        entriesStates: {
+            ...state.entriesStates,
+            [template]: {
+                ...state.entriesStates?.[template],
+                isDirty: dirty
+            }
+        }
+    })),
+    on(actions.setDirtyState, (state, { template, parent, dirty }) => ({
+        ...state,
+        childrenTemplatesState: {
+            ...state.childrenTemplatesState,
+            [parent]: {
+                ...state.childrenTemplatesState[parent],
+                states: {
+                    ...state.childrenTemplatesState[parent].states,
+                    [template]: {
+                        ...state.childrenTemplatesState[parent].states?.[template],
+                        isDirty: dirty
+                    }
+                }
+            }
+        }
+    })),
 
 );
 

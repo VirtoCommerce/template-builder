@@ -32,7 +32,7 @@ export class TemplatesService {
     saveTemplate(templates: { path: string, type: string, content: TemplateModel }[]): Observable<any> {
         const files = JSON.stringify(templates);
         const saveTemplates = this.appConfig.getValue('saveTemplates');
-        // todo: note that it probably should be using doRequest method
+        // todo: note that it probably should use doRequest method
         return this.http.post(saveTemplates, { files });
     }
 }

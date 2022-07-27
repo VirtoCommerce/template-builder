@@ -1,5 +1,5 @@
 import * as routerSelectors from '@shared/routing'
-import { TemplateSelectorState, TemplateEntryList } from '@shared/models';
+import { TemplateSelectorState, TemplateEntryStateList, TemplateEntryList } from '@shared/models';
 
 export interface SharedState {
     appInitialized: boolean;
@@ -9,6 +9,7 @@ export interface SharedState {
     templatesEntries: TemplateEntryList;
     templatesFilter: string | null;
     templateSelected: string | null;
+    entriesStates: TemplateEntryStateList
     childrenTemplatesState: { [alias: string] : TemplateSelectorState };
     // childrenTemplates:
 }
@@ -19,6 +20,7 @@ export const initialState: SharedState = {
     templatesEntriesLoading: false,
     templatesEntriesLoaded: false,
     templatesEntries: {},
+    entriesStates: {},
     templatesFilter: null,
     templateSelected: null,
     childrenTemplatesState: {}

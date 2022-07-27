@@ -93,7 +93,10 @@ export class TemplateEditorUiEffects {
         // withLatestFrom(this.store$.select(selectors.selectCurrentItemForEdit)),
         // todo: should be only one section
         withLatestFrom(this.store$.select(selectors.selectCurrentTemplateModel)),
-        map(([, template]) => broadcastMessage({ msg: { type: 'changed', model: { template } } }))
+        switchMap(([, template]) => [
+            broadcastMessage({ msg: { type: 'changed', model: { template } } }),
+            sharedActions.setCurrentDirtyState({ dirty: true })
+        ])
     ));
 
     navigateToThemeSettings$ = createEffect(() => this.actions$.pipe(
@@ -104,7 +107,10 @@ export class TemplateEditorUiEffects {
 
     notifySuccessSave$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplateSuccess),
-        map(() => sharedActions.showNotification({ message: 'Template saved successfully', msgType: 'success', top: true }))
+        switchMap(() => [
+            sharedActions.showNotification({ message: 'Template saved successfully', msgType: 'success', top: true }),
+            sharedActions.setCurrentDirtyState({ dirty: false })
+        ])
     ));
 
     notifyFailsSave$ = createEffect(() => this.actions$.pipe(

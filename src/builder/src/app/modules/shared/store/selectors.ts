@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 import { TemplateEntry } from '@shared/models';
 import { BuilderState } from './state';
 
-import { selectTemplateParameter } from '../routing';
+import { selectTemplateParameter, selectParentTemplateParameter } from '../routing';
 
 export const selectSharedFeature = (state: BuilderState) => state.shared;
 
@@ -39,10 +39,28 @@ export const selectTemplatesEntriesAsList = createSelector(
 //     templates =>
 // );
 
+const selectCurrentChildrenTemplatesEntries = createSelector(
+    selectSharedFeature,
+    selectParentTemplateParameter,
+    (state, parent) => parent ? state.childrenTemplatesState[parent]?.templates || null : null
+);
+
 export const selectCurrentTemplateEntry = createSelector(
     selectTemplatesEntries,
+    selectCurrentChildrenTemplatesEntries,
     selectTemplateParameter,
-    (templates, key) => (<TemplateEntry>{ ...templates[key!], alias: key }) // todo: key must be non-nullable
+    (templates, childrenTemplates, template) => !childrenTemplates
+        ? (<TemplateEntry>{ ...templates[template!], alias: template }) // todo: key must be non-nullable
+        : (<TemplateEntry>{ ...childrenTemplates[template!], alias: template })
+);
+
+export const selectCurrentTemplateState = createSelector(
+    selectSharedFeature,
+    selectParentTemplateParameter,
+    selectTemplateParameter,
+    (state, parent, template) => (parent
+        ? state.childrenTemplatesState[parent]?.states?.[template]
+        : state.entriesStates[template]) || {}
 );
 
 export const selectTemplatesEntriesLoading = createSelector(
@@ -76,14 +94,14 @@ export const selectRootTemplateTitle = createSelector(
     template => template?.name || 'Templates'
 );
 
-export const selectCurrentChildrenTemplatesEntries = createSelector(
+export const selectChildrenTemplatesEntries = createSelector(
     selectSharedFeature,
     selectParentTemplateAlias,
     (state, alias) => alias ? (state.childrenTemplatesState[alias] || {}) : null
 );
 
 const selectUnfilteredChildrenTemplatesEntriesAsList = createSelector(
-    selectCurrentChildrenTemplatesEntries,
+    selectChildrenTemplatesEntries,
     entries => entries
         ? (
             entries.templates

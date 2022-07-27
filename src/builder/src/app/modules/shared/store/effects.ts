@@ -1,3 +1,4 @@
+import { mapTo } from 'rxjs/operators';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -106,7 +107,7 @@ export class SharedEffects {
 
     loadChildrenTemplates$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadChildrenTemplates),
-        withLatestFrom( this.store$.select(fromState.selectTemplatesEntries)),
+        withLatestFrom(this.store$.select(fromState.selectTemplatesEntries)),
         switchMap(([{ template }, entries]) => {
             const templateEntry = <TemplateEntry>entries[template]!;
             return this.templatesService.getChildrenTemplates(templateEntry).pipe(
@@ -121,14 +122,32 @@ export class SharedEffects {
         map(({ mode }) => router.go({ queryParams: { 'preview-mode': mode } }))
     ));
 
-    broadcastNavigation$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.selectTemplate),
+    setCurrentDirtyState$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.setCurrentDirtyState),
         withLatestFrom(
-            this.store$.select(fromState.selectTemplatesEntries)
+            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectParentTemplateParameter),
         ),
-        tap(([{ template }, entries]) => this.eventsBus.emit({
+        map(([{ dirty }, template, parent]) => parent
+            ? actions.setDirtyState({ dirty, template, parent })
+            : actions.setRootDirtyState({ dirty, template })
+        )
+    ));
+
+    executeNavigation$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.selectTemplate),
+        mapTo(actions.navigateToCurrentTemplate())
+    ), { dispatch: false });
+
+    broadcastNavigation$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.navigateToCurrentTemplate),
+        withLatestFrom(
+            this.store$.select(fromState.selectCurrentTemplateEntry)
+        ),
+        // todo: probably we should skip this action if url is empty
+        tap(([, templateEntry]) => this.eventsBus.emit({
             type: 'navigate',
-            url: entries[template]?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
+            url: templateEntry?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
         }))
     ), { dispatch: false });
 

@@ -160,7 +160,8 @@ export const changeTemplateContext = createSelector(
 );
 
 export const selectToolbarButtonsState = createSelector(
-    fromDomain.selectCurrentTemplateState,
+    // fromDomain.selectCurrentTemplateState,
+    fromShared.selectCurrentTemplateState,
     // todo: undo
     // todo: redo
     // todo: have settings
@@ -194,7 +195,7 @@ export const selectToolbarButtonsState = createSelector(
         // ],
         [
             {
-                canAction: false, // todo: state?.isDirty,
+                canAction: !!state?.isDirty,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'
