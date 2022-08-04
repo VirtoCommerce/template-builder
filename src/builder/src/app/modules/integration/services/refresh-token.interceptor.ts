@@ -1,133 +1,84 @@
 import { Injectable } from '@angular/core';
-import {
-    HttpRequest,
-    HttpHandler,
-    HttpInterceptor,
-    HttpSentEvent,
-    HttpHeaderResponse,
-    HttpProgressEvent,
-    HttpResponse,
-    HttpUserEvent,
-    HttpErrorResponse
-} from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { Subject, Observable, throwError, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { JwtStorageService } from './jwt-storage.service';
-// import { LoginComponent } from '@app/components';
-// import { AuthService } from './auth.service';
-import { catchError, switchMap, finalize, take, exhaustMap } from 'rxjs/operators';
+
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class RefreshTokenInterceptor implements HttpInterceptor {
 
-    constructor(
-        // private authService: AuthService,
-        private jwt: JwtStorageService
-    ) { }
+    private refreshTokenInProgress = false;
 
-    isRefreshingToken = false;
-    tokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+    private tokenRefreshedSource = new Subject<any>();
+    private tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
 
-    intercept(request: HttpRequest<any>, next: HttpHandler)
-        : Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any> | any> {
+    constructor(private jwt: JwtStorageService,
+        private auth: AuthService,
+        private store: Store) { }
 
-        return next.handle(this.addTokenToRequest(request, this.jwt.getToken()))
-            // .pipe(
-            //     catchError(err => {
-            //         if (err instanceof HttpErrorResponse) {
-            //             switch (err.status) {
-            //                 case 401:
-            //                     return this.handle401Error(request, next);
-            //                 // case 400:
-            //                 //     return <any>this.authService.logout();
-            //             }
-            //         }
-            //         return throwError(err);
-            //     }))
-            ;
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
+        return this.addAuthData(request).pipe(
+            switchMap(req => next.handle(req).pipe(
+                catchError(err => {
+                    if (err instanceof HttpErrorResponse) {
+                        switch (err.status) {
+                            // todo: do we need to display login popup
+                            // case 401:
+                            //     return this.handle401Error(request, next);
+                            // case 400:
+                            //     return <any>this.authService.logout();
+                        }
+                    }
+                    return throwError(() => err);
+                })
+            ))
+        );
     }
 
-    private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
-        if (this.isRefreshingToken) {
-            return request;
+    private addAuthData(request: HttpRequest<any>): Observable<HttpRequest<any>> {
+        if (request.headers.get('x-refresh') !== 'true') {
+            if (this.refreshTokenInProgress) {
+                return new Observable(observer => {
+                    this.tokenRefreshed$.subscribe(() => {
+                        observer.next();
+                        observer.complete();
+                    });
+                });
+            } else {
+                const auth = this.jwt.getInfo();
+                if (auth && auth.expiresAt && Date.now() < auth.expiresAt) {
+                    const result = this.enrichRequest(request, auth.token);
+                    return of(result);
+                }
+                if (auth && auth.refreshToken) {
+                    this.refreshTokenInProgress = true;
+                    return this.auth.refreshToken(auth.refreshToken).pipe(
+                        tap(() => {
+                            this.refreshTokenInProgress = false;
+                            this.tokenRefreshedSource.next({});
+                        }),
+                        map(response => this.jwt.save(response)),
+                        map(response => this.enrichRequest(request, response.token)),
+                        catchError((e) => {
+                            this.refreshTokenInProgress = false;
+                            return throwError(() => e);
+                        })
+                    );
+                }
+            }
         }
-        return request.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+        return of(request);
     }
 
-    private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-
-        if (!this.isRefreshingToken) {
-            this.isRefreshingToken = true;
-
-            // Reset here so that the following requests wait until the token
-            // comes back from the refreshToken call.
-            this.tokenSubject.next(null);
-
-            // return this.authService.refreshToken()
-            //     .pipe(
-            //         switchMap((info: any) => {
-            //             if (info) {
-            //                 this.tokenSubject.next(info.token);
-            //                 return next.handle(this.addTokenToRequest(request, info.token));
-            //             }
-            //             return null;
-            //             // todo: display login? instead of null
-            //             // return this.login(request, next);
-            //         }),
-            //         catchError(err => {
-            //             return of(null);
-            //         }),
-            //         finalize(() => {
-            //             this.isRefreshingToken = false;
-            //         })
-            //     );
-            return of(null);
-        } else {
-            this.isRefreshingToken = false;
-
-            return this.tokenSubject
-                .pipe(take(1),
-                    switchMap(token => {
-                        // todo: implement login functionality
-                        return next.handle(this.addTokenToRequest(request, token!));
-                        // if (!token) {
-                        //     return this.login(request, next);
-                        // } else {
-                        //     return next.handle(this.addTokenToRequest(request, token));
-                        // }
-                    })
-                );
-        }
+    private enrichRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
+        const cloned = request.clone({
+            headers: request.headers.set('Authorization', 'Bearer ' + token)
+        });
+        return cloned;
     }
-
-    // todo: implement it
-    // private login(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    //     return this.authService.loginIfSaved().pipe(
-    //         exhaustMap(authInfo => {
-    //             if (!authInfo) {
-    //                 const dialogRef = this.dialog.open(LoginComponent, {
-    //                     width: '680px',
-    //                     height: '350px',
-    //                     disableClose: true,
-    //                     data: {
-    //                         save: this.authService.hasSavedInfo()
-    //                     }
-    //                 });
-    //                 return dialogRef.afterClosed().pipe(
-    //                     switchMap(x =>
-    //                         this.authService.login(x.data.username, x.data.password, x.data.save).pipe(
-    //                             switchMap(response => {
-    //                                 return next.handle(this.addTokenToRequest(request, response.token));
-    //                             })
-    //                         )
-    //                     )
-    //                 );
-    //             } else {
-    //                 return next.handle(this.addTokenToRequest(request, authInfo.token));
-    //             }
-    //         })
-    //     );
-    // }
 }

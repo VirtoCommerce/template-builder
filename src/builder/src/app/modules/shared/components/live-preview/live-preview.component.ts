@@ -49,8 +49,8 @@ export class LivePreviewComponent implements OnInit {
     private sendMessage(msg: any) {
         if (this.frame) {
             const frame = this.frame.nativeElement as HTMLIFrameElement;
-            // todo: url to config flow
-            frame.contentWindow?.postMessage({ ...msg, source: 'builder' }, this.url);
+            const message = { ...msg, source: 'builder' };
+            frame.contentWindow?.postMessage(message, this.url);
         }
     }
 }

@@ -5,15 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class JwtStorageService {
 
+    // todo: move to builder config
     private static readonly STORAGEKEY = 'ls.authenticationData';
-
-    getToken() {
-        return this.getInfo().token;
-    }
-
-    getRefreshToken() {
-        return this.getInfo().refreshToken;
-    }
 
     save(info: any) {
         const data = {
@@ -26,7 +19,7 @@ export class JwtStorageService {
         return data;
     }
 
-    private getInfo() {
+    getInfo() {
         try {
             const jwt = localStorage.getItem(JwtStorageService.STORAGEKEY);
             if (jwt) {
@@ -34,7 +27,7 @@ export class JwtStorageService {
                 return info;
             }
         } catch (e) {
-            console.log('wrong auth token');
+            console.log('wrong auth info');
         }
         return {};
     }
