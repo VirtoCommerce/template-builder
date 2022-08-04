@@ -24,7 +24,9 @@ export const navigateToCurrentTemplate = createAction('[shared] navigate to curr
 export const filterTemplates = createAction('[shared] filter templates', props<{ filter: string }>());
 export const displayRootTemplates = createAction('[shared] display root templates');
 
-export const loadChildrenTemplates = createAction('[shared] load children templates', props<{ template: string }>());
+export const switchToChildrenTemplates = createAction('[shared] switch to children templates', props<{ template: string }>());
+export const raiseLoadChildrenTemplates = createAction('[shared] raise load children templates');
+export const loadChildrenTemplates = createAction('[shared] load children templates', props<{ template: string, onInit: boolean }>());
 export const loadChildrenTemplatesSuccess = createAction('[shared] load children templates success', props<{ childrenEntries: TemplateEntryList, parentTemplate: string }>());
 export const loadChildrenTemplatesFails = createAction('[shared] load children requested', props<{ error: HttpErrorResponse, parentTemplate: string }>());
 

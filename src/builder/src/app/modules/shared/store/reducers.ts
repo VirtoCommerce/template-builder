@@ -19,7 +19,6 @@ export const sharedReducers = createReducer<SharedState>(
     on(actions.loadChildrenTemplates, (state, { template }) => ({
         ...state,
         templateSelected: template,
-        templatesFilter: null,
         childrenTemplatesState: {
             ...state.childrenTemplatesState,
             [template]: {
@@ -27,6 +26,10 @@ export const sharedReducers = createReducer<SharedState>(
                 isLoading: true
             }
         }
+    })),
+    on(actions.switchToChildrenTemplates, (state) => ({
+        ...state,
+        templatesFilter: null
     })),
     on(actions.loadChildrenTemplatesSuccess, (state, { parentTemplate, childrenEntries }) => ({
         ...state,

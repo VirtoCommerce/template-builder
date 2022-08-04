@@ -83,13 +83,15 @@ export class RoutingEffects {
         ofType(actions.jump),
         withLatestFrom(
             this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectParentTemplateParameter),
             this.store$.select(fromRoute.selectPreviewModeParameter)
         ),
-        tap(([{ path, queryParams, extras }, template, previewMode]) =>
+        tap(([{ path, queryParams, extras }, template, parent, previewMode]) =>
             this.router.navigate(path,
                 {
                     queryParams: {
                         template: template || undefined, // todo: should be template stored between modules?
+                        in: parent || undefined,
                         'preview-mode': previewMode || undefined,
                         ...queryParams
                     },

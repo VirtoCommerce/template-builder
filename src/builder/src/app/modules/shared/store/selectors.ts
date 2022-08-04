@@ -20,6 +20,11 @@ const selectUnsortedTemplatesEntriesAsList = createSelector(
     selectTemplatesEntries,
     templates => Object.keys(templates)
         .map(key => ({ ...templates[key], alias: key, hasChildren: !!templates[key].children || !!templates[key].request }))
+        .sort((x, y) => {
+            const a = x.name || x.alias;
+            const b = y.name || y.alias;
+            return a.localeCompare(b);
+        })
         .sort((x, y) => x.sort === undefined
             ? 1
             : y.sort === undefined
@@ -118,6 +123,11 @@ export const selectChildrenTemplatesEntriesAsList = createSelector(
     (templates, filter) => (filter && templates) ? templates.filter(x => x.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1) : templates
 );
 
+export const selectCurrentTemplatesEntries = createSelector(
+    selectTemplatesEntries,
+    selectChildrenTemplatesEntries,
+    (templates, children) => children?.templates ?? templates
+);
 
 // export const selectTemplatesEntriesLoaded = createSelector(
 //     selectSharedFeature,

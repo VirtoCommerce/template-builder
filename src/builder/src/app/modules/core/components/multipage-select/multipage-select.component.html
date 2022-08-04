@@ -14,9 +14,11 @@
              (overlayOutsideClick)="outsideClick($event)">
     <div class="multipage-select-panel-container {{ panelClass }}">
         <div class="px-4">
-            <input [value]="filter"
+            <input type="search"
+                   [value]="filter"
                    [placeholder]="filterPlaceholder"
                    (keyup)="updateFilter($event)"
+                   (search)="updateFilter($event)"
                    class="search-input" />
         </div>
         <div *ngIf="!childrenItems" class="max-h-80">
@@ -25,7 +27,7 @@
                     <h3 class="list-title">{{ titleText }}</h3>
                 </div>
                 <app-separator></app-separator>
-                <ul class="grow overflow-y-auto relative" [perfectScrollbar]>
+                <ul *ngIf="!!parentItems?.length" class="grow overflow-y-auto relative" [perfectScrollbar]>
                     <li *ngFor="let item of parentItems">
                         <button class="list-item-btn"
                                 [attr.title]="getItemName(item)"
@@ -36,6 +38,10 @@
                         </button>
                     </li>
                 </ul>
+                <div *ngIf="!!filter && !parentItems?.length">
+                    <p class="p-4 pb-2">No results found</p>
+                    <!-- todo: maybe move this label into settings? -->
+                </div>
             </div>
         </div>
         <div *ngIf="!!childrenItems" class="max-h-80">
@@ -45,7 +51,7 @@
                     <h3 class="list-title">{{ titleText }}</h3>
                 </div>
                 <app-separator></app-separator>
-                <ul class="grow overflow-y-auto">
+                <ul *ngIf="!!childrenItems?.length" class="grow overflow-y-auto" [perfectScrollbar]>
                     <li *ngFor="let item of childrenItems">
                         <button class="list-item-btn"
                                 (click)="selectItem(item)">
@@ -54,6 +60,10 @@
                         </button>
                     </li>
                 </ul>
+                <div *ngIf="!!filter && !childrenItems?.length">
+                    <p class="p-4 pb-2">No results found</p>
+                    <!-- todo: maybe move this label into settings? -->
+                </div>
             </div>
         </div>
     </div>

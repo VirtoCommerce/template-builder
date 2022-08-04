@@ -47,7 +47,7 @@ export class TemplateSelectorComponent implements OnInit {
         //     this.filter = '';
         // }
         if (item.hasChildren) {
-            this.store$.dispatch(actions.loadChildrenTemplates({ template: item.alias }));
+            this.store$.dispatch(actions.switchToChildrenTemplates({ template: item.alias }));
         } else {
             this.store$.dispatch(actions.selectTemplate({ template: item.alias }));
         }

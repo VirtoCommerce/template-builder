@@ -46,7 +46,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
             //         }
             //         return throwError(err);
             //     }))
-                ;
+            ;
     }
 
     private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {

@@ -17,18 +17,21 @@ export class ThemeSettingsService {
 
     loadSettingsData(): Observable<SettingsDataModel> {
         const settingsDataUrl = this.appConfig.getValue('settingsDataUrl');
+        // todo: use http.doRequest and change settings to full request description
         return this.http.get<SettingsDataModel>(settingsDataUrl);
     }
 
     loadSettingsSchema(): Observable<SettingsSchemaModel> {
         const settingsSchemaUrl = this.appConfig.getValue('settingsSchemaUrl')
+        // todo: use http.doRequest and change settings to full request description
         return this.http.get<SettingsSchemaModel>(settingsSchemaUrl);
     }
 
     saveSettings(settings: SettingsDataModel): Observable<boolean> {
-        const saveSettings = this.appConfig.getValue('saveSettings');
+        const saveSettingsUrl = this.appConfig.getValue('saveSettings');
         const settingsPath = this.appConfig.getValue('settingsPath');
-        const files = JSON.stringify({ [settingsPath]: settings });
-        return this.http.post(saveSettings, { files }).pipe(map(() => true));
+        const files = JSON.stringify([{ path: settingsPath, type: 'themes', content: settings }]);
+        // todo: use http.doRequest and change settings to full request description
+        return this.http.post(saveSettingsUrl, { files }).pipe(map(() => true));
     }
 }

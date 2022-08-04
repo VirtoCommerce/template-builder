@@ -17,6 +17,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
 
     private subscription: Subscription | null = null;
     private elementSubscription: Subscription | null = null;
+    private previousExpanded: boolean | null = null;
 
     elementForm: FormGroup | null = null;
     control!: FileUploadControl; // control used for d-n-d only
@@ -26,6 +27,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     isDrag = false;
     sortable = true;
     multiple = true;
+
 
     constructor(
         private modals: ModalService,
@@ -66,14 +68,16 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
 
     toggleList() {
         this.expanded = !this.expanded;
+        if (!this.expanded) {
+            this.closeEditor();
+        }
     }
 
     selectFile(file: AssetFile) {
         if (this.descriptor.element && this.descriptor.element.length) {
             this.unsubscribeElement();
             if (file === this.selectedFile) {
-                this.selectedFile = null;
-                this.elementForm = null;
+                this.closeEditor();
             } else {
                 this.elementForm = formsHelpers.generateForm(file.data, this.descriptor.element);
                 this.elementSubscription = this.elementForm.valueChanges.subscribe(value => {
@@ -81,7 +85,20 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
                     this.raiseValueChanged();
                 });
                 this.selectedFile = file;
+                if (this.previousExpanded === null) {
+                    this.previousExpanded = this.expanded;
+                }
+                this.expanded = true;
             }
+        }
+    }
+
+    private closeEditor() {
+        this.selectedFile = null;
+        this.elementForm = null;
+        if (this.previousExpanded !== null) {
+            this.expanded = this.previousExpanded;
+            this.previousExpanded = null;
         }
     }
 

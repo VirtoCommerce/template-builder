@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { of } from "rxjs";
-import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, exhaustMap } from "rxjs/operators";
+import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, exhaustMap, tap } from "rxjs/operators";
 
 import { Store } from "@ngrx/store";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -38,7 +38,8 @@ export class TemplateEditorDataEffects {
         ofType(ROUTER_NAVIGATED),
         filter((action: RouterNavigatedAction<RouterStateUrl>) => !!action?.payload?.routerState?.data),
         map((action: RouterNavigatedAction<RouterStateUrl>) => action.payload.routerState.data),
-        filter((data: any) => data.module === EditorModuleInfo.name),
+        withLatestFrom(this.store$.select(fromRoute.isEmpty)),
+        filter(([data, isEmpty]) => data?.['module'] === EditorModuleInfo.name && !isEmpty),
         switchMap(() => [
             actions.raiseLoadData()
         ])

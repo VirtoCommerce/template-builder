@@ -6,7 +6,7 @@
     "settingsDataUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_data.json&type=themes",
     "settingsSchemaUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_schema.json&type=themes",
     "saveSettings": "/api/pagebuilder/save?storeId=B2B-store",
-    "settingsPath": "config/settings_data.json",
+    "settingsPath": "default/config/settings_data.json",
     "defaultPreviewUrl": "/",
     "uploadAssetsRequest": {
         "url": "/api/content/pages/B2B-store?folderUrl=/assets/pages&name={{file.assetName}}",

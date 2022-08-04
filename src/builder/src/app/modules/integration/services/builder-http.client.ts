@@ -1,8 +1,9 @@
 import { tap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 
+import { EvaluatorService } from '@integration/services';
 import { ServerRequestDescriptor, ServerResponseDescriptor } from '@models/http';
 import { appHelpers } from '@integration/helpers';
 
@@ -18,6 +19,8 @@ export class BuilderHttpClient extends HttpClient {
     private cacheSize = 100;
 
     private _cache: Map<string, any> = new Map();
+
+    constructor(handler: HttpHandler, private evaluator: EvaluatorService) { super(handler);}
 
     doRequest<T>(request: ServerRequestDescriptor | null, additionalOptions: any = null, context: any = null): Observable<T | null> {
         if (!request) {
@@ -73,13 +76,13 @@ export class BuilderHttpClient extends HttpClient {
         return result;
     }
 
-    generateRequest(request: string | ServerRequestDescriptor | null, data: any = null): ServerRequestDescriptor | null {
+    generateRequest(request: string | ServerRequestDescriptor | null, data: any = null, context: any = null): ServerRequestDescriptor | null {
         if (!request) {
             return null;
         }
         if (typeof request === 'string') {
             return {
-                url: request,
+                url: this.evaluator.evaluate(request, context || {}),
                 method: 'GET',
                 body: null,
                 options: {
@@ -88,7 +91,7 @@ export class BuilderHttpClient extends HttpClient {
             };
         }
         const result = {
-            url: request.url,
+            url: this.evaluator.evaluate(request.url, context || {}),
             method: request.method || 'GET',
             body: request.body,
             response: request.response,

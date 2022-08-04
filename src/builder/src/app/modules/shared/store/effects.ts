@@ -2,7 +2,7 @@ import { mapTo } from 'rxjs/operators';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
+import { Action, Store } from "@ngrx/store";
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
@@ -48,7 +48,7 @@ export class SharedEffects {
         ])
     ));
 
-    initApp$ = createEffect(() => this.actions$.pipe(
+    initShared$ = createEffect(() => this.actions$.pipe(
         ofType(actions.initShared),
         switchMap(() => [
             actions.loadTemplateEntries()
@@ -65,13 +65,34 @@ export class SharedEffects {
 
     raiseInitApp$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateEntriesSuccess),
+        withLatestFrom(this.store$.select(fromRoute.selectParentTemplateParameter)),
+        filter(([, parent]) => !parent),
         switchMap(() => [
             actions.initApp()
         ])
     ));
 
+    loadChildrenOnStartApp$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadTemplateEntriesSuccess),
+        withLatestFrom(this.store$.select(fromRoute.selectParentTemplateParameter)),
+        filter(([, parent]) => !!parent),
+        switchMap(() => [
+            actions.raiseLoadChildrenTemplates() // todo: here must be a call to load specific template
+        ])
+    ));
+
+    raiseLoadChildrenTemplates$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.raiseLoadChildrenTemplates),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectParentTemplateParameter)
+        ),
+        switchMap(([, parent]) => [
+            actions.loadChildrenTemplates({template: parent, onInit: true})
+        ])
+    ));
+
     redirectToDefaultTemplate$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.loadTemplateEntriesSuccess, actions.selectDefaultTemplate),
+        ofType(actions.selectDefaultTemplate),
         withLatestFrom(
             this.store$.select(fromState.selectTemplatesEntries),
             this.store$.select(fromState.selectTemplatesEntriesAsList),
@@ -105,13 +126,39 @@ export class SharedEffects {
         ])
     ));
 
+    currentFilterChanged$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.filterTemplates),
+        withLatestFrom(
+            this.store$.select(fromState.selectParentTemplate),
+            this.store$.select(fromState.selectParentTemplateAlias)
+        ),
+        filter(([, parent]) => !!parent?.request),
+        map(([, , parent]) => actions.loadChildrenTemplates({ template: parent || '', onInit: false }))
+    ));
+
+    switchToChildrenTemplates$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.switchToChildrenTemplates),
+        map(({ template }) => actions.loadChildrenTemplates({ template, onInit: false }))
+    ));
+
     loadChildrenTemplates$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadChildrenTemplates),
-        withLatestFrom(this.store$.select(fromState.selectTemplatesEntries)),
-        switchMap(([{ template }, entries]) => {
+        withLatestFrom(
+            this.store$.select(fromState.selectTemplatesEntries),
+            this.store$.select(fromState.selectCurrentFilter)
+        ),
+        filter(([{template}]) => !!template),
+        switchMap(([{ template, onInit }, entries, filter]) => {
             const templateEntry = <TemplateEntry>entries[template]!;
-            return this.templatesService.getChildrenTemplates(templateEntry).pipe(
-                map(childrenEntries => actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: template })),
+            const context = { item: templateEntry, filter };
+            return this.templatesService.getChildrenTemplates(templateEntry, context).pipe(
+                switchMap(childrenEntries => {
+                    const result = <Action[]>[actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: template })];
+                    if (onInit) {
+                        result.push(actions.initApp());
+                    }
+                    return result;
+                }),
                 catchError(error => of(actions.loadChildrenTemplatesFails({ error, parentTemplate: template })))
             );
         })
@@ -134,20 +181,19 @@ export class SharedEffects {
         )
     ));
 
-    executeNavigation$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.selectTemplate),
-        mapTo(actions.navigateToCurrentTemplate())
-    ), { dispatch: false });
+    // executeNavigation$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.selectTemplate),
+    //     mapTo(actions.navigateToCurrentTemplate())
+    // ));
 
     broadcastNavigation$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.navigateToCurrentTemplate),
+        ofType(actions.selectTemplate),
         withLatestFrom(
-            this.store$.select(fromState.selectCurrentTemplateEntry)
+            this.store$.select(fromState.selectCurrentTemplatesEntries)
         ),
-        // todo: probably we should skip this action if url is empty
-        tap(([, templateEntry]) => this.eventsBus.emit({
+        tap(([{ template }, templates]) => this.eventsBus.emit({
             type: 'navigate',
-            url: templateEntry?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
+            url: templates?.[template]?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
         }))
     ), { dispatch: false });
 

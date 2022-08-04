@@ -18,9 +18,9 @@ export class TemplatesService {
         return this.http.get<TemplateEntryList>(templatesListUrl);
     }
 
-    getChildrenTemplates(templateEntry: TemplateEntry): Observable<TemplateEntryList> {
+    getChildrenTemplates(templateEntry: TemplateEntry, context: any): Observable<TemplateEntryList> {
         const givenRequest = Array.isArray(templateEntry.request) ? templateEntry.request[0] : templateEntry.request; // todo: can be multiple requests
-        const httpRequest = this.http.generateRequest(givenRequest || null); // todo: need context to generate request
-        return this.http.doRequest<TemplateEntryList>(httpRequest, null, { item: templateEntry }).pipe(map(x => x || {})); // todo: what should be context?
+        const httpRequest = this.http.generateRequest(givenRequest || null, null, context); // todo: need context to generate request
+        return this.http.doRequest<TemplateEntryList>(httpRequest, null, context).pipe(map(x => x || {})); // todo: what should be context?
     }
 }
