@@ -1,8 +1,8 @@
-import { mapTo } from 'rxjs/operators';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
+import { delay } from 'rxjs/operators';
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
@@ -68,7 +68,8 @@ export class SharedEffects {
         withLatestFrom(this.store$.select(fromRoute.selectParentTemplateParameter)),
         filter(([, parent]) => !parent),
         switchMap(() => [
-            actions.initApp()
+            actions.initApp(),
+            actions.setLivePreviewUrl()
         ])
     ));
 
@@ -156,6 +157,7 @@ export class SharedEffects {
                     const result = <Action[]>[actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: template })];
                     if (onInit) {
                         result.push(actions.initApp());
+                        result.push(actions.setLivePreviewUrl());
                     }
                     return result;
                 }),
@@ -185,6 +187,21 @@ export class SharedEffects {
     //     ofType(actions.selectTemplate),
     //     mapTo(actions.navigateToCurrentTemplate())
     // ));
+
+    onStartPreviewUrl$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.setLivePreviewUrl),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromState.selectCurrentTemplatesEntries)
+        ),
+        delay(1000), // todo: ad-hoc solution. we need wait when the preview will be completely loaded and then send messages
+        tap(([, template, templates]) => {
+            this.eventsBus.emit({
+                type: 'navigate',
+                url: templates?.[template]?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
+            });
+        })
+    ), { dispatch: false });
 
     broadcastNavigation$ = createEffect(() => this.actions$.pipe(
         ofType(actions.selectTemplate),
