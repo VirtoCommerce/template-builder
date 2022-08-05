@@ -76,6 +76,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
     }
 
     private enrichRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
+        // todo: we need add header to local only requests
         const cloned = request.clone({
             headers: request.headers.set('Authorization', 'Bearer ' + token)
         });

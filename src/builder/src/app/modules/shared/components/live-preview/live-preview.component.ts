@@ -7,7 +7,7 @@ import { EventsBusService } from '@core/services';
 import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
 import * as fromRoute from '@shared/routing';
-import { filter, map } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-live-preview',
@@ -17,6 +17,17 @@ import { filter, map } from 'rxjs';
 export class LivePreviewComponent implements OnInit {
 
     @ViewChild('frame', { static: false }) frame: ElementRef | undefined;
+
+    private previewLoadedSource = new BehaviorSubject<boolean>(false);
+    private previewLoaded$ = new Observable(observer => {
+        this.previewLoadedSource.subscribe(result => {
+            if (result) {
+                observer.next();
+                observer.complete();
+            }
+        });
+    });
+
 
     isPresetPreviewMode$ = this.store.select(fromRoute.isPresetPreviewMode);
     previewPresetName$ = this.store.select(fromRoute.selectPresetParameter);
@@ -37,7 +48,14 @@ export class LivePreviewComponent implements OnInit {
 
     ngOnInit(): void {
         this.eventBus.on(() => true, msg => {
-            this.sendMessage(msg);
+            switch (msg.type) {
+                case 'preview-loaded':
+                    this.previewLoadedSource.next(true);
+                    break;
+                default:
+                    this.sendMessage(msg);
+                    break;
+            }
         });
 
         // todo: url to config flow
@@ -47,10 +65,12 @@ export class LivePreviewComponent implements OnInit {
     }
 
     private sendMessage(msg: any) {
-        if (this.frame) {
-            const frame = this.frame.nativeElement as HTMLIFrameElement;
-            const message = { ...msg, source: 'builder' };
-            frame.contentWindow?.postMessage(message, this.url);
-        }
+        this.previewLoaded$.subscribe(() => {
+            if (this.frame) {
+                const frame = this.frame.nativeElement as HTMLIFrameElement;
+                const message = { ...msg, source: 'builder' };
+                frame.contentWindow?.postMessage(message, this.url);
+            }
+        });
     }
 }

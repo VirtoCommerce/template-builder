@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { delay } from 'rxjs/operators';
-import { catchError, switchMap, map, of, withLatestFrom, filter, tap } from "rxjs";
+import { catchError, switchMap, map, of, withLatestFrom, filter, tap, fromEvent } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
 import { TemplatesService } from '@shared/services';
@@ -222,5 +222,10 @@ export class SharedEffects {
     showNotification$ = createEffect(() => this.actions$.pipe(
         ofType(actions.showNotification),
         tap(({ message, msgType, top }) => this.notification.show(message, msgType, top ? 'tr' : 'bl'))
+    ), { dispatch: false });
+
+    previewLoadedMessage$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
+        filter((event: MessageEvent) => event.data.source === 'preview'),
+        tap(() => this.eventsBus.emit({ type: 'preview-loaded' }))
     ), { dispatch: false });
 }
