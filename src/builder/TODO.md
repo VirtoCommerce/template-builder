@@ -44,6 +44,9 @@
 * [ ] check other evals
 * [ ] ref can be a full request
 * [ ] custom ref
+* [ ] use external objects
+* [ ] shared settings
+    * [ ] named settings
 
 * remove from tsconfig.json
   * "resolveJsonModule": true,

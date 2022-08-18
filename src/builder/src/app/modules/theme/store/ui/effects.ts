@@ -6,6 +6,7 @@ import { withLatestFrom, filter, mapTo, map, tap } from "rxjs/operators";
 import * as actions from "../actions";
 import { BuilderState } from "../state";
 
+import { broadcastMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
 import * as routingSelectors from '@shared/routing'
 
@@ -41,4 +42,8 @@ export class ThemeUiEffects {
         mapTo(routingActions.jump({ path: ['/pages'] }))
     ));
 
+    notifySettingsChanged$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.updateSettings),
+        map(({ model }) => broadcastMessage({msg: { type: 'settings', settings: model }}))
+    ));
 }

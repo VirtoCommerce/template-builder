@@ -44,7 +44,7 @@ export class ThemeDomainEffects {
         map(() => sharedActions.showNotification({ message: 'Settings were successfully saved', msgType: 'success', top: true }))
     ));
 
-    saceSettingsFail$ = createEffect(() => this.actions$.pipe(
+    saveSettingsFail$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveSettingsFail),
         tap((error) => console.log(error)),
         map(() => sharedActions.showNotification({ message: 'Could not save settings', msgType: 'error', top: true }))
