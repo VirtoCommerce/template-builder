@@ -14,14 +14,14 @@ const selectSourceSettings = createSelector(
 
 export const selectPresets = createSelector(
     selectThemeDataState,
-    state => state.sourceSettings!.presets
+    state => state.sourceSettings?.presets
 );
 
 export const selectFilteredPresets = createSelector(
     selectPresets,
     selectPresetsFilter,
-    (presets, filter) => !filter
-        ? presets
+    (presets, filter) => !filter || !presets
+        ? presets || []
         : Object.keys(presets)
             .filter(key => key.toLowerCase().includes(filter?.toLowerCase()))
             .reduce((result, key) => ({...result, [key]: presets[key]}), {})

@@ -27,9 +27,20 @@ export class ThemeUiEffects {
         mapTo(routingActions.go({ path: ['/themes/presets'] }))
     ));
 
-    previewPreset$ = createEffect(() => this.actions$.pipe(
+    gotoPreviewPreset$ = createEffect(() => this.actions$.pipe(
         ofType(actions.previewPreset),
         map(({ preset }) => routingActions.go({ queryParams: { preset } }))
+    ));
+
+    redirectWhenNoPreset$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadSettingsDataSuccess),
+        withLatestFrom(
+            this.store$.select(routingSelectors.selectPresetParameter)
+        ),
+        filter(([, preset]) => !!preset),
+        map(([action, preset]) => action.settingsData?.presets?.[preset]),
+        filter(preset => !preset),
+        map(() => actions.gotoPresets())
     ));
 
     exitPresets$ = createEffect(() => this.actions$.pipe(

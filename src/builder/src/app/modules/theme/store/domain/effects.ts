@@ -34,6 +34,27 @@ export class ThemeDomainEffects {
         })
     ));
 
+    previewPresetAfterLoading$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadSettingsDataSuccess),
+        withLatestFrom(
+            this.store$.select(routingSelectors.selectPresetParameter)
+        ),
+        filter(([, preset]) => !!preset),
+        map(([action, preset]) => action.settingsData?.presets?.[preset]),
+        filter(preset => !!preset),
+        map(preset => sharedActions.broadcastMessage({ msg: { type: 'preset', preset } }))
+    ));
+
+    previewPreset$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.previewPreset),
+        withLatestFrom(
+            this.store$.select(domainSelectors.selectPresets)
+        ),
+        map(([{ preset }, presets]) => presets?.[preset]),
+        filter(preset => !!preset),
+        map(preset => sharedActions.broadcastMessage({ msg: { type: 'preset', preset } }))
+    ));
+
     presetApplied$ = createEffect(() => this.actions$.pipe(
         ofType(actions.applyPreset),
         map(() => sharedActions.showNotification({ message: 'Preset applied', msgType: 'success' }))

@@ -14,7 +14,7 @@ export const loadTemplateEntries = createAction('[shared] load template entries'
 export const loadTemplateEntriesSuccess = createAction('[shared] load template entries success', props<{ templatesEntries: TemplateEntryList }>());
 export const loadTemplateEntriesFails = createAction('[shared] load template entries fails', props<{ error: HttpErrorResponse }>());
 
-export const templateChanged = createAction('[shared] template changed', props<{ template: string, in: string | null }>());
+export const templateChanged = createAction('[shared] template changed', props<{ template: string, parent: string | null }>());
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
 

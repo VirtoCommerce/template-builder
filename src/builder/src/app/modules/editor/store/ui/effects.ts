@@ -52,13 +52,13 @@ export class TemplateEditorUiEffects {
         ])
     ));
 
-    // remove it because in shared effects already occurs router go action
-    // templateChanged$ = createEffect(() => this.actions$.pipe(
-    //     ofType(sharedActions.templateChanged),
-    //     switchMap(({ template, in }) => [
-    //         routingActions.go({ path: ['/pages'], queryParams: { template, in } })
-    //     ])
-    // ));
+    // this redirect is necessary when we edit other page, it happens after redirect from shared module
+    templateChanged$ = createEffect(() => this.actions$.pipe(
+        ofType(sharedActions.templateChanged),
+        switchMap(({ template, parent }) => [
+            routingActions.go({ path: ['/pages'], queryParams: { template, in: parent } })
+        ])
+    ));
 
     completeEditSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.closeEditItemPanel),

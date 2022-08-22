@@ -122,8 +122,8 @@ export class SharedEffects {
             || !templateParameter), // or template parameter from route is empty
         switchMap(([{ template }, parentTemplate]) => [
             router.go({ queryParams: { template, in: parentTemplate } }),
-            // remove it because in editour.ui.effects occurs extra router.go action
-            // actions.templateChanged({ template, in: parentTemplate })
+            // this action allows to inform other modules to do some stuff, i.e. editor module do the other redirect
+            actions.templateChanged({ template, parent: parentTemplate })
         ])
     ));
 
