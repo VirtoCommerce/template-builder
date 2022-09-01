@@ -2,6 +2,7 @@ import { appHelpers } from '@integration/helpers';
 import { SectionPropertyDescriptor } from '@models/controls';
 import { SectionModel, SectionSchema, TemplateModel } from '@models/document';
 import {
+    ObjectsSchemasList,
     SectionsSchemasList,
     // TemplatesList,
     // TemplateSchema,
@@ -371,4 +372,20 @@ export function insertSection(template: TemplateModel, sectionId: string | null,
         template: changedTemplate,
         sectionId: newSection.id
     };
+}
+
+export function prepareSchema(schema: SectionSchema, shared: ObjectsSchemasList, itemType: '_sections' | '_blocks'): SectionSchema {
+    const result = {
+        ...schema,
+        settings: [
+            ...schema.settings,
+            ...(schema.excludeShared !== true ? shared?.[itemType]
+                ?.settings?.filter(x => !schema.settings?.find(s => s.id === x.id)) : []) || [],
+            ...schema?.includeShared?.map(name => shared?.[name]?.settings)?.flat(1)
+                .filter(x => !!x && !schema.settings?.find(s => s.id === x.id)) || [],
+        ].filter(x =>
+            schema.excludeShared === true || (<string[]>schema.excludeShared || []).indexOf(x.id) === -1
+        )
+    };
+    return result;
 }

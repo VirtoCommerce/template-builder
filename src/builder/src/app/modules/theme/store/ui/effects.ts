@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { withLatestFrom, filter, mapTo, map, tap } from "rxjs/operators";
+import { withLatestFrom, filter, mapTo, map, switchMapTo } from "rxjs/operators";
 
 import * as actions from "../actions";
 import { BuilderState } from "../state";
@@ -45,7 +45,10 @@ export class ThemeUiEffects {
 
     exitPresets$ = createEffect(() => this.actions$.pipe(
         ofType(actions.exitPresets, actions.applyPreset),
-        mapTo(routingActions.go({ path: ['/themes'], queryParams: { preset: undefined } }))
+        switchMapTo([
+            routingActions.go({ path: ['/themes'], queryParams: { preset: undefined } }),
+            actions.updateInPreview({ settings: null })
+        ])
     ));
 
     exitSettings$ = createEffect(() => this.actions$.pipe(
@@ -55,6 +58,6 @@ export class ThemeUiEffects {
 
     notifySettingsChanged$ = createEffect(() => this.actions$.pipe(
         ofType(actions.updateSettings),
-        map(({ model }) => broadcastMessage({msg: { type: 'settings', settings: model }}))
+        map(({ model }) => actions.updateInPreview({ settings: model }))
     ));
 }

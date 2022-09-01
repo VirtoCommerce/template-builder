@@ -20,5 +20,5 @@ export const themeDomainReducers = createReducer<ThemeDomainState>(
     on(actions.saveSettingsFail, state => ({ ...state, schemaLoading: false })),
 
     on(actions.updateSettings, actions.applyPreset, (state) => ({ ...state, isDirty: true })),
-    on(actions.revertChanges, (state) => ({ ...state, isDirty: false }))
+    on(actions.revertChanges, actions.applyChanges, (state) => ({ ...state, isDirty: false }))
 );

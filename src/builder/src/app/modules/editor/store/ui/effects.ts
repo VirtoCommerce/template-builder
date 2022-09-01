@@ -6,6 +6,7 @@ import { withLatestFrom, filter, tap, map, catchError, switchMap } from "rxjs/op
 
 import { broadcastMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
+import * as sharedSelectors from '@shared/store/selectors';
 
 // import * as routingSelectors from '@shared/routing'
 // import * as editorHelpers from '@editor/services/editor.helpers';
@@ -92,9 +93,12 @@ export class TemplateEditorUiEffects {
         ofType(actions.templateContentChanged),
         // withLatestFrom(this.store$.select(selectors.selectCurrentItemForEdit)),
         // todo: should be only one section
-        withLatestFrom(this.store$.select(selectors.selectCurrentTemplateModel)),
-        switchMap(([, template]) => [
-            broadcastMessage({ msg: { type: 'changed', model: { template } } }),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry)
+        ),
+        switchMap(([, template, entry]) => [
+            broadcastMessage({ msg: { type: 'changed', model: { template, ...entry?.previewMessage } } }),
             sharedActions.setCurrentDirtyState({ dirty: true })
         ])
     ));

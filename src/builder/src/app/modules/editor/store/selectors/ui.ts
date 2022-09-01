@@ -133,13 +133,17 @@ export const selectEditSectionContext = createSelector(
     fromData.selectSectionSchemaFromRoute,
     fromData.selectCurrentItemForEdit,
     fromData.selectCurrentSchemaForEdit,
+    fromData.selectCurrentTemplateModel,
     isEditSettings,
-    (block, section, blockSchema, sectionSchema, model, schema, isSettings) => !!schema && !!model
+    (block, section, blockSchema, sectionSchema, model, schema, template, isSettings) => !!schema && !!model
         ? <any>{
             block, section, blockSchema, sectionSchema, schema, model,
             isEditSettings: isSettings,
             editContext: {
-                // todo: here should be context of editing, current page, block, section and so on
+                model,
+                block,
+                section,
+                template
             }
         }
         : null

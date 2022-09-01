@@ -7,4 +7,5 @@ export type SchemasList = {
     blocks: SectionsSchemasList;
     sections: SectionsSchemasList;
     objects: ObjectsSchemasList;
+    shared: ObjectsSchemasList;
 };

@@ -42,7 +42,7 @@ export class ThemeDomainEffects {
         filter(([, preset]) => !!preset),
         map(([action, preset]) => action.settingsData?.presets?.[preset]),
         filter(preset => !!preset),
-        map(preset => sharedActions.broadcastMessage({ msg: { type: 'preset', preset } }))
+        map(preset => actions.updateInPreview({ settings: preset }))
     ));
 
     previewPreset$ = createEffect(() => this.actions$.pipe(
@@ -52,7 +52,7 @@ export class ThemeDomainEffects {
         ),
         map(([{ preset }, presets]) => presets?.[preset]),
         filter(preset => !!preset),
-        map(preset => sharedActions.broadcastMessage({ msg: { type: 'preset', preset } }))
+        map(preset => actions.updateInPreview({ settings: preset }))
     ));
 
     presetApplied$ = createEffect(() => this.actions$.pipe(
@@ -76,8 +76,14 @@ export class ThemeDomainEffects {
         filter(({ action }) => action === 'cancel'),
         switchMap(() => [
             actions.revertChanges(),
-            actions.exitSettings()
+            actions.exitSettings(),
+            actions.updateInPreview({ settings: null })
         ])
+    ));
+
+    revertChanges$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.revertChanges),
+        map(() => sharedActions.showNotification({ message: 'Changes were reverted', msgType: 'success', top: true }))
     ));
 
     applyAction$ = createEffect(() => this.actions$.pipe(
@@ -94,5 +100,15 @@ export class ThemeDomainEffects {
             actions.applyChanges(),
             actions.exitSettings()
         ])
+    ));
+
+    updateInPreview$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.updateInPreview),
+        withLatestFrom(
+            this.store$.select(domainSelectors.selectCurrentSettings)
+        ),
+        map(([{ settings }, currentSettings]) =>
+            sharedActions.broadcastMessage({ msg: { type: 'settings', settings: settings || currentSettings } })
+        )
     ));
 }

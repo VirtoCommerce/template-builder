@@ -25,18 +25,18 @@ export const selectPresetsContext = createSelector(
 export const selectToolbarButtonsState = createSelector(
     selectIsDirty,
     isDirty => (<ActionButtonDescriptor[][]>[
-            [
-                {
-                    canAction: false,
-                    icon: 'undo',
-                    alias: 'undo'
-                },
-                {
-                    canAction: false,
-                    icon: 'redo',
-                    alias: 'redo'
-                }
-            ],
+            // [
+            //     {
+            //         canAction: false,
+            //         icon: 'undo',
+            //         alias: 'undo'
+            //     },
+            //     {
+            //         canAction: false,
+            //         icon: 'redo',
+            //         alias: 'redo'
+            //     }
+            // ],
             [
                 {
                     title: 'Cancel',

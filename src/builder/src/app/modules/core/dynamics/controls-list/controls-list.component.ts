@@ -23,4 +23,16 @@ export class ControlsListComponent implements OnInit {
         const result = <DisplayTextDescriptor>control;
         return result.content;
     }
+
+    checkVisibility(descriptor: BaseControlDescriptor): boolean {
+        if (!!descriptor.visibility) {
+            try {
+                const result = function(){ return eval(descriptor.visibility!); }.call(this.context);
+                return result;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        return true;
+    }
 }

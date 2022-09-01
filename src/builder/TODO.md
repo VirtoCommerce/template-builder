@@ -29,10 +29,10 @@
     * [ ] popup
   * [x] загрузка данных для селекта
   * [ ] search
-  * [ ] файлы
-  * [ ] изображения
+  * [x] файлы
+  * [x] изображения
 * [x] верстка элементов
-* [ ] настройки страницы/шаблона
+* [x] настройки страницы/шаблона
 * [x] настройки темы
 * [ ] интеграция с платформой
 * [ ] интеграция с маркетплейсом
@@ -45,8 +45,10 @@
 * [ ] ref can be a full request
 * [ ] custom ref
 * [ ] use external objects
-* [ ] shared settings
-    * [ ] named settings
+* [x] shared settings
+    * [x] named settings
+* [ ] describe preview message in template settings (and use context to generate it)
+* [ ] error in context menu of unexpected block type
 
 * remove from tsconfig.json
   * "resolveJsonModule": true,

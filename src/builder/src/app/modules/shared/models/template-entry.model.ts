@@ -15,6 +15,7 @@ export interface TemplateEntry {
     settings?: SectionPropertyDescriptor[];
     children?: TemplateEntryList;
     hasChildren: boolean;
+    previewMessage?: any;
 }
 
 // export interface SearchPathEntry {

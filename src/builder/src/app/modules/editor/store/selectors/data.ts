@@ -8,6 +8,7 @@ import { selectTemplateDataState, selectCurrentSectionsFilter } from './common';
 import { SectionsSchemasList } from '@editor/models';
 import { appHelpers } from '@integration/helpers';
 import { coreHelpers } from '@core/helpers';
+import { helpers } from '@editor/helpers';
 
 import * as fromRoute from '@shared/routing/selectors';
 import * as fromShared from '@shared/store/selectors';
@@ -40,6 +41,11 @@ export const selectBlocksSchemas = createSelector(
     state => state.schemas?.blocks || {}
 );
 
+export const selectSharedSchemas = createSelector(
+    selectTemplateDataState,
+    state => state.schemas?.shared || {}
+);
+
 export const selectTemplateSettings = createSelector(
     selectCurrentTemplateModel,
     template => template?.settings || <SectionModel>{}
@@ -61,7 +67,7 @@ const selectCurrentTemplateAllSectionsSchemas = createSelector(
 const selectCurrentTemplateEmbeddedSettingsSchemas = createSelector(
     fromShared.selectCurrentTemplateEntry,
     (entry: TemplateEntry) => entry.settings && entry.settings.length
-        ? <SectionSchema> {
+        ? <SectionSchema>{
             // todo: should it be in config?
             icon: 'construction',
             type: '',
@@ -76,7 +82,7 @@ export const selectCurrentTemplateSettingsSchemas = createSelector(
     selectCurrentTemplateAllSectionsSchemas,
     selectCurrentTemplateEmbeddedSettingsSchemas,
     (schemas, entry) => ({
-        top: [ entry, ...schemas.filter(x => x.static === true || x.static === 'top')].filter(x => !!x),
+        top: [entry, ...schemas.filter(x => x.static === true || x.static === 'top')].filter(x => !!x),
         bottom: schemas.filter(x => x.static === 'bottom')
     })
 );
@@ -114,7 +120,8 @@ export const selectSectionModelFromRoute = createSelector(
 export const selectSectionSchemaFromRoute = createSelector(
     selectSectionModelFromRoute,
     selectSectionsSchemas,
-    (section, schemas) => section && schemas[section.type]
+    selectSharedSchemas,
+    (section, schemas, shared) => section && helpers.prepareSchema(schemas[section.type], shared, '_sections')
 );
 
 export const selectBlockModelFromRoute = createSelector(
@@ -129,8 +136,9 @@ export const selectBlockSchemaFromRoute = createSelector(
     selectBlockModelFromRoute,
     selectBlocksSchemas,
     selectSectionsSchemas,
-    (model, blocksSchemas, sectionsSchemas) =>
-        model && (blocksSchemas[model.type] || sectionsSchemas[model.type])
+    selectSharedSchemas,
+    (model, blocksSchemas, sectionsSchemas, shared) =>
+        model && (helpers.prepareSchema(blocksSchemas[model.type] || sectionsSchemas[model.type], shared, '_blocks'))
 );
 
 export const selectCurrentItemForEdit = createSelector(
