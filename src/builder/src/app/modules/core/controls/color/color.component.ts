@@ -1,5 +1,5 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
 import { ColorDescriptor } from '@models/controls';
@@ -32,6 +32,10 @@ export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
         weight: 1
     }];
 
+    constructor(private cdr: ChangeDetectorRef) {
+        super();
+    }
+
     clearColor() {
         this.onValueChanged(this.descriptor.clearValue || null);
         this.close();
@@ -56,5 +60,9 @@ export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     outsideClick(event: MouseEvent) {
         event.stopPropagation();
         this.close();
+    }
+
+    protected override applyNewValue(): void {
+        this.cdr.detectChanges();
     }
 }

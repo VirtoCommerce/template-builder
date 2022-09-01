@@ -47,6 +47,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
             value = null;
         }
         this.controlValue = value;
+        this.applyNewValue();
     }
 
     registerOnValueChanged(fn: (_: any) => void) {
@@ -59,6 +60,8 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     registerOnControlTouched(fn: (_: any) => void) {
         this.onControlTouched = fn;
     }
+
+    protected applyNewValue() { }
 
     protected setFocus() {
         const control = this.getFocusableControl();

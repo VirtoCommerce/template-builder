@@ -1,3 +1,4 @@
+import { AssetFile } from '@core/models';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CdkDragDrop, CdkDragEnter, CdkDropList, CdkDropListGroup, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -27,7 +28,7 @@ export class ImagesComponent extends BaseFilesComponent<ImagesDescriptor> {
     //     }
     // }
 
-    getBackground(item: any) {
+    getBackground(item: AssetFile) {
         return `url('${item.previewUrl}')`;
     }
 

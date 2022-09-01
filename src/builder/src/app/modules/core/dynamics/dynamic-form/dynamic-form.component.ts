@@ -17,6 +17,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     private _sectionModel!: SectionModel;
     private _descriptors!: BaseControlDescriptor[];
     private _currentSectionId: string | null = null;
+    private _currentSection: object | null = null;
     private _subscription: Subscription | null = null;
 
     @Input() get sectionModel(): SectionModel {
@@ -25,7 +26,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     set sectionModel(value: SectionModel) {
         if (this._sectionModel !== value) {
             this._sectionModel = value;
-            this.generateForm();
+            this.generateForm(true);
         }
     }
     @Input() context!: ControlContext;
@@ -52,9 +53,9 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         this.unsubscribe();
     }
 
-    private generateForm() {
+    private generateForm(modelChanged: boolean = false) {
         const m = this.sectionModel;
-        if (m && !!this.descriptors && (!this.form || (m.id !== this._currentSectionId))) {
+        if (m && !!this.descriptors && (!this.form || m.id !== this._currentSectionId)) {
             this._currentSectionId = m.id;
             this.form = null;
             this.unsubscribe();
@@ -74,11 +75,19 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
                 this.zone.run(() => {
                     this.form = form;
                     this._subscription = subscription;
-
+                    this.cdr.detectChanges(); // todo: here or out of a zone cycle?
                 });
             });
-            this.cdr.detectChanges(); // todo: here or in a zone cycle?
+        } else if (m && !!this.descriptors && this.form && modelChanged) {
+            if (!this.equalsModels(m, this._currentSection)) {
+                this._currentSection = m;
+                this.form.patchValue(m);
+            }
         }
+    }
+
+    private equalsModels(a: any, b: any): boolean {
+        return !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
     }
 
     private unsubscribe() {

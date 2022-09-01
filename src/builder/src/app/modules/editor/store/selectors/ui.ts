@@ -109,7 +109,7 @@ export const selectAddItemContext = createSelector(
 
 const isEditSettings = createSelector(
     fromRoute.getModeName,
-    mode => mode === EditorModuleInfo.mode.editSettings
+    mode => mode === EditorModuleInfo.mode.editSettings // means page (or template) settings, static block
 );
 
 export const selectCurrentItemName = createSelector(
@@ -140,10 +140,10 @@ export const selectEditSectionContext = createSelector(
             block, section, blockSchema, sectionSchema, schema, model,
             isEditSettings: isSettings,
             editContext: {
-                model,
-                block,
-                section,
-                template
+                model, // current item under editing, can be block, section or settings
+                block, // current block or null
+                section, // current section, useful in block
+                template // current template
             }
         }
         : null

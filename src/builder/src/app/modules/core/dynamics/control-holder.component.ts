@@ -31,11 +31,21 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
 
     private component!: BaseControlDirective<BaseControlDescriptor>;
     private _context!: ControlContext;
+    private _currentForm!: FormGroup;
 
     @ViewChild(ControlHostDirective, { static: true }) host!: ControlHostDirective;
 
     @Input() descriptor!: BaseControlDescriptor;
-    @Input() currentForm!: FormGroup;
+    @Input() get currentForm(): FormGroup {
+        return this._currentForm;
+    }
+    set currentForm(value: FormGroup) {
+        this._currentForm = value;
+        if (this.component) {
+            this.component.currentForm = value;
+            this.cdr.detectChanges();
+        }
+    }
     // @Input() hideLabel: boolean;
     @Input() get context(): ControlContext {
         return this._context;
