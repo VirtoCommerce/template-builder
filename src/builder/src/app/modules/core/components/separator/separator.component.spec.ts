@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SeparatorComponent } from './separator.component';
 
-describe('SeparatorComponent', () => {
+xdescribe('SeparatorComponent', () => {
   let component: SeparatorComponent;
   let fixture: ComponentFixture<SeparatorComponent>;
 

@@ -8,6 +8,8 @@ export interface ServerRequestDescriptor {
     options?: any;
     response?: ServerResponseDescriptor;
     cacheable?: boolean;
+
+    init?: boolean | string;
     // cacheContextPath?: string;
     // value: string | (string | ValueDescriptorModel)[];
     // resultField: string;
@@ -16,7 +18,7 @@ export interface ServerRequestDescriptor {
 
 export interface ServerResponseDescriptor {
     selector?: string; // script to eval over response
-    result: string; // path to result field
+    result: string; // path to result field (jsonpath)
     isArray: boolean; // result should be array
     value: string | (string | SelectValueDescriptor)[];
 }

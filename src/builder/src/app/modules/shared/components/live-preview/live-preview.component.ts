@@ -3,6 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
 import { EventsBusService } from '@core/services';
+import { AppConfig } from '@integration/services';
 
 import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
@@ -32,10 +33,6 @@ export class LivePreviewComponent implements OnInit {
     isPresetPreviewMode$ = this.store.select(fromRoute.isPresetPreviewMode);
     previewPresetName$ = this.store.select(fromRoute.selectPresetParameter);
     previewMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
-    // previewUrl$ = this.store.select(fromState.selectPreviewUrl).pipe(
-    //     filter(url => !!url),
-    //     map(url => this.sanitizer.bypassSecurityTrustResourceUrl(url))
-    // );
 
     previewUrl!: SafeResourceUrl;
     url!: string;
@@ -43,7 +40,8 @@ export class LivePreviewComponent implements OnInit {
     constructor(
         private store: Store<BuilderState>,
         private sanitizer: DomSanitizer,
-        private eventBus: EventsBusService
+        private eventBus: EventsBusService,
+        private config: AppConfig
     ) { }
 
     ngOnInit(): void {
@@ -57,11 +55,8 @@ export class LivePreviewComponent implements OnInit {
                     break;
             }
         });
-
-        // todo: url to config flow
-        const isLocal = window.location.host.indexOf('localhost') !== -1;
-        this.url = isLocal ? 'http://localhost:2082/' : 'https://st-storefront.dev.govirto.com/';
-        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url + 'designer-preview?ep=' + window.location.origin);
+        this.url = this.config.getValue('fullPreviewUrl');
+        this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
     }
 
     private sendMessage(msg: any) {

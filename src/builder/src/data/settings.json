@@ -1,18 +1,55 @@
 {
-    "templatesListUrl": "/api/pagebuilder/templates?storeId=B2B-store",
-    "sectionsListUrl": "/api/pagebuilder/sections?storeId=B2B-store",
-    "templateUrl": "/api/pagebuilder/template?storeId=B2B-store",
-    "saveTemplates": "/api/pagebuilder/save?storeId=B2B-store",
+    "storefrontUrl": {
+        "init": "requests",
+        "requests": [
+            {
+                "url": "/api/stores/{{location.params.storeId}}",
+                "method": "GET",
+                "response": {
+                    "result": "$.url",
+                    "isArray": false
+                }
+            },
+            {
+                "url": "/api/platform/settings/VirtoCommerce.PageBuilderModule.General.StoreUrl",
+                "method": "GET",
+                "response": {
+                    "result": "$.value",
+                    "isArray": false
+                }
+            }
+        ]
+    },
+    "previewPath": {
+        "init": true,
+        "url": "/api/platform/settings/VirtoCommerce.PageBuilderModule.General.StorePreviewPath",
+        "method": "GET",
+        "response": {
+            "result": "$.value",
+            "isArray": false
+        }
+    },
+    "fullPreviewUrl": "{{settings.storefrontUrl}}{{settings.previewPath}}?ep={{location.origin}}",
+    "templatesListUrl": "/api/pagebuilder/templates?storeId={{location.params.storeId}}",
+    "sectionsListUrl": "/api/pagebuilder/sections?storeId={{location.params.storeId}}",
+    "templateUrl": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{item.path}}&type={{item.type}}",
+    "saveTemplates": "/api/pagebuilder/save?storeId={{location.params.storeId}}",
     "settingsDataUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_data.json&type=themes",
     "settingsSchemaUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_schema.json&type=themes",
     "saveSettings": "/api/pagebuilder/save?storeId=B2B-store",
-    "settingsPath": "default/config/settings_data.json",
+    "settingsPath": "/config/settings_data.json",
     "defaultPreviewUrl": "/",
     "uploadAssetsRequest": {
         "url": "/api/content/pages/B2B-store?folderUrl=/assets/pages&name={{file.assetName}}",
         "method": "POST",
-        "form": { "name": "uploadedFile", "fileName": "{{file.assetName}}" },
-        "response": { "result": "$[0].url", "isArray": false }
+        "form": {
+            "name": "uploadedFile",
+            "fileName": "{{file.assetName}}"
+        },
+        "response": {
+            "result": "$[0].url",
+            "isArray": false
+        }
     },
     "inlineAssetsRequest": "inline",
     "fullUploadAssetsRequest": {
@@ -21,7 +58,13 @@
         "randomizeAssetName": true,
         "resultTemplate": "{{response}}",
         "previewTemplate": "http://localhost:2082{{response}}",
-        "form": { "name": "uploadedFile", "fileName": "{{file.assetName}}" },
-        "response": { "result": "$[0].url", "isArray": false }
+        "form": {
+            "name": "uploadedFile",
+            "fileName": "{{file.assetName}}"
+        },
+        "response": {
+            "result": "$[0].url",
+            "isArray": false
+        }
     }
 }

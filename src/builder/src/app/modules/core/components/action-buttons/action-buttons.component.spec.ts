@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ActionButtonsComponent } from './action-buttons.component';
-
-describe('ActionButtonsComponent', () => {
+xdescribe('ActionButtonsComponent', () => {
   let component: ActionButtonsComponent;
   let fixture: ComponentFixture<ActionButtonsComponent>;
 

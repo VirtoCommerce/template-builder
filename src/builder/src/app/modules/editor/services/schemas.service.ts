@@ -13,7 +13,9 @@ export class SchemasService {
 
     constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
-    getSchemas(): Observable<SchemasList> {
-        return this.http.get<SchemasList>(this.appConfig.getValue('sectionsListUrl'));
+    getSchemas(): Observable<SchemasList | null> {
+        const sectionsListUrl = this.appConfig.getValue('sectionsListUrl');
+        const request = this.http.generateRequest(sectionsListUrl);
+        return this.http.doRequest<SchemasList>(request);
     }
 }

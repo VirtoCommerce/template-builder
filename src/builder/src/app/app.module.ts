@@ -19,7 +19,7 @@ import { RouterSerializer } from '@shared/routing/serializer';
 import { EditorModule } from '@editor/editor.module';
 import { ThemeModule } from '@theme/theme.module';
 
-import { AppConfig } from '@integration/services';
+import { AppInitializator } from '@integration/services/app.initializator';
 
 // import { EDITOR_SERVICE } from '@editor/di';
 // import { PlatformService, AppConfig } from '@app/services';
@@ -77,9 +77,9 @@ import { LAYOUT_COMPONENTS } from './layout';
         // { provide: EDITOR_SERVICE, useClass: PlatformService },
         {
             provide: APP_INITIALIZER,
-            useFactory: (config: AppConfig) =>
+            useFactory: (config: AppInitializator) =>
                 () => config.init(),
-            deps: [AppConfig],
+            deps: [AppInitializator],
             multi: true
         }
     ],

@@ -13,14 +13,14 @@ export class TemplatesService {
 
     constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
-    getTemplatesList(): Observable<TemplateEntryList> {
+    getTemplatesList(): Observable<TemplateEntryList | null> {
         const templatesListUrl = this.appConfig.getValue('templatesListUrl');
-        return this.http.get<TemplateEntryList>(templatesListUrl);
+        const request = this.http.generateRequest(templatesListUrl);
+        return this.http.doRequest<TemplateEntryList>(request);
     }
 
     getChildrenTemplates(templateEntry: TemplateEntry, context: any): Observable<TemplateEntryList> {
-        const givenRequest = Array.isArray(templateEntry.request) ? templateEntry.request[0] : templateEntry.request; // todo: can be multiple requests
-        const httpRequest = this.http.generateRequest(givenRequest || null, null, context); // todo: need context to generate request
-        return this.http.doRequest<TemplateEntryList>(httpRequest, null, context).pipe(map(x => x || {})); // todo: what should be context?
+        const httpRequest = this.http.generateRequest(templateEntry.request || null, null, context);
+        return this.http.doRequest<TemplateEntryList>(httpRequest, null, context).pipe(map(x => x || {}));
     }
 }

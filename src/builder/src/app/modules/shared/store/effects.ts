@@ -58,7 +58,7 @@ export class SharedEffects {
     loadTemplateEntries$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateEntries),
         switchMap(() => this.templatesService.getTemplatesList().pipe(
-            map(templatesEntries => actions.loadTemplateEntriesSuccess({ templatesEntries })),
+            map(templatesEntries => actions.loadTemplateEntriesSuccess({ templatesEntries: templatesEntries || {} })),
             catchError(error => of(actions.loadTemplateEntriesFails({ error })))
         )),
     ));
@@ -198,7 +198,7 @@ export class SharedEffects {
         tap(([, template, templates]) => {
             this.eventsBus.emit({
                 type: 'navigate',
-                url: templates?.[template]?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
+                url: templates?.[template]?.previewUrl || this.appConfig.getValue('startPreviewPath') || '/'
             });
         })
     ), { dispatch: false });
@@ -210,7 +210,7 @@ export class SharedEffects {
         ),
         tap(([{ template }, templates]) => this.eventsBus.emit({
             type: 'navigate',
-            url: templates?.[template]?.previewUrl || this.appConfig.getValue('defaultPreviewUrl') || '/'
+            url: templates?.[template]?.previewUrl || this.appConfig.getValue('startPreviewPath') || '/'
         }))
     ), { dispatch: false });
 

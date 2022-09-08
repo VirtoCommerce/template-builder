@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PresetsPanelComponent } from './presets-panel.component';
 
-describe('PresetsPanelComponent', () => {
+xdescribe('PresetsPanelComponent', () => {
   let component: PresetsPanelComponent;
   let fixture: ComponentFixture<PresetsPanelComponent>;
 

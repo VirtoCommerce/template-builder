@@ -1,11 +1,14 @@
 import { tap } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 
-import { EvaluatorService } from '@integration/services';
+import { AppConfig, EvaluatorService } from '@integration/services';
 import { ServerRequestDescriptor, ServerResponseDescriptor } from '@models/http';
 import { appHelpers } from '@integration/helpers';
+
+type CustomRequest = string | ServerRequestDescriptor | null;
+type CustomRequests = CustomRequest | CustomRequest[] | null;
 
 @Injectable({
     providedIn: 'root'
@@ -20,14 +23,45 @@ export class BuilderHttpClient extends HttpClient {
 
     private _cache: Map<string, any> = new Map();
 
-    constructor(handler: HttpHandler, private evaluator: EvaluatorService) { super(handler);}
+    constructor(
+        handler: HttpHandler,
+        private evaluator: EvaluatorService,
+        private appConfig: AppConfig) {
+        super(handler);
+    }
 
-    doRequest<T>(request: ServerRequestDescriptor | null, additionalOptions: any = null, context: any = null): Observable<T | null> {
+    doRequest<T>(request: CustomRequests, additionalOptions: any = null, context: any = null): Observable<T | null> {
+        if (!request) {
+            return of(null);
+        }
+        const requests = !Array.isArray(request) ? [request] : request;
+        return this.queueRequests(requests.shift(), requests, additionalOptions, context);
+    }
+
+    private queueRequests<T>(request: CustomRequest | undefined, requests: CustomRequests, additionalOptions: any = null, context: any = null): Observable<T | null> {
+        if (!request) {
+            return of(null);
+        }
+        return this.doRequestInternal<T>(<any>request, additionalOptions, context).pipe(
+            catchError(error => {
+                console.log(error);
+                return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
+            }),
+            switchMap(result => {
+                if (result === null || result === <any>'') {
+                    return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
+                }
+                return of(result);
+            })
+        );
+    }
+
+    private doRequestInternal<T>(request: ServerRequestDescriptor | null, additionalOptions: any = null, context: any = null): Observable<T | null> {
         if (!request) {
             return of(null);
         }
         const { method, url, body, options } = request;
-        const opts = { ...this._defaultOpts, ...additionalOptions};
+        const opts = { ...this._defaultOpts, ...additionalOptions };
 
         if (!url) {
             return of(null);
@@ -51,7 +85,7 @@ export class BuilderHttpClient extends HttpClient {
             }
             result = result.pipe(
                 tap(x => {
-                    if(request.cacheable) {
+                    if (request.cacheable) {
                         this._cache.set(cacheKey, x);
                     }
                     if (this._cache.size > this.cacheSize) {
@@ -62,7 +96,7 @@ export class BuilderHttpClient extends HttpClient {
         }
         result = result.pipe(
             map(response => {
-                return this.mapResponseToResult(response, request.response || null, context);
+                return this.mapResponseToResult(response, request.response || null, this.getCurrentContext(context));
             })
         );
         if (opts.nullWhenError) {
@@ -76,13 +110,24 @@ export class BuilderHttpClient extends HttpClient {
         return result;
     }
 
-    generateRequest(request: string | ServerRequestDescriptor | null, data: any = null, context: any = null): ServerRequestDescriptor | null {
+    generateRequest(request: CustomRequests, data: any = null, context: any = null): CustomRequests {
+        if (!request) {
+            return null;
+        }
+        if (Array.isArray(request)) {
+            return <any>request.map(x => this.generateRequestInternal(x, data, context));
+        }
+        const result = this.generateRequestInternal(request, data, context);
+        return result;
+    }
+
+    private generateRequestInternal(request: string | ServerRequestDescriptor | null, data: any = null, context: any = null): ServerRequestDescriptor | null {
         if (!request) {
             return null;
         }
         if (typeof request === 'string') {
             return {
-                url: this.evaluator.evaluate(request, context || {}),
+                url: this.evaluator.evaluate(request, this.getCurrentContext(context)),
                 method: 'GET',
                 body: null,
                 options: {
@@ -91,7 +136,7 @@ export class BuilderHttpClient extends HttpClient {
             };
         }
         const result = {
-            url: this.evaluator.evaluate(request.url, context || {}),
+            url: this.evaluator.evaluate(request.url, this.getCurrentContext(context)),
             method: request.method || 'GET',
             body: request.body,
             response: request.response,
@@ -130,7 +175,7 @@ export class BuilderHttpClient extends HttpClient {
         if (!!result) {
             if (!!descriptor.selector) {
                 const script = descriptor.selector;
-                result = function(){ return eval(script); }.call({ ...context, response: result }); // todo: maybe here should be some additional data
+                result = function () { return eval(script); }.call({ ...context, response: result }); // todo: maybe here should be some additional data
             }
             if (descriptor.result) {
                 result = appHelpers.getValueByPath(result, descriptor.result);
@@ -159,4 +204,8 @@ export class BuilderHttpClient extends HttpClient {
         return result;
     }
 
+    private getCurrentContext(context: any): any {
+        const config = this.appConfig;
+        return { ...config.getContext(), ...context };
+    }
 }

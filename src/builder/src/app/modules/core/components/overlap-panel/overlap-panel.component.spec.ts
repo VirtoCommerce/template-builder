@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlapPanelComponent } from './overlap-panel.component';
 
-describe('OverlapPanelComponent', () => {
+xdescribe('OverlapPanelComponent', () => {
   let component: OverlapPanelComponent;
   let fixture: ComponentFixture<OverlapPanelComponent>;
 

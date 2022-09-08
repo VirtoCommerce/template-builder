@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChevronComponent } from './chevron.component';
 
-describe('ChevronComponent', () => {
+xdescribe('ChevronComponent', () => {
   let component: ChevronComponent;
   let fixture: ComponentFixture<ChevronComponent>;
 

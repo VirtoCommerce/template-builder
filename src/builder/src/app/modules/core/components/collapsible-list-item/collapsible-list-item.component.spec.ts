@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollapsibleListItemComponent } from './collapsible-list-item.component';
 
-describe('CollapsibleListItemComponent', () => {
+xdescribe('CollapsibleListItemComponent', () => {
   let component: CollapsibleListItemComponent;
   let fixture: ComponentFixture<CollapsibleListItemComponent>;
 

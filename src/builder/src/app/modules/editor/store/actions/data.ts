@@ -10,7 +10,7 @@ export const loadTemplateModelSuccess = createAction('[template editor] load tem
 export const loadTemplateModelFails = createAction('[template editor] load template model fails', props<{ error: HttpErrorResponse }>());
 
 export const loadTemplateSchemas = createAction('[template editor] load template schemas');
-export const loadTemplateSchemasSuccess = createAction('[template editor] load template schemas success', props<{ schemas: SchemasList }>());
+export const loadTemplateSchemasSuccess = createAction('[template editor] load template schemas success', props<{ schemas: SchemasList | null }>());
 export const loadTemplateSchemasFails = createAction('[template editor] load template schemas fails', props<{ error: HttpErrorResponse }>());
 
 export const updateTemplateAction = createAction('[template editor] update template', props<{ template: TemplateModel, alias: string }>());

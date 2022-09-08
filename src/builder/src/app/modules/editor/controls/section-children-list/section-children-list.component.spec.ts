@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SectionChildrenListComponent } from './section-children-list.component';
 
-describe('SectionChildrenListComponent', () => {
+xdescribe('SectionChildrenListComponent', () => {
   let component: SectionChildrenListComponent;
   let fixture: ComponentFixture<SectionChildrenListComponent>;
 
