@@ -88,7 +88,7 @@ export class SharedEffects {
             this.store$.select(fromRoute.selectParentTemplateParameter)
         ),
         switchMap(([, parent]) => [
-            actions.loadChildrenTemplates({template: parent, onInit: true})
+            actions.loadChildrenTemplates({ template: parent, onInit: true })
         ])
     ));
 
@@ -148,11 +148,12 @@ export class SharedEffects {
             this.store$.select(fromState.selectTemplatesEntries),
             this.store$.select(fromState.selectCurrentFilter)
         ),
-        filter(([{template}]) => !!template),
-        switchMap(([{ template, onInit }, entries, filter]) => {
-            const templateEntry = <TemplateEntry>entries[template]!;
-            const context = { item: templateEntry, filter };
-            return this.templatesService.getChildrenTemplates(templateEntry, context).pipe(
+        filter(([{ template }]) => !!template),
+        map(([{ template, onInit }, entries, filter]) => ({ templateEntry: entries[template], onInit, entries, filter, template })),
+        filter(({ templateEntry }) => !!templateEntry),
+        switchMap(({ templateEntry, onInit, entries, filter, template }) => {
+            const context = { item: templateEntry, filter, templates: entries };
+            return this.templatesService.getChildrenTemplates(templateEntry!, context).pipe(
                 switchMap(childrenEntries => {
                     const result = <Action[]>[actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: template })];
                     if (onInit) {
@@ -194,7 +195,7 @@ export class SharedEffects {
             this.store$.select(fromRoute.selectTemplateParameter),
             this.store$.select(fromState.selectCurrentTemplatesEntries)
         ),
-        delay(1000), // todo: ad-hoc solution. we need wait when the preview will be completely loaded and then send messages
+        // delay(1000), // todo: ad-hoc solution. we need wait when the preview will be completely loaded and then send messages
         tap(([, template, templates]) => {
             this.eventsBus.emit({
                 type: 'navigate',
@@ -210,7 +211,7 @@ export class SharedEffects {
         ),
         tap(([{ template }, templates]) => this.eventsBus.emit({
             type: 'navigate',
-            url: templates?.[template]?.previewUrl || this.appConfig.getValue('startPreviewPath') || '/'
+            url: templates?.[template]?.previewUrl
         }))
     ), { dispatch: false });
 
@@ -226,6 +227,12 @@ export class SharedEffects {
 
     previewLoadedMessage$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
         filter((event: MessageEvent) => event.data.source === 'preview'),
-        tap(() => this.eventsBus.emit({ type: 'preview-loaded' }))
-    ), { dispatch: false });
+        map(() => actions.previewLoaded())
+    ));
+
+    previewLoaded$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.previewLoaded),
+        tap(() => this.eventsBus.emit({ type: 'preview-loaded' })),
+        map(() => actions.setLivePreviewUrl())
+    ));
 }

@@ -19,7 +19,7 @@ export class TemplatesService {
         if (!template.path) {
             return of(null);
         }
-        const templateUrl = this.appConfig.getValue('templateUrl');
+        const templateUrl = this.appConfig.getValue('templateUrl', { item: template });
         const request = this.http.generateRequest(templateUrl, { item: template });
         // const url = `${templateUrl}&path=${template.path}&type=${template.type}`;
         return this.http.doRequest<TemplateModel>(request);
@@ -27,8 +27,11 @@ export class TemplatesService {
 
     saveTemplate(templates: { path: string, type: string, content: TemplateModel }[]): Observable<any> {
         const files = JSON.stringify(templates);
-        const saveTemplates = this.appConfig.getValue('saveTemplates');
+        const context = { item: files, items: files, templates };
+        const saveTemplates = this.appConfig.getValue('saveTemplates', context);
+        const request = this.http.generateRequest(saveTemplates, null, context);
+        return this.http.doRequest(request);
         // todo: note that it probably should use doRequest method
-        return this.http.post(saveTemplates, { files });
+        // return this.http.post(saveTemplates, { files });
     }
 }

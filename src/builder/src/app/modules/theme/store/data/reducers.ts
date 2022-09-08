@@ -9,10 +9,10 @@ export const themeDataReducers = createReducer<ThemeDataState>(
     initialState,
 
     on(actions.loadSettingsDataSuccess, (state: ThemeDataState, { settingsData }) => {
-        const settings = typeof settingsData.current === 'string' ? settingsData.presets[settingsData.current] : settingsData.current;
+        const settings = typeof settingsData?.current === 'string' ? settingsData.presets[settingsData.current] : settingsData?.current || null;
         return {
             ...state,
-            settings: cloneDeep(settings),
+            settings: settings ? cloneDeep(settings) : settings,
             sourceSettings: settingsData,
         };
     }),
@@ -21,11 +21,11 @@ export const themeDataReducers = createReducer<ThemeDataState>(
 
     on(actions.updateSettings, (state, { model }) => ({ ...state, settings: { ...state.settings, ...model } })),
     on(actions.revertChanges, state => {
-        const settingsData = state.sourceSettings!;
-        const settings = typeof settingsData.current === 'string' ? settingsData.presets[settingsData.current] : settingsData.current;
+        const settingsData = state.sourceSettings;
+        const settings = typeof settingsData?.current === 'string' ? settingsData.presets[settingsData.current] : settingsData?.current || null;
         return {
             ...state,
-            settings: cloneDeep(settings)
+            settings: settings ? cloneDeep(settings) : settings
         };
     }),
     on(actions.applyChanges, state => ({

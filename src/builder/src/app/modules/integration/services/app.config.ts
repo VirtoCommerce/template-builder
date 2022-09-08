@@ -19,8 +19,8 @@ export class AppConfig {
     private _context: any = null;
 
     // todo: check comments that it is true!
-    private mergedConfig: any = {}; // 'config' in context, properties will not be evaluated
-    private config: any = {}; // 'settings' in context, properties will be evaluated
+    private mergedConfig: any = {}; // 'config' in context, properties will be evaluated
+    private settings: any = {}; // 'settings' in context, properties will not be evaluated
 
     constructor(
         private env: EnvironmentRef,
@@ -33,7 +33,7 @@ export class AppConfig {
         });
         this._context = null; // reset context to new values
         for (const property of Object.keys(this.mergedConfig)) {
-            Object.defineProperty(this.config, property, {
+            Object.defineProperty(this.settings, property, {
                 get: () => {
                     return this.evaluator.evaluateProperty(this.mergedConfig, property, this.context);
                 }
@@ -43,7 +43,7 @@ export class AppConfig {
 
     getValue(property: OptionName, context: any = null) {
         if (!context) {
-            return this.config[property];
+            return this.settings[property];
         } else {
             const mergedContext = this.mergeContexts(context);
             return this.evaluator.evaluateProperty(this.mergedConfig, property, mergedContext);
@@ -75,7 +75,7 @@ export class AppConfig {
             const { hash, href, host, protocol, pathname, origin } = this.env.nativeWindow.location;
             this._context = {
                 config: this.mergedConfig,
-                settings: this.config,
+                settings: this.settings,
                 location: {
                     url: href, params: params, path: pathname,
                     host, protocol, hash, origin
@@ -103,8 +103,8 @@ export type OptionName = 'templatesListUrl'
     | 'sectionsListUrl'
     | 'templateUrl'
     | 'saveTemplates'
-    | 'settingsDataUrl'
-    | 'settingsSchemaUrl'
+    | 'settingsDataRequest'
+    | 'settingsSchemaRequest'
     | 'saveSettings'
     | 'settingsPath'
     | 'startPreviewPath'

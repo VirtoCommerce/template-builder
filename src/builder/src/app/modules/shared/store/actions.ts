@@ -35,3 +35,5 @@ export const loadChildrenTemplatesFails = createAction('[shared] load children r
 
 export const broadcastMessage = createAction('[shared] broadcast message', props<{ msg: any }>());
 export const showNotification = createAction('[shared] show notification', props<{ message: string, msgType: 'error'|'success'|'info'|'warning', top?: boolean }>());
+
+export const previewLoaded = createAction('[shared] preview loaded');

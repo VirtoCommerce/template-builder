@@ -30,17 +30,39 @@
         }
     },
     "fullPreviewUrl": "{{settings.storefrontUrl}}{{settings.previewPath}}?ep={{location.origin}}",
-    "templatesListUrl": "/api/pagebuilder/templates?storeId={{location.params.storeId}}",
-    "sectionsListUrl": "/api/pagebuilder/sections?storeId={{location.params.storeId}}",
-    "templateUrl": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{item.path}}&type={{item.type}}",
-    "saveTemplates": "/api/pagebuilder/save?storeId={{location.params.storeId}}",
-    "settingsDataUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_data.json&type=themes",
-    "settingsSchemaUrl": "/api/pagebuilder/template?storeId=B2B-store&path=config/settings_schema.json&type=themes",
-    "saveSettings": "/api/pagebuilder/save?storeId=B2B-store",
-    "settingsPath": "/config/settings_data.json",
+    "themeName": {
+        "init": true,
+        "url": "/api/stores/{{location.params.storeId}}",
+        "method": "GET",
+        "response": {
+            "result": "$.dynamicProperties..values[?(@.propertyName=='DefaultThemeName')].value",
+            "isArray": false
+        },
+        "fallbackValue": "default"
+    },
+    "templatesListUrl": "/api/pagebuilder/templates?storeId={{location.params.storeId}}&theme={{config.themeName}}",
+    "sectionsListUrl": "/api/pagebuilder/sections?storeId={{location.params.storeId}}&theme={{config.themeName}}",
+    "templateUrl": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{item.path}}&type={{item.type}}",
+    "saveTemplates": {
+        "url": "/api/pagebuilder/save?storeId={{location.params.storeId}}&theme={{config.themeName}}",
+        "method": "POST",
+        "body": {
+            "files": "{{items}}"
+        }
+    },
+    "settingsDataRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{settings.settingsPath}}&type=themes",
+    "settingsSchemaRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{config.themeName}}/config/settings_schema.json&type=themes",
+    "saveSettings": {
+        "url": "/api/pagebuilder/save?storeId={{location.params.storeId}}&theme={{config.themeName}}",
+        "method": "POST",
+        "body": {
+            "files": "[{\"path\": \"{{settings.settingsPath}}\",\"type\": \"themes\",\"content\": {{item}}}]"
+        }
+    },
+    "settingsPath": "{{config.themeName}}/config/settings_data.json",
     "defaultPreviewUrl": "/",
     "uploadAssetsRequest": {
-        "url": "/api/content/pages/B2B-store?folderUrl=/assets/pages&name={{file.assetName}}",
+        "url": "/api/content/pages/{{location.params.storeId}}?folderUrl=/assets/pages&name={{file.assetName}}",
         "method": "POST",
         "form": {
             "name": "uploadedFile",
@@ -53,11 +75,11 @@
     },
     "inlineAssetsRequest": "inline",
     "fullUploadAssetsRequest": {
-        "url": "/api/content/pages/B2B-store?folderUrl=/assets/pages&name={{file.assetName}}",
+        "url": "/api/content/pages/{{location.params.storeId}}?folderUrl=/assets/pages&name={{file.assetName}}",
         "method": "POST",
         "randomizeAssetName": true,
         "resultTemplate": "{{response}}",
-        "previewTemplate": "http://localhost:2082{{response}}",
+        "previewTemplate": "{{settings.storefrontUrl}}{{response}}",
         "form": {
             "name": "uploadedFile",
             "fileName": "{{file.assetName}}"

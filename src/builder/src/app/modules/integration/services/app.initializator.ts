@@ -55,6 +55,7 @@ export class AppInitializator {
             return of(config);
         }
         let requestDescriptor = config[key];
+        const fallbackValue = requestDescriptor.fallbackValue || null;
         const initProperty = requestDescriptor.init;
         if (initProperty !== true) {
             requestDescriptor = requestDescriptor[initProperty];
@@ -62,17 +63,14 @@ export class AppInitializator {
         const requests = this.http.generateRequest(requestDescriptor, null, { ...this.config.getContext(), settings: config });
         return this.http.doRequest(requests).pipe(
             tap(result => {
-                config[key] = result;
+                config[key] = !result ? fallbackValue : result;
             }),
             catchError(error => {
                 console.log(error);
                 config[key] = null;
                 return of(config);
             }),
-            switchMap(() => tail.length > 0
-                ? this.initConfigProperty(config, tail.shift(), tail)
-                : of(config)
-            )
+            switchMap(() => this.initConfigProperty(config, tail.shift(), tail))
         );
     }
 }

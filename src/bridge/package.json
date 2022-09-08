@@ -6,6 +6,7 @@
     "main": "src/main.ts",
     "scripts": {
         "build": "webpack --config webpack.config.js --mode development --env mode=development --watch",
+        "build:dev": "webpack --config webpack.config.js --mode development --env mode=development",
         "build:prod": "webpack --config webpack.config.js --mode production --env mode=production",
         "build:stage": "webpack --config webpack.config.js --mode development --env mode=staging"
     },

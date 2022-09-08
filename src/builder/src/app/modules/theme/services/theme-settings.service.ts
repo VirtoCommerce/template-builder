@@ -15,23 +15,22 @@ export class ThemeSettingsService {
         private appConfig: AppConfig
     ) { }
 
-    loadSettingsData(): Observable<SettingsDataModel> {
-        const settingsDataUrl = this.appConfig.getValue('settingsDataUrl');
-        // todo: use http.doRequest and change settings to full request description
-        return this.http.get<SettingsDataModel>(settingsDataUrl);
+    loadSettingsData(): Observable<SettingsDataModel | null> {
+        const requestDescriptor = this.appConfig.getValue('settingsDataRequest');
+        const request = this.http.generateRequest(requestDescriptor);
+        return this.http.doRequest<SettingsDataModel>(request);
     }
 
-    loadSettingsSchema(): Observable<SettingsSchemaModel> {
-        const settingsSchemaUrl = this.appConfig.getValue('settingsSchemaUrl')
-        // todo: use http.doRequest and change settings to full request description
-        return this.http.get<SettingsSchemaModel>(settingsSchemaUrl);
+    loadSettingsSchema(): Observable<SettingsSchemaModel | null> {
+        const requestDescriptor = this.appConfig.getValue('settingsSchemaRequest')
+        const request = this.http.generateRequest(requestDescriptor);
+        return this.http.doRequest<SettingsSchemaModel>(request);
     }
 
     saveSettings(settings: SettingsDataModel): Observable<boolean> {
-        const saveSettingsUrl = this.appConfig.getValue('saveSettings');
-        const settingsPath = this.appConfig.getValue('settingsPath');
-        const files = JSON.stringify([{ path: settingsPath, type: 'themes', content: settings }]);
-        // todo: use http.doRequest and change settings to full request description
-        return this.http.post(saveSettingsUrl, { files }).pipe(map(() => true));
+        const context = { item: JSON.stringify(settings), data: settings };
+        const requestDescriptor = this.appConfig.getValue('saveSettings', context);
+        const request = this.http.generateRequest(requestDescriptor, null, context);
+        return this.http.doRequest(request).pipe(map(x => !!x));
     }
 }
