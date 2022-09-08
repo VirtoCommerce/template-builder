@@ -112,7 +112,7 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromShared.selectCurrentTemplateEntry)
         ),
         filter(([x, model]) => x.action === 'save' && !!model),
-        switchMap(([, model, entry]) => this.templates.saveTemplate([{ path: entry.path!, type: entry.type!, content: model! }]).pipe(
+        switchMap(([, model, entry]) => this.templates.saveTemplate([{ entry, content: model! }]).pipe(
             map(() => actions.saveTemplateSuccess({ alias: entry!.alias })),
             catchError(error => of(actions.saveTemplateFails({ error })))
         ))

@@ -175,7 +175,7 @@ export class BuilderHttpClient extends HttpClient {
         if (!!result) {
             if (!!descriptor.selector) {
                 const script = descriptor.selector;
-                result = function () { return eval(script); }.call({ ...context, response: result }); // todo: maybe here should be some additional data
+                result = appHelpers.evalInContext(script, { ...context, response: result }); // todo: maybe here should be some additional data
             }
             if (descriptor.result) {
                 result = appHelpers.getValueByPath(result, descriptor.result);

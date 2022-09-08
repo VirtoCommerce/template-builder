@@ -47,7 +47,7 @@
         "url": "/api/pagebuilder/save?storeId={{location.params.storeId}}&theme={{config.themeName}}",
         "method": "POST",
         "body": {
-            "files": "{{items}}"
+            "files": "{{=JSON.stringify(this.templates.map(x => ({ path: x.entry.path, type: x.entry.type, content: x.content })))}}"
         }
     },
     "settingsDataRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{settings.settingsPath}}&type=themes",
@@ -56,7 +56,7 @@
         "url": "/api/pagebuilder/save?storeId={{location.params.storeId}}&theme={{config.themeName}}",
         "method": "POST",
         "body": {
-            "files": "[{\"path\": \"{{settings.settingsPath}}\",\"type\": \"themes\",\"content\": {{item}}}]"
+            "files": "[{\"path\": \"{{settings.settingsPath}}\", \"type\": \"themes\", \"content\": {{item}}}]"
         }
     },
     "settingsPath": "{{config.themeName}}/config/settings_data.json",

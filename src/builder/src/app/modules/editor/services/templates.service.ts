@@ -25,9 +25,8 @@ export class TemplatesService {
         return this.http.doRequest<TemplateModel>(request);
     }
 
-    saveTemplate(templates: { path: string, type: string, content: TemplateModel }[]): Observable<any> {
-        const files = JSON.stringify(templates);
-        const context = { item: files, items: files, templates };
+    saveTemplate(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
+        const context = { templates };
         const saveTemplates = this.appConfig.getValue('saveTemplates', context);
         const request = this.http.generateRequest(saveTemplates, null, context);
         return this.http.doRequest(request);

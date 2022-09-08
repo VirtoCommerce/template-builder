@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
+import { appHelpers } from '@integration/helpers';
 
 @Component({
     selector: 'app-controls-list',
@@ -27,7 +28,7 @@ export class ControlsListComponent implements OnInit {
     checkVisibility(descriptor: BaseControlDescriptor): boolean {
         if (!!descriptor.visibility) {
             try {
-                const result = function(){ return eval(descriptor.visibility!); }.call(this.context);
+                const result = appHelpers.evalInContext(descriptor.visibility!, this.context);
                 return result;
             } catch (error) {
                 console.error(error);

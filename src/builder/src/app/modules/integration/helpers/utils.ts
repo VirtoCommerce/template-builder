@@ -40,7 +40,8 @@ export function onlyLettersAndDigits(value: string): string {
     return value;
 }
 
-const nargs = /\{\{([0-9a-zA-Z_\.]+)\}\}/g;
+// const nargs = /\{\{([=0-9a-zA-Z_\.]+)\}\}/g;
+const nargs = /\{\{(.+?)\}\}/g;
 
 export function template(value: string, ...args: any) {
 
@@ -52,14 +53,21 @@ export function template(value: string, ...args: any) {
         if (value[index - 1] === '{' &&
             value[index + match.length] === '}') {
             return `{${i}}`;
-        } else {
-            result = getValueByPath(values, i);
-            if (result === null || result === undefined) {
-                return '';
-            }
-            return result;
+        } else if (i.startsWith('=')){
+            result = evalInContext(i.substring(1), values);
         }
+        else {
+            result = getValueByPath(values, i);
+        }
+        if (result === null || result === undefined) {
+            return '';
+        }
+        return result;
     });
+}
+
+export function evalInContext(expr: string, context: any): any {
+    return function () { return eval(expr); }.call(context);
 }
 
 export function getValueOrDefault(value: any, defaultValue: any = null) {
