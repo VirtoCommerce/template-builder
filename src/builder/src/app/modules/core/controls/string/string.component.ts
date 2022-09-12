@@ -9,13 +9,13 @@ import { StringDescriptor } from '@models/controls';
   styleUrls: ['./string.component.scss']
 })
 export class StringComponent extends BaseControlDirective<StringDescriptor> {
-    @ViewChild('control') control: ElementRef | null = null;
-    @ViewChild('textarea') textarea: ElementRef | null = null;
+    @ViewChild('control') control!: ElementRef;
+    @ViewChild('textarea') textarea!: ElementRef;
 
     override getFocusableControl(): ElementRef {
         return this.descriptor.multiline
-            ? this.textarea!
-            : this.control!;
+            ? this.textarea
+            : this.control;
     }
 
     raiseOnChange(event: Event) {
