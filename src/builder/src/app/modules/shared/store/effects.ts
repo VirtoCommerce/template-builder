@@ -101,7 +101,7 @@ export class SharedEffects {
         ),
         filter(([, entriesAsObject, templatesEntriesAsList, templateParameter]) => !templateParameter && !!templatesEntriesAsList.length || !entriesAsObject[templateParameter]),
         map(([, , templatesEntries]) => actions.selectTemplate({
-            template: (templatesEntries.find(item => !!item.isDefault) || templatesEntries[0]).alias
+            template: (templatesEntries.find(item => !!item.isDefault) || templatesEntries[0])?.alias
         }))
     ));
 
@@ -172,17 +172,17 @@ export class SharedEffects {
         map(({ mode }) => router.go({ queryParams: { 'preview-mode': mode } }))
     ));
 
-    setCurrentDirtyState$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.setCurrentDirtyState),
-        withLatestFrom(
-            this.store$.select(fromRoute.selectTemplateParameter),
-            this.store$.select(fromRoute.selectParentTemplateParameter),
-        ),
-        map(([{ dirty }, template, parent]) => parent
-            ? actions.setDirtyState({ dirty, template, parent })
-            : actions.setRootDirtyState({ dirty, template })
-        )
-    ));
+    // setCurrentDirtyState$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.setCurrentDirtyState),
+    //     withLatestFrom(
+    //         this.store$.select(fromRoute.selectTemplateParameter),
+    //         this.store$.select(fromRoute.selectParentTemplateParameter),
+    //     ),
+    //     map(([{ dirty }, template, parent]) => parent
+    //         ? actions.setDirtyState({ dirty, template, parent })
+    //         : actions.setRootDirtyState({ dirty, template })
+    //     )
+    // ));
 
     // executeNavigation$ = createEffect(() => this.actions$.pipe(
     //     ofType(actions.selectTemplate),

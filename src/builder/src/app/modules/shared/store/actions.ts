@@ -18,7 +18,7 @@ export const templateChanged = createAction('[shared] template changed', props<{
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
 
-export const setCurrentDirtyState = createAction('[shared] set current dirty state', props<{ dirty: boolean }>());
+// export const setCurrentDirtyState = createAction('[shared] set current dirty state', props<{ dirty: boolean }>());
 export const setRootDirtyState = createAction('[shared] set root dirty state', props<{ template: string, dirty: boolean }>());
 export const setDirtyState = createAction('[shared] set dirty state', props<{ template: string, parent: string, dirty: boolean }>());
 

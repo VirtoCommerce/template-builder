@@ -21,13 +21,27 @@
         ]
     },
     "previewPath": {
-        "init": true,
-        "url": "/api/platform/settings/VirtoCommerce.PageBuilderModule.General.StorePreviewPath",
-        "method": "GET",
-        "response": {
-            "result": "$.value",
-            "isArray": false
-        }
+        "init": "requests",
+        "requests": [
+            {
+                "url": "/api/platform/settings/VirtoCommerce.PageBuilderModule.General.StorePreviewPath",
+                "method": "GET",
+                "cacheable": true,
+                "response": {
+                    "result": "$.value",
+                    "isArray": false
+                }
+            },
+            {
+                "url": "/api/platform/settings/VirtoCommerce.PageBuilderModule.General.StorePreviewPath",
+                "method": "GET",
+                "cacheable": true,
+                "response": {
+                    "result": "$.defaultValue",
+                    "isArray": false
+                }
+            }
+        ]
     },
     "fullPreviewUrl": "{{settings.storefrontUrl}}{{settings.previewPath}}?ep={{location.origin}}",
     "themeName": {

@@ -48,7 +48,7 @@ export class BuilderHttpClient extends HttpClient {
                 return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
             }),
             switchMap(result => {
-                if (result === null || result === <any>'') {
+                if (result === null || result === <any>'' || result === undefined) {
                     return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
                 }
                 return of(result);
@@ -137,6 +137,7 @@ export class BuilderHttpClient extends HttpClient {
         }
         const result = {
             url: this.evaluator.evaluate(request.url, this.getCurrentContext(context)),
+            cacheable: request.cacheable,
             method: request.method || 'GET',
             body: request.body,
             response: request.response,

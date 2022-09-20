@@ -8,12 +8,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreModule } from '@core/core.module';
 
 import { COMPONENTS } from './components';
+import { DIALOGS } from './dialogs';
 
 import { SharedEffects } from './store/effects';
 import { sharedReducers } from './store/reducers';
 
 const ALL_COMPONENTS = [
-    ...COMPONENTS
+    ...COMPONENTS,
+    ...DIALOGS
 ];
 
 @NgModule({

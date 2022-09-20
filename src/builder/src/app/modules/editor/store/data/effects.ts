@@ -1,3 +1,4 @@
+import { ModalService } from '@core/services';
 import { Injectable } from "@angular/core";
 
 import { of } from "rxjs";
@@ -9,6 +10,8 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { RouterStateUrl } from '@shared/routing';
 
 // import { ThemeSettingsService } from '@theme/services';
+
+import { SaveTemplateComponent } from '@shared/dialogs';
 
 import { BuilderState } from "../state";
 import { helpers as editorHelpers } from '@editor/helpers';
@@ -31,7 +34,8 @@ export class TemplateEditorDataEffects {
         private store$: Store<BuilderState>,
         private actions$: Actions,
         private schemas: SchemasService,
-        private templates: TemplatesService
+        private templates: TemplatesService,
+        private modals: ModalService
     ) { }
 
     loadTemplateData$ = createEffect(() => this.actions$.pipe(
@@ -103,19 +107,60 @@ export class TemplateEditorDataEffects {
         ))
     ));
 
-    saveTemplates$ = createEffect(() => this.actions$.pipe(
+    // saveTemplates$ = createEffect(() => this.actions$.pipe(
+    //     ofType(actions.executeToolbarAction),
+    //     filter(({ action }) => action === 'save-new'),
+    //     withLatestFrom(
+    //         this.store$.select(fromShared.selectChangedTemplates)
+    //     ),
+    //     switchMap(([, model, entry, changedTemplates]) => {
+    //         console.log(changedTemplates);
+    //         return this.templates.saveTemplate([{ entry, content: model! }]).pipe(
+    //             map(() => actions.saveTemplateSuccess({ alias: entry!.alias })),
+    //             catchError(error => of(actions.saveTemplateFails({ error })))
+    //         );
+    //     })
+    // ));
+
+    saveTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'save'),
         withLatestFrom(
-            // todo: only current template will be processed
-            // question: should we save all templates?
-            this.store$.select(selectors.selectCurrentTemplateModel),
-            this.store$.select(fromShared.selectCurrentTemplateEntry)
+            this.store$.select(selectors.selectChangedTemplates),
         ),
-        filter(([x, model]) => x.action === 'save' && !!model),
-        switchMap(([, model, entry]) => this.templates.saveTemplate([{ entry, content: model! }]).pipe(
-            map(() => actions.saveTemplateSuccess({ alias: entry!.alias })),
-            catchError(error => of(actions.saveTemplateFails({ error })))
+        filter(([, changedTemplates]) => changedTemplates.length === 1),
+        map(([, changedTemplates]) => actions.saveTemplates({ templates: changedTemplates }))
+    ));
+
+    showSaveDialog$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'save'),
+        withLatestFrom(
+            this.store$.select(selectors.selectChangedTemplates),
+        ),
+        filter(([, changedTemplates]) => changedTemplates.length > 1),
+        switchMap(([, changedTemplates]) => this.modals.show<{ accept: boolean, entries: string[] }>(SaveTemplateComponent, {
+            data: {
+                entries: changedTemplates.map(x => x.info)
+            }
+        }).pipe(
+            map((result) => result?.accept
+                ? actions.saveTemplates({
+                    templates: result.entries.map(x => changedTemplates.find(y => y.info.alias === x)!)
+                })
+                : shared.empty()
+            )
         ))
+    ));
+
+    sendTemplateToServer$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.saveTemplates),
+        switchMap(({ templates }) => {
+            return this.templates.saveTemplates(templates).pipe(
+                switchMap(() => templates.map(x => actions.saveTemplateSuccess({ alias: x.info.alias, parent: x.info.parent }))),
+                catchError(error => of(actions.saveTemplateFails({ error })))
+            );
+        })
     ));
 
 }

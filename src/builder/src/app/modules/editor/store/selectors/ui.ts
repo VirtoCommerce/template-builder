@@ -165,11 +165,11 @@ export const changeTemplateContext = createSelector(
 
 export const selectToolbarButtonsState = createSelector(
     // fromDomain.selectCurrentTemplateState,
-    fromShared.selectCurrentTemplateState,
+    fromShared.selectChangedTemplates,
     // todo: undo
     // todo: redo
     // todo: have settings
-    state => <ActionButtonDescriptor[][]>([
+    templates => <ActionButtonDescriptor[][]>([
         [
             {
                 icon: 'settings',
@@ -199,7 +199,7 @@ export const selectToolbarButtonsState = createSelector(
         // ],
         [
             {
-                canAction: !!state?.isDirty,
+                canAction: templates.length > 0,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'

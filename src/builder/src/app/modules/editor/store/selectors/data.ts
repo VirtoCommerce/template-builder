@@ -13,10 +13,15 @@ import { helpers } from '@editor/helpers';
 import * as fromRoute from '@shared/routing/selectors';
 import * as fromShared from '@shared/store/selectors';
 
-export const selectCurrentTemplateModel = createSelector(
+export const selectLoadedTemplates = createSelector(
     selectTemplateDataState,
+    state => state.templates
+);
+
+export const selectCurrentTemplateModel = createSelector(
+    selectLoadedTemplates,
     selectTemplateParameter,
-    (state, alias) => alias ? state.templates[alias] : null
+    (templates, alias) => alias ? templates[alias] : null
 );
 
 export const selectCurrentTemplateName = createSelector(
@@ -29,6 +34,12 @@ export const selectSectionsSchemas = createSelector(
     state => state.schemas
         && <SectionsSchemasList>appHelpers.spreadPropertyByOther(state.schemas.sections, 'group', 'groupIcon')
         || {}
+);
+
+export const selectChangedTemplates = createSelector(
+    selectLoadedTemplates, // models
+    fromShared.selectChangedTemplates, // entries
+    (templates, entries) => entries.map(x => ({ entry: x.entry, info: x, content: templates[x.alias] })).filter(x => !!x.content)
 );
 
 export const selectSectionsSchemasList = createSelector(

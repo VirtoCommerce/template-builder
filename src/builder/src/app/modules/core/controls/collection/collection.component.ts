@@ -9,6 +9,7 @@ import { CollectionDescriptor } from '@models/controls';
 import { ContextMenuAction, ContextMenuActionType, ControlContext } from '@core/models';
 import { coreHelpers, formsHelpers } from '@core/helpers';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { appHelpers } from '@integration/helpers';
 
 @Component({
     selector: 'app-collection',
@@ -72,7 +73,7 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }
 
     getTitle(item: any, index: number): string {
-        return (!!this.descriptor.displayField && item[this.descriptor.displayField]) || `item ${index + 1}`;
+        return (!!this.descriptor.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
     }
 
     addItem() {

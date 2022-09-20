@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MultipageSelectDescriptor } from '@core/models';
-import { TemplateEntry } from '@shared/models';
+import { TemplateEntryState, TemplateEntry } from '@shared/models';
 
 import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
@@ -19,15 +19,15 @@ export class TemplateSelectorComponent implements OnInit {
 
     defaultTemplate = { title: 'Choose template', alias: '' };
 
-    rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesAsList).pipe(
+    rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
     );
     currentTemplate$ = this.store$.select(fromState.selectCurrentTemplateEntry).pipe(
-        map(value => !!value ? this.convertTemplateToItem(value) : null)
+        map(value => !!value ? this.convertTemplateToItem({ entry: value, state: null }) : null)
     );
     currentFilter$ = this.store$.select(fromState.selectCurrentFilter);
     listTitle$ = this.store$.select(fromState.selectRootTemplateTitle);
-    childrenItems$ = this.store$.select(fromState.selectChildrenTemplatesEntriesAsList).pipe(
+    childrenItems$ = this.store$.select(fromState.selectCurrentChildrenTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || null)
     );
 
@@ -70,11 +70,12 @@ export class TemplateSelectorComponent implements OnInit {
         // this.titleText = 'Templates';
     }
 
-    private convertTemplateToItem(value: TemplateEntry): MultipageSelectDescriptor {
+    private convertTemplateToItem(value: { entry: TemplateEntry, state: TemplateEntryState | null }): MultipageSelectDescriptor {
         return {
-            title: value.name,
-            alias: this.generateTemplateAlias(value),
-            hasChildren: value.hasChildren
+            title: value.entry.name,
+            alias: this.generateTemplateAlias(value.entry),
+            hasChildren: value.entry.hasChildren,
+            isDirty: !!value.state?.isDirty
         };
     }
 

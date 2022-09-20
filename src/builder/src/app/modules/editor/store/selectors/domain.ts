@@ -7,6 +7,7 @@ import {
     selectTemplateDataState
 } from "./common";
 import * as fromData from "./data";
+import * as fromShared from "@shared/store/selectors";
 
 import { SectionStatesList, SectionState } from '@editor/models';
 
@@ -20,3 +21,8 @@ export const selectCurrentTemplateState = createSelector(
     selectTemplateParameter,
     (state, alias) => alias ? { ...state.states[alias], id: alias } : null
 );
+
+// export const selectChangedTemplates = createSelector(
+//     fromShared.selectTemplatesEntriesWithState,
+//     fromShared.selectChangedTemplates
+// );

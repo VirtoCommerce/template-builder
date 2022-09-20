@@ -95,11 +95,14 @@ export class TemplateEditorUiEffects {
         // todo: should be only one section
         withLatestFrom(
             this.store$.select(selectors.selectCurrentTemplateModel),
-            this.store$.select(sharedSelectors.selectCurrentTemplateEntry)
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
+            this.store$.select(sharedSelectors.selectParentTemplateAlias),
         ),
-        switchMap(([, template, entry]) => [
+        switchMap(([, template, entry, parent]) => [
             broadcastMessage({ msg: { type: 'changed', model: { template, ...entry?.previewMessage } } }),
-            sharedActions.setCurrentDirtyState({ dirty: true })
+            parent
+                ? sharedActions.setDirtyState({ parent: parent, template: entry.alias, dirty: true })
+                : sharedActions.setRootDirtyState({ template: entry.alias, dirty: true })
         ])
     ));
 
@@ -111,9 +114,11 @@ export class TemplateEditorUiEffects {
 
     notifySuccessSave$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplateSuccess),
-        switchMap(() => [
-            sharedActions.showNotification({ message: 'Template saved successfully', msgType: 'success', top: true }),
-            sharedActions.setCurrentDirtyState({ dirty: false })
+        switchMap(({alias, parent}) => [
+            sharedActions.showNotification({ message: `Template ${alias} saved successfully`, msgType: 'success', top: true }),
+            parent
+                ? sharedActions.setDirtyState({ parent, template: alias, dirty: false })
+                : sharedActions.setRootDirtyState({ template: alias, dirty: false })
         ])
     ));
 

@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from "@ngrx/store";
+import { TemplateEntry, TemplateEntryInfo } from '@shared/models';
 import { SchemasList } from '@editor/models';
 import { TemplateModel } from '@models/document';
 
@@ -15,5 +16,6 @@ export const loadTemplateSchemasFails = createAction('[template editor] load tem
 
 export const updateTemplateAction = createAction('[template editor] update template', props<{ template: TemplateModel, alias: string }>());
 
-export const saveTemplateSuccess = createAction('[template editor] save template success', props<{ alias: string }>());
+export const saveTemplates = createAction('[template editor] save templates', props<{ templates: { entry: TemplateEntry, content: TemplateModel, info: TemplateEntryInfo }[] }>());
+export const saveTemplateSuccess = createAction('[template editor] save template success', props<{ alias: string, parent?: string }>());
 export const saveTemplateFails = createAction('[template editor] save template fails', props<{ error: HttpErrorResponse }>());

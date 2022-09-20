@@ -22,6 +22,7 @@ export class AppInitializator {
         const configUrl = this.config.getContext().location.params.configUrl || 'data/settings.json';
         return firstValueFrom(this.loadSettingsFrom(configUrl).pipe(
             tap(result => {
+                console.log(result);
                 this.config.initConfigWith(result);
             })
         ));
