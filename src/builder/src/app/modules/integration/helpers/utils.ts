@@ -2,14 +2,18 @@ import * as jp from 'jsonpath';
 
 import { ValueDescriptorModel } from '@models/index';
 
-export function spreadPropertyByOther(obj: any, keyProperty: string, spreadProperty: string): any {
+export function spreadPropertyByOther(obj: any, keyProperty: string, ...spreadProperties: string[]): any {
     const groups = Object.keys(obj).reduce((groups, key) => {
         const group = obj[key][keyProperty];
         if (!groups) {
             return groups;
         }
+
         return {
-            [group]: obj[key][spreadProperty],
+            [group]: spreadProperties.reduce((acc, prop) => ({
+                ...acc,
+                [prop]: obj[key][prop]
+            }), <any>{}),
             ...groups
         };
     }, <any>{});
@@ -19,7 +23,7 @@ export function spreadPropertyByOther(obj: any, keyProperty: string, spreadPrope
             ...result,
             [key]: {
                 ...obj[key],
-                [spreadProperty]: group ? groups[group] : null
+                ...(group ? groups[group] : null)
             }
         };
     }, {});

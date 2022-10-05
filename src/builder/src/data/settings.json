@@ -102,5 +102,7 @@
             "result": "$[0].url",
             "isArray": false
         }
-    }
+    },
+    "skipTheme": true,
+    "skipTemplates": true
 }

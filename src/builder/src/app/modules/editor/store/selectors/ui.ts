@@ -163,21 +163,25 @@ export const changeTemplateContext = createSelector(
         ({ template, section, block, sectionsSchemas, blocksSchemas, templateId, sectionId, blockId, templateEntry })
 );
 
-export const selectToolbarButtonsState = createSelector(
+export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
     // fromDomain.selectCurrentTemplateState,
     fromShared.selectChangedTemplates,
     // todo: undo
     // todo: redo
     // todo: have settings
-    templates => <ActionButtonDescriptor[][]>([
-        [
-            {
-                icon: 'settings',
-                alias: 'theme-settings',
-                title: 'Theme settings',
-                type: 'outline'
-            }
-        ],
+    templates => {
+        const result = <ActionButtonDescriptor[][]>[];
+        if (useTheme) {
+            result.push([
+                {
+                    icon: 'settings',
+                    alias: 'theme-settings',
+                    title: 'Theme settings',
+                    type: 'outline'
+                }
+            ]);
+        }
+
         // [
         //     {
         //         alias: 'preview',
@@ -197,13 +201,16 @@ export const selectToolbarButtonsState = createSelector(
         //         alias: 'redo'
         //     }
         // ],
-        [
+
+        result.push([
             {
                 canAction: templates.length > 0,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'
             }
-        ]
-    ])
+        ]);
+
+        return result;
+    }
 );

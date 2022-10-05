@@ -109,7 +109,9 @@ export type OptionName = 'templatesListUrl'
     | 'settingsPath'
     | 'startPreviewPath'
     | 'uploadAssetsRequest'
-    | 'fullPreviewUrl';
+    | 'fullPreviewUrl'
+    | 'skipTheme'
+    | 'skipTemplates';
 
 // 'fullPreviewUrl'
 //     | 'waitPreviewResponseTimeout'

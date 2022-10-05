@@ -32,7 +32,7 @@ export const selectCurrentTemplateName = createSelector(
 export const selectSectionsSchemas = createSelector(
     selectTemplateDataState,
     state => state.schemas
-        && <SectionsSchemasList>appHelpers.spreadPropertyByOther(state.schemas.sections, 'group', 'groupIcon')
+        && <SectionsSchemasList>appHelpers.spreadPropertyByOther(state.schemas.sections, 'group', 'groupIcon', 'groupSort')
         || {}
 );
 
@@ -67,12 +67,42 @@ export const selectBlocksSchemasList = createSelector(
     blocks => Object.keys(blocks).map(key => blocks[key])
 );
 
-const selectCurrentTemplateAllSectionsSchemas = createSelector(
+// const selectCurrentTemplateAllSectionsSchemasSorted = createSelector(
+// );
+
+const selectCurrentTemplateAllSectionsSchemasUnsorted = createSelector(
     selectSectionsSchemas,
     fromShared.selectCurrentTemplateEntry,
     (schemas, entry) => entry.sections
-        ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x)
+        ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x).sort()
         : appHelpers.toList(schemas, 'type')
+);
+
+function compareSchemas(a: { sort?: number, name: string, type?: string }, b: { sort?: number, name: string, type?: string }): number {
+    const isEmpty = (x: { sort?: number, name: string, type?: string }) => x.sort === undefined || x.sort === null;
+
+    if (!isEmpty(a) && !isEmpty(b) && a.sort !== b.sort) {
+        return a.sort! - b.sort!;
+    }
+
+    if (isEmpty(a) && isEmpty(b) || a.sort === b.sort) {
+        const aName = a.name || a.type || '';
+        const bName = b.name || b.type || '';
+        return aName.localeCompare(bName);
+    }
+
+    if (isEmpty(a)) {
+        return 1;
+    }
+    if (isEmpty(b)) {
+        return -1;
+    }
+    return 0;
+}
+
+const selectCurrentTemplateAllSectionsSchemas = createSelector(
+    selectCurrentTemplateAllSectionsSchemasUnsorted,
+    list => list.sort(compareSchemas)
 );
 
 const selectCurrentTemplateEmbeddedSettingsSchemas = createSelector(
@@ -171,7 +201,7 @@ const selectSectionBlockSchemasFromRoute = createSelector(
     selectBlocksSchemas,
     selectSectionsSchemas,
     (section, blocksSchemas, sectionsSchemas) => section
-        ? sectionsSchemas[section.type].blocks?.map(type => ({ ...blocksSchemas[type], type }))
+        ? sectionsSchemas[section.type].blocks?.map(type => ({ ...blocksSchemas[type], type })).sort(compareSchemas)
         : null
 );
 
@@ -194,7 +224,7 @@ export const selectGroupedSectionSchemas = createSelector(
     sections => {
         const groups = coreHelpers.groupSections(sections);
         return {
-            groups: groups.filter(x => x.items.length && !x.noname),
+            groups: groups.filter(x => x.items.length && !x.noname).sort(compareSchemas),
             items: groups.find(x => x.noname)?.items || []
         }
     }

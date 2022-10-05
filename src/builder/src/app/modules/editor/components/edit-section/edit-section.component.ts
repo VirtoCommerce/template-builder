@@ -8,6 +8,7 @@ import { ContextMenuHelper } from '@editor/helpers';
 
 import * as actions from '@editor/store/actions';
 import * as fromState from '@editor/store/selectors';
+import * as fromRoute from '@shared/routing/selectors';
 
 @Component({
     selector: 'app-edit-section',
@@ -19,6 +20,7 @@ export class EditSectionComponent implements OnInit {
 
     viewModel$ = this.store.select(fromState.selectEditSectionContext);
     sectionName$ = this.store.select(fromState.selectCurrentItemName);
+    isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
 
     constructor(private store: Store<BuilderState>,
         private helper: ContextMenuHelper) { }

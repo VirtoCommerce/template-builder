@@ -45,14 +45,16 @@ export class TemplateEditorDataEffects {
         withLatestFrom(this.store$.select(fromRoute.isEmpty)),
         filter(([data, isEmpty]) => data?.['module'] === EditorModuleInfo.name && !isEmpty),
         switchMap(() => [
-            actions.raiseLoadData()
+            actions.raiseLoadData(),
+            actions.setWindowTitle()
         ])
     ));
 
     loadTemplateDataOnInit$ = createEffect(() => this.actions$.pipe(
         ofType(shared.initApp),
         switchMap(() => [
-            actions.raiseLoadData()
+            actions.raiseLoadData(),
+            actions.setWindowTitle()
         ])
     ));
 
@@ -66,7 +68,9 @@ export class TemplateEditorDataEffects {
         ),
         // load when template still is not loaded or hasn't been changed yet
         filter(([, template, state, entry]) => !template || !state || !entry),
-        switchMap(([, , , , alias]) => [actions.loadTemplateModel({ alias })])
+        switchMap(([, , , , alias]) => [
+            actions.loadTemplateModel({ alias })
+        ])
     ));
 
     raiseLoadTemplateSchemas$ = createEffect(() => this.actions$.pipe(

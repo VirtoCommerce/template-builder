@@ -3,4 +3,5 @@ export interface ItemsGroup<T> {
     name: string;
     items: T[];
     noname: boolean;
+    sort?: number;
 }

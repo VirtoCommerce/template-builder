@@ -6,7 +6,7 @@ import { delay } from 'rxjs/operators';
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap, fromEvent } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
-import { TemplatesService } from '@shared/services';
+import { TemplatesService, MetaDataService } from '@shared/services';
 import { AppConfig } from '@integration/services';
 
 import { BuilderState } from "./state";
@@ -25,6 +25,7 @@ export class SharedEffects {
         private templatesService: TemplatesService,
         private eventsBus: EventsBusService,
         private notification: NotificationsService,
+        private metaDataService: MetaDataService,
         private appConfig: AppConfig
     ) { }
 
@@ -235,4 +236,9 @@ export class SharedEffects {
         tap(() => this.eventsBus.emit({ type: 'preview-loaded' })),
         map(() => actions.setLivePreviewUrl())
     ));
+
+    setWindowTitle$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.setWindowTitle),
+        tap(({ title }) => this.metaDataService.setTitle(title))
+    ), { dispatch: false });
 }

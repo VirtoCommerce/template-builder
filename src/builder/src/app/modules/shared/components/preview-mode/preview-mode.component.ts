@@ -22,6 +22,11 @@ export class PreviewModeComponent implements OnInit {
             alias: undefined
         },
         {
+            icon: 'desktop_windows',
+            title: 'Desktop 50/50',
+            alias: 'desktop-50'
+        },
+        {
             icon: 'phone_iphone',
             title: 'Phone',
             alias: 'phone'

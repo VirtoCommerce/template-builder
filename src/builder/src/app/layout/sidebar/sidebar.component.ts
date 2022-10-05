@@ -11,11 +11,15 @@ import * as fromRoute from '@shared/routing';
 export class SidebarComponent implements OnInit {
 
     @HostBinding('class.hidden') isHidden: boolean = false;
+    @HostBinding('class.desktop-50') desktop50: boolean = false;
 
     constructor(private store: Store<BuilderState>) {
         // note! this subscription can be unsubscribed
         this.store.select(fromRoute.isFullscreenPreviewMode).subscribe(
             x => this.isHidden = x
+        );
+        this.store.select(fromRoute.isDesktop50).subscribe(
+            x => this.desktop50 = x
         );
     }
 

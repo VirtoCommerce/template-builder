@@ -12,7 +12,8 @@ export function groupSections(list: SectionSchema[]): ItemsGroup<SectionSchema>[
                     icon: value.groupIcon,
                     name: value.group,
                     items: [],
-                    noname: !value.group
+                    noname: !value.group,
+                    sort: value.groupSort
                 };
             }
             acc[groupName].items.push(value);

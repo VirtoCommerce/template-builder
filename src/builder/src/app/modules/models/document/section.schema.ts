@@ -7,12 +7,15 @@ export interface SectionSchema {
     name: string;
     static?: boolean | string;
     displayField?: string;
-    group?: string;
-    groupIcon?: string;
+    sort?: number;
     blocks?: string[];
     inline?: boolean; // used for settings groups, when false, group displayed as a overlap panel
     settings: SectionPropertyDescriptor[];
     default?: SectionModel;
+
+    group?: string;
+    groupIcon?: string;
+    groupSort?: number;
 
     includeShared?: string[]; // list of names to add settings from Shared
     excludeShared?: string[] | true; // true - not use shared settings, string[] - list of settings id to exclude from result shared list

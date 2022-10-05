@@ -11,6 +11,7 @@ import { Observable, of, delay } from 'rxjs';
 export class OverlapPanelComponent implements OnInit {
 
     @Input() expandable = true;
+    @HostBinding("class.inplace") @Input() skipTranslate: boolean | null = false;
 
     @HostListener('window:resize', ['$event'])
     onResize() {

@@ -4,7 +4,7 @@
             <ul class="flex flex-col">
                 <ng-container *ngIf="viewModel$|async as vm">
                     <li class="search-holder">
-                        <input [placeholder]="!!vm.parentSection ? 'Enter block name' : 'Enter section name'"
+                        <input placeholder="Search in library"
                                class="search"
                                type="search"
                                [value]="filter$|async"

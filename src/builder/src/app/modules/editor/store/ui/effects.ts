@@ -61,6 +61,12 @@ export class TemplateEditorUiEffects {
         ])
     ));
 
+    setWindowTitle$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.setWindowTitle),
+        withLatestFrom(this.store$.select(sharedSelectors.selectCurrentTemplateEntry)),
+        map(([, templateEntry]) => sharedActions.setWindowTitle({ title: templateEntry?.name || null }))
+    ));
+
     completeEditSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.closeEditItemPanel),
         switchMap(() => [

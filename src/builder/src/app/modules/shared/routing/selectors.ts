@@ -118,6 +118,11 @@ export const isFullscreenPreviewMode = createSelector(
     value => value === 'fullscreen'
 );
 
+export const isDesktop50 = createSelector(
+    selectPreviewModeParameter,
+    value => value === 'desktop-50'
+);
+
 export const isPresetPreviewMode = createSelector(
     selectPresetParameter,
     preset => !!preset

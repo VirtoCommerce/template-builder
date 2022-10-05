@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { AppConfig } from '@integration/services';
+
 import { BuilderState } from '@editor/store/state';
 import * as actions from '@editor/store/actions';
 import * as selectors from '@editor/store/selectors';
@@ -12,9 +14,12 @@ import * as selectors from '@editor/store/selectors';
 })
 export class ToolbarHostComponent implements OnInit {
 
-    panels$ = this.store$.select(selectors.selectToolbarButtonsState);
+    panels$ = this.store$.select(selectors.selectToolbarButtonsState(!this.appConfig.getValue('skipTheme')));
 
-    constructor(private store$: Store<BuilderState>) { }
+    constructor(
+        private store$: Store<BuilderState>,
+        private appConfig: AppConfig
+    ) { }
 
     ngOnInit(): void {
     }

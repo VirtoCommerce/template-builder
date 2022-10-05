@@ -9,3 +9,4 @@ export const resetGroupsState = createAction('[template editor] reset groups sta
 
 export const startDragSection = createAction('[template editor] start drag section', props<{ sectionId: string }>());
 export const releaseDragSection = createAction('[template editor] release drag section', props<{ sectionId: string }>());
+export const setWindowTitle = createAction('[template editor] set window title');
