@@ -385,7 +385,18 @@ export function prepareSchema(schema: SectionSchema, shared: ObjectsSchemasList,
                 .filter(x => !!x && !schema.settings?.find(s => s.id === x.id)) || [],
         ].filter(x =>
             schema.excludeShared === true || (<string[]>schema.excludeShared || []).indexOf(x.id) === -1
-        )
+        ).sort((a, b) => {
+            if (a.sort !== undefined && b.sort !== undefined) {
+                return a.sort - b.sort;
+            }
+            if (a.sort !== undefined) {
+                return -1;
+            }
+            if (b.sort !== undefined) {
+                return 1;
+            }
+            return 0;
+        })
     };
     return result;
 }
