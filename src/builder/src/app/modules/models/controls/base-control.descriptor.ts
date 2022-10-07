@@ -12,6 +12,7 @@ export interface BaseControlDescriptor {
     placeholder?: string;
     hint?: string;
 
+    hidden?: boolean;
     visibility?: string; // java-script for property visibility
 
     tab?: string;

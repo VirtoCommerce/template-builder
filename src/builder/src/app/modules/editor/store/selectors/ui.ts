@@ -21,7 +21,8 @@ export const selectAddItemTitle = createSelector(
     fromData.selectCurrentSchemaForEdit,
     (section, schema) => {
         if (!section)
-            return 'Add section';
+            return 'Add block';
+            // return 'Add section';
         const name = helpers.getSectionName(section, schema || null, 'section');
         const result = `Add block to '${name}'`;
         return result;

@@ -103,6 +103,24 @@
             "isArray": false
         }
     },
-    "skipTheme": true,
-    "skipTemplates": true
+    "skipTheme": {
+        "init": true,
+        "url": "/api/platform/security/currentuser",
+        "method": "GET",
+        "cacheable": true,
+        "response": {
+            "selector": "!this.response.isAdministrator && this.response.permissions.indexOf('builder:theme') === -1",
+            "isArray": false
+        }
+    },
+    "skipTemplates": {
+        "init": true,
+        "url": "/api/platform/security/currentuser",
+        "method": "GET",
+        "cacheable": true,
+        "response": {
+            "selector": "!this.response.isAdministrator && this.response.permissions.indexOf('builder:templates') === -1",
+            "isArray": false
+        }
+    }
 }

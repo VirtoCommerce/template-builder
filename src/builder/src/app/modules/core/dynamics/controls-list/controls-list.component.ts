@@ -26,7 +26,7 @@ export class ControlsListComponent implements OnInit {
     }
 
     checkVisibility(descriptor: BaseControlDescriptor): boolean {
-        if (!!descriptor.visibility) {
+        if (!!descriptor.visibility && !descriptor.hidden) {
             try {
                 const result = appHelpers.evalInContext(descriptor.visibility!, this.context);
                 return result;
@@ -34,6 +34,6 @@ export class ControlsListComponent implements OnInit {
                 console.error(error);
             }
         }
-        return true;
+        return !descriptor.hidden;
     }
 }

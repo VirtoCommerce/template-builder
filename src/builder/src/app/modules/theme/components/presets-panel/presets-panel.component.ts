@@ -5,7 +5,7 @@ import { BuilderState } from '@theme/store/state';
 
 import * as actions from '@theme/store/actions';
 import * as fromTheme from '@theme/store/selectors';
-import { of } from 'rxjs';
+import * as fromRoute from '@shared/routing/selectors';
 
 @Component({
     selector: 'app-presets-panel',
@@ -16,6 +16,7 @@ export class PresetsPanelComponent implements OnInit {
 
     filter$ = this.store$.select(fromTheme.selectPresetsFilter);
     viewModel$ = this.store$.select(fromTheme.selectPresetsContext);
+    isHalfScreen$ = this.store$.select(fromRoute.isDesktop50);
 
     constructor(private store$: Store<BuilderState>) { }
 
