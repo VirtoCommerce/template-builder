@@ -109,7 +109,7 @@
         "method": "GET",
         "cacheable": true,
         "response": {
-            "selector": "!this.response.isAdministrator && this.response.permissions.indexOf('builder:theme') === -1",
+            "selector": "this.response.permissions.indexOf('builder:theme') === -1",
             "isArray": false
         }
     },
@@ -119,7 +119,7 @@
         "method": "GET",
         "cacheable": true,
         "response": {
-            "selector": "!this.response.isAdministrator && this.response.permissions.indexOf('builder:templates') === -1",
+            "selector": "this.response.permissions.indexOf('builder:templates') === -1",
             "isArray": false
         }
     }
