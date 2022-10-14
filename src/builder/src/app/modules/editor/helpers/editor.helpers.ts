@@ -260,7 +260,7 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
 export function prepareTemplate(template: TemplateModel): TemplateModel {
     const result = {
         ...template,
-        content: template?.content.map(section => {
+        content: template?.content?.map(section => {
             const res = {
                 ...section,
                 id: generateSectionId(section)
@@ -272,7 +272,7 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
                 }));
             }
             return res;
-        })
+        }) || []
     };
 
     return result;
