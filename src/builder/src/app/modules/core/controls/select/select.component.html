@@ -9,6 +9,7 @@
                [multiple]="descriptor.multiple || false"
                [placeholder]="descriptor.placeholder || ''"
                [searchable]="descriptor.searchable || false"
+               [clearable]="!descriptor.required"
                [hideSelected]="true"
                [loading]="loading"
                [typeToSearchText]="descriptor.placeholder || ''"

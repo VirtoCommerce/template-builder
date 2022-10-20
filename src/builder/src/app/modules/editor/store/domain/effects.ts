@@ -35,10 +35,17 @@ export class TemplateEditorDomainEffects {
 
     addItem$ = createEffect(() => this.actions$.pipe(
         ofType(actions.addItemAction),
-        withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
+        withLatestFrom(
+            this.store$.select(selectors.changeTemplateContext),
+            this.store$.select(selectors.selectSharedSchemas)
+        ),
         filter(([, { template }]) => !!template),
-        switchMap(([{ schema }, { template, section, templateId }]) => {
-            const result = editorHelpers.addItemToTemplate(schema, template!, section!); // section can be null
+        switchMap(([{ schema }, { template, section, templateId }, shared]) => {
+
+            const sharedSchemaName = !!section ? "_blocks" : "_sections";
+
+            const fullSchema = editorHelpers.prepareSchema(schema, shared, sharedSchemaName);
+            const result = editorHelpers.addItemToTemplate(fullSchema, template!, section || null); // section can be null
             return [
                 actions.updateTemplateAction({
                     template: result.template,

@@ -1,5 +1,5 @@
-export * from './template.schema';
-export * from './templates-schemas-list.model';
+// export * from './template.schema';
+// export * from './templates-schemas-list.model';
 
 export * from './template-state.model';
 

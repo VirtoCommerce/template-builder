@@ -15,4 +15,5 @@ export interface SelectDescriptor extends BaseControlDescriptor {
     equalKey?: string; // property name to compare options
     displayField?: string; // property name to display
     searchable?: boolean;
+    required?: boolean;
 }

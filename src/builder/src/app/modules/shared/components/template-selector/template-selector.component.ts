@@ -38,14 +38,6 @@ export class TemplateSelectorComponent implements OnInit {
     }
 
     onTemplateSelected(item: MultipageSelectDescriptor) {
-
-
-        // this.currentTemplate$ = item;
-        // if (item.hasChildren) {
-        //     this.titleText = item.title;
-        //     this.childrenItems$ = this.childrenList;
-        //     this.filter = '';
-        // }
         if (item.hasChildren) {
             this.store$.dispatch(actions.switchToChildrenTemplates({ template: item.alias }));
         } else {
@@ -55,19 +47,10 @@ export class TemplateSelectorComponent implements OnInit {
 
     onFilterChanged(value: string) {
         this.store$.dispatch(actions.filterTemplates({ filter: value }));
-        // this.filter = value;
-        // if (this.childrenItems$) {
-        //     this.childrenItems$ = this.filter ? this.childrenList.filter(x => x.title.toLowerCase().includes(value.toLowerCase())) : this.childrenList;
-        // } else {
-        //     this.rootTemplates$ = this.filter ? this.items.filter(x => x.title.indexOf(value) !== -1 || x.alias.indexOf(value) !== -1) : this.items;
-        // }
     }
 
     onBackClick() {
         this.store$.dispatch(actions.displayRootTemplates());
-        // this.childrenItems$ = null;
-        // this.filter = '';
-        // this.titleText = 'Templates';
     }
 
     private convertTemplateToItem(value: { entry: TemplateEntry, state: TemplateEntryState | null }): MultipageSelectDescriptor {
