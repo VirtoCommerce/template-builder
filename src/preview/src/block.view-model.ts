@@ -1,8 +1,6 @@
-import { MessageContent } from './models';
-
 export class BlockViewModel {
     id: string;
-    source: MessageContent;
+    source: any;
     element: HTMLElement;
     htmlString: string;
     hidden: boolean;

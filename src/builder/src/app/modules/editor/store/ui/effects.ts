@@ -9,7 +9,7 @@ import * as routingActions from '@shared/routing/actions';
 import * as sharedSelectors from '@shared/store/selectors';
 
 // import * as routingSelectors from '@shared/routing'
-// import * as editorHelpers from '@editor/services/editor.helpers';
+import * as editorHelpers from '@editor/helpers/editor.helpers';
 
 import * as sharedActions from '@shared/store/actions';
 
@@ -128,7 +128,7 @@ export class TemplateEditorUiEffects {
 
     notifySuccessSave$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplateSuccess),
-        switchMap(({alias, parent}) => [
+        switchMap(({ alias, parent }) => [
             sharedActions.showNotification({ message: `Template ${alias} saved successfully`, msgType: 'success', top: true }),
             parent
                 ? sharedActions.setDirtyState({ parent, template: alias, dirty: false })
@@ -143,4 +143,59 @@ export class TemplateEditorUiEffects {
         }),
         map(() => sharedActions.showNotification({ message: 'Could not save template', msgType: 'error', top: true }))
     ));
+
+    previewItem$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.previewItemAction),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
+            this.store$.select(selectors.selectSectionModelFromRoute)
+        ),
+        map(([{ item }, template, entry, section]) => {
+            const model = editorHelpers.generatePreviewBySchema(item);
+            return broadcastMessage({
+                msg: {
+                    type: 'preview',
+                    template, section, model,
+                    ...entry?.previewMessage
+                }
+            })
+        })
+    ));
+
+    scrollToSectionInPreview$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.editSectionAction),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry)
+        ),
+        map(([{ sectionId }, template, entry]) =>
+            broadcastMessage({
+                msg: {
+                    type: 'select',
+                    template, sectionId,
+                    ...entry?.previewMessage
+                }
+            })
+        )
+    ));
+
+    scrollToBlockInPreview$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.editBlockAction),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateModel),
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
+            this.store$.select(selectors.selectSectionModelFromRoute)
+        ),
+        map(([{ sectionId, blockId }, template, entry, section]) =>
+            broadcastMessage({
+                msg: {
+                    type: 'select',
+                    template, section, sectionId, blockId,
+                    ...entry?.previewMessage
+                }
+            })
+        )
+    ));
+
 }

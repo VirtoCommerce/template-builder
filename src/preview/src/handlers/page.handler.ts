@@ -7,7 +7,7 @@ export class PageHandler extends BaseHandler {
     readonly key = 'page';
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
-        const blocks = msg.content.blocks;
+        const blocks = msg.template.content.blocks;
         blocks.forEach(x => {
             const vm = this.createViewModel(x);
             list.push(vm);

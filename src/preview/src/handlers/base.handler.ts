@@ -1,5 +1,5 @@
 import { Renderer } from './../renderer';
-import { BaseMessage, MessageContent } from "../models";
+import { BaseMessage } from "../models";
 import { BlockViewModel } from "../block.view-model";
 import { MessageHandler } from "./message.handler";
 import { ServiceLocator } from '../service-locator';
@@ -12,9 +12,9 @@ export abstract class BaseHandler implements MessageHandler {
     }
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
-        let vm = this.getViewModel(msg.content.id, list);
+        let vm = this.getViewModel(msg.section.id, list);
         if (!vm) {
-            vm = this.createViewModel(msg.content);
+            vm = this.createViewModel(msg.section);
         }
         this.executeInternal(msg, list, vm);
     }
@@ -32,7 +32,7 @@ export abstract class BaseHandler implements MessageHandler {
         return 'preview-instance';
     }
 
-    protected createViewModel(content: MessageContent, isPreview = false): BlockViewModel {
+    protected createViewModel(content: any, isPreview = false): BlockViewModel {
         const result = new BlockViewModel();
         Object.assign(result, {
             id: this.generateId(content.id),

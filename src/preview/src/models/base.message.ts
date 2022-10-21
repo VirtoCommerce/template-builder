@@ -1,23 +1,28 @@
 export interface BaseMessage {
     type: string;
-    content: MessageContent;
+    template?: any;
+    section?: any;
+    block?: any;
+    sectionId?: string;
+    blockId?: string;
+    // content: MessageContent;
 }
 
-export interface MessageContent {
-    id?: number;
-    __index?: number;
+// export interface MessageContent {
+//     id?: number;
+//     __index?: number;
 
-    // clone
-    source?: number;
-    destination?: number;
+//     // clone
+//     source?: number;
+//     destination?: number;
 
-    // swap
-    currentIndex?: number;
-    newIndex?: number;
+//     // swap
+//     currentIndex?: number;
+//     newIndex?: number;
 
-    // block
-    hidden?: boolean;
+//     // block
+//     hidden?: boolean;
 
-    // page
-    blocks?: MessageContent[];
-}
+//     // page
+//     blocks?: MessageContent[];
+// }

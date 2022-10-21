@@ -104,6 +104,15 @@ export function generateModelBySchema(schema: SectionSchema): SectionModel {
     return result;
 }
 
+export function generatePreviewBySchema(schema: SectionSchema): SectionModel {
+    const result: SectionModel = {
+        ...schema.preview || schema.default,
+        ...generateModelBySettings(schema.settings, 'preview'),
+        type: schema.type
+    };
+    return result;
+}
+
 export function applySectionChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string): TemplateModel {
     const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];

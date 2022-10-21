@@ -12,6 +12,7 @@ export interface SectionSchema {
     inline?: boolean; // used for settings groups, when false, group displayed as a overlap panel
     settings: SectionPropertyDescriptor[];
     default?: SectionModel;
+    preview?: SectionModel;
 
     group?: string;
     groupIcon?: string;

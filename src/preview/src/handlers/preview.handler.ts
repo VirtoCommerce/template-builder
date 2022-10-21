@@ -7,8 +7,8 @@ export class PreviewHandler extends BaseHandler {
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
         this.clearPreview(list);
-        if (!!msg.content) {
-            const vm = this.createViewModel(msg.content, true);
+        if (!!msg.section) {
+            const vm = this.createViewModel(msg.section, true);
             list.push(vm);
             this.reloadBlock(vm.source).then(result => {
                 vm.htmlString = result;
