@@ -2,7 +2,7 @@ import { ServerRequestDescriptor } from '@models/http';
 import { Injectable } from '@angular/core';
 
 import { firstValueFrom, Observable, of } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { BuilderHttpClient } from './builder-http.client';
 import { AppConfig } from './app.config';
@@ -20,15 +20,26 @@ export class AppInitializator {
     init(): Promise<any> {
         // todo: dangerous! check that this is security
         const configUrl = this.config.getContext().location.params.configUrl || 'data/settings.json';
-        return firstValueFrom(this.loadSettingsFrom(configUrl).pipe(
+        return firstValueFrom(this.loadSettingsFrom(configUrl, null, DefaultConfig).pipe(
+            // tap(result => {
+            //     console.log(result);
+            //     this.config.initConfigWith(result);
+            // }),
+            switchMap((result) => {
+                // override properties from config in theme
+                const configInThemeUrl = '/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{settings.themeName}}/config/builder_settings.json&type=themes';
+                return this.loadSettingsFrom(configInThemeUrl, result, {}).pipe(
+                    map(configInTheme => ({ ...result, ...configInTheme }))
+                );
+            }),
             tap(result => {
                 console.log(result);
                 this.config.initConfigWith(result);
-            })
+            }),
         ));
     }
 
-    private loadSettingsFrom(url: string | ServerRequestDescriptor | ServerRequestDescriptor[], context: any = null): Observable<any> {
+    private loadSettingsFrom(url: string | ServerRequestDescriptor | ServerRequestDescriptor[], context: any = null, defaultConfig: any = null): Observable<any> {
         const request = this.http.generateRequest(url, null, { ...this.config.getContext(), settings: context }); // should context be as settings?
         return this.http.doRequest(request).pipe(
             switchMap(config => this.initConfigProperties(config).pipe(
@@ -39,7 +50,7 @@ export class AppInitializator {
                     return of(c);
                 })
             )),
-            catchError(() => of(DefaultConfig)), // todo: not sure that it should be default config
+            catchError(() => of(defaultConfig)), // todo: not sure that it should be default config
         );
     }
 
