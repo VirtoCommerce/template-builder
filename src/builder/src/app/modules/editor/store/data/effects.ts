@@ -18,6 +18,7 @@ import { helpers as editorHelpers } from '@editor/helpers';
 import * as actions from "../actions";
 import * as shared from '@shared/store/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";
+import { broadcastMessage } from '@shared/store/actions';
 import * as selectors from "../selectors";
 import * as fromRoute from '@shared/routing';
 import * as fromShared from '@shared/store/selectors';
@@ -99,7 +100,16 @@ export class TemplateEditorDataEffects {
         switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
-            map(template => actions.loadTemplateModelSuccess({ template, alias })),
+            switchMap(template => [
+                actions.loadTemplateModelSuccess({ template, alias }),
+                broadcastMessage({
+                    msg: {
+                        type: 'page',
+                        template,
+                        ...templateEntry?.previewMessage
+                    }
+                })
+            ]),
             catchError(error => [
                 actions.loadTemplateModelFails({ error }),
                 shared.showNotification({

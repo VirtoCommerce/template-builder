@@ -4,7 +4,7 @@ import { FormArray, FormGroup, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
-import { CollectionDescriptor } from '@models/controls';
+import { CollectionDescriptor, ControlDescriptor } from '@models/controls';
 
 import { ContextMenuAction, ContextMenuActionType, ControlContext } from '@core/models';
 import { coreHelpers, formsHelpers } from '@core/helpers';
@@ -63,7 +63,8 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
                 value = [value];
             }
             super.setControlValue(value);
-            this.collectionFormArray = formsHelpers.generateFormArray(value, this.descriptor.element);
+            const descriptors = this.getDescriptors();
+            this.collectionFormArray = formsHelpers.generateFormArray(value, descriptors);
             this.form = new FormGroup({ list: this.collectionFormArray });
             this.unsubscribe();
             this.subscription = this.form.valueChanges.subscribe(x => {
@@ -76,10 +77,15 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         return (!!this.descriptor.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
     }
 
+    getDescriptors(): ControlDescriptor[] {
+        return formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+    }
+
     addItem() {
+        const descriptors = this.getDescriptors();
         const item = formsHelpers.generateForm(
-            coreHelpers.createDefaultObject(this.descriptor.element),
-            this.descriptor.element
+            coreHelpers.createDefaultObject(descriptors),
+            descriptors
         );
         this.collectionFormArray.push(item);
         this.openedItem = item;
@@ -87,7 +93,8 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
 
     onActionClick(event: ContextMenuActionType, item: AbstractControl, index: number) {
         if (event.action === 'duplicate') {
-            const newItem = formsHelpers.generateForm(item.value, this.descriptor.element);
+            const descriptors = this.getDescriptors();
+            const newItem = formsHelpers.generateForm(item.value, descriptors);
             this.collectionFormArray.insert(index + 1, newItem);
             this.openedItem = newItem;
         } else if (event.action === 'delete') {

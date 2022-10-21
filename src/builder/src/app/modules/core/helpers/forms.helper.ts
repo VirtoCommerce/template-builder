@@ -1,5 +1,6 @@
+import { ObjectsSchemasList } from '@editor/models';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { SectionPropertyDescriptor } from '@models/controls';
+import { SectionPropertyDescriptor, ObjectDescriptor, ControlDescriptor, CollectionDescriptor } from '@models/controls';
 
 export function generateForm(model: any, properties: SectionPropertyDescriptor[]): FormGroup {
     const result = new FormGroup({});
@@ -14,4 +15,10 @@ export function generateForm(model: any, properties: SectionPropertyDescriptor[]
 
 export function generateFormArray(items: any[], properties: SectionPropertyDescriptor[]): FormArray {
     return new FormArray(items.map(item => generateForm(item, properties)));
+}
+
+export function mergeDescriptors(objects: ObjectsSchemasList, descriptor: ObjectDescriptor | CollectionDescriptor): ControlDescriptor[] {
+    const element = descriptor.element || [];
+    const shared = descriptor.elementDescriptor ? objects?.[descriptor.elementDescriptor]?.settings : [];
+    return [...shared.filter(x => !element.find(y => y.id === x.id)), ...element];
 }

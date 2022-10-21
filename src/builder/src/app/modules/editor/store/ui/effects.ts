@@ -103,9 +103,17 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectCurrentTemplateModel),
             this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
             this.store$.select(sharedSelectors.selectParentTemplateAlias),
+            this.store$.select(selectors.selectSectionModelFromRoute),
+            this.store$.select(selectors.selectBlockModelFromRoute)
         ),
-        switchMap(([, template, entry, parent]) => [
-            broadcastMessage({ msg: { type: 'changed', model: { template, ...entry?.previewMessage } } }),
+        switchMap(([, template, entry, parent, section, block]) => [
+            broadcastMessage({
+                msg: {
+                    type: 'changed',
+                    template, section, block,
+                    ...entry?.previewMessage
+                }
+            }),
             parent
                 ? sharedActions.setDirtyState({ parent: parent, template: entry.alias, dirty: true })
                 : sharedActions.setRootDirtyState({ template: entry.alias, dirty: true })

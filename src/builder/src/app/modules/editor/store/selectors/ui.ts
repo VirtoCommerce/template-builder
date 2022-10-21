@@ -135,12 +135,14 @@ export const selectEditSectionContext = createSelector(
     fromData.selectCurrentItemForEdit,
     fromData.selectCurrentSchemaForEdit,
     fromData.selectCurrentTemplateModel,
+    fromData.selectObjectsSchemas,
     isEditSettings,
-    (block, section, blockSchema, sectionSchema, model, schema, template, isSettings) => !!schema && !!model
+    (block, section, blockSchema, sectionSchema, model, schema, template, objects, isSettings) => !!schema && !!model
         ? <any>{
             block, section, blockSchema, sectionSchema, schema, model,
             isEditSettings: isSettings,
             editContext: {
+                objects, // object editors
                 model, // current item under editing, can be block, section or settings
                 block, // current block or null
                 section, // current section, useful in block

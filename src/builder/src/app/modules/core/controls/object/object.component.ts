@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
-import { ObjectDescriptor } from '@models/controls';
+import { ControlDescriptor, ObjectDescriptor } from '@models/controls';
 
 import { ControlContext } from '@core/models';
 import { coreHelpers, formsHelpers } from '@core/helpers';
@@ -28,6 +28,10 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
         return (!!this.descriptor.displayField && this.controlValue[this.descriptor.displayField]) || this.descriptor.label || this.descriptor.title || '[no title]';
     }
 
+    getDescriptors(): ControlDescriptor[] {
+        return formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+    }
+
     toggle() {
         this.expanded = !this.expanded;
     }
@@ -38,9 +42,10 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 
     override setControlValue(value: any) {
         if (this.controlValue !== value || !this.objectForm) {
-            const v = value || coreHelpers.createDefaultObject(this.descriptor.element);
+            const descriptors = this.getDescriptors();
+            const v = value || coreHelpers.createDefaultObject(descriptors);
             super.setControlValue(v);
-            this.objectForm = formsHelpers.generateForm(v, this.descriptor.element);
+            this.objectForm = formsHelpers.generateForm(v, descriptors);
             this.unsubscribe();
             this.subscription = this.objectForm.valueChanges.subscribe(x => {
                 this.onValueChanged(x);

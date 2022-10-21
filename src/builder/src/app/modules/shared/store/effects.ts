@@ -227,7 +227,8 @@ export class SharedEffects {
     ), { dispatch: false });
 
     previewLoadedMessage$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
-        filter((event: MessageEvent) => event.data.source === 'preview'),
+        filter((event: MessageEvent) => event.data.source === 'preview' && event.data.type === 'loaded'),
+        tap(event => console.log(event.data)),
         map(() => actions.previewLoaded())
     ));
 

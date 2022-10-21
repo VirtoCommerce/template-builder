@@ -6,5 +6,6 @@ export interface CollectionDescriptor extends BaseControlDescriptor {
     displayField?: string;
     skipRemoveConfirmation?: boolean;
     removeMessage?: string;
-    element: ControlDescriptor[];
+    elementDescriptor?: string;
+    element?: ControlDescriptor[];
 }

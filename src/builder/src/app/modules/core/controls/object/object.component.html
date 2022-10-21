@@ -5,7 +5,7 @@
     </div>
     <div *ngIf="expanded && objectForm && descriptor.view !== 'panel' && descriptor.view !== 'popup'">
         <app-controls-list [currentForm]="objectForm"
-                           [descriptors]="descriptor.element"
+                           [descriptors]="getDescriptors()"
                            [context]="getContext()"></app-controls-list>
         <p *ngIf="descriptor.info" class="info pl-6 pr-2">{{ descriptor.info }}</p>
     </div>

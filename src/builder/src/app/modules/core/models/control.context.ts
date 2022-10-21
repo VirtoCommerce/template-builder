@@ -1,3 +1,4 @@
+import { ObjectsSchemasList } from '@editor/models';
 import { TemplateModel, SectionModel } from '@models/index';
 import { AssetFile } from './integration';
 
@@ -6,6 +7,7 @@ export interface ControlContext {
     template: TemplateModel;
     page: SectionModel[];
     settings: SectionModel;
+    objects: ObjectsSchemasList;
     index: number;
     item: any;
     element?: any; // element in the collection

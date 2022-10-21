@@ -10,7 +10,7 @@ import {
     tap
 } from "rxjs/operators";
 
-import { ModalService } from '@core/services';
+import { ModalService, EventsBusService } from '@core/services';
 import { appHelpers } from "@integration/helpers";
 import * as sharedActions from "@shared/store/actions";
 
@@ -30,8 +30,15 @@ export class TemplateEditorDomainEffects {
         private store$: Store<BuilderState>,
         private actions$: Actions,
         private clipboard: ClipboardService,
-        private modals: ModalService
-    ) { }
+        private modals: ModalService,
+        // private eventsBus: EventsBusService
+    ) {
+        // this.eventsBus.addStateSelector({
+        //     filter: msg => msg.type === 'navigate',
+        //     selector: selectors.selectCurrentTemplateModel,
+        //     reducer: (model, template) => ({ ...model, template })
+        // });
+    }
 
     addItem$ = createEffect(() => this.actions$.pipe(
         ofType(actions.addItemAction),
@@ -241,4 +248,12 @@ export class TemplateEditorDomainEffects {
             }),
         ])
     ));
+
+    // enrichNavigateMessages$ = createEffect(() => this.eventsBus.enrich().pipe(
+    //     filter(x => x.type === 'navigate'),
+    //     withLatestFrom(
+    //         this.store$.select(selectors.changeTemplateContext),
+    //     ),
+    //     map(([msg, { template, section, block }]) => ({...msg, template, section, block}))
+    // ));
 }

@@ -45,6 +45,19 @@ export class LivePreviewComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+
+        // add
+        // clone
+        // hide
+        // page - refresh whole page
+        // preview
+        // reload
+        // remove
+        // select
+        // show
+        // swap
+        // update
+
         this.eventBus.on(() => true, msg => {
             switch (msg.type) {
                 case 'preview-loaded':

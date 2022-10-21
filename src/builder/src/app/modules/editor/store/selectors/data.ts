@@ -36,6 +36,11 @@ export const selectSectionsSchemas = createSelector(
         || {}
 );
 
+export const selectObjectsSchemas = createSelector(
+    selectTemplateDataState,
+    state => state.schemas?.objects || {}
+);
+
 export const selectChangedTemplates = createSelector(
     selectLoadedTemplates, // models
     fromShared.selectChangedTemplates, // entries

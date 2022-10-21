@@ -374,7 +374,9 @@ export function insertSection(template: TemplateModel, sectionId: string | null,
     };
 }
 
-export function prepareSchema(schema: SectionSchema, shared: ObjectsSchemasList, itemType: '_sections' | '_blocks'): SectionSchema {
+export function prepareSchema(schema: SectionSchema,
+    shared: ObjectsSchemasList,
+    itemType: '_sections' | '_blocks'): SectionSchema {
     const result = {
         ...schema,
         settings: [
