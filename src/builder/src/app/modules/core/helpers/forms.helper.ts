@@ -19,6 +19,6 @@ export function generateFormArray(items: any[], properties: SectionPropertyDescr
 
 export function mergeDescriptors(objects: ObjectsSchemasList, descriptor: ObjectDescriptor | CollectionDescriptor): ControlDescriptor[] {
     const element = descriptor.element || [];
-    const shared = descriptor.elementDescriptor ? objects?.[descriptor.elementDescriptor]?.settings : [];
+    const shared = (descriptor.elementDescriptor ? objects?.[descriptor.elementDescriptor]?.settings : []) || [];
     return [...shared.filter(x => !element.find(y => y.id === x.id)), ...element];
 }

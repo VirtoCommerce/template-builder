@@ -255,10 +255,15 @@ export function removeSection(template: TemplateModel, sectionId: string): Templ
 
 function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'default' | 'preview' = 'default'): any {
     // todo: consder object and collections too
-    return (settings || []).reduce((result, value) => ({
-        ...result,
-        [value.id]: value[mode] || value['default']
-    }), {});
+    return (settings || []).reduce((result, value) => {
+        if (value.hasOwnProperty(mode) || value.hasOwnProperty('default')) {
+            return {
+                ...result,
+                [value.id]: value[mode] || value['default']
+            };
+        }
+        return result;
+    }, {});
 }
 
 

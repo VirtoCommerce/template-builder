@@ -5,16 +5,16 @@ import { BlockViewModel } from "../block.view-model";
 export class PreviewHandler extends BaseHandler {
     readonly key = 'preview';
 
-    execute(msg: BaseMessage, list: BlockViewModel[]) {
-        this.clearPreview(list);
-        if (!!msg.section) {
-            const vm = this.createViewModel(msg.section, true);
-            list.push(vm);
-            this.reloadBlock(vm.source).then(result => {
-                vm.htmlString = result;
-                this.renderer.add(vm);
-                this.renderer.scrollTo(vm);
-            });
-        }
-    }
+    // execute(msg: BaseMessage, list: BlockViewModel[]) {
+    //     this.clearPreview(list);
+    //     if (!!msg.section) {
+    //         const vm = this.createViewModel(msg.section, true);
+    //         list.push(vm);
+    //         this.reloadBlock(vm.source).then(result => {
+    //             vm.htmlString = result;
+    //             this.renderer.add(vm);
+    //             this.renderer.scrollTo(vm);
+    //         });
+    //     }
+    // }
 }

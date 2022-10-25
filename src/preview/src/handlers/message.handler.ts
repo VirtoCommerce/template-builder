@@ -3,5 +3,5 @@ import { BlockViewModel } from "../block.view-model";
 
 export interface MessageHandler {
     readonly key: string;
-    execute(msg: BaseMessage, list: BlockViewModel[]): void;
+    execute(msg: BaseMessage, list: BlockViewModel[]): BlockViewModel[];
 }

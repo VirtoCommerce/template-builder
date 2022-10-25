@@ -9,7 +9,7 @@ export class App {
     run() {
         this.dispatcher.handleMessage =
             (handler, msg) => {
-                handler.execute(msg, this.list);
+                this.list = handler.execute(msg, this.list);
             };
         this.dispatcher.run();
     }

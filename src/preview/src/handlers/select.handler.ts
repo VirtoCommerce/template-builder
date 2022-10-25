@@ -6,7 +6,6 @@ export class SelectHandler extends BaseHandler {
     readonly key = 'select';
     
     protected override executeInternal(msg: BaseMessage, list: BlockViewModel[], vm: BlockViewModel) {
-        this.clearPreview(list);
         this.renderer.scrollTo(vm);
     }
 }

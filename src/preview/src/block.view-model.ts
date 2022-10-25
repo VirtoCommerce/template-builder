@@ -1,8 +1,7 @@
 export class BlockViewModel {
-    id: string;
+    hash: number;
     source: any;
     element: HTMLElement;
     htmlString: string;
-    hidden: boolean;
     isPreview: boolean;
 }

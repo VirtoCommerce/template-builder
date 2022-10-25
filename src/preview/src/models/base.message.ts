@@ -3,6 +3,7 @@ export interface BaseMessage {
     template?: any;
     section?: any;
     block?: any;
+    model?: any;
     sectionId?: string;
     blockId?: string;
     // content: MessageContent;
