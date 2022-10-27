@@ -27,7 +27,7 @@ export class AppInitializator {
             // }),
             switchMap((result) => {
                 // override properties from config in theme
-                const configInThemeUrl = '/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{settings.themeName}}/config/builder_settings.json&type=themes';
+                const configInThemeUrl = '/api/pagebuilder/settings';
                 return this.loadSettingsFrom(configInThemeUrl, result, {}).pipe(
                     map(configInTheme => ({ ...result, ...configInTheme }))
                 );

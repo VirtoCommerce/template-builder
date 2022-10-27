@@ -10,11 +10,10 @@ import { BaseFilesComponent } from '../base-files.component';
 })
 export class FilesComponent extends BaseFilesComponent<FilesDescriptor> {
 
-
     getMaxListHeight(): string {
         return this.innerValue.length <= (this.descriptor.collapseThreshold || 6) || this.expanded || !!this.selectedFile
-        ? 'inherit'
-        : 'calc((' + (this.descriptor.collapseCount || 4) + ' + .5) * (.5rem + 20px))'
+            ? 'inherit'
+            : 'calc((' + (this.descriptor.collapseCount || 4) + ' + .5) * (.5rem + 20px))'
     }
 
     onReorderItems(event: CdkDragDrop<any>) {
