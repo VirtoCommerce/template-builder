@@ -87,22 +87,6 @@
             "isArray": false
         }
     },
-    "inlineAssetsRequest": "inline",
-    "fullUploadAssetsRequest": {
-        "url": "/api/content/pages/{{location.params.storeId}}?folderUrl=/assets/pages&name={{file.assetName}}",
-        "method": "POST",
-        "randomizeAssetName": true,
-        "resultTemplate": "{{response}}",
-        "previewTemplate": "{{settings.storefrontUrl}}{{response}}",
-        "form": {
-            "name": "uploadedFile",
-            "fileName": "{{file.assetName}}"
-        },
-        "response": {
-            "result": "$[0].url",
-            "isArray": false
-        }
-    },
     "skipTheme": {
         "init": true,
         "url": "/api/platform/security/currentuser",

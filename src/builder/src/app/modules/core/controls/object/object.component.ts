@@ -43,7 +43,9 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
     override setControlValue(value: any) {
         if (this.controlValue !== value || !this.objectForm) {
             const descriptors = this.getDescriptors();
-            const v = value || coreHelpers.createDefaultObject(descriptors);
+            // we don't need create default value for empty object. Only when create new section or list item
+            // const v = value || coreHelpers.createDefaultObject(descriptors);
+            const v = value || {};
             super.setControlValue(v);
             this.objectForm = formsHelpers.generateForm(v, descriptors);
             this.unsubscribe();
