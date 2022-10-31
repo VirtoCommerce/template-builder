@@ -44,14 +44,15 @@ export class TemplateEditorDomainEffects {
         ofType(actions.addItemAction),
         withLatestFrom(
             this.store$.select(selectors.changeTemplateContext),
-            this.store$.select(selectors.selectSharedSchemas)
+            this.store$.select(selectors.selectSharedSchemas),
+            this.store$.select(selectors.selectObjectsSchemas)
         ),
         filter(([, { template }]) => !!template),
-        switchMap(([{ schema }, { template, section, templateId }, shared]) => {
+        switchMap(([{ schema }, { template, section, templateId }, shared, objects]) => {
 
             const sharedSchemaName = !!section ? "_blocks" : "_sections";
 
-            const fullSchema = editorHelpers.prepareSchema(schema, shared, sharedSchemaName);
+            const fullSchema = editorHelpers.prepareSchema(schema, shared, objects, sharedSchemaName);
             const result = editorHelpers.addItemToTemplate(fullSchema, template!, section || null); // section can be null
             return [
                 actions.updateTemplateAction({
@@ -59,7 +60,9 @@ export class TemplateEditorDomainEffects {
                     alias: templateId
                 }),
                 actions.closeAddItemPanel(),
-                result.blockId ? actions.editBlockAction({ blockId: result.blockId, sectionId: result.sectionId }) : actions.editSectionAction({ sectionId: result.sectionId })
+                result.blockId
+                    ? actions.editBlockAction({ blockId: result.blockId, sectionId: result.sectionId })
+                    : actions.editSectionAction({ sectionId: result.sectionId })
             ]
         })
     ));

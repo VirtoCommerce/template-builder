@@ -16,6 +16,7 @@ export interface FilesDescriptor extends BaseControlDescriptor {
     filenameField?: string;
 
     element: ControlDescriptor[];
+    elementDescriptor?: string;
 
     uploadAssetsRequest?: AssetsRequest | string;
 }

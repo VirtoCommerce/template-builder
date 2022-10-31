@@ -78,7 +78,7 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }
 
     getDescriptors(): ControlDescriptor[] {
-        return formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+        return this.descriptor.element; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
     }
 
     addItem() {

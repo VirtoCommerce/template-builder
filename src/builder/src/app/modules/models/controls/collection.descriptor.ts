@@ -7,5 +7,5 @@ export interface CollectionDescriptor extends BaseControlDescriptor {
     skipRemoveConfirmation?: boolean;
     removeMessage?: string;
     elementDescriptor?: string;
-    element?: ControlDescriptor[];
+    element: ControlDescriptor[];
 }

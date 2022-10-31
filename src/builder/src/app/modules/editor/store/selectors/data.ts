@@ -167,7 +167,8 @@ export const selectSectionSchemaFromRoute = createSelector(
     selectSectionModelFromRoute,
     selectSectionsSchemas,
     selectSharedSchemas,
-    (section, schemas, shared) => section && helpers.prepareSchema(schemas[section.type], shared, '_sections')
+    selectObjectsSchemas,
+    (section, schemas, shared, objects) => section && helpers.prepareSchema(schemas[section.type], shared, objects, '_sections')
 );
 
 export const selectBlockModelFromRoute = createSelector(
@@ -183,8 +184,9 @@ export const selectBlockSchemaFromRoute = createSelector(
     selectBlocksSchemas,
     selectSectionsSchemas,
     selectSharedSchemas,
-    (model, blocksSchemas, sectionsSchemas, shared) =>
-        model && (helpers.prepareSchema(blocksSchemas[model.type] || sectionsSchemas[model.type], shared, '_blocks'))
+    selectObjectsSchemas,
+    (model, blocksSchemas, sectionsSchemas, shared, objects) =>
+        model && (helpers.prepareSchema(blocksSchemas[model.type] || sectionsSchemas[model.type], shared, objects, '_blocks'))
 );
 
 export const selectCurrentItemForEdit = createSelector(

@@ -29,7 +29,7 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
     }
 
     getDescriptors(): ControlDescriptor[] {
-        return formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+        return this.descriptor.element; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
     }
 
     toggle() {

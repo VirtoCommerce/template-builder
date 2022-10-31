@@ -255,14 +255,29 @@ export function removeSection(template: TemplateModel, sectionId: string): Templ
 
 function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'default' | 'preview' = 'default'): any {
     // todo: consder object and collections too
-    return (settings || []).reduce((result, value) => {
-        if (value.hasOwnProperty(mode) || value.hasOwnProperty('default')) {
+    return (settings || []).map(x => {
+        if (isElementType(x) && x.type !== 'list') {
+            let e = x as { element: SectionPropertyDescriptor[] };
+            let currentValue = x[mode] || x.preview || {};
+            let valueFromProps = generateModelBySettings(e.element, mode);
             return {
-                ...result,
+                ...x,
+                [mode]: {
+                    ...currentValue,
+                    ...valueFromProps
+                }
+            }
+        }
+        return x;
+    }).reduce((result, value) => {
+        let res = result;
+        if (value.hasOwnProperty(mode) || value.hasOwnProperty('default')) {
+            res = {
+                ...res,
                 [value.id]: value[mode] || value['default']
             };
         }
-        return result;
+        return res;
     }, {});
 }
 
@@ -388,8 +403,35 @@ export function insertSection(template: TemplateModel, sectionId: string | null,
     };
 }
 
+function isElementType(setting: SectionPropertyDescriptor): boolean {
+    return ['object', 'list', 'images', 'files'].indexOf(setting.type) !== -1;
+}
+
+function fillElementProperty(setting: SectionPropertyDescriptor, objects: ObjectsSchemasList): SectionPropertyDescriptor {
+    if (!isElementType(setting)) return setting;
+    let result = setting as { element: SectionPropertyDescriptor[], elementDescriptor?: string };
+    if (!!result.elementDescriptor) {
+        const shared = objects[result.elementDescriptor] || { settings: [] };
+        const given = result.element || [];
+        result = {
+            element: [
+                ...shared.settings.filter(x => !given.some(y => y.id === x.id)),
+                ...given
+            ]
+        };
+    }
+
+    const element = result.element.map(x => fillElementProperty(x, objects));
+
+    return {
+        ...setting,
+        element
+    };
+}
+
 export function prepareSchema(schema: SectionSchema,
     shared: ObjectsSchemasList,
+    objects: ObjectsSchemasList,
     itemType: '_sections' | '_blocks'): SectionSchema {
     const result = {
         ...schema,
@@ -401,7 +443,7 @@ export function prepareSchema(schema: SectionSchema,
                 .filter(x => !!x && !schema.settings?.find(s => s.id === x.id)) || [],
         ].filter(x =>
             schema.excludeShared === true || (<string[]>schema.excludeShared || []).indexOf(x.id) === -1
-        ).sort((a, b) => {
+        ).map(x => fillElementProperty(x, objects)).sort((a, b) => {
             if (a.sort !== undefined && b.sort !== undefined) {
                 return a.sort - b.sort;
             }
