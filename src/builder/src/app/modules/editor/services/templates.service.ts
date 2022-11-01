@@ -22,7 +22,7 @@ export class TemplatesService {
         const templateUrl = this.appConfig.getValue('templateUrl', { item: template });
         const request = this.http.generateRequest(templateUrl, { item: template });
         // const url = `${templateUrl}&path=${template.path}&type=${template.type}`;
-        return this.http.doRequest<TemplateModel>(request);
+        return this.http.doRequest<TemplateModel>(request, { nullWhenError: false }, null);
     }
 
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {

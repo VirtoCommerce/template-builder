@@ -111,7 +111,7 @@ export class TemplateEditorDataEffects {
                 })
             ]),
             catchError(error => [
-                actions.loadTemplateModelFails({ error }),
+                actions.loadTemplateModelFails({ error, alias }),
                 shared.showNotification({
                     message: 'Could not load template',
                     msgType: 'error',

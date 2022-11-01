@@ -3,6 +3,8 @@ import { Dictionary } from '@models/index';
 // template ui state
 export interface TemplateState {
     id: string;
+    isLoading: boolean;
+    error?: string;
     sections: SectionStatesList;
 }
 

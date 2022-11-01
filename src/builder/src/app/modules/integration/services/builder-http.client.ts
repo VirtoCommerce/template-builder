@@ -43,8 +43,11 @@ export class BuilderHttpClient extends HttpClient {
         }
         return this.doRequestInternal<T>(<any>request, additionalOptions, context).pipe(
             catchError(error => {
-                console.log(error);
-                return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
+                if (!!(additionalOptions?.nullWhenError)) {
+                    console.log(error);
+                    return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
+                }
+                throw error;
             }),
             switchMap(result => {
                 if (result === null || result === <any>'' || result === undefined) {

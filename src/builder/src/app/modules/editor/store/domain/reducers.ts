@@ -16,7 +16,6 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
             [alias]: {
                 ...state.states[alias],
                 isLoading: true,
-                // isDirty: false,
                 sections: state.states[alias]?.sections || {}
             }
         }
@@ -28,34 +27,20 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
             [alias]: {
                 ...state.states[alias],
                 isLoading: false,
-                // isDirty: false,
+                error: undefined,
                 sections: state.states[alias]?.sections || {}
             }
         }
     })),
-    // on(actions.updateTemplateAction, (state, { alias }) => ({
-    //     ...state,
-    //     states: {
-    //         ...state.states,
-    //         [alias]: {
-    //             ...state.states[alias]
-    //         }
-    //     }
-    // })),
-    // on(actions.saveTemplateSuccess, (state, { alias }) => ({
-    //     ...state,
-    //     states: {
-    //         ...state.states,
-    //         [alias]: {
-    //             ...state.states[alias]
-    //         }
-    //     }
-    // }))
-
-
-    // on(actions.presetsListMode, (state) => ({ ...state, mode: 'list' })),
-    // on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),
-
-    // on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter })),
-
+    on(actions.loadTemplateModelFails, (state, { error, alias }) => ({
+        ...state,
+        states: {
+            ...state.states,
+            [alias]: {
+                ...state.states[alias],
+                isLoading: false,
+                error: error.message
+            }
+        }
+    }))
 );

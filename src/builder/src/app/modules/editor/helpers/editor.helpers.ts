@@ -404,7 +404,8 @@ export function insertSection(template: TemplateModel, sectionId: string | null,
 }
 
 function isElementType(setting: SectionPropertyDescriptor): boolean {
-    return ['object', 'list', 'images', 'files'].indexOf(setting.type) !== -1;
+    return ['object', 'list', 'images', 'files'].indexOf(setting.type) !== -1 &&
+        (!!(<any>setting).element || !!(<any>setting).elementDescriptor);
 }
 
 function fillElementProperty(setting: SectionPropertyDescriptor, objects: ObjectsSchemasList): SectionPropertyDescriptor {
@@ -421,7 +422,7 @@ function fillElementProperty(setting: SectionPropertyDescriptor, objects: Object
         };
     }
 
-    const element = result.element.map(x => fillElementProperty(x, objects));
+    const element = result.element?.map(x => fillElementProperty(x, objects));
 
     return {
         ...setting,
