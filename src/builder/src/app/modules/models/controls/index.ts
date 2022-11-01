@@ -8,6 +8,7 @@ export * from './files.descriptor';
 export * from './images.descriptor';
 export * from './number.descriptor';
 export * from './object.descriptor';
+export * from './search.descriptor';
 export * from './select.descriptor';
 export * from './select-option.model';
 export * from './string.descriptor';
@@ -24,6 +25,7 @@ import { FilesDescriptor } from './files.descriptor';
 import { ImagesDescriptor } from './images.descriptor';
 import { NumberDescriptor } from './number.descriptor';
 import { ObjectDescriptor } from './object.descriptor';
+import { SearchDescriptor } from './search.descriptor';
 import { SelectDescriptor } from './select.descriptor';
 import { StringDescriptor } from './string.descriptor';
 import { TextDescriptor } from './text.descriptor';
@@ -37,6 +39,7 @@ export type ControlDescriptor = CalendarDescriptor
     | ImagesDescriptor
     | NumberDescriptor
     | ObjectDescriptor
+    | SearchDescriptor
     | SelectDescriptor
     | StringDescriptor
     | TextDescriptor;

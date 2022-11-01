@@ -69,6 +69,16 @@ export class AssetsService {
         return file.url;
     }
 
+    adjustUrl(absoluteOrRelativeUrl: string | null, context: any): string | null {
+        if (!absoluteOrRelativeUrl) {
+            return null;
+        }
+        const url = ['http://', 'https://', '//', 'data:'].find(x => absoluteOrRelativeUrl.startsWith(x))
+            ? absoluteOrRelativeUrl
+            : this.appConfig.getValue('assetsUrlTemplate', { ...context, assetName: absoluteOrRelativeUrl });
+        return url || absoluteOrRelativeUrl;
+    }
+
     private getRequest(descriptor: FilesDescriptor, context: any): AssetsRequest | 'inline' | null {
         let request = descriptor.uploadAssetsRequest;
         if (!request) {

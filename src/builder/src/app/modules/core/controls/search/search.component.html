@@ -1,0 +1,23 @@
+<label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+<input *ngIf="!descriptor.button" #control type="text" class="form-control" [value]="controlValue.__searchQuery"
+       (paste)="onPaste($event)" (keyup)="onTextChange($event)" />
+
+<button *ngIf="descriptor.button" class="btn btn--blue btn--block" (click)="doRequest()">{{ getButtonText() }}</button>
+
+<div *ngIf="!!controlValue.__nodata; else modelInfo" class="no-data-label">
+    {{ descriptor.nodataText }}
+</div>
+<ng-template #modelInfo>
+    <ng-container *ngIf="isArrayDisplayInfo()">
+        <div style="margin-top: 1.25rem;" *ngFor="let field of descriptor.displayInfo">
+            <label>{{ field.label }}</label>
+            <div [ngSwitch]="field.type">
+                <img class="form-file__pic" alt="" *ngSwitchCase="'image'" [src]="getAssetUrl(field)" />
+                <ng-container *ngSwitchDefault>{{ getValueByKey(field) }}</ng-container>
+            </div>
+        </div>
+    </ng-container>
+    <div *ngIf="!isArrayDisplayInfo()">
+        {{ controlValue.value | json }}
+    </div>
+</ng-template>

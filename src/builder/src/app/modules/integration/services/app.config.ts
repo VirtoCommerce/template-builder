@@ -111,7 +111,8 @@ export type OptionName = 'templatesListUrl'
     | 'uploadAssetsRequest'
     | 'fullPreviewUrl'
     | 'skipTheme'
-    | 'skipTemplates';
+    | 'skipTemplates'
+    | 'assetsUrlTemplate';
 
 // 'fullPreviewUrl'
 //     | 'waitPreviewResponseTimeout'

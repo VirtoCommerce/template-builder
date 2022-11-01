@@ -21,9 +21,9 @@ export class ControlsFactory {
         this.controls['select'] = editors.SelectComponent;
         this.controls['string'] = editors.StringComponent;
         this.controls['text'] = editors.TextComponent;
+        this.controls['search'] = editors.SearchComponent;
 
         // this.controls['popup-list'] = editors.PopupListItemComponent;
-        // this.controls['search'] = editors.SearchItemComponent;
         // this.controls['url'] = editors.UrlItemComponent;
     }
 

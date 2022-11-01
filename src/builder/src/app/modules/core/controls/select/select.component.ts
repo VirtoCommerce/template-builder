@@ -1,17 +1,16 @@
-import { catchError } from 'rxjs';
 import { switchMap } from 'rxjs';
 import { tap } from 'rxjs';
 import { of } from 'rxjs';
-import { DataService } from './../../services/data.service';
+import { DataService } from '@core/services';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { concat, Observable, Subject } from 'rxjs';
-import { takeUntil, debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
-import { cloneDeep, isArray } from 'lodash-es';
-
-import { SelectDescriptor, SelectOptionModel } from '@models/controls';
+import { SelectDescriptor } from '@models/controls';
 import { BaseControlDirective } from '@core/controls';
 import { FormControl, FormGroup } from '@angular/forms';
+
+import { appHelpers } from '@integration/helpers';
 
 /**
  * https://ng-select.github.io/ng-select#/data-sources
@@ -74,6 +73,10 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             ));
         }
 
+        if (this.descriptor.optionsSelector) {
+            options.push(of(appHelpers.evalInContext(this.descriptor.optionsSelector, this.context)));
+        }
+
         this.options$ = concat(...options);
     }
 
@@ -87,8 +90,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     private doRequest(filter: string | null): Observable<any[]> {
         let result: Observable<any[]> = of([]);
         if (this.descriptor.request) {
-            const context = cloneDeep(this.context);
-            context.__searchQuery = filter;
+            const context = { ...this.context, __searchQuery: filter };
             result = this.data.doRequest(this.descriptor.request, context).pipe(
                 map(items => items?.map((x: any) => ({
                     label: x[this.descriptor.request.label],
