@@ -12,6 +12,12 @@ export const selectTemplatesEntries = createSelector(
     state => state.templatesEntries
 );
 
+export const isHttpLoading = createSelector(
+    selectSharedFeature,
+    state => state.templatesEntriesLoading || !state.appInitialized
+    || Object.keys(state.childrenTemplatesState).find(key => state.childrenTemplatesState[key].isLoading)
+);
+
 export const selectTemplatesStates = createSelector(
     selectSharedFeature,
     state => state.entriesStates

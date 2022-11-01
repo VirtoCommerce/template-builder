@@ -3,7 +3,6 @@ import { TemplateSelectorState, TemplateEntryStateList, TemplateEntryList } from
 
 export interface SharedState {
     appInitialized: boolean;
-    isLoading: boolean;
     templatesEntriesLoading: boolean;
     templatesEntriesLoaded: boolean;
     templatesEntries: TemplateEntryList;
@@ -16,7 +15,6 @@ export interface SharedState {
 
 export const initialState: SharedState = {
     appInitialized: false,
-    isLoading: false,
     templatesEntriesLoading: false,
     templatesEntriesLoaded: false,
     templatesEntries: {},

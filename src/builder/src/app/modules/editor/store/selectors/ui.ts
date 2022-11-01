@@ -29,6 +29,11 @@ export const selectAddItemTitle = createSelector(
     }
 );
 
+export const isLoading = createSelector(
+    selectTemplateUIState,
+    state => state.isTemplateLoading || state.isSchemasLoading
+);
+
 export const selectSectionGroupStates = createSelector(
     selectTemplateUIState,
     state => state.states

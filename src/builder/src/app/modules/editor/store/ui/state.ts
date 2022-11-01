@@ -7,11 +7,15 @@ export interface EditorUIState {
     previewItemType: string | null;
     currentSectionsFilter: string | null;
     dragSectionId: string | null;
+    isTemplateLoading: boolean;
+    isSchemasLoading: boolean;
 };
 
 export const initialState: EditorUIState = {
     states: {},
     previewItemType: null,
     currentSectionsFilter: null,
-    dragSectionId: null
+    dragSectionId: null,
+    isTemplateLoading: false,
+    isSchemasLoading: false
 };

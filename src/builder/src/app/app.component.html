@@ -5,3 +5,4 @@
         <app-preview-area></app-preview-area>
     </div>
 </div>
+<app-fullscreen-loader *ngIf="(isHttpLoading$|async) || (isEditorLoading$|async) || (isThemeLoading$|async)"></app-fullscreen-loader>

@@ -10,6 +10,8 @@ export const empty = createAction('[app] empty');
 // todo: i think that exists the more flexible solution than next action
 export const setLivePreviewUrl = createAction('[shared] set live preview url');
 
+export const setHttpLoading = createAction('[shared] set http loading', props<{ isLoading: boolean }>());
+
 export const loadTemplateEntries = createAction('[shared] load template entries');
 export const loadTemplateEntriesSuccess = createAction('[shared] load template entries success', props<{ templatesEntries: TemplateEntryList }>());
 export const loadTemplateEntriesFails = createAction('[shared] load template entries fails', props<{ error: HttpErrorResponse }>());

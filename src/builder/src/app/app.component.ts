@@ -1,12 +1,13 @@
 import { Store } from '@ngrx/store';
 import { Component, HostListener, OnInit } from '@angular/core';
 
-import { SectionModel, SectionSchema } from '@models/document';
-
-// import * as fromEditor from '@editor/store';
-// import { editorActions } from '@editor/store';
-
 import * as actions from '@shared/store/actions';
+import * as sharedSelectors from '@shared/store/selectors';
+import * as editorSelectors from '@editor/store/selectors';
+import * as themeSelectors from '@theme/store/selectors';
+import { BuilderState as SharedState } from '@shared/store';
+import { BuilderState as EditorState } from '@editor/store';
+import { BuilderState as ThemeState } from '@theme/store';
 
 @Component({
     selector: 'app-root',
@@ -15,7 +16,11 @@ import * as actions from '@shared/store/actions';
 })
 export class AppComponent implements OnInit {
 
-    constructor(private store$: Store) { }
+    isHttpLoading$ = this.store$.select(sharedSelectors.isHttpLoading);
+    isEditorLoading$ = this.store$.select(editorSelectors.isLoading);
+    isThemeLoading$ = this.store$.select(themeSelectors.isLoading);
+
+    constructor(private store$: Store<SharedState & EditorState & ThemeState>) { }
 
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {

@@ -1,7 +1,6 @@
-import { tap } from 'rxjs';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { tap, catchError, map, Observable, of, switchMap } from 'rxjs';
 
 import { AppConfig, EvaluatorService } from '@integration/services';
 import { ServerRequestDescriptor, ServerResponseDescriptor } from '@models/http';

@@ -2,6 +2,7 @@ import { createSelector } from "@ngrx/store";
 
 import { ActionButtonDescriptor } from '@core/models';
 
+import { selectThemeUIState } from "./common";
 import { selectSettingsSchema, selectFilteredPresets } from "./data";
 import { selectOpenedGroups, selectPresetsState, selectIsDirty } from "./domain";
 
@@ -14,6 +15,11 @@ export const selectGroupsState = createSelector(
         };
         return result;
     }, <any>{})
+);
+
+export const isLoading = createSelector(
+    selectThemeUIState,
+    state => state.settingsLoading || state.schemaLoading
 );
 
 export const selectPresetsContext = createSelector(

@@ -31,3 +31,5 @@ export function editorReducers(
 };
 
 export const EFFECTS = [TemplateEditorDataEffects, TemplateEditorDomainEffects, TemplateEditorUiEffects];
+
+export * from './state';
