@@ -18,7 +18,7 @@ export class TemplatesService {
         const request = this.http.generateRequest(templatesListUrl);
         return this.http.doRequest<TemplateEntryList>(request).pipe(
             map(x => <any>x),
-            switchMap(({_templates, ...x}) => {
+            switchMap(({ _templates, ...x }) => {
                 let result = x;
                 if (_templates) {
                     result = { ...x, ...(_templates.entries || {}) };
@@ -30,13 +30,17 @@ export class TemplatesService {
                     }
                 }
                 return of(result);
-            })
+            }),
+            map(x => this.populateTemplatesProperties(x))
         );
     }
 
     getChildrenTemplates(templateEntry: TemplateEntry, context: any): Observable<TemplateEntryList> {
         const httpRequest = this.http.generateRequest(templateEntry.request || null, null, context);
-        return this.http.doRequest<TemplateEntryList>(httpRequest, null, context).pipe(map(x => ({...templateEntry.children, ...x})));
+        return this.http.doRequest<TemplateEntryList>(httpRequest, null, context).pipe(
+            map(x => ({ ...templateEntry.children, ...x })),
+            map(x => this.populateTemplatesProperties(x))
+        );
     }
 
     private doRequests(request: ServerRequestDescriptor | null, requests: ServerRequestDescriptor[], currentValue: any = {}): Observable<TemplateEntryList> {
@@ -49,8 +53,28 @@ export class TemplatesService {
                 return this.doRequests(requests.shift() || null, requests, currentValue);
             }),
             switchMap((result: any) => {
-                return this.doRequests((<any>requests).shift(), requests, {...currentValue, ...result});
+                return this.doRequests(requests.shift() || null, requests, { ...currentValue, ...result });
             })
         );
+    }
+
+    private populateTemplatesProperties(entries: TemplateEntryList): TemplateEntryList {
+        const result = Object.keys(entries)
+            .map(key => {
+                const protoKey = entries[key].prototype;
+                if (!!protoKey) {
+                    return <any>{
+                        ...entries[protoKey],
+                        disabled: false,
+                        prototype: null,
+                        request: null,
+                        ...entries[key],
+                        ___key: key
+                    };
+                }
+                return { ...entries[key], ___key: key };
+            }).filter(x => !x.disabled)
+            .reduce((acc, { ___key, ...x }) => ({ ...acc, [___key]: x }), {})
+        return result;
     }
 }

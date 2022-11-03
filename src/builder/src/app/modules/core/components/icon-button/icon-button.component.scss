@@ -61,6 +61,11 @@ button {
     &.btn-skin-outline {
         border: 1px solid rgba(18, 18, 18, 0.08);
     }
+    &.btn-skin-outline-blue {
+        border: 1px solid #1665D8;
+        color: #1665D8;
+        justify-content: center;
+    }
     &.btn-skin-secondary {
         border: 1px solid #BABFC3;
         background: #F1F2F3;

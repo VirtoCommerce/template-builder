@@ -113,7 +113,7 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
         if (!info || !info.path) {
             return null;
         }
-        return appHelpers.getValueByPath(this.controlValue, info.path);
+        return appHelpers.getValueByPath(this.controlValue.value, info.path);
     }
 
     isArrayDisplayInfo() {

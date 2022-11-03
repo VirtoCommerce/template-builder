@@ -1,18 +1,19 @@
 <label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<input *ngIf="!descriptor.button" #control type="text" class="form-control" [value]="controlValue.__searchQuery"
+<input *ngIf="!descriptor.button" #control type="text" class="control" [value]="controlValue.__searchQuery"
        (paste)="onPaste($event)" (keyup)="onTextChange($event)" />
 
-<button *ngIf="descriptor.button" class="btn btn--blue btn--block" (click)="doRequest()">{{ getButtonText() }}</button>
+<app-icon-button *ngIf="descriptor.button" class="my-4"
+    (click)="doRequest()" [text]="getButtonText()" skin="outline-blue"></app-icon-button>
 
-<div *ngIf="!!controlValue.__nodata; else modelInfo" class="no-data-label">
+<div *ngIf="!!controlValue.__nodata; else modelInfo" class="my-4">
     {{ descriptor.nodataText }}
 </div>
 <ng-template #modelInfo>
     <ng-container *ngIf="isArrayDisplayInfo()">
-        <div style="margin-top: 1.25rem;" *ngFor="let field of descriptor.displayInfo">
+        <div class="my-4" *ngFor="let field of descriptor.displayInfo">
             <label>{{ field.label }}</label>
             <div [ngSwitch]="field.type">
-                <img class="form-file__pic" alt="" *ngSwitchCase="'image'" [src]="getAssetUrl(field)" />
+                <img class="" alt="" *ngSwitchCase="'image'" [src]="getAssetUrl(field)" />
                 <ng-container *ngSwitchDefault>{{ getValueByKey(field) }}</ng-container>
             </div>
         </div>

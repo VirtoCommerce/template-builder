@@ -9,6 +9,8 @@ export interface TemplateEntry {
     request?: ServerRequestDescriptor | ServerRequestDescriptor[] | string | string[];
     sort?: number;
     alias: string;
+    prototype?: string;
+    disabled?: boolean;
     previewUrl: string;
     isDefault?: boolean | null;
     sections?: string[];
