@@ -15,6 +15,7 @@ export class ControlsFactory {
         this.controls['files'] = editors.FilesComponent;
         this.controls['images'] = editors.ImagesComponent;
         this.controls['list'] = editors.CollectionComponent;
+        this.controls['markdown'] = editors.MarkdownComponent;
         this.controls['number'] = editors.NumberComponent;
         this.controls['object'] = editors.ObjectComponent;
         this.controls['slider'] = editors.NumberComponent;

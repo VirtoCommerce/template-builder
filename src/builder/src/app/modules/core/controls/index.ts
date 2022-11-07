@@ -7,6 +7,7 @@ export * from './collection/collection.component';
 export * from './color/color.component';
 export * from './files/files.component';
 export * from './images/images.component';
+export * from './markdown/markdown.component';
 export * from './number/number.component';
 export * from './object/object.component';
 export * from './search/search.component';
@@ -21,6 +22,7 @@ import { CollectionComponent } from './collection/collection.component';
 import { ColorComponent } from './color/color.component';
 import { FilesComponent } from './files/files.component';
 import { ImagesComponent } from './images/images.component';
+import { MarkdownComponent } from './markdown/markdown.component';
 import { NumberComponent } from './number/number.component';
 import { ObjectComponent } from './object/object.component';
 import { SearchComponent } from './search/search.component';
@@ -36,6 +38,7 @@ export const CONTROLS = [
     ColorComponent,
     FilesComponent,
     ImagesComponent,
+    MarkdownComponent,
     NumberComponent,
     ObjectComponent,
     SearchComponent,

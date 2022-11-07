@@ -13,6 +13,7 @@ export * from './select.descriptor';
 export * from './select-option.model';
 export * from './string.descriptor';
 export * from './text.descriptor';
+export * from './markdown.descriptor';
 
 // todo: list, object, search, popup (list|object), url? (maybe should be object)
 
@@ -29,6 +30,7 @@ import { SearchDescriptor } from './search.descriptor';
 import { SelectDescriptor } from './select.descriptor';
 import { StringDescriptor } from './string.descriptor';
 import { TextDescriptor } from './text.descriptor';
+import { MarkdownDescriptor } from './markdown.descriptor';
 
 export type ControlDescriptor = CalendarDescriptor
     | CheckboxDescriptor
@@ -42,6 +44,7 @@ export type ControlDescriptor = CalendarDescriptor
     | SearchDescriptor
     | SelectDescriptor
     | StringDescriptor
-    | TextDescriptor;
+    | TextDescriptor
+    | MarkdownDescriptor;
 
 export type SectionPropertyDescriptor = ControlDescriptor;
