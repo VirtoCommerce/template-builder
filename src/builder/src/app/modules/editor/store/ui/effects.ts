@@ -149,10 +149,14 @@ export class TemplateEditorUiEffects {
         withLatestFrom(
             this.store$.select(selectors.selectCurrentTemplateModel),
             this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
-            this.store$.select(selectors.selectSectionModelFromRoute)
+            this.store$.select(selectors.selectSectionModelFromRoute),
+            this.store$.select(selectors.selectSharedSchemas),
+            this.store$.select(selectors.selectObjectsSchemas)
         ),
-        map(([{ item }, template, entry, section]) => {
-            const model = editorHelpers.generatePreviewBySchema(item);
+        map(([{ item }, template, entry, section, shared, objects]) => {
+            const sharedSchemaName = !!section ? "_blocks" : "_sections";
+            const fullSchema = editorHelpers.prepareSchema(item, shared, objects, sharedSchemaName);
+            const model = editorHelpers.generatePreviewBySchema(fullSchema);
             return broadcastMessage({
                 msg: {
                     type: 'preview',
