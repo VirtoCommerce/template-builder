@@ -258,7 +258,7 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
     return (settings || []).map(x => {
         if (isElementType(x) && x.type !== 'list') {
             let e = x as { element: SectionPropertyDescriptor[] };
-            let currentValue = x[mode] || x.preview || {};
+            let currentValue = x[mode] || x.default || {};
             let valueFromProps = generateModelBySettings(e.element, mode);
             return {
                 ...x,
@@ -274,7 +274,7 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
         if (value.hasOwnProperty(mode) || value.hasOwnProperty('default')) {
             res = {
                 ...res,
-                [value.id]: value[mode] || value['default']
+                [value.id]: value[mode] || value.default
             };
         }
         return res;
