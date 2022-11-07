@@ -43,6 +43,10 @@
             ],
             "@models/*": [
                 "src/app/modules/models/*"
+            ],
+            "ngv-markdown": [
+              "dist/ngv-markdown/ngv-markdown",
+              "dist/ngv-markdown"
             ]
         }
     },
@@ -50,6 +54,8 @@
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
-        "strictTemplates": true
+        "strictTemplates": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true
     }
 }
