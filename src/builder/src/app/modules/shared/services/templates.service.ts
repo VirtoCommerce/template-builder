@@ -39,7 +39,7 @@ export class TemplatesService {
         const httpRequest = this.http.generateRequest(templateEntry.request || null, null, context);
         return this.http.doRequest<TemplateEntryList>(httpRequest, null, context).pipe(
             map(x => ({ ...templateEntry.children, ...x })),
-            map(x => this.populateTemplatesProperties(x))
+            map(x => Object.keys(x).reduce((acc, key) => ({...acc, [key]: {...templateEntry, ...x[key]}}), {}))
         );
     }
 
