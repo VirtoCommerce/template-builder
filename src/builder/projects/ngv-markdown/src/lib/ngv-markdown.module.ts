@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { NgvMarkdownComponent } from './ngv-markdown.component';
-
 
 
 @NgModule({
@@ -8,6 +8,7 @@ import { NgvMarkdownComponent } from './ngv-markdown.component';
         NgvMarkdownComponent
     ],
     imports: [
+        HttpClientModule
     ],
     exports: [
         NgvMarkdownComponent
