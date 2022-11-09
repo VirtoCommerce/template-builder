@@ -31,6 +31,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { ToastrModule } from 'ngx-toastr';
 
+import { NgvMarkdownModule } from 'ngv-markdown';
+
 import { COMPONENTS } from './components';
 import { CONTROLS } from './controls';
 import { DIALOGS } from './dialogs';
@@ -85,6 +87,9 @@ const CDK_MODULES = [
         ColorTwitterModule,
         NgSelectModule,
         CKEditorModule,
+
+        NgvMarkdownModule,
+
         // todo: use options from builder config
         // https://www.npmjs.com/package/ngx-toastr
         ToastrModule.forRoot()
