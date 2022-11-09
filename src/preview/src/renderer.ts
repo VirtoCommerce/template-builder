@@ -26,6 +26,7 @@ export class Renderer {
                     vm.htmlString = result;
                     const newElement = this.createElement(vm);
                     container.replaceChild(newElement, vm.element);
+                    this.parseScript(newElement);
                     vm.element = newElement;
                 });
             }
@@ -39,6 +40,7 @@ export class Renderer {
             previewModel.htmlString = result;
             previewModel.element = this.createElement(previewModel);
             this.container.appendChild(previewModel.element);
+            this.parseScript(previewModel.element);
         });
     }
 
@@ -57,6 +59,30 @@ export class Renderer {
         }
     }
 
+    private parseScript(element: HTMLElement) {
+        var scripts = new Array();         // Array which will store the script's code
+
+        let strcode = element.innerHTML;
+        while (strcode.indexOf("<script") > -1 || strcode.indexOf("</script") > -1) {
+            var s = strcode.indexOf("<script");
+            var s_e = strcode.indexOf(">", s);
+            var e = strcode.indexOf("</script", s);
+            var e_e = strcode.indexOf(">", e);
+
+            scripts.push(strcode.substring(s_e + 1, e));
+            strcode = strcode.substring(0, s) + strcode.substring(e_e + 1);
+        }
+
+        for (var i = 0; i < scripts.length; i++) {
+            try {
+                eval(scripts[i]);
+            }
+            catch (ex) {
+                console.error('preview could not run script', ex);
+            }
+        }
+    }
+
     private createElement(vm: BlockViewModel) {
         const div = document.createElement('div');
         div.innerHTML = `<div>${vm.htmlString}</div>`;
@@ -65,7 +91,7 @@ export class Renderer {
         return result;
     }
 
-        
+
 
     // add(vm: BlockViewModel) {
     //     // vm.element = this.createElement(vm);
