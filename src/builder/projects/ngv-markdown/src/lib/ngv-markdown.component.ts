@@ -49,7 +49,40 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ngZone.runOutsideAngular(() => {
             const element = document.createElement('textarea');
             this.elementRef.nativeElement.appendChild(element);
-            this.easyMDE = new EasyMDE({ element });
+            this.easyMDE = new EasyMDE({
+                element,
+                status: ["lines", "words"],
+                toolbar: [
+                    'bold',
+                    'italic',
+                    'heading',
+                    '|',
+                    'quote',
+                    'unordered-list',
+                    'ordered-list',
+                    '|',
+                    'link',
+                    'image',
+                    // '|',
+                    // 'preview',
+                    // 'side-by-side',
+                    // 'fullscreen',
+                    '|',
+                    'guide',
+                    // 'strikethrough',
+                    // 'code',
+                    // 'table',
+                    // 'redo',
+                    // 'undo',
+                    // 'heading-bigger',
+                    // 'heading-smaller',
+                    // 'heading-1',
+                    // 'heading-2',
+                    // 'heading-3',
+                    // 'clean-block',
+                    // 'horizontal-rule',
+                ]
+            });
             this.setValue();
             this.prepareEditor();
             this.handlePasteValue();
