@@ -5,13 +5,15 @@ export class PreviewInteractor {
 
     // private inactive = false; // use with dnd
 
-    scrollTo(vm: BlockViewModel) {
+    scrollTo(vm: Partial<BlockViewModel>) {
         // if (this.inactive) return;
-        const rect = measureElement(vm.element);
-        const targetPosition = rect.top - window.innerHeight / 10;
-        window.scroll({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
+        if (vm && vm.element) {
+            const rect = measureElement(vm.element);
+            const targetPosition = rect.top - window.innerHeight / 10;
+            window.scroll({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
     }
 }

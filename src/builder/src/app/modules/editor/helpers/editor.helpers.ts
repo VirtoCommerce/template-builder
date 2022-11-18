@@ -434,28 +434,36 @@ export function prepareSchema(schema: SectionSchema,
     shared: ObjectsSchemasList,
     objects: ObjectsSchemasList,
     itemType: '_sections' | '_blocks'): SectionSchema {
-    const result = {
-        ...schema,
-        settings: [
-            ...schema.settings,
-            ...(schema.excludeShared !== true ? shared?.[itemType]
-                ?.settings?.filter(x => !schema.settings?.find(s => s.id === x.id)) : []) || [],
-            ...schema?.includeShared?.map(name => shared?.[name]?.settings)?.flat(1)
-                .filter(x => !!x && !schema.settings?.find(s => s.id === x.id)) || [],
-        ].filter(x =>
-            schema.excludeShared === true || (<string[]>schema.excludeShared || []).indexOf(x.id) === -1
-        ).map(x => fillElementProperty(x, objects)).sort((a, b) => {
-            if (a.sort !== undefined && b.sort !== undefined) {
-                return a.sort - b.sort;
-            }
-            if (a.sort !== undefined) {
-                return -1;
-            }
-            if (b.sort !== undefined) {
-                return 1;
-            }
-            return 0;
-        })
-    };
-    return result;
+    try {
+        const generalSettings = schema.excludeShared !== true
+            ? shared?.[itemType]?.settings?.filter(x => !schema.settings?.find(s => s.id === x.id))
+            : [];
+        const itemSettings = schema?.includeShared?.map(name => shared?.[name]?.settings)?.flat(1)
+            .filter(x => !!x && !schema.settings?.find(s => s.id === x.id));
+
+        const result = {
+            ...schema,
+            settings: [
+                ...schema.settings,
+                ...generalSettings || [],
+                ...itemSettings || []
+            ].filter(x =>
+                schema.excludeShared === true || (<string[]>schema.excludeShared || []).indexOf(x.id) === -1
+            ).map(x => fillElementProperty(x, objects)).sort((a, b) => {
+                if (a.sort !== undefined && b.sort !== undefined) {
+                    return a.sort - b.sort;
+                }
+                if (a.sort !== undefined) {
+                    return -1;
+                }
+                if (b.sort !== undefined) {
+                    return 1;
+                }
+                return 0;
+            })
+        };
+        return result;
+    } catch (e) {
+        return schema;
+    }
 }

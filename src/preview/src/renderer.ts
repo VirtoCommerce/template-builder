@@ -15,13 +15,18 @@ export class Renderer {
         this.http = ServiceLocator.getHttp();
     }
 
-    syncList(list: BlockViewModel[]) {
+    syncList(list: BlockViewModel[]): BlockViewModel[] {
         const container = this.container;
+        if (!container) {
+            return [];
+        }
         container.innerHTML = '';
+        const result = [];
         for (let i = 0; i < list.length; i++) {
             const vm = list[i];
             if (!vm.element) {
                 vm.element = document.createElement('div');
+                result.push(vm);
                 this.http.postTo('/designer-preview/block?preview_mode=true', vm.source).then(result => {
                     vm.htmlString = result;
                     const newElement = this.createElement(vm);
@@ -32,6 +37,7 @@ export class Renderer {
             }
             container.appendChild(vm.element);
         }
+        return result;
     }
 
     addPreview(previewModel: BlockViewModel) {
@@ -53,7 +59,7 @@ export class Renderer {
         }
     }
 
-    scrollTo(vm: BlockViewModel) {
+    scrollTo(vm: Partial<BlockViewModel>) {
         if (vm && vm.element) {
             this.interactor.scrollTo(vm);
         }

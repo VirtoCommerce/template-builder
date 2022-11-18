@@ -14,6 +14,7 @@ export * from './select-option.model';
 export * from './string.descriptor';
 export * from './text.descriptor';
 export * from './markdown.descriptor';
+export * from './upload-asset.descriptor';
 
 // todo: list, object, search, popup (list|object), url? (maybe should be object)
 

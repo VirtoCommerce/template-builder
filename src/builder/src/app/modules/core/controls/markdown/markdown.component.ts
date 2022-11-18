@@ -1,26 +1,23 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { MarkdownModel } from 'dist/ngv-markdown/lib/markdown.model';
 import { BaseControlDirective } from '@core/controls';
+import { AssetsService } from '@core/services';
 import { MarkdownDescriptor } from '@models/controls';
+import { AssetFile } from '../../models';
 
 @Component({
-  selector: 'app-markdown',
-  templateUrl: './markdown.component.html',
-  styleUrls: ['./markdown.component.scss']
+    selector: 'app-markdown',
+    templateUrl: './markdown.component.html',
+    styleUrls: ['./markdown.component.scss']
 })
 export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> {
 
-    // override getFocusableControl(): ElementRef {
-    //     return this.descriptor.multiline
-    //         ? this.textarea
-    //         : this.control;
-    // }
+    uploadImage = (file: File) => this.data.uploadAsset(<AssetFile>file, this.descriptor, this.context, () => { }, { randomizeAssetName: true });
 
-    // raiseOnChange(event: Event) {
-    //     const element = <HTMLInputElement>event.target;
-    //     this.onValueChanged(element.value);
-    // }
+    constructor(private data: AssetsService) {
+        super();
+    }
 
     override setControlValue(value: any): void {
         const result = { markdown: null, html: null };

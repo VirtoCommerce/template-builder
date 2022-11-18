@@ -2,6 +2,7 @@
 
 <ngv-markdown [value]="controlValue"
               [styles]="descriptor.styles || []"
+              [uploader]="uploadImage"
               (valueChanged)="valueChanged($event)"></ngv-markdown>
 
 <p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>

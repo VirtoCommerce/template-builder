@@ -16,11 +16,11 @@ export abstract class BaseHandler implements MessageHandler {
         if (msg.template && msg.template.content) {
             const newList = msg.template.content.map(x => this.createViewModel(x));
             const listToRender = this.compareLists(newList, list);
-            this.renderer.syncList(listToRender);
+            const newElements = this.renderer.syncList(listToRender);
             if (msg.model) {
                 this.renderer.addPreview(this.createViewModel(msg.model));
             }
-            return listToRender;
+            return this.executeInternal(msg, listToRender, newElements);
         }
         return list;
     }
@@ -38,7 +38,9 @@ export abstract class BaseHandler implements MessageHandler {
         return result;
     }
 
-    protected executeInternal(msg: BaseMessage, list: BlockViewModel[], vm: BlockViewModel) { }
+    protected executeInternal(msg: BaseMessage, list: BlockViewModel[], vm: BlockViewModel[]): BlockViewModel[] {
+        return list;
+    }
 
     protected removePreviewElement() {
         this.renderer.clearPreview();

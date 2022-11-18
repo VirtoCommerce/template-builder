@@ -1,5 +1,5 @@
 import { from, map, tap } from 'rxjs';
-import { AssetsRequest, ServerRequestDescriptor } from '@models/index';
+import { AssetsRequest, UploadAssetDescriptor } from '@models/index';
 import { AppConfig, EvaluatorService } from '@integration/services';
 import { Injectable } from '@angular/core';
 import { FilesDescriptor } from '@models/controls';
@@ -19,9 +19,10 @@ export class AssetsService {
         private appConfig: AppConfig,
         private evaluator: EvaluatorService) { }
 
-    uploadAsset(file: AssetFile, descriptor: FilesDescriptor, context: any, progress: (value: number) => void): Observable<any> {
+    uploadAsset(file: AssetFile, descriptor: UploadAssetDescriptor,
+        context: any, progress: (value: number) => void, overridenRequestProps: Partial<AssetsRequest> | null = null): Observable<any> {
         // todo: progress not works
-        file.assetName = file.name;
+        file.assetName = file.name || this.randomizeAssetName(null, file.type);
         let request = this.getRequest(descriptor, context);
         if (!request || request === 'inline') {
             // in this case we create data-url
@@ -41,6 +42,9 @@ export class AssetsService {
             file.assetName = this.randomizeAssetName(file.name);
             request = this.getRequest(descriptor, context);
         }
+        if (overridenRequestProps) {
+            request = { ...<AssetsRequest>request, ...overridenRequestProps };
+        }
         return this.data.doRequest(<AssetsRequest>request, context, file, { nullWhenError: false }).pipe(
             map(response => {
                 const req = <AssetsRequest>request;
@@ -54,7 +58,7 @@ export class AssetsService {
         );
     }
 
-    getPreviewUrl(file: AssetFile, descriptor: FilesDescriptor, context: any): string | null {
+    getPreviewUrl(file: AssetFile, descriptor: UploadAssetDescriptor, context: any): string | null {
         if (!file.url) {
             return null;
         }
@@ -79,7 +83,7 @@ export class AssetsService {
         return url || absoluteOrRelativeUrl;
     }
 
-    private getRequest(descriptor: FilesDescriptor, context: any): AssetsRequest | 'inline' | null {
+    private getRequest(descriptor: UploadAssetDescriptor, context: any): AssetsRequest | 'inline' | null {
         let request = descriptor.uploadAssetsRequest;
         if (!request) {
             request = this.appConfig.getValue('uploadAssetsRequest', context);
@@ -91,10 +95,13 @@ export class AssetsService {
         return <any>request;
     }
 
-    private randomizeAssetName(name: string): string {
-        const parts = name.split('.');
-        const extension = parts.pop();
-        const uniqueName = `${parts.join('.')}_${appHelpers.generateUniqueString(10)}.${extension}`;
+    private randomizeAssetName(name: string | null, contentType: string | null = null): string {
+        const parts = name ? name.split('.') : [];
+        const extension = contentType
+            ? '.' + contentType.substring(contentType.indexOf('/'))
+            : (parts.length > 1 ? '.' + parts.pop() : '');
+        const filename = parts.length > 0 ? '_' + parts.join('.') : '';
+        const uniqueName = `${filename}${appHelpers.generateUniqueString(10)}${extension}`;
         const safeName = encodeURIComponent(uniqueName);
         return safeName;
     }

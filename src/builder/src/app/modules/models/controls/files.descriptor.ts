@@ -1,8 +1,9 @@
 import { BaseControlDescriptor } from "./base-control.descriptor";
+import { UploadAssetDescriptor } from './upload-asset.descriptor';
 import { ControlDescriptor } from './index';
 import { AssetsRequest } from "../http";
 
-export interface FilesDescriptor extends BaseControlDescriptor {
+export interface FilesDescriptor extends BaseControlDescriptor, UploadAssetDescriptor {
     multiple?: boolean;
     sortable?: boolean;
     accept?: string;
@@ -12,11 +13,6 @@ export interface FilesDescriptor extends BaseControlDescriptor {
     skipRemoveConfirmation?: boolean;
     removeMessage?: string;
 
-    urlField?: string;
-    filenameField?: string;
-
     element: ControlDescriptor[];
     elementDescriptor?: string;
-
-    uploadAssetsRequest?: AssetsRequest | string;
 }

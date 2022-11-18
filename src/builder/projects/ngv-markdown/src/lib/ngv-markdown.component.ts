@@ -1,10 +1,25 @@
-import { Component, OnInit, AfterViewInit, ElementRef, NgZone, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    AfterViewInit,
+    ElementRef,
+    NgZone,
+    Input,
+    Optional,
+    Output,
+    EventEmitter,
+    OnDestroy,
+    Inject
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { MarkdownModel } from './markdown.model';
 import EasyMDE from 'easymde';
 import detector from 'element-resize-detector';
 import TurndownService from 'turndown';
 import { marked } from 'marked';
+
+import { MARKDOWN_DATA_SERVICE, IMarkdownDataService } from './ngv-markdown-data.service';
 
 // https://github.com/Ionaru/easy-markdown-editor
 
@@ -30,12 +45,16 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     @Input() styles: string[] | string = [];
-
     @Input() value!: MarkdownModel;
+    @Input() uploader: ((file: File) => Observable<{ url: string, name: string }>) | null = null;
 
     @Output() valueChanged = new EventEmitter<MarkdownModel>();
 
-    constructor(private elementRef: ElementRef, private ngZone: NgZone, private http: HttpClient) { }
+    constructor(
+        private elementRef: ElementRef,
+        private ngZone: NgZone,
+        private http: HttpClient,
+        @Optional() @Inject(MARKDOWN_DATA_SERVICE) private dataService: IMarkdownDataService) { }
 
     ngOnInit(): void {
     }
@@ -103,13 +122,73 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private handlePasteValue() {
         this.easyMDE?.codemirror.on("paste", (_: any, event: ClipboardEvent) => {
-            const text = event.clipboardData?.getData('text/html');
-            const result = this.turndown.turndown(text || '');
-            if (result) {
-                event.preventDefault();
-                this.easyMDE?.codemirror.replaceSelection(result);
+            if (event.clipboardData) {
+                if (this.tryToPasteHtml(event.clipboardData)) {
+                    event.preventDefault();
+                } else if (this.tryToPasteImage(event.clipboardData)) {
+                    event.preventDefault();
+                }
             }
         });
+    }
+
+    private tryToPasteHtml(clipboard: DataTransfer): boolean {
+        const html = clipboard.getData('text/html');
+        if (html) {
+            const htmlWithLocalImages = this.getImagesFromHtml(html);
+            const result = this.turndown.turndown(htmlWithLocalImages || '');
+            if (result) {
+                this.easyMDE?.codemirror.replaceSelection(result);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private tryToPasteImage(clipboard: DataTransfer): boolean {
+        for (let i = 0; i < clipboard.items.length; i++) {
+            const image = clipboard.items[i];
+            if (image && image.type.indexOf('image') === 0) {
+                const file = image.getAsFile();
+                const uploader = this.getUploader();
+                if (!!uploader && file) {
+                    uploader(file).subscribe(result => {
+                        this.easyMDE?.codemirror.replaceSelection(`![${result.name}](${result.url})`);
+                    });
+                }
+            }
+        }
+        return false;
+    }
+
+    private getImagesFromHtml(html: string): string | null {
+        return html;
+        // const div = document.createElement('div');
+        // div.innerHTML = html;
+        // const images = div.querySelectorAll('img');
+        // if (images.length === 0) {
+        //     return html;
+        // }
+        // const uploader = this.getUploader();
+        // if (!uploader) {
+        //     return null;
+        // }
+        // images.forEach(image => {
+        //     const src = image.getAttribute('src');
+        //     if (src) {
+        //         const file = this.dataService.getFile(src);
+        //         if (file) {
+        //             uploader(file).subscribe(result => {
+        //                 image.setAttribute('src', result.url);
+        //             });
+        //         }
+        //     }
+        // });
+        // return div.innerHTML;
+    }
+
+    private getUploader() {
+        return this.dataService ? this.dataService.saveFile : this.uploader;
     }
 
     private handleChangeValue() {
