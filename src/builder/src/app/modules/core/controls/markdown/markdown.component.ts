@@ -20,15 +20,19 @@ export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> 
     }
 
     override setControlValue(value: any): void {
-        const result = { markdown: null, html: null };
-        if (this.descriptor.resultType === 'markdown') {
-            result.markdown = typeof value === 'string' ? value : value.markdown;
-        } else if (this.descriptor.resultType === 'html') {
-            result.html = typeof value === 'string' ? value : value.html;
-        } else {
-            result.markdown = typeof value === 'string' ? value : value.markdown;
-            result.html = typeof value === 'string' ? value : value.html;
-        }
+        const isMarkdown = this.descriptor.resultType === 'markdown';
+        const isHtml = this.descriptor.resultType === 'html';
+        const isMixed = !isMarkdown && !isHtml;
+        const isValueStringOrNull = typeof value === 'string' || value === null;
+
+        const result = {
+            markdown: (isMarkdown || isMixed
+                ? (isValueStringOrNull ? value : value?.markdown)
+                : '') || '',
+            html: (isHtml || isMixed
+                ? (isValueStringOrNull ? value : value?.html)
+                : '') || ''
+        };
         this.controlValue = result;
     }
 

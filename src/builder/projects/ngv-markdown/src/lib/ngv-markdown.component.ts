@@ -46,6 +46,7 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input() styles: string[] | string = [];
     @Input() value!: MarkdownModel;
+    @Input() options: any | null;
     @Input() uploader: ((file: File) => Observable<{ url: string, name: string }>) | null = null;
 
     @Output() valueChanged = new EventEmitter<MarkdownModel>();
@@ -100,7 +101,9 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
                     // 'heading-3',
                     // 'clean-block',
                     // 'horizontal-rule',
-                ]
+                ],
+                spellChecker: false,
+                ...this.options || {}
             });
             this.setValue();
             this.prepareEditor();
