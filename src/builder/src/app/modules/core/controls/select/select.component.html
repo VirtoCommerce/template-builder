@@ -5,6 +5,7 @@
                bindValue="value"
                groupBy="group"
                formControlName="value"
+               #selectControl
                [items]="options$ | async"
                [multiple]="descriptor.multiple || false"
                [placeholder]="descriptor.placeholder || ''"
@@ -24,4 +25,3 @@
         </ng-template>
     </ng-select>
 </ng-container>
-

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BuilderHttpClient, EvaluatorService } from '@integration/services';
+import { BuilderHttpClient, EvaluatorService, AppConfig } from '@integration/services';
 import { Observable } from 'rxjs';
 import { ServerRequestDescriptor } from '@models/http';
 
@@ -7,11 +7,10 @@ import { ServerRequestDescriptor } from '@models/http';
     providedIn: 'root'
 })
 export class DataService {
-    constructor(private http: BuilderHttpClient, private evaluator: EvaluatorService) { }
+    constructor(private http: BuilderHttpClient) { }
 
     doRequest(request: ServerRequestDescriptor | string, context: any, data: any = null, httpServiceOptions: any = null): Observable<any> {
-        const targetRequest = this.evaluator.evaluate(request, context);
-        const serverRequest = this.http.generateRequest(targetRequest, data);
+        const serverRequest = this.http.generateRequest(request, data, context);
         return this.http.doRequest(serverRequest, httpServiceOptions);
     }
 }

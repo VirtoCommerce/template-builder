@@ -137,24 +137,25 @@ export class BuilderHttpClient extends HttpClient {
                 }
             };
         }
+        const evaluatedRequest = this.evaluator.evaluate(request, this.getCurrentContext(context));
         const result = {
-            url: this.evaluator.evaluate(request.url, this.getCurrentContext(context)),
-            cacheable: request.cacheable,
-            method: request.method || 'GET',
-            body: request.body,
-            response: request.response,
+            url: evaluatedRequest.url,
+            cacheable: evaluatedRequest.cacheable,
+            method: evaluatedRequest.method || 'GET',
+            body: evaluatedRequest.body,
+            response: evaluatedRequest.response,
             options: {
                 responseType: 'json',
-                ...request.options
+                ...evaluatedRequest.options
             }
         };
 
-        if (!!request.form) {
+        if (!!evaluatedRequest.form) {
             const form = new FormData();
-            if (!!request.form.fileName) {
-                form.append(request.form.name, data, request.form.fileName);
+            if (!!evaluatedRequest.form.fileName) {
+                form.append(evaluatedRequest.form.name, data, evaluatedRequest.form.fileName);
             } else {
-                form.append(request.form.name, data);
+                form.append(evaluatedRequest.form.name, data);
             }
             result.body = form;
         } else if (!!data) {

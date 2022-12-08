@@ -1,8 +1,9 @@
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { switchMap } from 'rxjs';
 import { tap } from 'rxjs';
 import { of } from 'rxjs';
 import { DataService } from '@core/services';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { concat, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -28,6 +29,8 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     options$!: Observable<any[]>;
     searchEvent$ = new Subject<string>();
     loading: boolean = false;
+
+    @ViewChild('selectControl', { static: true }) select!: NgSelectComponent;
 
     constructor(
         private cdr: ChangeDetectorRef,
@@ -70,7 +73,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
                     distinctUntilChanged(),
                     tap(() => this.loading = true),
                     switchMap(searchQuery => this.doRequest(searchQuery))
-            ));
+                ));
         }
 
         if (this.descriptor.optionsSelector) {
@@ -97,7 +100,11 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
                     group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,
                     value: x
                 })) || []),
-                tap(() => this.loading = false)
+                tap(() => this.loading = false),
+                // tap(() => {
+                //     const value = this.select.itemsList.findItem(this.controlValue);
+                //     this.select.itemsList.select(value);
+                // })
             );
         }
         return result.pipe(
