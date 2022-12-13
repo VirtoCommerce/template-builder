@@ -22,8 +22,7 @@ export class AssetsService {
     uploadAsset(file: AssetFile, descriptor: UploadAssetDescriptor,
         context: any, progress: (value: number) => void, overridenRequestProps: Partial<AssetsRequest> | null = null): Observable<any> {
         // todo: progress not works
-        file.assetName = file.name || this.randomizeAssetName(null, file.type);
-        let request = this.getRequest(descriptor, context);
+        let request = this.getRequest(descriptor, { ...context, file });
         if (!request || request === 'inline') {
             // in this case we create data-url
             return from(new Promise<string>((resolve, reject) => {
@@ -38,13 +37,13 @@ export class AssetsService {
                 })
             );
         }
-        if (!!request.randomizeAssetName) {
-            file.assetName = this.randomizeAssetName(file.name);
-            request = this.getRequest(descriptor, context);
-        }
         if (overridenRequestProps) {
             request = { ...<AssetsRequest>request, ...overridenRequestProps };
         }
+        file.assetName = !!request.randomizeAssetName || !file.name
+            ? this.randomizeAssetName(file.name, file.type)
+            : file.name;
+        request = this.getRequest(descriptor, { ...context, file } ); // do it again, thus asset name can impact to request
         return this.data.doRequest(<AssetsRequest>request, context, file, { nullWhenError: false }).pipe(
             map(response => {
                 const req = <AssetsRequest>request;
@@ -53,7 +52,7 @@ export class AssetsService {
                 } else {
                     file.url = response;
                 }
-                return file;
+                return { ...file, name: file.assetName };
             })
         );
     }
@@ -96,13 +95,27 @@ export class AssetsService {
     }
 
     private randomizeAssetName(name: string | null, contentType: string | null = null): string {
-        const parts = name ? name.split('.') : [];
-        const extension = contentType
-            ? '.' + contentType.substring(contentType.indexOf('/'))
-            : (parts.length > 1 ? '.' + parts.pop() : '');
-        const filename = parts.length > 0 ? '_' + parts.join('.') : '';
-        const uniqueName = `${filename}${appHelpers.generateUniqueString(10)}${extension}`;
+        const filename = this.getFilename(name);
+        const extension = this.getExtension(name, contentType);
+        const suffix = appHelpers.generateUniqueString(10);
+        const uniqueName = `${filename}_${suffix}.${extension}`;
         const safeName = encodeURIComponent(uniqueName);
         return safeName;
+    }
+
+    private getExtension(filename: string | null, contentType: string | null): string {
+        if (contentType?.startsWith('image/')) {
+            return contentType.substring(contentType.indexOf('/') + 1);
+        }
+        const parts = filename ? filename.split('.') : [];
+        return parts.length > 1 ? parts[1] : '';
+    }
+
+    private getFilename(filename: string | null): string {
+        const parts = filename ? filename.split('.') : [''];
+        if (parts.length > 1) {
+            parts.pop();
+        }
+        return parts.join('.');
     }
 }
