@@ -178,6 +178,7 @@ export class TemplateEditorUiEffects {
                 msg: {
                     type: 'select',
                     template, sectionId,
+                    section: template?.content.find(x => x.id === sectionId),
                     ...entry?.previewMessage
                 }
             })

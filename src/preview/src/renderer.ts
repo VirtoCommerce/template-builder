@@ -33,6 +33,7 @@ export class Renderer {
                     container.replaceChild(newElement, vm.element);
                     this.parseScript(newElement);
                     vm.element = newElement;
+                    vm.element.id = vm.source.id;
                 });
             }
             container.appendChild(vm.element);
