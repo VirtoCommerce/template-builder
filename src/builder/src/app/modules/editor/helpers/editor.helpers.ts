@@ -1,5 +1,5 @@
 import { appHelpers } from '@integration/helpers';
-import { SectionPropertyDescriptor } from '@models/controls';
+import { FilesDescriptor, SectionPropertyDescriptor } from '@models/controls';
 import { SectionModel, SectionSchema, TemplateModel } from '@models/document';
 import {
     ObjectsSchemasList,
@@ -256,7 +256,7 @@ export function removeSection(template: TemplateModel, sectionId: string): Templ
 function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'default' | 'preview' = 'default'): any {
     // todo: consder object and collections too
     return (settings || []).map(x => {
-        if (isElementType(x) && x.type !== 'list') {
+        if (isElementType(x) && !isListType(x)) {
             let e = x as { element: SectionPropertyDescriptor[] };
             let currentValue = x[mode] || x.default || {};
             let valueFromProps = generateModelBySettings(e.element, mode);
@@ -407,6 +407,16 @@ function isElementType(setting: SectionPropertyDescriptor): boolean {
     return ['object', 'list', 'images', 'files'].indexOf(setting.type) !== -1 &&
         (!!(<any>setting).element || !!(<any>setting).elementDescriptor);
 }
+
+function isListType(setting: SectionPropertyDescriptor): boolean {
+    if (setting.type === 'list') return true;
+    const fileSetting = <FilesDescriptor>setting;
+    if ((setting.type === 'files' || setting.type === 'images') && fileSetting.multiple !== false) {
+        return true;
+    }
+    return false;
+}
+
 
 function fillElementProperty(setting: SectionPropertyDescriptor, objects: ObjectsSchemasList): SectionPropertyDescriptor {
     if (!isElementType(setting)) return setting;

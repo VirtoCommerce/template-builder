@@ -218,7 +218,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         if (typeof item === 'string') {
             result = <AssetFile>{
                 lastModified: 0,
-                name: item.startsWith('data:') ? '[inline data]' : item.substring(item.lastIndexOf('/') + 1),
+                name: item ? item.startsWith('data:') ? '[inline data]' : item.substring(item.lastIndexOf('/') + 1) : null,
                 webkitRelativePath: item,
                 url: item,
                 uploaded: true
@@ -233,8 +233,8 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         } else {
             result = <AssetFile>{
                 lastModified: 0,
-                name: item[this.descriptor.filenameField || 'filename']
-                    || item[this.descriptor.urlField || 'url'].substring(item[this.descriptor.urlField || 'url'].lastIndexOf('/') + 1),
+                name: (item[this.descriptor.filenameField || 'filename']
+                    || item[this.descriptor.urlField || 'url']?.substring(item[this.descriptor.urlField || 'url'].lastIndexOf('/') + 1)) ?? null,
                 webkitRelativePath: item[this.descriptor.urlField || 'url'],
                 data: item,
                 url: item[this.descriptor.urlField || 'url'],
