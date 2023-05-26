@@ -6,7 +6,7 @@ import { map, Observable, of } from "rxjs";
 
 // import { helpers } from '@editor/helpers';
 import { TemplateEntry } from '@shared/models';
-import {  } from '@integration/services';
+import { } from '@integration/services';
 
 @Injectable({
     providedIn: 'root'
@@ -16,14 +16,16 @@ export class TemplatesService {
     constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
     getTemplate(template: TemplateEntry): Observable<TemplateModel | null> {
-        if (!template.path) {
+        const entry = { ...template, path: template.path || this.appConfig.getContext().location.params.path }
+        if (!entry.path) {
             return of(null);
         }
-        const templateUrl = this.appConfig.getValue('templateUrl', { item: template });
-        const request = this.http.generateRequest(templateUrl, { item: template });
+        const templateUrl = this.appConfig.getValue('templateUrl', { item: entry });
+        const targetUrl = templateUrl[entry.alias] || templateUrl['__template'];
+        const request = this.http.generateRequest(targetUrl, { item: entry });
         // const url = `${templateUrl}&path=${template.path}&type=${template.type}`;
         return this.http.doRequest<TemplateModel>(request, { nullWhenError: false }, null);
-    }
+}
 
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
         const context = { templates };
