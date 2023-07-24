@@ -1,6 +1,8 @@
 export interface MultipageSelectDescriptor {
     title: string;
-    alias: string;
+    templateKey: string;
+    relativeUrl: string;
+    contentType: string;
     isDirty?: boolean;
     hasChildren?: boolean;
 }

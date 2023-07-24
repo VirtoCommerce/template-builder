@@ -20,7 +20,7 @@ export class SaveTemplateComponent implements OnInit {
         fb: FormBuilder,
         @Inject(MAT_DIALOG_DATA) data: { entries: TemplateEntryInfo[] }
     ) {
-        const result = data.entries.reduce((acc, value) => ({ ...acc, [value.alias]: true}), {});
+        const result = data.entries.reduce((acc, value) => ({ ...acc, [value.key]: true}), {});
         this.entries = data.entries;
         this.form = fb.group(result);
     }
@@ -31,7 +31,7 @@ export class SaveTemplateComponent implements OnInit {
         console.log(event);
         const element = <HTMLInputElement>event.target;
         const value = element.checked;
-        this.entries.forEach(x => this.form.get(x.alias)?.setValue(!!value));
+        this.entries.forEach(x => this.form.get(x.key)?.setValue(!!value));
     }
 
     setSelectAll() {

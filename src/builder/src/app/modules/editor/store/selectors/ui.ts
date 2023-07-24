@@ -162,21 +162,21 @@ export const changeTemplateContext = createSelector(
     fromData.selectBlockModelFromRoute,
     fromData.selectSectionsSchemas,
     fromData.selectBlocksSchemas,
-    fromRoute.selectTemplateParameter,
+    fromRoute.selectTemplateKeyParameter,
     fromRoute.selectSectionIdParameter,
     fromRoute.selectBlockIdParameter,
     fromShared.selectCurrentTemplateEntry,
-    (template, section, block, sectionsSchemas, blocksSchemas, templateId, sectionId, blockId, templateEntry) =>
-        ({ template, section, block, sectionsSchemas, blocksSchemas, templateId, sectionId, blockId, templateEntry })
+    (template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry) =>
+        ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry })
 );
 
 export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
     // fromDomain.selectCurrentTemplateState,
-    fromShared.selectChangedTemplates,
+    fromShared.hasDirty,
     // todo: undo
     // todo: redo
     // todo: have settings
-    templates => {
+    isDirty => {
         const result = <ActionButtonDescriptor[][]>[];
         if (useTheme) {
             result.push([
@@ -211,7 +211,7 @@ export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
 
         result.push([
             {
-                canAction: templates.length > 0,
+                canAction: isDirty,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'

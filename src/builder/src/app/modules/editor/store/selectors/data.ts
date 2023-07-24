@@ -2,7 +2,7 @@ import { TemplateEntry } from '@shared/models';
 import { SectionModel, SectionSchema } from '@models/index';
 import { createSelector } from '@ngrx/store';
 
-import { selectTemplateParameter } from '@shared/routing';
+import { selectTemplateKeyParameter } from '@shared/routing';
 import { selectTemplateDataState, selectCurrentSectionsFilter } from './common';
 
 import { SectionsSchemasList } from '@editor/models';
@@ -20,8 +20,8 @@ export const selectLoadedTemplates = createSelector(
 
 export const selectCurrentTemplateModel = createSelector(
     selectLoadedTemplates,
-    selectTemplateParameter,
-    (templates, alias) => alias ? templates[alias] : null
+    selectTemplateKeyParameter,
+    (templates, templateKey) => templateKey ? templates[templateKey] : null
 );
 
 export const selectCurrentTemplateName = createSelector(
@@ -44,12 +44,12 @@ export const selectObjectsSchemas = createSelector(
 export const selectChangedTemplates = createSelector(
     selectLoadedTemplates, // models
     fromShared.selectChangedTemplates, // entries
-    (templates, entries) => entries.map(x => ({ entry: x.entry, info: x, content: templates[x.alias] })).filter(x => !!x.content)
+    (templates, entries) => entries.map(x => ({ entry: x.entry, info: x, content: templates[x.key] })).filter(x => !!x.content)
 );
 
 export const selectSectionsSchemasList = createSelector(
     selectSectionsSchemas,
-    sections => Object.keys(sections).map(key => ({ ...sections[key], alias: key }))
+    sections => Object.keys(sections).map(key => ({ ...sections[key], key }))
 );
 
 export const selectBlocksSchemas = createSelector(

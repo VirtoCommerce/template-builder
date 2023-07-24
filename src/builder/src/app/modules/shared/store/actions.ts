@@ -16,22 +16,22 @@ export const loadTemplateEntries = createAction('[shared] load template entries'
 export const loadTemplateEntriesSuccess = createAction('[shared] load template entries success', props<{ templatesEntries: TemplateEntryList }>());
 export const loadTemplateEntriesFails = createAction('[shared] load template entries fails', props<{ error: HttpErrorResponse }>());
 
-export const templateChanged = createAction('[shared] template changed', props<{ template: string, parent: string | null }>());
+export const templateChanged = createAction('[shared] template changed', props<{ contentType: string, relativeUrl: string, parent: string | null }>());
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
 
 // export const setCurrentDirtyState = createAction('[shared] set current dirty state', props<{ dirty: boolean }>());
-export const setRootDirtyState = createAction('[shared] set root dirty state', props<{ template: string, dirty: boolean }>());
-export const setDirtyState = createAction('[shared] set dirty state', props<{ template: string, parent: string, dirty: boolean }>());
+export const setRootDirtyState = createAction('[shared] set root dirty state', props<{ templateKey: string, dirty: boolean }>());
+export const setDirtyState = createAction('[shared] set dirty state', props<{ templateKey: string, parentKey?: string, dirty: boolean }>());
 
-export const selectTemplate = createAction('[shared] select template', props<{ template: string }>());
+export const selectTemplate = createAction('[shared] select template', props<{ contentType: string, relativeUrl: string, templateKey: string }>());
 export const navigateToCurrentTemplate = createAction('[shared] navigate to current template');
 export const filterTemplates = createAction('[shared] filter templates', props<{ filter: string }>());
 export const displayRootTemplates = createAction('[shared] display root templates');
 
-export const switchToChildrenTemplates = createAction('[shared] switch to children templates', props<{ template: string }>());
+export const switchToChildrenTemplates = createAction('[shared] switch to children templates', props<{ templateKey: string }>());
 export const raiseLoadChildrenTemplates = createAction('[shared] raise load children templates');
-export const loadChildrenTemplates = createAction('[shared] load children templates', props<{ template: string, onInit: boolean }>());
+export const loadChildrenTemplates = createAction('[shared] load children templates', props<{ templateKey: string, onInit: boolean }>());
 export const loadChildrenTemplatesSuccess = createAction('[shared] load children templates success', props<{ childrenEntries: TemplateEntryList, parentTemplate: string }>());
 export const loadChildrenTemplatesFails = createAction('[shared] load children requested', props<{ error: HttpErrorResponse, parentTemplate: string }>());
 

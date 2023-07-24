@@ -9,7 +9,7 @@ export interface SharedState {
     templatesFilter: string | null;
     templateSelected: string | null;
     entriesStates: TemplateEntryStateList
-    childrenTemplatesState: { [alias: string] : TemplateSelectorState };
+    childrenTemplatesState: { [key: string] : TemplateSelectorState };
     // childrenTemplates:
 }
 

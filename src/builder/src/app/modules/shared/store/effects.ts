@@ -41,7 +41,7 @@ export class SharedEffects {
     selectDefaultTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         withLatestFrom(
-            this.store$.select(fromRoute.selectTemplateParameter)
+            this.store$.select(fromRoute.selectTemplateKeyParameter)
         ),
         filter(([, template]) => !template),
         switchMap(() => [
@@ -89,7 +89,7 @@ export class SharedEffects {
             this.store$.select(fromRoute.selectParentTemplateParameter)
         ),
         switchMap(([, parent]) => [
-            actions.loadChildrenTemplates({ template: parent, onInit: true })
+            actions.loadChildrenTemplates({ templateKey: parent, onInit: true })
         ])
     ));
 
@@ -98,33 +98,39 @@ export class SharedEffects {
         withLatestFrom(
             this.store$.select(fromState.selectTemplatesEntries),
             this.store$.select(fromState.selectTemplatesEntriesAsList),
-            this.store$.select(fromRoute.selectTemplateParameter)
+            this.store$.select(fromRoute.selectTemplateKeyParameter)
         ),
-        filter(([, entriesAsObject, templatesEntriesAsList, templateParameter]) => !templateParameter && !!templatesEntriesAsList.length || !entriesAsObject[templateParameter]),
-        map(([, , templatesEntries]) => actions.selectTemplate({
-            template: (templatesEntries.find(item => !!item.isDefault) || templatesEntries[0])?.alias
-        }))
+        filter(([, entriesAsObject, templatesEntriesAsList, templateKey]) => !templateKey && !!templatesEntriesAsList.length || !entriesAsObject[templateKey]),
+        map(([, , templatesEntries, templateKey]) => {
+            const entry = templatesEntries.find(item => !!item.isDefault) || templatesEntries[0];
+            return actions.selectTemplate({
+                contentType: entry?.type || '',
+                relativeUrl: entry?.path,
+                templateKey
+            })
+        })
     ));
 
     selectTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.selectTemplate),
         withLatestFrom(
-            this.store$.select(fromState.selectParentTemplateAlias),
-            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectContentTypeParameter),
+            this.store$.select(fromRoute.selectRelativeUrlParameter),
+            this.store$.select(fromState.selectParentTemplateKey),
             this.store$.select(fromRoute.selectParentTemplateParameter),
             this.store$.select(fromRoute.isEmpty)
         ),
-        filter(([{ template }, parentTemplate, templateParameter, parentTemplateParameter, isEmpty]) =>
+        filter(([{ relativeUrl }, , relativeUrlParameter, parentTemplateKey, parentTemplateParameter, isEmpty]) =>
             !isEmpty // if route is not initialized yet
             && (
-                template !== templateParameter // and template entry was changed
-                || parentTemplate !== parentTemplateParameter // or parent template was changed
+                relativeUrl !== relativeUrlParameter // and template entry was changed
+                || parentTemplateKey !== parentTemplateParameter // or parent template was changed
             )
-            || !templateParameter), // or template parameter from route is empty
-        switchMap(([{ template }, parentTemplate]) => [
-            router.go({ queryParams: { template, in: parentTemplate } }),
+            || !relativeUrlParameter), // or template parameter from route is empty
+        switchMap(([{ contentType, relativeUrl }, parentTemplate]) => [
+            router.go({ queryParams: { contentType, relativeUrl, in: parentTemplate } }),
             // this action allows to inform other modules to do some stuff, i.e. editor module do the other redirect
-            actions.templateChanged({ template, parent: parentTemplate })
+            actions.templateChanged({ contentType, relativeUrl, parent: parentTemplate })
         ])
     ));
 
@@ -132,15 +138,15 @@ export class SharedEffects {
         ofType(actions.filterTemplates),
         withLatestFrom(
             this.store$.select(fromState.selectParentTemplate),
-            this.store$.select(fromState.selectParentTemplateAlias)
+            this.store$.select(fromState.selectParentTemplateKey)
         ),
         filter(([, parent]) => !!parent?.request),
-        map(([, , parent]) => actions.loadChildrenTemplates({ template: parent || '', onInit: false }))
+        map(([, , parentKey]) => actions.loadChildrenTemplates({ templateKey: parentKey || '', onInit: false }))
     ));
 
     switchToChildrenTemplates$ = createEffect(() => this.actions$.pipe(
         ofType(actions.switchToChildrenTemplates),
-        map(({ template }) => actions.loadChildrenTemplates({ template, onInit: false }))
+        map(({ templateKey }) => actions.loadChildrenTemplates({ templateKey, onInit: false }))
     ));
 
     loadChildrenTemplates$ = createEffect(() => this.actions$.pipe(
@@ -149,21 +155,21 @@ export class SharedEffects {
             this.store$.select(fromState.selectTemplatesEntries),
             this.store$.select(fromState.selectCurrentFilter)
         ),
-        filter(([{ template }]) => !!template),
-        map(([{ template, onInit }, entries, filter]) => ({ templateEntry: entries[template], onInit, entries, filter, template })),
+        filter(([{ templateKey }]) => !!templateKey),
+        map(([{ templateKey, onInit }, entries, filter]) => ({ templateEntry: entries[templateKey], onInit, entries, filter, templateKey })),
         filter(({ templateEntry }) => !!templateEntry),
-        switchMap(({ templateEntry, onInit, entries, filter, template }) => {
+        switchMap(({ templateEntry, onInit, entries, filter, templateKey }) => {
             const context = { item: templateEntry, filter, templates: entries };
             return this.templatesService.getChildrenTemplates(templateEntry!, context).pipe(
                 switchMap(childrenEntries => {
-                    const result = <Action[]>[actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: template })];
+                    const result = <Action[]>[actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: templateKey })];
                     if (onInit) {
                         result.push(actions.initApp());
                         result.push(actions.setLivePreviewUrl());
                     }
                     return result;
                 }),
-                catchError(error => of(actions.loadChildrenTemplatesFails({ error, parentTemplate: template })))
+                catchError(error => of(actions.loadChildrenTemplatesFails({ error, parentTemplate: templateKey })))
             );
         })
     ));
@@ -193,14 +199,14 @@ export class SharedEffects {
     onStartPreviewUrl$ = createEffect(() => this.actions$.pipe(
         ofType(actions.setLivePreviewUrl),
         withLatestFrom(
-            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectTemplateKeyParameter),
             this.store$.select(fromState.selectCurrentTemplatesEntries)
         ),
-        // delay(1000), // todo: ad-hoc solution. we need wait when the preview will be completely loaded and then send messages
-        tap(([, template, templates]) => {
+        // delay(1000), // todo: ad-hoc solution. we need to wait until the preview is completely loaded and then send messages
+        tap(([, templateKey, templates]) => {
             this.eventsBus.emit({
                 type: 'navigate',
-                url: templates?.[template]?.previewUrl || this.appConfig.getValue('startPreviewPath') || '/'
+                url: templates?.[templateKey]?.previewUrl || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
             });
         })
     ), { dispatch: false });
@@ -210,9 +216,9 @@ export class SharedEffects {
         withLatestFrom(
             this.store$.select(fromState.selectCurrentTemplatesEntries)
         ),
-        tap(([{ template }, templates]) => this.eventsBus.emit({
+        tap(([{ templateKey }, templates]) => this.eventsBus.emit({
             type: 'navigate',
-            url: templates?.[template]?.previewUrl
+            url: templates?.[templateKey]?.previewUrl
         }))
     ), { dispatch: false });
 

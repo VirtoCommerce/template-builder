@@ -4,11 +4,11 @@ import { TemplateEntryList } from './template-entry-list.model';
 
 export interface TemplateEntry {
     name: string;
-    path?: string;
     type?: string;
+    path: string;
     request?: ServerRequestDescriptor | ServerRequestDescriptor[] | string | string[];
     sort?: number;
-    alias: string;
+    key: string;
     prototype?: string;
     disabled?: boolean;
     previewUrl: string;

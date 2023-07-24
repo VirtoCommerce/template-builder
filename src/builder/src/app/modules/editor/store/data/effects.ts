@@ -65,12 +65,12 @@ export class TemplateEditorDataEffects {
             this.store$.select(selectors.selectCurrentTemplateModel),
             this.store$.select(selectors.selectCurrentTemplateState),
             this.store$.select(fromShared.selectCurrentTemplateEntry),
-            this.store$.select(fromRoute.selectTemplateParameter),
+            this.store$.select(fromRoute.selectTemplateKeyParameter),
         ),
         // load when template still is not loaded or hasn't been changed yet
         filter(([, template, state, entry]) => !template || !state || !entry),
-        switchMap(([, , , , alias]) => [
-            actions.loadTemplateModel({ alias })
+        switchMap(([, , , , templateKey]) => [
+            actions.loadTemplateModel({ templateKey })
         ])
     ));
 
@@ -94,14 +94,15 @@ export class TemplateEditorDataEffects {
     loadTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateModel),
         withLatestFrom(
-            this.store$.select(fromShared.selectCurrentTemplateEntry)
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
+            this.store$.select(fromRoute.selectRelativeUrlParameter),
+            this.store$.select(fromRoute.selectContentTypeParameter)
         ),
-        filter(([, templateEntry]) => !!templateEntry),
-        switchMap(([{ alias }, templateEntry]) => this.templates.getTemplate(templateEntry).pipe(
+        switchMap(([{ templateKey }, templateEntry, relativeUrl, contentType]) => this.templates.getTemplate(relativeUrl, contentType, templateEntry).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap(template => [
-                actions.loadTemplateModelSuccess({ template, alias }),
+                actions.loadTemplateModelSuccess({ template, templateKey }),
                 broadcastMessage({
                     msg: {
                         type: 'page',
@@ -111,7 +112,7 @@ export class TemplateEditorDataEffects {
                 })
             ]),
             catchError(error => [
-                actions.loadTemplateModelFails({ error, alias }),
+                actions.loadTemplateModelFails({ error, templateKey }),
                 shared.showNotification({
                     message: 'Could not load template',
                     msgType: 'error',
@@ -160,7 +161,7 @@ export class TemplateEditorDataEffects {
         }).pipe(
             map((result) => result?.accept
                 ? actions.saveTemplates({
-                    templates: result.entries.map(x => changedTemplates.find(y => y.info.alias === x)!)
+                    templates: result.entries.map(x => changedTemplates.find(y => y.info.key === x)!)
                 })
                 : shared.empty()
             )
@@ -171,7 +172,7 @@ export class TemplateEditorDataEffects {
         ofType(actions.saveTemplates),
         switchMap(({ templates }) => {
             return this.templates.saveTemplates(templates).pipe(
-                switchMap(() => templates.map(x => actions.saveTemplateSuccess({ alias: x.info.alias, parent: x.info.parent }))),
+                switchMap(() => templates.map(x => actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }))),
                 catchError(error => of(actions.saveTemplateFails({ error })))
             );
         })

@@ -8,9 +8,9 @@ export const editorDataReducers = createReducer<EditorDataState>(
     initialState,
 
     on(actions.loadTemplateSchemasSuccess, (state, { schemas }) => ({ ...state, schemas })),
-    on(actions.loadTemplateModelSuccess, (state, { template, alias }) => ({ ...state, templates: { ...state.templates, [alias]: template } })),
-    on(actions.updateTemplateAction, (state, { alias, template }) => ({
-        ...state, templates: { ...state.templates, [alias]: template }
+    on(actions.loadTemplateModelSuccess, (state, { template, templateKey }) => ({ ...state, templates: { ...state.templates, [templateKey]: template } })),
+    on(actions.updateTemplateAction, (state, { templateKey, template }) => ({
+        ...state, templates: { ...state.templates, [templateKey]: template }
     }))
     // on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),
 

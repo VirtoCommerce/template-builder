@@ -6,16 +6,16 @@ import { TemplateModel } from '@models/document';
 
 export const raiseLoadData = createAction('[template editor] raise load data');
 
-export const loadTemplateModel = createAction('[template editor] load template model', props<{ alias: string }>());
-export const loadTemplateModelSuccess = createAction('[template editor] load template model success', props<{ template: TemplateModel, alias: string }>());
-export const loadTemplateModelFails = createAction('[template editor] load template model fails', props<{ error: HttpErrorResponse, alias: string }>());
+export const loadTemplateModel = createAction('[template editor] load template model', props<{ templateKey: string }>());
+export const loadTemplateModelSuccess = createAction('[template editor] load template model success', props<{ template: TemplateModel, templateKey: string }>());
+export const loadTemplateModelFails = createAction('[template editor] load template model fails', props<{ error: HttpErrorResponse, templateKey: string }>());
 
 export const loadTemplateSchemas = createAction('[template editor] load template schemas');
 export const loadTemplateSchemasSuccess = createAction('[template editor] load template schemas success', props<{ schemas: SchemasList | null }>());
 export const loadTemplateSchemasFails = createAction('[template editor] load template schemas fails', props<{ error: HttpErrorResponse }>());
 
-export const updateTemplateAction = createAction('[template editor] update template', props<{ template: TemplateModel, alias: string }>());
+export const updateTemplateAction = createAction('[template editor] update template', props<{ template: TemplateModel, templateKey: string }>());
 
 export const saveTemplates = createAction('[template editor] save templates', props<{ templates: { entry: TemplateEntry, content: TemplateModel, info: TemplateEntryInfo }[] }>());
-export const saveTemplateSuccess = createAction('[template editor] save template success', props<{ alias: string, parent?: string }>());
+export const saveTemplateSuccess = createAction('[template editor] save template success', props<{ templateKey: string, parentKey?: string, template: TemplateModel }>());
 export const saveTemplateFails = createAction('[template editor] save template fails', props<{ error: HttpErrorResponse }>());
