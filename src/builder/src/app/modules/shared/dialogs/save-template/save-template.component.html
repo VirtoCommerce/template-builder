@@ -7,7 +7,7 @@
             <div [formGroup]="form" class="content">
                 <ul class="flex flex-col">
                     <li *ngFor="let item of entries">
-                        <input type="checkbox" (change)="setSelectAll()" [formControlName]="item.alias" />
+                        <input type="checkbox" (change)="setSelectAll()" [formControlName]="item.key" />
                         <label class="pl-2">{{ item.name }}</label>
                     </li>
                 </ul>

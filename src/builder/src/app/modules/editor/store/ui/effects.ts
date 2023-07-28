@@ -56,8 +56,8 @@ export class TemplateEditorUiEffects {
     // this redirect is necessary when we edit other page, it happens after redirect from shared module
     templateChanged$ = createEffect(() => this.actions$.pipe(
         ofType(sharedActions.templateChanged),
-        switchMap(({ template, parent }) => [
-            routingActions.go({ path: ['/pages'], queryParams: { template, in: parent } })
+        switchMap(({ templateType, path, parent }) => [
+            routingActions.go({ path: ['/pages'], queryParams: { type: templateType, path, parent } })
         ])
     ));
 
@@ -102,11 +102,11 @@ export class TemplateEditorUiEffects {
         withLatestFrom(
             this.store$.select(selectors.selectCurrentTemplateModel),
             this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
-            this.store$.select(sharedSelectors.selectParentTemplateAlias),
+            this.store$.select(sharedSelectors.selectParentTemplateKey),
             this.store$.select(selectors.selectSectionModelFromRoute),
             this.store$.select(selectors.selectBlockModelFromRoute)
         ),
-        switchMap(([, template, entry, parent, section, block]) => [
+        switchMap(([, template, entry, parentKey, section, block]) => [
             broadcastMessage({
                 msg: {
                     type: 'changed',
@@ -114,9 +114,9 @@ export class TemplateEditorUiEffects {
                     ...entry?.previewMessage
                 }
             }),
-            parent
-                ? sharedActions.setDirtyState({ parent: parent, template: entry.alias, dirty: true })
-                : sharedActions.setRootDirtyState({ template: entry.alias, dirty: true })
+            parentKey
+                ? sharedActions.setDirtyState({ parentKey: parentKey, templateKey: entry.key, dirty: true })
+                : sharedActions.setRootDirtyState({ templateKey: entry.key, dirty: true })
         ])
     ));
 
@@ -128,11 +128,11 @@ export class TemplateEditorUiEffects {
 
     notifySuccessSave$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplateSuccess),
-        switchMap(({ alias, parent }) => [
-            sharedActions.showNotification({ message: `Template ${alias} saved successfully`, msgType: 'success', top: true }),
+        switchMap(({ templateKey, parentKey, template }) => [
+            sharedActions.showNotification({ message: `Template ${template.settings['name']} saved successfully`, msgType: 'success', top: true }),
             parent
-                ? sharedActions.setDirtyState({ parent, template: alias, dirty: false })
-                : sharedActions.setRootDirtyState({ template: alias, dirty: false })
+                ? sharedActions.setDirtyState({ parentKey, templateKey, dirty: false })
+                : sharedActions.setRootDirtyState({ templateKey, dirty: false })
         ])
     ));
 

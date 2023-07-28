@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 
-import { selectTemplateParameter } from '@shared/routing';
+import { selectTemplateKeyParameter } from '@shared/routing';
 import {
     selectTemplateEditorFeature,
     selectTemplateDomainState,
@@ -18,8 +18,8 @@ export const isSchemasLoaded = createSelector(
 
 export const selectCurrentTemplateState = createSelector(
     selectTemplateDomainState,
-    selectTemplateParameter,
-    (state, alias) => alias ? { ...state.states[alias], id: alias } : null
+    selectTemplateKeyParameter,
+    (state, templateKey) => templateKey ? { ...state.states[templateKey], key: templateKey } : null
 );
 
 // export const selectChangedTemplates = createSelector(

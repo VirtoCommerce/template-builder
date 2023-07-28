@@ -1,9 +1,9 @@
 import { TemplateEntryInfo } from './../models/template-entry-info.model';
 import { createSelector } from '@ngrx/store';
-import { TemplateEntry } from '@shared/models';
+import { TemplateEntry, TemplateEntryList, TemplateEntryState } from '@shared/models';
 import { BuilderState } from './state';
 
-import { selectTemplateParameter, selectParentTemplateParameter } from '../routing';
+import { selectPathParameter, selectTypeParameter, selectParentTemplateParameter, selectTemplateKeyParameter, selectPath } from '../routing';
 
 export const selectSharedFeature = (state: BuilderState) => state.shared;
 
@@ -15,7 +15,7 @@ export const selectTemplatesEntries = createSelector(
 export const isHttpLoading = createSelector(
     selectSharedFeature,
     state => state.templatesEntriesLoading || !state.appInitialized
-    || Object.keys(state.childrenTemplatesState).find(key => state.childrenTemplatesState[key].isLoading)
+        || Object.keys(state.childrenTemplatesState).find(key => state.childrenTemplatesState[key].isLoading)
 );
 
 export const selectTemplatesStates = createSelector(
@@ -31,10 +31,10 @@ export const selectCurrentFilter = createSelector(
 const selectUnsortedTemplatesEntriesAsList = createSelector(
     selectTemplatesEntries,
     templates => Object.keys(templates)
-        .map(key => (<TemplateEntry>{ ...templates[key], alias: key, hasChildren: !!templates[key].children || !!templates[key].request }))
+        .map(key => (<TemplateEntry>{ ...templates[key], key, hasChildren: !!templates[key].children || !!templates[key].request }))
         .sort((x, y) => {
-            const a = x.name || x.alias;
-            const b = y.name || y.alias;
+            const a = x.name || x.key;
+            const b = y.name || y.key;
             return a.localeCompare(b);
         })
         .sort((x, y) => x.sort === undefined
@@ -53,7 +53,7 @@ export const selectTemplatesEntriesAsList = createSelector(
 export const selectTemplatesEntriesWithState = createSelector(
     selectTemplatesEntriesAsList, // check: here must be selectUnsortedTemplatesEntriesAsList??
     selectTemplatesStates,
-    (entries, states) => entries.map(x => ({ entry: x, state: states[x.alias] || {} }))
+    (entries, states) => entries.map(x => ({ entry: x, state: states[x.key] || {} }))
 );
 
 const selectCurrentChildrenTemplatesEntries = createSelector(
@@ -62,22 +62,33 @@ const selectCurrentChildrenTemplatesEntries = createSelector(
     (state, parent) => parent ? state.childrenTemplatesState[parent]?.templates || null : null
 );
 
+function searchTemplate(templates: TemplateEntry[], childrenTemplates: TemplateEntryList | null, type: string, path: string, key: string): TemplateEntry {
+    if (childrenTemplates) {
+        return childrenTemplates[key];
+    }
+    const result = templates.find(x => x.type === type && x.path === path) ||
+        templates.find(x => x.type === type && x.isDefault) ||
+        templates.find(x => x.type === type);
+    return result!;
+}
+
 export const selectCurrentTemplateEntry = createSelector(
-    selectTemplatesEntries,
+    selectUnsortedTemplatesEntriesAsList,
     selectCurrentChildrenTemplatesEntries,
-    selectTemplateParameter,
-    (templates, childrenTemplates, template) => !childrenTemplates
-        ? (<TemplateEntry>{ ...templates[template!], alias: template }) // todo: key must be non-nullable
-        : (<TemplateEntry>{ ...childrenTemplates[template!], alias: template })
+    selectTypeParameter,
+    selectPathParameter,
+    selectTemplateKeyParameter,
+    (templates, childrenTemplates, type, path, key) => searchTemplate(templates, childrenTemplates, type, path, key)
 );
 
 export const selectCurrentTemplateState = createSelector(
     selectSharedFeature,
     selectParentTemplateParameter,
-    selectTemplateParameter,
-    (state, parent, template) => (parent
-        ? state.childrenTemplatesState[parent]?.states?.[template]
-        : state.entriesStates[template]) || {}
+    selectTemplateKeyParameter,
+    (state, parent, key) => (parent
+        ? state.childrenTemplatesState[parent]?.states?.[key]
+        : state.entriesStates[key])
+        || {}
 );
 
 export const selectTemplatesEntriesLoading = createSelector(
@@ -95,14 +106,14 @@ export const isAppInitialized = createSelector(
     state => state.appInitialized
 );
 
-export const selectParentTemplateAlias = createSelector(
+export const selectParentTemplateKey = createSelector(
     selectSharedFeature,
     state => state.templateSelected
 );
 
 export const selectParentTemplate = createSelector(
     selectTemplatesEntries,
-    selectParentTemplateAlias,
+    selectParentTemplateKey,
     (templates, key) => key ? templates[key] : null
 );
 
@@ -116,10 +127,35 @@ const selectAllChildrenTemplatesStates = createSelector(
     state => state.childrenTemplatesState
 );
 
+const selectTemplatesStatesAsList = createSelector(
+    selectTemplatesStates,
+    templates => Object.keys(templates).map(x => templates[x])
+);
+
+const selectChildrenTemplatesStatesAsList = createSelector(
+    selectAllChildrenTemplatesStates,
+    templates => {
+        const allChildren = Object.keys(templates).map(x => templates[x].states || {});
+        const result = allChildren.reduce((acc, item) => [...acc, ...(Object.keys(item).map(x => item[x]))], <TemplateEntryState[]>[]);
+        return result;
+    }
+);
+
+const selectAllStates = createSelector(
+    selectTemplatesStatesAsList,
+    selectChildrenTemplatesStatesAsList,
+    (templates, children) => [...templates, ...children]
+);
+
+export const hasDirty = createSelector(
+    selectAllStates,
+    states => !!states.find(x => x.isDirty)
+);
+
 export const selectChildrenTemplatesEntries = createSelector(
     selectAllChildrenTemplatesStates,
-    selectParentTemplateAlias,
-    (templates, alias) => alias ? (templates[alias] || {}) : null
+    selectParentTemplateKey,
+    (templates, key) => key ? (templates[key] || {}) : null
 );
 
 const selectUnfilteredChildrenTemplatesEntriesAsList = createSelector(
@@ -128,7 +164,7 @@ const selectUnfilteredChildrenTemplatesEntriesAsList = createSelector(
         ? (
             entries.templates
                 ? Object.keys(entries.templates)
-                    .map(key => (<TemplateEntry>{ ...entries.templates[key], alias: key }))
+                    .map(key => (<TemplateEntry>{ ...entries.templates[key], key }))
                 : []
         )
         : null
@@ -142,14 +178,14 @@ export const selectChildrenTemplatesEntriesAsList = createSelector(
 
 const selectChildrenTemplatesStates = createSelector(
     selectSharedFeature,
-    selectParentTemplateAlias,
-    (state, template) => !!template ? state.childrenTemplatesState[template] : null
+    selectParentTemplateKey,
+    (state, key) => !!key ? state.childrenTemplatesState[key] : null
 );
 
 export const selectCurrentChildrenTemplatesEntriesWithState = createSelector(
     selectChildrenTemplatesEntriesAsList,
     selectChildrenTemplatesStates,
-    (entries, states) => entries?.map(x => ({ entry: x, state: states?.states?.[x.alias] || null }))
+    (entries, states) => entries?.map(x => ({ entry: x, state: states?.states?.[x.key] || null }))
 );
 
 export const selectAllChildrenTemplatesWithState = createSelector(
@@ -159,7 +195,7 @@ export const selectAllChildrenTemplatesWithState = createSelector(
         .reduce((result, key) => [
             ...result,
             ...Object.keys(states[key].states)
-                .map(child => (<TemplateEntryInfo>{ alias: child, parent: key, name: `${key} → ${child}`, entry: states[key].templates?.[child], state: states[key].states?.[child] || null }))
+                .map(child => (<TemplateEntryInfo>{ key: child, parent: key, name: `${key} → ${child}`, entry: states[key].templates?.[child], state: states[key].states?.[child] || null }))
         ], <TemplateEntryInfo[]>[])
 );
 
@@ -167,7 +203,7 @@ export const selectChangedTemplates = createSelector(
     selectTemplatesEntriesWithState,
     selectAllChildrenTemplatesWithState,
     (templates, children) => [
-        ...templates.filter(x => x.state.isDirty).map(x => (<TemplateEntryInfo>{ alias: x.entry.alias, name: x.entry.name, entry: x.entry, state: x.state })),
+        ...templates.filter(x => x.state.isDirty).map(x => (<TemplateEntryInfo>{ key: x.entry.key, name: x.entry.name, entry: x.entry, state: x.state })),
         ...children.filter(x => x.state.isDirty)
     ]
 );

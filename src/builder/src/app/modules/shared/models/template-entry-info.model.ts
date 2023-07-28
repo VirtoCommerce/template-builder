@@ -2,7 +2,7 @@ import { TemplateEntryState } from './template-entry-state.model';
 import { TemplateEntry } from "./template-entry.model";
 
 export interface TemplateEntryInfo {
-    alias: string;
+    key: string;
     parent?: string;
     name: string;
     entry: TemplateEntry;

@@ -17,7 +17,7 @@ import { map, of } from 'rxjs';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    defaultTemplate = { title: 'Choose template', alias: '' };
+    defaultTemplate = { title: 'Choose template', type: '', path: '', templateKey: '' };
 
     rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
@@ -39,9 +39,9 @@ export class TemplateSelectorComponent implements OnInit {
 
     onTemplateSelected(item: MultipageSelectDescriptor) {
         if (item.hasChildren) {
-            this.store$.dispatch(actions.switchToChildrenTemplates({ template: item.alias }));
+            this.store$.dispatch(actions.switchToChildrenTemplates({ templateKey: item.templateKey }));
         } else {
-            this.store$.dispatch(actions.selectTemplate({ template: item.alias }));
+            this.store$.dispatch(actions.selectTemplate({ templateKey: item.templateKey, templateType: item.type, path: item.path }));
         }
     }
 
@@ -56,13 +56,15 @@ export class TemplateSelectorComponent implements OnInit {
     private convertTemplateToItem(value: { entry: TemplateEntry, state: TemplateEntryState | null }): MultipageSelectDescriptor {
         return {
             title: value.entry.name,
-            alias: this.generateTemplateAlias(value.entry),
+            templateKey: this.generateTemplateKey(value.entry),
+            type: value.entry.type || '',
+            path: value.entry.path!,
             hasChildren: value.entry.hasChildren,
             isDirty: !!value.state?.isDirty
         };
     }
 
-    private generateTemplateAlias(value: TemplateEntry): string {
-        return value.alias || (value.type!! + value.path!!);
+    private generateTemplateKey(value: TemplateEntry): string {
+        return value.key || (value.type!! + "::" + value.path!!);
     }
 }

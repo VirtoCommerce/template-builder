@@ -16,13 +16,13 @@ export const sharedReducers = createReducer<SharedState>(
 
     on(actions.filterTemplates, (state, { filter }) => ({ ...state, templatesFilter: filter })),
     on(actions.displayRootTemplates, (state) => ({ ...state, templateSelected: null, templatesFilter: null })),
-    on(actions.loadChildrenTemplates, (state, { template }) => ({
+    on(actions.loadChildrenTemplates, (state, { templateKey }) => ({
         ...state,
-        templateSelected: template,
+        templateSelected: templateKey,
         childrenTemplatesState: {
             ...state.childrenTemplatesState,
-            [template]: {
-                ...state.childrenTemplatesState[template],
+            [templateKey]: {
+                ...state.childrenTemplatesState[templateKey],
                 isLoading: true
             }
         }
@@ -54,26 +54,26 @@ export const sharedReducers = createReducer<SharedState>(
             }
         }
     })),
-    on(actions.setRootDirtyState, (state, { template, dirty }) => ({
+    on(actions.setRootDirtyState, (state, { templateKey, dirty }) => ({
         ...state,
         entriesStates: {
             ...state.entriesStates,
-            [template]: {
-                ...state.entriesStates?.[template],
+            [templateKey]: {
+                ...state.entriesStates?.[templateKey],
                 isDirty: dirty
             }
         }
     })),
-    on(actions.setDirtyState, (state, { template, parent, dirty }) => ({
+    on(actions.setDirtyState, (state, { templateKey, parentKey, dirty }) => ({
         ...state,
         childrenTemplatesState: {
             ...state.childrenTemplatesState,
-            [parent]: {
-                ...state.childrenTemplatesState[parent],
+            [parentKey!]: {
+                ...state.childrenTemplatesState[parentKey!],
                 states: {
-                    ...state.childrenTemplatesState[parent].states,
-                    [template]: {
-                        ...state.childrenTemplatesState[parent].states?.[template],
+                    ...state.childrenTemplatesState[parentKey!].states,
+                    [templateKey]: {
+                        ...state.childrenTemplatesState[parentKey!].states?.[templateKey],
                         isDirty: dirty
                     }
                 }

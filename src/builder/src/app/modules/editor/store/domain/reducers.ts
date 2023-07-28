@@ -9,38 +9,41 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
 
     on(actions.loadTemplateSchemas, (state) => ({ ...state, schemaLoading: true })),
     on(actions.loadTemplateSchemasSuccess, (state) => ({ ...state, schemaLoading: false })),
-    on(actions.loadTemplateModel, (state, { alias }) => ({
-        ...state,
-        states: {
-            ...state.states,
-            [alias]: {
-                ...state.states[alias],
-                isLoading: true,
-                sections: state.states[alias]?.sections || {}
+    on(actions.loadTemplateModel, (state, { templateKey }) => ({
+            ...state,
+            states: {
+                ...state.states,
+                [templateKey]: {
+                    ...state.states[templateKey],
+                    isLoading: true,
+                    sections: state.states[templateKey]?.sections || {}
+                }
             }
-        }
-    })),
-    on(actions.loadTemplateModelSuccess, (state, { alias }) => ({
-        ...state,
-        states: {
-            ...state.states,
-            [alias]: {
-                ...state.states[alias],
-                isLoading: false,
-                error: undefined,
-                sections: state.states[alias]?.sections || {}
+        })
+    ),
+    on(actions.loadTemplateModelSuccess, (state, { templateKey }) => ({
+            ...state,
+            states: {
+                ...state.states,
+                [templateKey]: {
+                    ...state.states[templateKey],
+                    isLoading: false,
+                    error: undefined,
+                    sections: state.states[templateKey]?.sections || {}
+                }
             }
-        }
-    })),
-    on(actions.loadTemplateModelFails, (state, { error, alias }) => ({
-        ...state,
-        states: {
-            ...state.states,
-            [alias]: {
-                ...state.states[alias],
-                isLoading: false,
-                error: error.message
+        })
+    ),
+    on(actions.loadTemplateModelFails, (state, { error, templateKey }) => ({
+            ...state,
+            states: {
+                ...state.states,
+                [templateKey]: {
+                    ...state.states[templateKey],
+                    isLoading: false,
+                    error: error.message
+                }
             }
-        }
-    }))
+        })
+    )
 );

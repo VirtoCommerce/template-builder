@@ -15,24 +15,23 @@ export class TemplatesService {
 
     constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
-    getTemplate(template: TemplateEntry): Observable<TemplateModel | null> {
-        const entry = { ...template, path: template.path || this.appConfig.getContext().location.params.path }
+    // this method requires templateId and parent to identify template, end template entry to fill out a request
+    getTemplate(path: string, type: string, template: TemplateEntry): Observable<TemplateModel | null> {
+        const entry = { ...template, path }
         if (!entry.path) {
             return of(null);
         }
-        const templateUrl = this.appConfig.getValue('templateUrl', { item: entry });
-        const targetUrl = templateUrl[entry.alias] || templateUrl['__template'];
+        // get template depends of its type. If no such type, use '__template' entry
+        const templateUrl = this.appConfig.getValue('templateUrl', { item: entry, type, path });
+        const targetUrl = templateUrl[entry.type || type || '__templates'] || templateUrl['__templates'];
         const request = this.http.generateRequest(targetUrl, { item: entry });
-        // const url = `${templateUrl}&path=${template.path}&type=${template.type}`;
         return this.http.doRequest<TemplateModel>(request, { nullWhenError: false }, null);
-}
+    }
 
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
         const context = { templates };
         const saveTemplates = this.appConfig.getValue('saveTemplates', context);
         const request = this.http.generateRequest(saveTemplates, null, context);
         return this.http.doRequest(request);
-        // todo: note that it probably should use doRequest method
-        // return this.http.post(saveTemplates, { files });
     }
 }

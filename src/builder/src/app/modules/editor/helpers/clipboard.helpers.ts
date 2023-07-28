@@ -9,7 +9,7 @@ export function pasteDataIntoTemplate(
     context: any // selectors.changeTemplateContext
 ): TypedAction<any>[] {
     const value = action.value;
-    const { template, sectionsSchemas, templateId, templateEntry } = context;
+    const { template, sectionsSchemas, templateKey, templateEntry } = context;
     const direction = action.action === 'paste-after'
         ? 1 // after
         : action.action === 'paste-before'
@@ -30,11 +30,11 @@ export function pasteDataIntoTemplate(
         }
         // paste block after or before
         else if (!!action.section && value.type === 'block') {
-            return pasteBlockIntoSection(action, sectionsSchemas, template, templateId, value, direction);
+            return pasteBlockIntoSection(action, sectionsSchemas, template, templateKey, value, direction);
         }
         // paste section after or before
         if (value.type === 'section') {
-            return pasteSectionIntoTemplate(action, sectionsSchemas, templateEntry, template, templateId, value, direction);
+            return pasteSectionIntoTemplate(action, sectionsSchemas, templateEntry, template, templateKey, value, direction);
         }
     }
     return [
@@ -50,7 +50,7 @@ function pasteBlockIntoSection(
     action: any,
     sectionsSchemas: any,
     template: any,
-    templateId: string,
+    templateKey: string,
     value: any,
     direction: number
 ): TypedAction<any>[] {
@@ -67,7 +67,7 @@ function pasteBlockIntoSection(
         return [
             actions.updateTemplateAction({
                 template: changedTemplate.template,
-                alias: templateId
+                templateKey: templateKey
             }),
             sharedActions.showNotification({
                 message: 'Block pasted',
@@ -93,7 +93,7 @@ function pasteSectionIntoTemplate(
     sectionsSchemas: any,
     templateEntry: any,
     template: any,
-    templateId: string,
+    templateKey: string,
     value: any,
     direction: number
 ): TypedAction<any>[] {
@@ -103,7 +103,7 @@ function pasteSectionIntoTemplate(
         return [
             actions.updateTemplateAction({
                 template: changedTemplate.template,
-                alias: templateId
+                templateKey: templateKey
             }),
             sharedActions.showNotification({
                 message: 'Section pasted',
@@ -117,7 +117,7 @@ function pasteSectionIntoTemplate(
     } else {
         return [
             sharedActions.showNotification({
-                message: `Template ${templateEntry.alias} cannot contain section ${value.content.type}`,
+                message: `Template ${templateEntry.name} cannot contain section ${value.content.type}`,
                 msgType: 'error'
             }),
             actions.showClipboardModal({ ...action })

@@ -13,6 +13,7 @@ import {
 import { ModalService, EventsBusService } from '@core/services';
 import { appHelpers } from "@integration/helpers";
 import * as sharedActions from "@shared/store/actions";
+import * as sharedSelectors from "@shared/store/selectors";
 
 import { PasteContentComponent } from '@editor/dialogs';
 import { helpers as editorHelpers, clipboardHelpers } from '@editor/helpers';
@@ -21,6 +22,7 @@ import { BuilderState } from "../state";
 import * as actions from "../actions";
 import * as selectors from "../selectors";
 import { ClipboardService } from "@core/services";
+import { EvaluatorService } from "@app/modules/integration/services";
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +33,8 @@ export class TemplateEditorDomainEffects {
         private actions$: Actions,
         private clipboard: ClipboardService,
         private modals: ModalService,
-        // private eventsBus: EventsBusService
+        private eventsBus: EventsBusService,
+        private evaluator: EvaluatorService
     ) {
         // this.eventsBus.addStateSelector({
         //     filter: msg => msg.type === 'navigate',
@@ -48,7 +51,7 @@ export class TemplateEditorDomainEffects {
             this.store$.select(selectors.selectObjectsSchemas)
         ),
         filter(([, { template }]) => !!template),
-        switchMap(([{ schema }, { template, section, templateId }, shared, objects]) => {
+        switchMap(([{ schema }, { template, section, templateKey }, shared, objects]) => {
 
             const sharedSchemaName = !!section ? "_blocks" : "_sections";
 
@@ -57,7 +60,7 @@ export class TemplateEditorDomainEffects {
             return [
                 actions.updateTemplateAction({
                     template: result.template,
-                    alias: templateId
+                    templateKey
                 }),
                 actions.closeAddItemPanel(),
                 result.blockId
@@ -71,12 +74,12 @@ export class TemplateEditorDomainEffects {
         ofType(actions.sectionChangedAction),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, { template, sectionId }]) => !!template && !!sectionId),
-        switchMap(([{ changes }, { template, templateId, sectionId, blockId }]) => [
+        switchMap(([{ changes }, { template, templateKey, sectionId, blockId }]) => [
             actions.updateTemplateAction({
                 template: blockId
                     ? editorHelpers.applyBlockChanges(template!, changes, sectionId, blockId)
                     : editorHelpers.applySectionChanges(template!, changes, sectionId),
-                alias: templateId
+                templateKey
             }),
         ])
     ));
@@ -85,10 +88,10 @@ export class TemplateEditorDomainEffects {
         ofType(actions.sectionChangedAction),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, { template, sectionId }]) => !!template && !sectionId),
-        switchMap(([{ changes }, { template, templateId }]) => [
+        switchMap(([{ changes }, { template, templateKey }]) => [
             actions.updateTemplateAction({
                 template: editorHelpers.applySettingsChanges(template!, changes),
-                alias: templateId
+                templateKey
             }),
         ])
     ));
@@ -98,15 +101,15 @@ export class TemplateEditorDomainEffects {
         filter(x => x.action === 'show' || x.action === 'hide'),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, { template }]) => !!template),
-        map(([{ action, section, block }, { template, templateId, sectionId, blockId }]) => [
-            action, template, templateId, sectionId || section?.id, blockId || block?.id
+        map(([{ action, section, block }, { template, templateKey, sectionId, blockId }]) => [
+            action, template, templateKey, sectionId || section?.id, blockId || block?.id
         ]),
-        switchMap(([action, template, templateId, sectionId, blockId]) => [
+        switchMap(([action, template, templateKey, sectionId, blockId]) => [
             actions.updateTemplateAction({
                 template: blockId
                     ? editorHelpers.applyBlockChanges(template!, { hidden: action === 'hide' }, sectionId, blockId)
                     : editorHelpers.applySectionChanges(template!, { hidden: action === 'hide' }, sectionId),
-                alias: templateId
+                templateKey
             }),
         ])
     ));
@@ -116,17 +119,17 @@ export class TemplateEditorDomainEffects {
         filter(x => x.action === 'duplicate'),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, { template }]) => !!template),
-        map(([{ section, block, source }, { template, templateId, sectionId, blockId }]) => [
-            source, template, templateId, sectionId || section?.id, blockId || block?.id
+        map(([{ section, block, source }, { template, templateKey, sectionId, blockId }]) => [
+            source, template, templateKey, sectionId || section?.id, blockId || block?.id
         ]),
-        switchMap(([source, template, templateId, sectionId, blockId]) => {
+        switchMap(([source, template, templateKey, sectionId, blockId]) => {
             const changedTemplate = blockId
                 ? editorHelpers.duplicateBlock(template!, sectionId, blockId)
                 : editorHelpers.duplicateSection(template!, sectionId);
             return [
                 actions.updateTemplateAction({
                     template: changedTemplate.template,
-                    alias: templateId
+                    templateKey
                 }),
                 sharedActions.showNotification({
                     message: changedTemplate.blockId ? 'Block duplicated' : 'Section duplicated',
@@ -209,17 +212,17 @@ export class TemplateEditorDomainEffects {
         filter(({ action }) => action === 'delete'),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, template]) => !!template),
-        map(([{ action, section, block }, { template, templateId, sectionId, blockId }]) => [
-            action, template, templateId, sectionId || section?.id, blockId || block?.id
+        map(([{ action, section, block }, { template, templateKey, sectionId, blockId }]) => [
+            action, template, templateKey, sectionId || section?.id, blockId || block?.id
         ]),
-        switchMap(([, template, templateId, sectionId, blockId]) =>
+        switchMap(([, template, templateKey, sectionId, blockId]) =>
             this.modals.confirm('Are you sure you want to delete this item?').pipe(
                 map(confirmed => confirmed
                     ? actions.updateTemplateAction({
                         template: blockId
                             ? editorHelpers.removeBlock(template!, sectionId, blockId)
                             : editorHelpers.removeSection(template!, sectionId),
-                        alias: templateId
+                        templateKey
                     })
                     : sharedActions.empty()
                 )
@@ -231,10 +234,10 @@ export class TemplateEditorDomainEffects {
         filter(({ options }) => !options.parent),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, template]) => !!template),
-        switchMap(([{ options }, { template, templateId }]) => [
+        switchMap(([{ options }, { template, templateKey }]) => [
             actions.updateTemplateAction({
                 template: editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex), // section can be null
-                alias: templateId
+                templateKey
             }),
         ])
     ));
@@ -244,13 +247,30 @@ export class TemplateEditorDomainEffects {
         filter(({ options }) => !!options.parent),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, template]) => !!template),
-        switchMap(([{ options }, { template, templateId }]) => [
+        switchMap(([{ options }, { template, templateKey }]) => [
             actions.updateTemplateAction({
                 template: editorHelpers.reorderBlocks(template!, options.parent!, options.currentIndex, options.previousIndex), // section can be null
-                alias: templateId
+                templateKey
             }),
         ])
     ));
+
+    onStartPreviewUrl$ = createEffect(() => this.actions$.pipe(
+        ofType(sharedActions.setLivePreviewUrl, actions.loadTemplateModelSuccess),
+        withLatestFrom(
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
+            this.store$.select(selectors.selectCurrentTemplateModel)
+        ),
+        filter(([, entry, template]) => !!template && !(entry?.previewUrl) && !!(entry?.previewRule)),
+        // delay(1000), // todo: ad-hoc solution. we need to wait until the preview is completely loaded and then send messages
+        tap(([, entry, template]) => {
+            const url = this.evaluator.evaluate(entry.previewRule, { item: template });
+            url && this.eventsBus.emit({
+                type: 'navigate',
+                url: url // || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
+            });
+        })
+    ), { dispatch: false });
 
     // enrichNavigateMessages$ = createEffect(() => this.eventsBus.enrich().pipe(
     //     filter(x => x.type === 'navigate'),

@@ -23,7 +23,7 @@ export class TemplateEditorComponent implements OnInit {
     viewModel$ = this.store.select(fromState.editTemplateContext);
 
     templateName$ = this.store.select(fromState.selectCurrentTemplateName);
-    templateParameter$ = this.store.select(fromRoute.selectTemplateParameter);
+    // templateKeyParameter$ = this.store.select(fromRoute.selectTemplateKeyParameter);
 
     constructor(private store: Store<BuilderState>, private helper: ContextMenuHelper) { }
 
