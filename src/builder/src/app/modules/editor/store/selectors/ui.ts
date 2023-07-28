@@ -81,13 +81,14 @@ export const editTemplateContext = createSelector(
     fromData.selectBlocksSchemas,
     fromData.selectTemplateSettings,
     fromData.selectCurrentTemplateSettingsSchemas,
-    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas) => (
-        template && sectionsSchemas && blocksSchemas
+    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas) => {
+        const result = template && sectionsSchemas && blocksSchemas
             ? {
                 template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas
             }
-            : null
-    )
+            : null;
+        return result;
+    }
 );
 
 export const selectAddItemContext = createSelector(

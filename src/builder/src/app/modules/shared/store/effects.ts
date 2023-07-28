@@ -104,8 +104,8 @@ export class SharedEffects {
         map(([, , templatesEntries, templateKey]) => {
             const entry = templatesEntries.find(item => !!item.isDefault) || templatesEntries[0];
             return actions.selectTemplate({
-                contentType: entry?.type || '',
-                relativeUrl: entry?.path,
+                templateType: entry?.type || '',
+                path: entry?.path,
                 templateKey
             })
         })
@@ -114,23 +114,24 @@ export class SharedEffects {
     selectTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.selectTemplate),
         withLatestFrom(
-            this.store$.select(fromRoute.selectContentTypeParameter),
-            this.store$.select(fromRoute.selectRelativeUrlParameter),
             this.store$.select(fromState.selectParentTemplateKey),
+            this.store$.select(fromRoute.selectTypeParameter),
+            this.store$.select(fromRoute.selectPathParameter),
             this.store$.select(fromRoute.selectParentTemplateParameter),
             this.store$.select(fromRoute.isEmpty)
         ),
-        filter(([{ relativeUrl }, , relativeUrlParameter, parentTemplateKey, parentTemplateParameter, isEmpty]) =>
+        filter(([{ path, templateType }, parentTemplateKey, typeParameter, pathParameter, parentTemplateParameter, isEmpty]) =>
             !isEmpty // if route is not initialized yet
             && (
-                relativeUrl !== relativeUrlParameter // and template entry was changed
+                path !== pathParameter // and template entry was changed
                 || parentTemplateKey !== parentTemplateParameter // or parent template was changed
+                || templateType !== typeParameter
             )
-            || !relativeUrlParameter), // or template parameter from route is empty
-        switchMap(([{ contentType, relativeUrl }, parentTemplate]) => [
-            router.go({ queryParams: { contentType, relativeUrl, in: parentTemplate } }),
+            || !pathParameter), // or template parameter from route is empty
+        switchMap(([{ templateType, path }, parentTemplateKey]) => [
+            router.go({ queryParams: { templateType, path, parent: parentTemplateKey } }),
             // this action allows to inform other modules to do some stuff, i.e. editor module do the other redirect
-            actions.templateChanged({ contentType, relativeUrl, parent: parentTemplate })
+            actions.templateChanged({ templateType, path, parent: parentTemplateKey })
         ])
     ));
 
@@ -199,14 +200,14 @@ export class SharedEffects {
     onStartPreviewUrl$ = createEffect(() => this.actions$.pipe(
         ofType(actions.setLivePreviewUrl),
         withLatestFrom(
-            this.store$.select(fromRoute.selectTemplateKeyParameter),
-            this.store$.select(fromState.selectCurrentTemplatesEntries)
+            this.store$.select(fromState.selectCurrentTemplateEntry)
         ),
         // delay(1000), // todo: ad-hoc solution. we need to wait until the preview is completely loaded and then send messages
-        tap(([, templateKey, templates]) => {
+        filter(([, template]) => !!template?.previewUrl),
+        tap(([, template]) => {
             this.eventsBus.emit({
                 type: 'navigate',
-                url: templates?.[templateKey]?.previewUrl || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
+                url: template!.previewUrl // || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
             });
         })
     ), { dispatch: false });
@@ -216,7 +217,7 @@ export class SharedEffects {
         withLatestFrom(
             this.store$.select(fromState.selectCurrentTemplatesEntries)
         ),
-        tap(([{ templateKey }, templates]) => this.eventsBus.emit({
+        tap(([{ templateKey }, templates]) => templates?.[templateKey]?.previewUrl && this.eventsBus.emit({
             type: 'navigate',
             url: templates?.[templateKey]?.previewUrl
         }))

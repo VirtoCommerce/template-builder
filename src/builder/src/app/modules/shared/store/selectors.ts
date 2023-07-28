@@ -1,9 +1,9 @@
 import { TemplateEntryInfo } from './../models/template-entry-info.model';
 import { createSelector } from '@ngrx/store';
-import { TemplateEntry } from '@shared/models';
+import { TemplateEntry, TemplateEntryList, TemplateEntryState } from '@shared/models';
 import { BuilderState } from './state';
 
-import { selectRelativeUrlParameter, selectContentTypeParameter, selectParentTemplateParameter, selectTemplateKeyParameter } from '../routing';
+import { selectPathParameter, selectTypeParameter, selectParentTemplateParameter, selectTemplateKeyParameter, selectPath } from '../routing';
 
 export const selectSharedFeature = (state: BuilderState) => state.shared;
 
@@ -56,25 +56,29 @@ export const selectTemplatesEntriesWithState = createSelector(
     (entries, states) => entries.map(x => ({ entry: x, state: states[x.key] || {} }))
 );
 
-export const hasDirty = createSelector(
-    selectTemplatesStates,
-    states => Object.keys(states).reduce((res, item) => res || states[item].isDirty, false)
-);
-
 const selectCurrentChildrenTemplatesEntries = createSelector(
     selectSharedFeature,
     selectParentTemplateParameter,
     (state, parent) => parent ? state.childrenTemplatesState[parent]?.templates || null : null
 );
 
+function searchTemplate(templates: TemplateEntry[], childrenTemplates: TemplateEntryList | null, type: string, path: string, key: string): TemplateEntry {
+    if (childrenTemplates) {
+        return childrenTemplates[key];
+    }
+    const result = templates.find(x => x.type === type && x.path === path) ||
+        templates.find(x => x.type === type && x.isDefault) ||
+        templates.find(x => x.type === type);
+    return result!;
+}
+
 export const selectCurrentTemplateEntry = createSelector(
-    selectTemplatesEntries,
+    selectUnsortedTemplatesEntriesAsList,
     selectCurrentChildrenTemplatesEntries,
+    selectTypeParameter,
+    selectPathParameter,
     selectTemplateKeyParameter,
-    (templates, childrenTemplates, key) => (!childrenTemplates
-        ? { ...templates[key], key }
-        : { ...childrenTemplates[key], key }
-    )
+    (templates, childrenTemplates, type, path, key) => searchTemplate(templates, childrenTemplates, type, path, key)
 );
 
 export const selectCurrentTemplateState = createSelector(
@@ -121,6 +125,31 @@ export const selectRootTemplateTitle = createSelector(
 const selectAllChildrenTemplatesStates = createSelector(
     selectSharedFeature,
     state => state.childrenTemplatesState
+);
+
+const selectTemplatesStatesAsList = createSelector(
+    selectTemplatesStates,
+    templates => Object.keys(templates).map(x => templates[x])
+);
+
+const selectChildrenTemplatesStatesAsList = createSelector(
+    selectAllChildrenTemplatesStates,
+    templates => {
+        const allChildren = Object.keys(templates).map(x => templates[x].states || {});
+        const result = allChildren.reduce((acc, item) => [...acc, ...(Object.keys(item).map(x => item[x]))], <TemplateEntryState[]>[]);
+        return result;
+    }
+);
+
+const selectAllStates = createSelector(
+    selectTemplatesStatesAsList,
+    selectChildrenTemplatesStatesAsList,
+    (templates, children) => [...templates, ...children]
+);
+
+export const hasDirty = createSelector(
+    selectAllStates,
+    states => !!states.find(x => x.isDirty)
 );
 
 export const selectChildrenTemplatesEntries = createSelector(

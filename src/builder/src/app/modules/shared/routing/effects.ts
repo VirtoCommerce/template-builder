@@ -82,18 +82,18 @@ export class RoutingEffects {
     navigateToOtherModule$ = createEffect(() => this.actions$.pipe(
         ofType(actions.jump),
         withLatestFrom(
-            this.store$.select(fromRoute.selectContentTypeParameter),
-            this.store$.select(fromRoute.selectRelativeUrlParameter),
+            this.store$.select(fromRoute.selectTypeParameter),
+            this.store$.select(fromRoute.selectPathParameter),
             this.store$.select(fromRoute.selectParentTemplateParameter),
             this.store$.select(fromRoute.selectPreviewModeParameter)
         ),
-        tap(([{ path, queryParams, extras }, contentType, relativeUrl, parent, previewMode]) =>
+        tap(([{ path, queryParams, extras }, type, pathParameter, parent, previewMode]) =>
             this.router.navigate(path,
                 {
                     queryParams: {
-                        contentType: contentType || undefined, // todo: should be template stored between modules?
-                        relativeUrl: relativeUrl || undefined, // todo: should be template stored between modules?
-                        in: parent || undefined,
+                        type: type || undefined, // todo: should be template stored between modules?
+                        path: pathParameter || undefined, // todo: should be template stored between modules?
+                        parent: parent || undefined,
                         'preview-mode': previewMode || undefined,
                         ...queryParams
                     },

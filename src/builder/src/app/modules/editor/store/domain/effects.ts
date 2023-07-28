@@ -13,6 +13,7 @@ import {
 import { ModalService, EventsBusService } from '@core/services';
 import { appHelpers } from "@integration/helpers";
 import * as sharedActions from "@shared/store/actions";
+import * as sharedSelectors from "@shared/store/selectors";
 
 import { PasteContentComponent } from '@editor/dialogs';
 import { helpers as editorHelpers, clipboardHelpers } from '@editor/helpers';
@@ -21,6 +22,7 @@ import { BuilderState } from "../state";
 import * as actions from "../actions";
 import * as selectors from "../selectors";
 import { ClipboardService } from "@core/services";
+import { EvaluatorService } from "@app/modules/integration/services";
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +33,8 @@ export class TemplateEditorDomainEffects {
         private actions$: Actions,
         private clipboard: ClipboardService,
         private modals: ModalService,
-        // private eventsBus: EventsBusService
+        private eventsBus: EventsBusService,
+        private evaluator: EvaluatorService
     ) {
         // this.eventsBus.addStateSelector({
         //     filter: msg => msg.type === 'navigate',
@@ -251,6 +254,23 @@ export class TemplateEditorDomainEffects {
             }),
         ])
     ));
+
+    onStartPreviewUrl$ = createEffect(() => this.actions$.pipe(
+        ofType(sharedActions.setLivePreviewUrl, actions.loadTemplateModelSuccess),
+        withLatestFrom(
+            this.store$.select(sharedSelectors.selectCurrentTemplateEntry),
+            this.store$.select(selectors.selectCurrentTemplateModel)
+        ),
+        filter(([, entry, template]) => !!template && !(entry?.previewUrl) && !!(entry?.previewRule)),
+        // delay(1000), // todo: ad-hoc solution. we need to wait until the preview is completely loaded and then send messages
+        tap(([, entry, template]) => {
+            const url = this.evaluator.evaluate(entry.previewRule, { item: template });
+            url && this.eventsBus.emit({
+                type: 'navigate',
+                url: url // || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
+            });
+        })
+    ), { dispatch: false });
 
     // enrichNavigateMessages$ = createEffect(() => this.eventsBus.enrich().pipe(
     //     filter(x => x.type === 'navigate'),

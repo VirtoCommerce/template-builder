@@ -95,10 +95,10 @@ export class TemplateEditorDataEffects {
         ofType(actions.loadTemplateModel),
         withLatestFrom(
             this.store$.select(fromShared.selectCurrentTemplateEntry),
-            this.store$.select(fromRoute.selectRelativeUrlParameter),
-            this.store$.select(fromRoute.selectContentTypeParameter)
+            this.store$.select(fromRoute.selectPathParameter),
+            this.store$.select(fromRoute.selectTypeParameter)
         ),
-        switchMap(([{ templateKey }, templateEntry, relativeUrl, contentType]) => this.templates.getTemplate(relativeUrl, contentType, templateEntry).pipe(
+        switchMap(([{ templateKey }, templateEntry, path, type]) => this.templates.getTemplate(path, type, templateEntry).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap(template => [

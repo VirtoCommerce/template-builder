@@ -82,25 +82,25 @@ export const selectPresetParameter = createSelector(
     queryParams => queryParams && queryParams['preset'] || ''
 );
 
-export const selectRelativeUrlParameter = createSelector(
+export const selectPathParameter = createSelector(
     selectQueryParams,
-    queryParams => queryParams && queryParams['relativeUrl'] || ''
+    queryParams => queryParams && queryParams['path'] || ''
 );
 
 export const selectParentTemplateParameter = createSelector(
     selectQueryParams,
-    queryParams => queryParams && queryParams['in'] || ''
+    queryParams => queryParams && queryParams['parent'] || ''
 );
 
-export const selectContentTypeParameter = createSelector(
+export const selectTypeParameter = createSelector(
     selectQueryParams,
-    queryParams => queryParams && queryParams['contentType'] || ''
+    queryParams => queryParams && queryParams['type'] || ''
 );
 
 export const selectTemplateKeyParameter = createSelector(
-    selectContentTypeParameter,
-    selectRelativeUrlParameter,
-    (contentType, relativeUrl) => !!contentType ? `${contentType}::${relativeUrl}` : relativeUrl
+    selectTypeParameter,
+    selectPathParameter,
+    (type, path) => !!type ? `${type}::${path}` : path
 );
 
 export const selectSectionIdParameter = createSelector(

@@ -17,7 +17,7 @@ import { map, of } from 'rxjs';
 })
 export class TemplateSelectorComponent implements OnInit {
 
-    defaultTemplate = { title: 'Choose template', contentType: '', relativeUrl: '', templateKey: '' };
+    defaultTemplate = { title: 'Choose template', type: '', path: '', templateKey: '' };
 
     rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
@@ -41,7 +41,7 @@ export class TemplateSelectorComponent implements OnInit {
         if (item.hasChildren) {
             this.store$.dispatch(actions.switchToChildrenTemplates({ templateKey: item.templateKey }));
         } else {
-            this.store$.dispatch(actions.selectTemplate({ templateKey: item.templateKey, contentType: item.contentType, relativeUrl: item.relativeUrl }));
+            this.store$.dispatch(actions.selectTemplate({ templateKey: item.templateKey, templateType: item.type, path: item.path }));
         }
     }
 
@@ -57,8 +57,8 @@ export class TemplateSelectorComponent implements OnInit {
         return {
             title: value.entry.name,
             templateKey: this.generateTemplateKey(value.entry),
-            contentType: value.entry.type || '',
-            relativeUrl: value.entry.path!,
+            type: value.entry.type || '',
+            path: value.entry.path!,
             hasChildren: value.entry.hasChildren,
             isDirty: !!value.state?.isDirty
         };

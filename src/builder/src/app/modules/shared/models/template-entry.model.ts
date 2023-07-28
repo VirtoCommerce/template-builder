@@ -12,6 +12,7 @@ export interface TemplateEntry {
     prototype?: string;
     disabled?: boolean;
     previewUrl: string;
+    previewRule: string;
     isDefault?: boolean | null;
     sections?: string[];
     settings?: SectionPropertyDescriptor[];

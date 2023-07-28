@@ -57,9 +57,9 @@
     "templatesListUrl": "/api/pagebuilder/templates?storeId={{location.params.storeId}}&theme={{config.themeName}}",
     "sectionsListUrl": "/api/pagebuilder/sections?storeId={{location.params.storeId}}&theme={{config.themeName}}",
     "templateUrl": {
-        "__templates": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{relativeUrl}}&type={{item.type}}",
-        "pages": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{relativeUrl}}&type=pages",
-        "blogs": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{relativeUrl}}&type=blogs"
+        "__templates": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type={{item.type}}",
+        "pages": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=pages",
+        "blogs": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=blogs"
     },
     "saveTemplates": {
         "url": "/api/pagebuilder/save?storeId={{location.params.storeId}}&theme={{config.themeName}}",

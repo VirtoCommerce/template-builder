@@ -16,14 +16,14 @@ export class TemplatesService {
     constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
     // this method requires templateId and parent to identify template, end template entry to fill out a request
-    getTemplate(relativeUrl: string, contentType: string, template: TemplateEntry): Observable<TemplateModel | null> {
-        const entry = { ...template, path: relativeUrl }
+    getTemplate(path: string, type: string, template: TemplateEntry): Observable<TemplateModel | null> {
+        const entry = { ...template, path }
         if (!entry.path) {
             return of(null);
         }
         // get template depends of its type. If no such type, use '__template' entry
-        const templateUrl = this.appConfig.getValue('templateUrl', { item: entry, contentType, relativeUrl });
-        const targetUrl = templateUrl[entry.type || contentType || '__templates'] || templateUrl['__templates'];
+        const templateUrl = this.appConfig.getValue('templateUrl', { item: entry, type, path });
+        const targetUrl = templateUrl[entry.type || type || '__templates'] || templateUrl['__templates'];
         const request = this.http.generateRequest(targetUrl, { item: entry });
         return this.http.doRequest<TemplateModel>(request, { nullWhenError: false }, null);
     }

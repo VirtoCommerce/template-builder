@@ -78,7 +78,7 @@ export const selectBlocksSchemasList = createSelector(
 const selectCurrentTemplateAllSectionsSchemasUnsorted = createSelector(
     selectSectionsSchemas,
     fromShared.selectCurrentTemplateEntry,
-    (schemas, entry) => entry.sections
+    (schemas, entry) => entry?.sections
         ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x).sort()
         : appHelpers.toList(schemas, 'type')
 );
@@ -112,7 +112,7 @@ const selectCurrentTemplateAllSectionsSchemas = createSelector(
 
 const selectCurrentTemplateEmbeddedSettingsSchemas = createSelector(
     fromShared.selectCurrentTemplateEntry,
-    (entry: TemplateEntry) => entry.settings && entry.settings.length
+    (entry: TemplateEntry) => entry?.settings && entry.settings.length
         ? <SectionSchema>{
             // todo: should it be in config?
             icon: 'construction',

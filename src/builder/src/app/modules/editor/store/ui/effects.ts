@@ -56,8 +56,8 @@ export class TemplateEditorUiEffects {
     // this redirect is necessary when we edit other page, it happens after redirect from shared module
     templateChanged$ = createEffect(() => this.actions$.pipe(
         ofType(sharedActions.templateChanged),
-        switchMap(({ contentType, relativeUrl, parent }) => [
-            routingActions.go({ path: ['/pages'], queryParams: { contentType, relativeUrl, in: parent } })
+        switchMap(({ templateType, path, parent }) => [
+            routingActions.go({ path: ['/pages'], queryParams: { type: templateType, path, parent } })
         ])
     ));
 
