@@ -1,7 +1,7 @@
 import { TemplateEntryInfo } from './../models/template-entry-info.model';
 import { createSelector } from '@ngrx/store';
 import { TemplateEntry, TemplateEntryList, TemplateEntryState } from '@shared/models';
-import { BuilderState } from './state';
+import { BuilderState, SharedState } from './state';
 
 import { selectPathParameter, selectTypeParameter, selectParentTemplateParameter, selectTemplateKeyParameter, selectPath } from '../routing';
 
@@ -66,9 +66,17 @@ function searchTemplate(templates: TemplateEntry[], childrenTemplates: TemplateE
     if (childrenTemplates) {
         return childrenTemplates[key];
     }
-    const result = templates.find(x => x.type === type && x.path === path) ||
-        templates.find(x => x.type === type && x.isDefault) ||
-        templates.find(x => x.type === type);
+    let result = templates.find(x => x.type === type && x.path === path);
+    if (result) {
+        return result;
+    }
+    result = templates.find(x => x.type === type && x.isDefault) || templates.find(x => x.type === type);
+    if (result) { // entry is a child, but it is not loaded
+        return {
+            ...result,
+            key
+        }
+    }
     return result!;
 }
 
@@ -106,9 +114,46 @@ export const isAppInitialized = createSelector(
     state => state.appInitialized
 );
 
-export const selectParentTemplateKey = createSelector(
+function searchParentTemplate(templates: TemplateEntry[],
+    stateTemplateKey: string | null,
+    type: string,
+    urlTemplateKey: string,
+    parent: string): string | null {
+    if (!!stateTemplateKey) {
+        return stateTemplateKey;
+    }
+    if (!!parent) {
+        return parent;
+    }
+    let template = templates.find(x => x.key === urlTemplateKey);
+    if (template) {
+        return urlTemplateKey;
+    }
+    template = templates.find(x => x.type === type && x.isDefault);
+    if (template) {
+        return template.key;
+    }
+    template = templates.find(x => x.type === type);
+    if (template) {
+        return template.key;
+    }
+    return null;
+}
+
+const selectParentTemplateKeyInternal = createSelector(
     selectSharedFeature,
     state => state.templateSelected
+);
+
+export const selectParentTemplateKey = createSelector(
+    selectTemplatesEntriesAsList,
+    selectParentTemplateKeyInternal,
+    selectTypeParameter,
+    selectTemplateKeyParameter,
+    selectParentTemplateParameter,
+    // state => state.templateSelected
+    (templates, stateTemplateKey, type, urlTemplateKey, parent) =>
+        searchParentTemplate(templates, stateTemplateKey, type, urlTemplateKey, parent)
 );
 
 export const selectParentTemplate = createSelector(
@@ -154,7 +199,7 @@ export const hasDirty = createSelector(
 
 export const selectChildrenTemplatesEntries = createSelector(
     selectAllChildrenTemplatesStates,
-    selectParentTemplateKey,
+    selectParentTemplateKeyInternal,
     (templates, key) => key ? (templates[key] || {}) : null
 );
 
@@ -189,13 +234,26 @@ export const selectCurrentChildrenTemplatesEntriesWithState = createSelector(
 );
 
 export const selectAllChildrenTemplatesWithState = createSelector(
+    selectParentTemplate,
     selectAllChildrenTemplatesStates,
-    states => Object.keys(states)
+    selectTypeParameter,
+    selectPathParameter,
+    (parentTemplate, states, type, path) => Object.keys(states)
         .filter(key => !!states[key].states)
         .reduce((result, key) => [
             ...result,
             ...Object.keys(states[key].states)
-                .map(child => (<TemplateEntryInfo>{ key: child, parent: key, name: `${key} → ${child}`, entry: states[key].templates?.[child], state: states[key].states?.[child] || null }))
+                .map(child => (<TemplateEntryInfo>{
+                    key: child,
+                    parent: key,
+                    name: `${key} → ${child}`,
+                    entry: states[key].templates?.[child] || {
+                        ...parentTemplate,
+                        type,
+                        path
+                    },
+                    state: states[key].states?.[child] || null
+                }))
         ], <TemplateEntryInfo[]>[])
 );
 
