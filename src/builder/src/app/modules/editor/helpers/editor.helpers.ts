@@ -295,7 +295,7 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
                 id: generateSectionId(section)
             };
             if (section.blocks) {
-                res.blocks = section.blocks.map((block, jndex) => ({
+                res.blocks = section.blocks.map((block, _) => ({
                     ...block,
                     id: generateSectionId(block)
                 }));
@@ -305,6 +305,24 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
     };
 
     return result;
+}
+
+export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | null) : TemplateModel | null {
+    // check template is array
+    if (Array.isArray(template)) {
+        // this is the old template format
+        // convert it to the new format
+        const [ settings, ...content ] = template;
+        template = { settings: settings || {}, content: content || [], version: 1 };
+    }
+    return template
+}
+
+export function prepareTemplateForSave(template: TemplateModel): SectionModel[] | TemplateModel {
+    if (template.version === 1) {
+        return [template.settings, ...template.content];
+    }
+    return template;
 }
 
 export function getSectionName(item: SectionModel | null, schema: SectionSchema | null, defaultValue: string | null = null): string {
