@@ -57,7 +57,7 @@
     "templatesListUrl": "/api/pagebuilder/templates?storeId={{location.params.storeId}}&theme={{config.themeName}}",
     "sectionsListUrl": "/api/pagebuilder/sections?storeId={{location.params.storeId}}&theme={{config.themeName}}",
     "templateUrl": {
-        "__templates": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type={{item.type}}",
+        "__templates": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type={{type}}",
         "pages": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=pages",
         "blogs": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=blogs"
     },
