@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 
 import { BuilderHttpClient, AppConfig } from '@integration/services';
-import { TemplateModel } from '@models/document';
-import { map, Observable, of } from "rxjs";
+import { SectionModel, TemplateModel } from '@models/document';
+import { Observable, map, of } from "rxjs";
 
-// import { helpers } from '@editor/helpers';
+import { helpers } from '@editor/helpers';
 import { TemplateEntry } from '@shared/models';
 import { } from '@integration/services';
 
@@ -25,11 +25,16 @@ export class TemplatesService {
         const templateUrl = this.appConfig.getValue('templateUrl', { item: entry, type, path });
         const targetUrl = templateUrl[entry.type || type || '__templates'] || templateUrl['__templates'];
         const request = this.http.generateRequest(targetUrl, { item: entry });
-        return this.http.doRequest<TemplateModel>(request, { nullWhenError: false }, null);
+        return this.http.doRequest<TemplateModel | SectionModel[]>(request, { nullWhenError: false }, null).pipe(
+            map(template =>
+                helpers.convertTemplateIntoCorrectVersion(template)
+            )
+        );
     }
 
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
-        const context = { templates };
+        const templatesToSave = templates.map(template => ({ ...template, content: helpers.prepareTemplateForSave(template.content) }));
+        const context = { templatesToSave };
         const saveTemplates = this.appConfig.getValue('saveTemplates', context);
         const request = this.http.generateRequest(saveTemplates, null, context);
         return this.http.doRequest(request);
