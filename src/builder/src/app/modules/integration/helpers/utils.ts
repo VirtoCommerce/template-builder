@@ -90,6 +90,10 @@ export function getValueByPath(model: any, path: any): any {
     return result;
 }
 
+export function stripHtmlTags(str: string) {
+    return str.replace(/<[^>]*>/g, ' ');
+}
+
 export function combine(...parts: string[]): string {
     const result = parts.reduce((acc, part, index) => {
         if (!part) {

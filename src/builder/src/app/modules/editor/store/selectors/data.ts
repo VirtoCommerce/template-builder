@@ -159,7 +159,7 @@ export const selectSectionModelFromRoute = createSelector(
     fromRoute.selectSectionIdParameter,
     selectCurrentTemplateModel,
     (sectionId, template) => sectionId
-        ? template?.content.find(x => x.id === sectionId)
+        ? template?.content.find(x => x.id == sectionId)
         : null
 );
 

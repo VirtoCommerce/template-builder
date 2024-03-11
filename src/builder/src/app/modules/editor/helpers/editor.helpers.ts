@@ -114,7 +114,7 @@ export function generatePreviewBySchema(schema: SectionSchema): SectionModel {
 }
 
 export function applySectionChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     const section = template.content[sectionIndex];
     return {
         ...template,
@@ -326,20 +326,21 @@ export function prepareTemplateForSave(template: TemplateModel): SectionModel[] 
 }
 
 export function getSectionName(item: SectionModel | null, schema: SectionSchema | null, defaultValue: string | null = null): string {
+    let resultName = defaultValue || schema?.name || item?.type || '[no name]';
     if (!!schema && !!item) {
         if (schema.displayField) {
-            const result = item[schema.displayField];
+            const result = appHelpers.getValueByPath(item, schema.displayField);
             if (!!result) {
-                return <string>result;
+                resultName = <string>result;
             }
         } else {
             const result = <string>item['name'];
             if (!!result) {
-                return result;
+                resultName = result;
             }
         }
     }
-    return defaultValue || schema?.name || item?.type || '[no name]';
+    return appHelpers.stripHtmlTags(resultName);
 }
 
 export function insertBlock(template: TemplateModel, sectionId: string, blockId: string | null, block: SectionModel, direction: number): {

@@ -14,8 +14,8 @@
             </div>
             <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
                 <ng-container *ngFor="let section of vm.template!.content">
-                    <app-collapsible-list-item [expandable]="vm.sectionsState[section.id]?.canHaveChildren || false"
-                                               [opened]="vm.sectionsState[section.id]?.expanded || false"
+                    <app-collapsible-list-item [expandable]="$any(vm.sectionsState)[section.id]?.canHaveChildren || false"
+                                               [opened]="$any(vm.sectionsState)[section.id]?.expanded || false"
                                                cdkDragBoundary=".ps"
                                                cdkDragLockAxis="y"
                                                cdkDrag
