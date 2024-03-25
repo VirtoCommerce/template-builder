@@ -11,9 +11,8 @@ export const editorDataReducers = createReducer<EditorDataState>(
     on(actions.loadTemplateModelSuccess, (state, { template, templateKey }) => ({ ...state, templates: { ...state.templates, [templateKey]: template } })),
     on(actions.updateTemplateAction, (state, { templateKey, template }) => ({
         ...state, templates: { ...state.templates, [templateKey]: template }
-    }))
+    })),
     // on(actions.presetsTileMode, (state) => ({ ...state, mode: 'tile' })),
-
     // on(actions.applyPresetsFilter, (state, { filter }) => ({ ...state, presetsFilter: filter })),
 
 );

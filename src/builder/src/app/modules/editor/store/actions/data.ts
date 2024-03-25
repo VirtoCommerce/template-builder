@@ -10,6 +10,10 @@ export const loadTemplateModel = createAction('[template editor] load template m
 export const loadTemplateModelSuccess = createAction('[template editor] load template model success', props<{ template: TemplateModel, templateKey: string }>());
 export const loadTemplateModelFails = createAction('[template editor] load template model fails', props<{ error: HttpErrorResponse, templateKey: string }>());
 
+export const getTemplatePublishStatus = createAction('[template editor] get template publish status', props<{ templateKey: string }>());
+export const getTemplatePublishStatusSuccess = createAction('[template editor] get template publish status success', props<{ templateKey: string, hasChanges: boolean, published: boolean }>());
+export const getTemplatePublishStatusFails = createAction('[template editor] get template publish status fails', props<{ error: HttpErrorResponse, templateKey: string }>());
+
 export const loadTemplateSchemas = createAction('[template editor] load template schemas');
 export const loadTemplateSchemasSuccess = createAction('[template editor] load template schemas success', props<{ schemas: SchemasList | null }>());
 export const loadTemplateSchemasFails = createAction('[template editor] load template schemas fails', props<{ error: HttpErrorResponse }>());

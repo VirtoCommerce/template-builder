@@ -171,13 +171,15 @@ export const changeTemplateContext = createSelector(
         ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry })
 );
 
-export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
+export const selectToolbarButtonsState = (useTheme: boolean, useDrafts: boolean) => createSelector(
     // fromDomain.selectCurrentTemplateState,
     fromShared.hasDirty,
+    fromDomain.selectCurrentTemplateState,
     // todo: undo
     // todo: redo
     // todo: have settings
-    isDirty => {
+    (hasDirty, state) => {
+        console.log(state);
         const result = <ActionButtonDescriptor[][]>[];
         if (useTheme) {
             result.push([
@@ -187,6 +189,25 @@ export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
                     title: 'Theme settings',
                     type: 'outline'
                 }
+            ]);
+        }
+
+        if (useDrafts && !state?.isLoading && !state?.error) {
+            result.push([
+                {
+                    canAction: !hasDirty && state?.published && !state?.hasChanges,
+                    icon: 'unpublished',
+                    alias: 'unpublish',
+                    title: 'Unpublish',
+                    type: 'outline'
+                },
+                {
+                    canAction: !hasDirty && state?.hasChanges,
+                    icon: 'publish',
+                    alias: 'publish',
+                    title: 'Publish',
+                    type: 'outline'
+                },
             ]);
         }
 
@@ -212,7 +233,7 @@ export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
 
         result.push([
             {
-                canAction: isDirty,
+                canAction: hasDirty,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'

@@ -102,6 +102,7 @@ export class TemplateEditorDataEffects {
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap(template => [
+                actions.getTemplatePublishStatus({ templateKey }),
                 actions.loadTemplateModelSuccess({ template, templateKey }),
                 broadcastMessage({
                     msg: {
@@ -122,6 +123,20 @@ export class TemplateEditorDataEffects {
         ))
     ));
 
+    getTemplatePublishStatus$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.getTemplatePublishStatus),
+        withLatestFrom(
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
+            this.store$.select(fromRoute.selectPathParameter),
+            this.store$.select(fromRoute.selectTypeParameter)
+        ),
+        switchMap(([{ templateKey }, entry, path, type]) => this.templates.getTemplatePublishStatus(path, type, entry).pipe(
+            filter(status => !!status),
+            map(({ hasChanges, published }) => actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges, published })),
+            catchError(error => of(actions.getTemplatePublishStatusFails({ error, templateKey })))
+        ))
+    ));
+
     // saveTemplates$ = createEffect(() => this.actions$.pipe(
     //     ofType(actions.executeToolbarAction),
     //     filter(({ action }) => action === 'save-new'),
@@ -136,6 +151,34 @@ export class TemplateEditorDataEffects {
     //         );
     //     })
     // ));
+
+    publishTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'publish'),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectTemplateKeyParameter),
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
+            this.store$.select(fromRoute.selectPathParameter),
+            this.store$.select(fromRoute.selectTypeParameter)
+        ),
+        switchMap(([, templateKey, entry, path, type]) => this.templates.publishTemplate(path, type, entry).pipe(
+            map(() => actions.getTemplatePublishStatus({ templateKey }))
+        ))
+    ));
+
+    unpublishTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'unpublish'),
+        withLatestFrom(
+            this.store$.select(fromRoute.selectTemplateKeyParameter),
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
+            this.store$.select(fromRoute.selectPathParameter),
+            this.store$.select(fromRoute.selectTypeParameter)
+        ),
+        switchMap(([, templateKey, entry, path, type]) => this.templates.unpublishTemplate(path, type, entry).pipe(
+            map(() => actions.getTemplatePublishStatus({ templateKey }))
+        ))
+    ));
 
     saveTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeToolbarAction),
@@ -172,7 +215,10 @@ export class TemplateEditorDataEffects {
         ofType(actions.saveTemplates),
         switchMap(({ templates }) => {
             return this.templates.saveTemplates(templates).pipe(
-                switchMap(() => templates.map(x => actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }))),
+                switchMap(() => templates.map(x => [
+                    actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }),
+                    actions.getTemplatePublishStatus({ templateKey: x.info.key })
+                ]).flatMap(x => x)),
                 catchError(error => of(actions.saveTemplateFails({ error })))
             );
         })

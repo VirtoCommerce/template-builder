@@ -89,15 +89,15 @@ export const selectCurrentTemplateEntry = createSelector(
     (templates, childrenTemplates, type, path, key) => searchTemplate(templates, childrenTemplates, type, path, key)
 );
 
-export const selectCurrentTemplateState = createSelector(
-    selectSharedFeature,
-    selectParentTemplateParameter,
-    selectTemplateKeyParameter,
-    (state, parent, key) => (parent
-        ? state.childrenTemplatesState[parent]?.states?.[key]
-        : state.entriesStates[key])
-        || {}
-);
+// export const selectCurrentTemplateState = createSelector(
+//     selectSharedFeature,
+//     selectParentTemplateParameter,
+//     selectTemplateKeyParameter,
+//     (state, parent, key) => (parent
+//         ? state.childrenTemplatesState[parent]?.states?.[key]
+//         : state.entriesStates[key])
+//         || {}
+// );
 
 export const selectTemplatesEntriesLoading = createSelector(
     selectSharedFeature,

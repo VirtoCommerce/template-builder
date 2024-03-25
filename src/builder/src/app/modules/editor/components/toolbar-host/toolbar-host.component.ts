@@ -14,7 +14,10 @@ import * as selectors from '@editor/store/selectors';
 })
 export class ToolbarHostComponent implements OnInit {
 
-    panels$ = this.store$.select(selectors.selectToolbarButtonsState(!this.appConfig.getValue('skipTheme')));
+    panels$ = this.store$.select(selectors.selectToolbarButtonsState(
+        !this.appConfig.getValue('skipTheme'),
+        !!this.appConfig.getValue('publish'),
+    ));
 
     constructor(
         private store$: Store<BuilderState>,

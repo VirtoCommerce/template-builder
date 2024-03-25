@@ -45,5 +45,17 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
                 }
             }
         })
-    )
+    ),
+    on(actions.getTemplatePublishStatusSuccess, (state, { templateKey, hasChanges, published }) => ({
+        ...state,
+        states: {
+            ...state.states,
+            [templateKey]: {
+                ...state.states[templateKey],
+                hasChanges,
+                published
+            }
+        }
+    })),
+
 );
