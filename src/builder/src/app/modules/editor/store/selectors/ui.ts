@@ -179,7 +179,6 @@ export const selectToolbarButtonsState = (useTheme: boolean, useDrafts: boolean)
     // todo: redo
     // todo: have settings
     (hasDirty, state) => {
-        console.log(state);
         const result = <ActionButtonDescriptor[][]>[];
         if (useTheme) {
             result.push([

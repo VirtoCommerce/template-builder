@@ -57,6 +57,14 @@ export class TemplateEditorDomainEffects {
 
             const fullSchema = editorHelpers.prepareSchema(schema, shared, objects, sharedSchemaName);
             const result = editorHelpers.addItemToTemplate(fullSchema, template!, section || null); // section can be null
+            const message = sharedActions.broadcastMessage({
+                msg: {
+                    type: 'add',
+                    template: result.template,
+                    section: result.template.content.find(x => x.id === result.sectionId),
+                    sectionId: result.sectionId
+                }
+            });
             return [
                 actions.updateTemplateAction({
                     template: result.template,
@@ -65,7 +73,8 @@ export class TemplateEditorDomainEffects {
                 actions.closeAddItemPanel(),
                 result.blockId
                     ? actions.editBlockAction({ blockId: result.blockId, sectionId: result.sectionId })
-                    : actions.editSectionAction({ sectionId: result.sectionId })
+                    : actions.editSectionAction({ sectionId: result.sectionId }),
+                message,
             ]
         })
     ));
@@ -217,15 +226,27 @@ export class TemplateEditorDomainEffects {
         ]),
         switchMap(([, template, templateKey, sectionId, blockId]) =>
             this.modals.confirm('Are you sure you want to delete this item?').pipe(
-                map(confirmed => confirmed
-                    ? actions.updateTemplateAction({
-                        template: blockId
-                            ? editorHelpers.removeBlock(template!, sectionId, blockId)
-                            : editorHelpers.removeSection(template!, sectionId),
-                        templateKey
-                    })
-                    : sharedActions.empty()
-                )
+                switchMap(confirmed => {
+                    const newTemplate = blockId
+                        ? editorHelpers.removeBlock(template!, sectionId, blockId)
+                        : editorHelpers.removeSection(template!, sectionId);
+                    return confirmed
+                        ? [
+                            actions.updateTemplateAction({
+                                template: newTemplate,
+                                templateKey
+                            }),
+                            sharedActions.broadcastMessage({
+                                msg: {
+                                    type: blockId ? 'update' : 'remove',
+                                    sectionId: sectionId,
+                                    section: newTemplate.content.find(x => x.id === sectionId),
+                                    template: newTemplate,
+                                }
+                            })
+                        ]
+                        : [sharedActions.empty()]
+                })
             ))
     ));
 

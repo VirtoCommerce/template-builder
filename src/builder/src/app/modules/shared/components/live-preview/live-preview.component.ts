@@ -50,11 +50,11 @@ export class LivePreviewComponent implements OnInit {
         // + preview
         // + select
         // + changed - update
-        // - add
+        // + add
+        // + remove
         // - clone
-        // - reload
-        // - remove
         // - swap
+        // - reload
         // - hide - not necessary
         // - show - not necessary
 

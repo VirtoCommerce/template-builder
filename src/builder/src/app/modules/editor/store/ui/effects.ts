@@ -75,7 +75,7 @@ export class TemplateEditorUiEffects {
     ));
 
     navigateToEditSection$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.editSectionAction),
+        ofType(actions.editSectionAction, sharedActions.selectSection),
         switchMap(({ sectionId }) => [
             routingActions.go({ path: ['/pages', sectionId] })
         ])
@@ -111,6 +111,7 @@ export class TemplateEditorUiEffects {
                 msg: {
                     type: 'changed',
                     template, section, block,
+                    sectionId: section?.id,
                     ...entry?.previewMessage
                 }
             }),

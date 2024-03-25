@@ -6,12 +6,12 @@ export class SwapHandler extends BaseHandler {
     readonly key = 'swap';
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
-        const vm = list[msg.content.currentIndex];
-        list.splice(msg.content.currentIndex, 1);
-        list.splice(msg.content.newIndex, 0, vm);
-        if (list[msg.content.currentIndex].element.parentElement === list[msg.content.newIndex].element.parentElement) {
+        const vm = list[msg.section.currentIndex];
+        list.splice(msg.section.currentIndex, 1);
+        list.splice(msg.section.newIndex, 0, vm);
+        if (list[msg.section.currentIndex].element.parentElement === list[msg.section.newIndex].element.parentElement) {
             vm.element.remove();
-            this.renderer.insert(vm, msg.content.newIndex);
+            this.renderer.insert(vm, msg.section.newIndex);
         }
     }
 }

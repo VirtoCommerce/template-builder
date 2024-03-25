@@ -17,7 +17,7 @@ export class MessagesService {
     }
 
     blockHover(model) {
-        this.send('hover', { id: model.id });
+        this.send('hover', { sectionId: model.id });
     }
 
     swapBlocks(args) {
@@ -25,7 +25,7 @@ export class MessagesService {
     }
 
     selectBlock(model: MessageContent) {
-        this.send('select', model ? { id: model.id } : null);
+        this.send('select', model ? { sectionId: model.id } : null);
     }
 
     sendMessage(model) {

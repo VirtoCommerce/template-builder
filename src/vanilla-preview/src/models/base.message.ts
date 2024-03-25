@@ -1,7 +1,8 @@
 export interface BaseMessage {
     type: string;
+    sectionId: number;
     template?: TemplateContent;
-    content: MessageContent;
+    section?: MessageContent;
 }
 
 export interface TemplateContent {

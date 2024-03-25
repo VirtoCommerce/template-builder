@@ -8,8 +8,8 @@ export class SelectHandler extends BaseHandler {
     execute(msg: BaseMessage, list: BlockViewModel[]) {
         this.deselectAll(list);
         this.clearPreview(list);
-        const content = msg.content;
-        if (content.id === 0) {
+        console.log(msg);
+        if (msg.sectionId === 0) {
             this.renderer.select();
         } else {
             super.execute(msg, list);

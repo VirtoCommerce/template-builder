@@ -18,6 +18,7 @@ export class EventsDispatcher {
     run() {
         window.addEventListener('message', (event: MessageEvent) => {
             if (event.data) {
+                console.log(event.data);
                 this.handleEvent(event.data)
             }
         });
@@ -25,11 +26,11 @@ export class EventsDispatcher {
 
     selectBlock(vm: BlockViewModel) {
         if (!!vm && vm.source) {
-            this.handleEvent({ type: 'select', content: vm.source });
+            this.handleEvent({ type: 'select', sectionId: vm.source.id });
             this.messages.selectBlock(vm.source);
             vm.selected = false;
         } else {
-            this.handleEvent({ type: 'select', content: { id: 0 } });
+            this.handleEvent({ type: 'select', sectionId: 0 });
             this.messages.selectBlock(null);
             if (!!vm) {
                 vm.selected = true;

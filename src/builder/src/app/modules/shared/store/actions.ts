@@ -39,4 +39,5 @@ export const broadcastMessage = createAction('[shared] broadcast message', props
 export const showNotification = createAction('[shared] show notification', props<{ message: string, msgType: 'error'|'success'|'info'|'warning', top?: boolean }>());
 
 export const previewLoaded = createAction('[shared] preview loaded');
+export const selectSection = createAction('[shared] select section', props<{ sectionId: number }>());
 export const setWindowTitle = createAction('[shared] set window title', props<{ title: string | null }>());

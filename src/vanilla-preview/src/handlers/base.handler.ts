@@ -12,9 +12,9 @@ export abstract class BaseHandler implements MessageHandler {
     }
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
-        let vm = this.getViewModel(msg.content.id, list);
+        let vm = this.getViewModel(msg.sectionId, list);
         if (!vm) {
-            vm = this.createViewModel(msg.content);
+            vm = this.createViewModel(msg.section);
         }
         this.executeInternal(msg, list, vm);
     }

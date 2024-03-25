@@ -239,6 +239,11 @@ export class SharedEffects {
         map(() => actions.previewLoaded())
     ));
 
+    selectSectionMessage$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
+        filter((event: MessageEvent) => event.data.source === 'preview' && event.data.type === 'select'),
+        map(({ data }) => actions.selectSection({ sectionId: data.sectionId }))
+    ));
+
     previewLoaded$ = createEffect(() => this.actions$.pipe(
         ofType(actions.previewLoaded),
         tap(() => this.eventsBus.emit({ type: 'preview-loaded' })),
