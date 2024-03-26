@@ -14,7 +14,7 @@ export abstract class BaseHandler implements MessageHandler {
     execute(msg: BaseMessage, list: BlockViewModel[]) {
         let vm = this.getViewModel(msg.sectionId, list);
         if (!vm) {
-            vm = this.createViewModel(msg.section);
+            vm = this.createViewModel(msg);
         }
         this.executeInternal(msg, list, vm);
     }
@@ -28,28 +28,29 @@ export abstract class BaseHandler implements MessageHandler {
         });
     }
 
-    protected generateId(id: number) {
+    protected generateId(id: string) {
         if (id) {
             return `instance${id}`;
         }
         return 'preview-instance';
     }
 
-    protected createViewModel(content: MessageContent, isPreview = false): BlockViewModel {
+    protected createViewModel(msg: BaseMessage, isPreview = false): BlockViewModel {
         const result = new BlockViewModel();
         Object.assign(result, {
-            id: this.generateId(content.id),
-            source: content,
+            id: this.generateId(msg.section.id),
+            source: msg.section,
             element: null,
             isPreview: isPreview,
+            index: msg.index,
             htmlString: null,
             selected: false,
-            hidden: !!content.hidden
+            hidden: !!msg.section.hidden
         });
         return result;
     }
 
-    protected getViewModel(id: number, list: BlockViewModel[]): BlockViewModel {
+    protected getViewModel(id: string, list: BlockViewModel[]): BlockViewModel {
         const internalId = this.generateId(id);
         return list.find(x => x.id === internalId);
     }

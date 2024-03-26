@@ -9,7 +9,7 @@ export class SelectHandler extends BaseHandler {
         this.deselectAll(list);
         this.clearPreview(list);
         console.log(msg);
-        if (msg.sectionId === 0) {
+        if (msg.sectionId === null) {
             this.renderer.select();
         } else {
             super.execute(msg, list);

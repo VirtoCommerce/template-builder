@@ -100,13 +100,13 @@ export class PreviewInteractor {
     private createSelectElement(): HTMLElement {
         const result = this.createShadowElement();
         result.style.border = `${this.borderWidth}px solid #33ada9`;
-        result.addEventListener('click', (event) => {
-            const dispatcher = ServiceLocator.getDispatcher();
-            dispatcher.selectBlock(null);
-        });
-        result.addEventListener('mousedown', (event: MouseEvent) => {
-            this.dnd.mouseDown(event, this.selectedViewModel);
-        });
+        // result.addEventListener('click', (event) => {
+        //     const dispatcher = ServiceLocator.getDispatcher();
+        //     dispatcher.selectBlock(null);
+        // });
+        // result.addEventListener('mousedown', (event: MouseEvent) => {
+        //     this.dnd.mouseDown(event, this.selectedViewModel);
+        // });
         this.selectElement = result;
         return result;
     }

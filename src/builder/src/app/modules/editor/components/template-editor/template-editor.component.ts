@@ -22,6 +22,7 @@ export class TemplateEditorComponent implements OnInit {
 
     viewModel$ = this.store.select(fromState.editTemplateContext);
 
+    hoveredSectionId$ = this.store.select(fromState.hoveredSectionId);
     templateName$ = this.store.select(fromState.selectCurrentTemplateName);
     // templateKeyParameter$ = this.store.select(fromRoute.selectTemplateKeyParameter);
 
@@ -54,6 +55,11 @@ export class TemplateEditorComponent implements OnInit {
     onSectionClick(section: SectionModel) {
         this.store.dispatch(actions.editSectionAction({ sectionId: section.id }));
     }
+
+    onSectionHover(section: SectionModel) {
+        this.store.dispatch(actions.hoverSection({ sectionId: section.id }));
+    }
+
     onBlockClick(section: SectionModel, block: SectionModel) {
         this.store.dispatch(actions.editBlockAction({ sectionId: section.id, blockId: block.id }));
     }

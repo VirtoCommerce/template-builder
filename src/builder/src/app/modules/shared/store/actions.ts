@@ -41,3 +41,4 @@ export const showNotification = createAction('[shared] show notification', props
 export const previewLoaded = createAction('[shared] preview loaded');
 export const selectSection = createAction('[shared] select section', props<{ sectionId: number }>());
 export const setWindowTitle = createAction('[shared] set window title', props<{ title: string | null }>());
+export const previewSectionHovered = createAction('[shared] preview section hovered', props<{ sectionId: string | null }>());

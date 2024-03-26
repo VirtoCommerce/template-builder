@@ -8,8 +8,8 @@ export class PageHandler extends BaseHandler {
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
         const blocks = msg.template.content;
-        blocks.forEach(x => {
-            const vm = this.createViewModel(x);
+        blocks.forEach((x, index) => {
+            const vm = this.createViewModel({ section: x, index, type: '', sectionId: x.id });
             list.push(vm);
         });
         Promise.all(list.map(x => {

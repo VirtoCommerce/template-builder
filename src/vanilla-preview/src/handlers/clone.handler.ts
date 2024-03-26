@@ -6,11 +6,12 @@ export class CloneHandler extends BaseHandler {
     readonly key = 'clone';
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
+        // logic is broken here, this handler isn't used now
         this.deselectAll(list);
         const source = this.getViewModel(msg.section.source, list);
 
         const model = { ...source.source, id: msg.section.destination };
-        const clone = this.createViewModel(model);
+        const clone = this.createViewModel({ section: model, type: '', sectionId: model.id });
         clone.htmlString = source.htmlString;
         clone.hidden = source.hidden;
         clone.selected = true;

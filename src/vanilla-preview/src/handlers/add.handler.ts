@@ -8,7 +8,7 @@ export class AddHandler extends BaseHandler {
 
     protected executeInternal(msg: BaseMessage, list: BlockViewModel[], vm: BlockViewModel) {
         this.clearPreview(list);
-        const index = vm.source.__index || null;
+        const index = vm.index || null;
         if (index === null) {
             list.push(vm);
         } else {

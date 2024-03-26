@@ -1,8 +1,9 @@
 export interface BaseMessage {
     type: string;
-    sectionId: number;
+    sectionId: string;
     template?: TemplateContent;
     section?: MessageContent;
+    index?: number;
 }
 
 export interface TemplateContent {
@@ -11,12 +12,11 @@ export interface TemplateContent {
 }
 
 export interface MessageContent {
-    id?: number;
-    __index?: number;
+    id?: string;
 
     // clone
-    source?: number;
-    destination?: number;
+    source?: string;
+    destination?: string;
 
     // swap
     currentIndex?: number;

@@ -106,19 +106,22 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectSectionModelFromRoute),
             this.store$.select(selectors.selectBlockModelFromRoute)
         ),
-        switchMap(([, template, entry, parentKey, section, block]) => [
-            broadcastMessage({
+        switchMap(([, template, entry, parentKey, section, block]) => {
+            const message = section ? [broadcastMessage({
                 msg: {
                     type: 'changed',
                     template, section, block,
                     sectionId: section?.id,
                     ...entry?.previewMessage
                 }
-            }),
-            parentKey
-                ? sharedActions.setDirtyState({ parentKey: parentKey, templateKey: entry.key, dirty: true })
-                : sharedActions.setRootDirtyState({ templateKey: entry.key, dirty: true })
-        ])
+            })] : [];
+            return [
+                ...message,
+                parentKey
+                    ? sharedActions.setDirtyState({ parentKey: parentKey, templateKey: entry.key, dirty: true })
+                    : sharedActions.setRootDirtyState({ templateKey: entry.key, dirty: true })
+            ];
+        })
     ));
 
     navigateToThemeSettings$ = createEffect(() => this.actions$.pipe(
@@ -166,6 +169,18 @@ export class TemplateEditorUiEffects {
                 }
             })
         })
+    ));
+
+    hoverSection$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.hoverSection),
+        map(({ sectionId }) =>
+            broadcastMessage({
+                msg: {
+                    type: 'hover',
+                    sectionId
+                }
+            })
+        )
     ));
 
     scrollToSectionInPreview$ = createEffect(() => this.actions$.pipe(

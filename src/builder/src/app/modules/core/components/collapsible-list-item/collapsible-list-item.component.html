@@ -1,4 +1,4 @@
-<div class="item-holder">
+<div class="item-holder" [ngClass]="{ 'hovered': hovered }">
     <app-chevron [ngStyle]="{ visibility: expandable ? 'visible' : 'hidden' }" (click)="onChevronClick()" [opened]="opened"></app-chevron>
     <ng-content select="[item]"></ng-content>
 </div>

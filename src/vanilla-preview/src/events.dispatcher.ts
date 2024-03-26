@@ -30,7 +30,7 @@ export class EventsDispatcher {
             this.messages.selectBlock(vm.source);
             vm.selected = false;
         } else {
-            this.handleEvent({ type: 'select', sectionId: 0 });
+            this.handleEvent({ type: 'select', sectionId: null });
             this.messages.selectBlock(null);
             if (!!vm) {
                 vm.selected = true;

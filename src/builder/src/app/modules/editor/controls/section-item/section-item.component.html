@@ -1,6 +1,7 @@
 <div class="section-item"
      [ngClass]="{'hidden': section.hidden}"
      (click)="onItemClick()"
+     (mouseover)="onItemHover()"
      (mouseenter)="isHover = true"
      (mouseleave)="isHover = false">
     <app-icon>{{ getSectionIcon() }}</app-icon>

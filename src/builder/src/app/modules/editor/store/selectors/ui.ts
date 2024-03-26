@@ -29,6 +29,11 @@ export const selectAddItemTitle = createSelector(
     }
 );
 
+export const hoveredSectionId = createSelector(
+    selectTemplateUIState,
+    state => state.hoveredSectionId
+);
+
 export const isLoading = createSelector(
     selectTemplateUIState,
     state => state.isTemplateLoading || state.isSchemasLoading

@@ -16,6 +16,7 @@
                 <ng-container *ngFor="let section of vm.template!.content">
                     <app-collapsible-list-item [expandable]="$any(vm.sectionsState)[section.id]?.canHaveChildren || false"
                                                [opened]="$any(vm.sectionsState)[section.id]?.expanded || false"
+                                               [hovered]="(hoveredSectionId$ | async) == section.id"
                                                cdkDragBoundary=".ps"
                                                cdkDragLockAxis="y"
                                                cdkDrag
@@ -27,6 +28,7 @@
                                 <app-section-item [sectionSchema]="vm.sectionsSchemas![section.type]"
                                                   [section]="section"
                                                   (itemClick)="onSectionClick(section)"
+                                                  (itemHover)="onSectionHover(section)"
                                                   (actionClick)="onActionClick($event, section)">
                                 </app-section-item>
                                 <app-drag-handle cdkDragHandle></app-drag-handle>
@@ -44,7 +46,7 @@
             </div>
             <div class="settings-container bottom"
                  *ngIf="vm.settingsSchemas?.bottom && vm.settingsSchemas?.bottom?.length">
-                 <ng-container *ngFor="let schema of vm.settingsSchemas.bottom">
+                <ng-container *ngFor="let schema of vm.settingsSchemas.bottom">
                     <app-section-item class="static-item"
                                       [sectionSchema]="schema"
                                       [section]="vm.settings"

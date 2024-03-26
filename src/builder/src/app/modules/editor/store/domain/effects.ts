@@ -135,7 +135,24 @@ export class TemplateEditorDomainEffects {
             const changedTemplate = blockId
                 ? editorHelpers.duplicateBlock(template!, sectionId, blockId)
                 : editorHelpers.duplicateSection(template!, sectionId);
+            const message = sharedActions.broadcastMessage({
+                msg: blockId
+                ? {
+                    type: 'changed',
+                    template: changedTemplate.template,
+                    section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
+                    sectionId: changedTemplate.sectionId
+                }
+                : {
+                    type: 'add',
+                    template: changedTemplate.template,
+                    section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
+                    sectionId: changedTemplate.sectionId,
+                    index: changedTemplate.template.content.findIndex(x => x.id === changedTemplate.sectionId),
+                }
+            });
             return [
+                message,
                 actions.updateTemplateAction({
                     template: changedTemplate.template,
                     templateKey

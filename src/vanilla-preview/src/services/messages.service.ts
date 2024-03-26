@@ -43,7 +43,7 @@ export class MessagesService {
     private send(message: string, model) {
         const msg = { type: message, source: 'preview', ...model };
         // todo: only in debug mode
-        // console.log('preview->builder:', msg)
+        console.log('preview->builder:', msg)
         window.parent.postMessage(msg, this.parentOrigin);
     }
 }
