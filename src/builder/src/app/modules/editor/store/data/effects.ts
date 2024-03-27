@@ -156,12 +156,9 @@ export class TemplateEditorDataEffects {
         ofType(actions.executeToolbarAction),
         filter(({ action }) => action === 'publish'),
         withLatestFrom(
-            this.store$.select(fromRoute.selectTemplateKeyParameter),
-            this.store$.select(fromShared.selectCurrentTemplateEntry),
-            this.store$.select(fromRoute.selectPathParameter),
-            this.store$.select(fromRoute.selectTypeParameter)
+            this.store$.select(selectors.selectRunActionContext),
         ),
-        switchMap(([, templateKey, entry, path, type]) => this.templates.publishTemplate(path, type, entry).pipe(
+        switchMap(([, { templateKey, entry, path, type }]) => this.templates.publishTemplate(path, type, entry).pipe(
             map(() => actions.getTemplatePublishStatus({ templateKey }))
         ))
     ));
@@ -170,15 +167,21 @@ export class TemplateEditorDataEffects {
         ofType(actions.executeToolbarAction),
         filter(({ action }) => action === 'unpublish'),
         withLatestFrom(
-            this.store$.select(fromRoute.selectTemplateKeyParameter),
-            this.store$.select(fromShared.selectCurrentTemplateEntry),
-            this.store$.select(fromRoute.selectPathParameter),
-            this.store$.select(fromRoute.selectTypeParameter)
+            this.store$.select(selectors.selectRunActionContext),
         ),
-        switchMap(([, templateKey, entry, path, type]) => this.templates.unpublishTemplate(path, type, entry).pipe(
+        switchMap(([, { templateKey, entry, path, type }]) => this.templates.unpublishTemplate(path, type, entry).pipe(
             map(() => actions.getTemplatePublishStatus({ templateKey }))
         ))
     ));
+
+    externalPreviewAction$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'external-preview'),
+        withLatestFrom(
+            this.store$.select(selectors.selectRunActionContext),
+        ),
+        tap(([, { entry, path, type }]) => this.templates.externalPreview(path, type, entry))
+    ), { dispatch: false });
 
     saveTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeToolbarAction),

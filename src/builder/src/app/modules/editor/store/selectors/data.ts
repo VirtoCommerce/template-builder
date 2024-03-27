@@ -241,3 +241,11 @@ export const selectGroupedSectionSchemas = createSelector(
         }
     }
 );
+
+export const selectRunActionContext = createSelector(
+    fromRoute.selectTemplateKeyParameter,
+    fromShared.selectCurrentTemplateEntry,
+    fromRoute.selectPathParameter,
+    fromRoute.selectTypeParameter,
+    (templateKey, entry, path, type) => ({ templateKey, entry, path, type })
+);

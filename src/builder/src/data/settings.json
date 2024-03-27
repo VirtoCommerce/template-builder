@@ -79,6 +79,9 @@
             "method": "POST"
         }
     },
+    "externalPreview": {
+        "url": "{{settings.storefrontUrl}}/pages?path={{path}}"
+    },
     "settingsDataRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{settings.settingsPath}}&type=themes",
     "settingsSchemaRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{config.themeName}}/config/settings_schema.json&type=themes",
     "saveSettings": {

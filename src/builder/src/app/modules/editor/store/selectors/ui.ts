@@ -176,7 +176,7 @@ export const changeTemplateContext = createSelector(
         ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry })
 );
 
-export const selectToolbarButtonsState = (useTheme: boolean, useDrafts: boolean) => createSelector(
+export const selectToolbarButtonsState = (context: { useTheme: boolean, useDrafts: boolean, useExternalPreview: boolean }) => createSelector(
     // fromDomain.selectCurrentTemplateState,
     fromShared.hasDirty,
     fromDomain.selectCurrentTemplateState,
@@ -185,7 +185,7 @@ export const selectToolbarButtonsState = (useTheme: boolean, useDrafts: boolean)
     // todo: have settings
     (hasDirty, state) => {
         const result = <ActionButtonDescriptor[][]>[];
-        if (useTheme) {
+        if (context.useTheme) {
             result.push([
                 {
                     icon: 'settings',
@@ -196,7 +196,19 @@ export const selectToolbarButtonsState = (useTheme: boolean, useDrafts: boolean)
             ]);
         }
 
-        if (useDrafts && !state?.isLoading && !state?.error) {
+        if (context.useExternalPreview) {
+            result.push([
+                {
+                    canAction: !hasDirty,
+                    icon: 'external',
+                    alias: 'external-preview',
+                    title: 'Preview',
+                    type: 'outline'
+                }
+            ]);
+        }
+
+        if (context.useDrafts && !state?.isLoading && !state?.error) {
             result.push([
                 {
                     canAction: !hasDirty && state?.published && !state?.hasChanges,

@@ -55,6 +55,12 @@ export class TemplatesService {
         return this.http.doRequest(request, { nullWhenError: false }, null);
     }
 
+    externalPreview(path: string, type: string, entry: TemplateEntry) {
+        const previewUrl = this.appConfig.getValue('externalPreview', { item: entry, type, path });
+        // open new tab with the previewUrl
+        window.open(previewUrl.url, '_blank');
+    }
+
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
         const templatesToSave = templates.map(template => ({ ...template, content: helpers.prepareTemplateForSave(template.content) }));
         const context = { templatesToSave };
