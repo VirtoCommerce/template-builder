@@ -140,9 +140,9 @@ export function applySettingsChanges(template: TemplateModel, changes: Partial<S
 }
 
 export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id == blockId);
     const block = section.blocks[blockIndex];
     const newSection = {
         ...section,
@@ -173,9 +173,9 @@ export function duplicateBlock(
         sectionId: string,
         blockId: string
     } {
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id == blockId);
     const block = section.blocks[blockIndex];
     const newBlock = { ...block, id: generateSectionId(block, true) };
     const newSection = {
@@ -205,7 +205,7 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
     sectionId: string,
     blockId?: string
 } {
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     const section = template.content[sectionIndex];
     const newSection = { ...section, id: generateSectionId(section, true) };
     return {
@@ -222,9 +222,9 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
 }
 
 export function removeBlock(template: TemplateModel, sectionId: string, blockId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id == blockId);
     const newSection = {
         ...section,
         blocks: [
@@ -243,7 +243,7 @@ export function removeBlock(template: TemplateModel, sectionId: string, blockId:
 }
 
 export function removeSection(template: TemplateModel, sectionId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     return {
         ...template,
         content: [
@@ -354,10 +354,10 @@ export function insertBlock(template: TemplateModel, sectionId: string, blockId:
         id: generateSectionId(block, true)
     };
 
-    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     if (sectionIndex !== -1) {
         const section = template.content[sectionIndex];
-        const blockIndex = direction === -1 ? -1 : section.blocks.findIndex(item => item.id === blockId);
+        const blockIndex = direction === -1 ? -1 : section.blocks.findIndex(item => item.id == blockId);
         const blocks = section.blocks || [];
         const newSection = blockIndex !== -1
             ? {
@@ -402,7 +402,7 @@ export function insertSection(template: TemplateModel, sectionId: string | null,
         id: generateSectionId(section, true)
     };
 
-    const sectionIndex = direction === -1 ? -1 : template.content.findIndex(item => item.id === sectionId);
+    const sectionIndex = direction === -1 ? -1 : template.content.findIndex(item => item.id == sectionId);
     const changedTemplate = {
         ...template,
         content: sectionIndex !== -1

@@ -178,7 +178,7 @@ export const selectBlockModelFromRoute = createSelector(
     fromRoute.selectBlockIdParameter,
     selectSectionModelFromRoute,
     (blockId, section) => section && blockId
-        ? section.blocks.find(x => x.id === blockId)
+        ? section.blocks.find(x => x.id == blockId)
         : null
 );
 

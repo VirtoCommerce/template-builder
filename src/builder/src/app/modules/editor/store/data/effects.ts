@@ -159,7 +159,17 @@ export class TemplateEditorDataEffects {
             this.store$.select(selectors.selectRunActionContext),
         ),
         switchMap(([, { templateKey, entry, path, type }]) => this.templates.publishTemplate(path, type, entry).pipe(
-            map(() => actions.getTemplatePublishStatus({ templateKey }))
+            switchMap(() => [
+                actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: false, published: true }),
+                shared.broadcastMessage({
+                    msg: {
+                        self: true,
+                        hasChanges: false,
+                        published: true,
+                        type: 'publish-template'
+                    }
+                }),
+            ]),
         ))
     ));
 
@@ -170,7 +180,17 @@ export class TemplateEditorDataEffects {
             this.store$.select(selectors.selectRunActionContext),
         ),
         switchMap(([, { templateKey, entry, path, type }]) => this.templates.unpublishTemplate(path, type, entry).pipe(
-            map(() => actions.getTemplatePublishStatus({ templateKey }))
+            switchMap(() => [
+                actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: true, published: false }),
+                shared.broadcastMessage({
+                    msg: {
+                        self: true,
+                        hasChanges: true,
+                        published: false,
+                        type: 'publish-template'
+                    }
+                }),
+            ]),
         ))
     ));
 
@@ -220,7 +240,15 @@ export class TemplateEditorDataEffects {
             return this.templates.saveTemplates(templates).pipe(
                 switchMap(() => templates.map(x => [
                     actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }),
-                    actions.getTemplatePublishStatus({ templateKey: x.info.key })
+                    actions.getTemplatePublishStatusSuccess({ templateKey: x.info.key, hasChanges: true, published: false }),
+                    shared.broadcastMessage({
+                        msg: {
+                            self: true,
+                            hasChanges: true,
+                            published: false,
+                            type: 'publish-template'
+                        }
+                    }),
                 ]).flatMap(x => x)),
                 catchError(error => of(actions.saveTemplateFails({ error })))
             );

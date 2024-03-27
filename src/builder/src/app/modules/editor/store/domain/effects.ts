@@ -23,6 +23,7 @@ import * as actions from "../actions";
 import * as selectors from "../selectors";
 import { ClipboardService } from "@core/services";
 import { EvaluatorService } from "@app/modules/integration/services";
+import { SectionModel } from "@app/modules/models";
 
 @Injectable({
     providedIn: 'root'
@@ -120,6 +121,14 @@ export class TemplateEditorDomainEffects {
                     : editorHelpers.applySectionChanges(template!, { hidden: action === 'hide' }, sectionId),
                 templateKey
             }),
+            sharedActions.broadcastMessage({
+                msg: {
+                    type: action,
+                    template: template!,
+                    section: template?.content.find((x: SectionModel) => x.id == sectionId),
+                    sectionId
+                }
+            })
         ])
     ));
 
@@ -257,10 +266,11 @@ export class TemplateEditorDomainEffects {
                                 msg: {
                                     type: blockId ? 'update' : 'remove',
                                     sectionId: sectionId,
-                                    section: newTemplate.content.find(x => x.id === sectionId),
+                                    section: newTemplate.content.find(x => x.id == sectionId),
                                     template: newTemplate,
                                 }
-                            })
+                            }),
+                            actions.closeAddItemPanel()
                         ]
                         : [sharedActions.empty()]
                 })

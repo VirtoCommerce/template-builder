@@ -225,7 +225,14 @@ export class SharedEffects {
 
     broadcastMessage$ = createEffect(() => this.actions$.pipe(
         ofType(actions.broadcastMessage),
+        filter(({ msg }) => !msg.self),
         tap(({ msg }) => this.eventsBus.emit(msg))
+    ), { dispatch: false });
+
+    broadcastMessageSelf$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.broadcastMessage),
+        filter(({ msg }) => msg.self),
+        tap(({ msg }) => window.opener?.postMessage(msg, window.location.origin))
     ), { dispatch: false });
 
     showNotification$ = createEffect(() => this.actions$.pipe(

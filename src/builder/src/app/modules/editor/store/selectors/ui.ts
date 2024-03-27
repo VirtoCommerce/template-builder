@@ -200,7 +200,7 @@ export const selectToolbarButtonsState = (context: { useTheme: boolean, useDraft
             result.push([
                 {
                     canAction: !hasDirty,
-                    icon: 'external',
+                    icon: 'visibility',
                     alias: 'external-preview',
                     title: 'Preview',
                     type: 'outline'
