@@ -1,7 +1,7 @@
 import { ModalService } from '@core/services';
 import { Injectable } from "@angular/core";
 
-import { of } from "rxjs";
+import { fromEvent, of } from "rxjs";
 import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, exhaustMap, tap } from "rxjs/operators";
 
 import { Store } from "@ngrx/store";
@@ -166,7 +166,8 @@ export class TemplateEditorDataEffects {
                         self: true,
                         hasChanges: false,
                         published: true,
-                        type: 'publish-template'
+                        path,
+                        source: 'builder'
                     }
                 }),
             ]),
@@ -187,7 +188,8 @@ export class TemplateEditorDataEffects {
                         self: true,
                         hasChanges: true,
                         published: false,
-                        type: 'publish-template'
+                        path,
+                        source: 'builder'
                     }
                 }),
             ]),
@@ -236,7 +238,10 @@ export class TemplateEditorDataEffects {
 
     sendTemplateToServer$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplates),
-        switchMap(({ templates }) => {
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateState),
+        ),
+        switchMap(([{ templates }, state]) => {
             return this.templates.saveTemplates(templates).pipe(
                 switchMap(() => templates.map(x => [
                     actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }),
@@ -245,14 +250,20 @@ export class TemplateEditorDataEffects {
                         msg: {
                             self: true,
                             hasChanges: true,
-                            published: false,
-                            type: 'publish-template'
+                            published: state?.published || false,
+                            source: 'builder'
                         }
                     }),
                 ]).flatMap(x => x)),
                 catchError(error => of(actions.saveTemplateFails({ error })))
             );
         })
+    ));
+
+    stateChangedInPlatform$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
+        filter((event: MessageEvent) => event.data.source === 'platform'),
+        tap(event => console.log(event.data)),
+        map(({data}) => actions.getTemplatePublishStatusSuccess({ hasChanges: data.hasChanges, published: data.published, templateKey: data.templateKey }))
     ));
 
 }
