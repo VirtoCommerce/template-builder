@@ -30,3 +30,4 @@ export const sectionChangedAction = createAction('[template editor] section chan
 export const executeContextMenuAction = createAction('[template editor] execute context menu action', props<{ action: string, source: 'list' | 'editor', section?: SectionModel, block?: SectionModel }>());
 
 export const executeToolbarAction = createAction('[template editor] execute toolbar action', props<{ action: string }>());
+export const refreshPreview = createAction('[template editor] refresh preview');

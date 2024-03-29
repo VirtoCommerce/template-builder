@@ -24,6 +24,7 @@ export class TemplateEditorComponent implements OnInit {
 
     hoveredSectionId$ = this.store.select(fromState.hoveredSectionId);
     templateName$ = this.store.select(fromState.selectCurrentTemplateName);
+
     // templateKeyParameter$ = this.store.select(fromRoute.selectTemplateKeyParameter);
 
     constructor(private store: Store<BuilderState>, private helper: ContextMenuHelper) { }

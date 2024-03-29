@@ -5,7 +5,7 @@ import { BaseMessage, BlockViewModel } from "./models";
 import { EventsBus } from './root/events.bus';
 
 export class EventsDispatcher {
-    handleMessage: (handler: MessageHandler, msg: BaseMessage) => void = () => {};
+    handleMessage: (handler: MessageHandler, msg: BaseMessage) => void = () => { };
 
     constructor(private factory: HandlersFactory, private messages: MessagesService) {
         EventsBus.Current.subscribe('dnd.swap-blocks', (args, _source) => {
@@ -18,7 +18,9 @@ export class EventsDispatcher {
     run() {
         window.addEventListener('message', (event: MessageEvent) => {
             if (event.data) {
-                console.log(event.data);
+                if (event.data.type !== 'hover') {
+                    console.log(event.data);
+                }
                 this.handleEvent(event.data)
             }
         });

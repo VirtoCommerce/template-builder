@@ -7,7 +7,6 @@ export class HoverHandler extends BaseHandler {
 
     execute(msg: BaseMessage, list: BlockViewModel[]) {
         this.deselectAll(list);
-        console.log(msg);
         const sectionId = msg.sectionId;
         if (!sectionId) {
             this.renderer.hover();

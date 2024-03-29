@@ -27,6 +27,7 @@ export class DndInteractor {
     constructor(private container: HTMLElement, private listAccessor: () => []) {
         this.placeholder = document.createElement('div');
         this.placeholder.style.backgroundColor = '#eeeeee';
+        return;
         window.addEventListener('mousemove', ($event) => {
             if (this.isPressed) {
                 if (!this.dragStarted) {

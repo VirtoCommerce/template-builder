@@ -4,6 +4,9 @@ export interface BaseMessage {
     template?: TemplateContent;
     section?: MessageContent;
     index?: number;
+    // swap
+    currentIndex?: number;
+    newIndex?: number;
 }
 
 export interface TemplateContent {
@@ -17,10 +20,6 @@ export interface MessageContent {
     // clone
     source?: string;
     destination?: string;
-
-    // swap
-    currentIndex?: number;
-    newIndex?: number;
 
     // block
     hidden?: boolean;

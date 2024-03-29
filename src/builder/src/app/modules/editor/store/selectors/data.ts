@@ -24,9 +24,15 @@ export const selectCurrentTemplateModel = createSelector(
     (templates, templateKey) => templateKey ? templates[templateKey] : null
 );
 
+export const selectFileName = createSelector(
+    fromRoute.selectPathParameter,
+    path => path.split('/').pop().split('.').slice(0, -1).join('.')
+);
+
 export const selectCurrentTemplateName = createSelector(
     selectCurrentTemplateModel,
-    model => model?.settings?.['name'] || '[no name]'
+    selectFileName,
+    (model, fileName) => model?.settings?.['displayName'] || model?.settings?.['name'] || fileName || '[no name]'
 );
 
 export const selectSectionsSchemas = createSelector(
@@ -44,7 +50,7 @@ export const selectObjectsSchemas = createSelector(
 export const selectChangedTemplates = createSelector(
     selectLoadedTemplates, // models
     fromShared.selectChangedTemplates, // entries
-    (templates, entries) => entries.map(x => ({ entry: x.entry, info: x, content: templates[x.key] })).filter(x => !!x.content)
+    (templates, entries) => entries.map(x => ({ entry: x.entry, info: x, content: templates[x.key]! })).filter(x => !!x.content)
 );
 
 export const selectSectionsSchemasList = createSelector(

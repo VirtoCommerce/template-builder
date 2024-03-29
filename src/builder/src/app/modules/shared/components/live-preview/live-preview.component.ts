@@ -53,12 +53,12 @@ export class LivePreviewComponent implements OnInit {
         // + add
         // + remove
         // + hover
-        // - clone
-        // - insert
-        // - swap
-        // - reload
-        // - hide - not necessary
-        // - show - not necessary
+        // + clone
+        // + insert
+        // + swap
+        // + reload
+        // + hide
+        // + show
 
         this.eventBus.on(() => true, msg => {
             switch (msg.type) {

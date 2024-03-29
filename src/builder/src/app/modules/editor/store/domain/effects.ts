@@ -106,6 +106,26 @@ export class TemplateEditorDomainEffects {
         ])
     ));
 
+    refreshPreviewAction$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeContextMenuAction),
+        filter(x => x.action === 'refresh-preview'),
+        map(() => actions.refreshPreview())
+    ));
+
+    refreshPreview$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.refreshPreview),
+        withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
+        filter(([, { template }]) => !!template),
+        switchMap(([, { template }]) => [
+            sharedActions.broadcastMessage({
+                msg: {
+                    type: 'reload',
+                    template: template
+                }
+            }),
+        ])
+    ));
+
     showItem$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeContextMenuAction),
         filter(x => x.action === 'show' || x.action === 'hide'),
@@ -287,6 +307,14 @@ export class TemplateEditorDomainEffects {
                 template: editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex), // section can be null
                 templateKey
             }),
+            sharedActions.broadcastMessage({
+                msg: {
+                    type: 'swap',
+                    template: template,
+                    currentIndex: options.previousIndex,
+                    newIndex: options.currentIndex
+                }
+            })
         ])
     ));
 
