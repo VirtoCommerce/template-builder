@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
 import { ContextMenuAction, ContextMenuActionType } from '@core/models';
 
 @Component({
@@ -7,19 +8,35 @@ import { ContextMenuAction, ContextMenuActionType } from '@core/models';
     styleUrls: ['./context-menu.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContextMenuComponent implements OnInit {
+export class ContextMenuComponent implements OnInit, AfterViewInit {
 
     @Input() actions: ContextMenuAction[] | null = null;
     @Input() visible: boolean = false;
     @Input() getActions: (() => Promise<ContextMenuAction[]>) | null = null;
 
+    @ViewChild(CdkConnectedOverlay) overlay!: CdkConnectedOverlay;
+
     @Output() onAction = new EventEmitter<ContextMenuActionType>();
 
     isOpen = false;
+    positions: ConnectedPosition[] = [
+        {
+            originX: 'end',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'top',
+        },
+    ];
 
     constructor(private cdr: ChangeDetectorRef) { }
+    ngAfterViewInit(): void {
+        // this.overlay.positionChange.subscribe(x => {
+        //     console.log(x);
+        // });
+    }
 
     ngOnInit(): void {
+
     }
 
     getActionsList(): ContextMenuAction[] {
@@ -46,6 +63,16 @@ export class ContextMenuComponent implements OnInit {
     }
 
     gearClick(event: MouseEvent) {
+        if (event.pageY > window.innerHeight / 2) {
+            this.positions = [
+                {
+                    originX: 'end',
+                    originY: 'top',
+                    overlayX: 'start',
+                    overlayY: 'bottom',
+                },
+            ];
+        }
         event.stopPropagation();
         this.showActions();
     }

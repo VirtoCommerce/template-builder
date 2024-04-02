@@ -89,10 +89,11 @@ export function reorderBlocks(template: TemplateModel, section: SectionModel, cu
 }
 
 export function generateSectionId(section: SectionModel, force: boolean = false): string {
-    if (!force && section.id) {
-        return section.id;
+    let result = section.id
+    if (force || !result) {
+        result = appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
     }
-    return appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
+    return result;
 }
 
 export function generateModelBySchema(schema: SectionSchema): SectionModel {
@@ -177,7 +178,9 @@ export function duplicateBlock(
     const section = template.content[sectionIndex];
     const blockIndex = section.blocks.findIndex(item => item.id == blockId);
     const block = section.blocks[blockIndex];
-    const newBlock = { ...block, id: generateSectionId(block, true) };
+    const newId = generateSectionId(block, true);
+    const new__id = block['__id'] ? newId : undefined;
+    const newBlock = <any>{ ...block, id: newId, __id: new__id };
     const newSection = {
         ...section,
         blocks: [
@@ -207,7 +210,9 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
 } {
     const sectionIndex = template.content.findIndex(item => item.id == sectionId);
     const section = template.content[sectionIndex];
-    const newSection = { ...section, id: generateSectionId(section, true) };
+    const newId = generateSectionId(section, true);
+    const new__id = section['__id'] ? newId : undefined;
+    const newSection = <any>{ ...section, id: generateSectionId(section, true), __id: new__id };
     return {
         template: {
             ...template,
@@ -307,12 +312,12 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
     return result;
 }
 
-export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | null) : TemplateModel | null {
+export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | null): TemplateModel | null {
     // check template is array
     if (Array.isArray(template)) {
         // this is the old template format
         // convert it to the new format
-        const [ settings, ...content ] = template;
+        const [settings, ...content] = template;
         template = { settings: settings || {}, content: content || [], version: 1 };
     }
     return template
