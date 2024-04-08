@@ -13,6 +13,7 @@ export interface ControlContext {
     element?: any; // element in the collection
     parent?: ControlContext
     file?: AssetFile;
+    utils: any;
 
     // filter: string | null; note! was used to filter by tabs in old version. should not be used in new version
     mode: string;

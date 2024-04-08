@@ -4,9 +4,9 @@ import { BaseControlDirective } from '@core/controls';
 import { StringDescriptor } from '@models/controls';
 
 @Component({
-  selector: 'app-string',
-  templateUrl: './string.component.html',
-  styleUrls: ['./string.component.scss']
+    selector: 'app-string',
+    templateUrl: './string.component.html',
+    styleUrls: ['./string.component.scss']
 })
 export class StringComponent extends BaseControlDirective<StringDescriptor> {
     @ViewChild('control') control!: ElementRef;

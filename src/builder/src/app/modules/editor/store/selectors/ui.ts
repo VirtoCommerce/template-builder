@@ -15,6 +15,7 @@ import * as fromData from "./data";
 import * as fromShared from '@shared/store';
 
 import { helpers } from "@editor/helpers";
+import { appHelpers } from "@integration/helpers";
 
 export const selectAddItemTitle = createSelector(
     fromData.selectSectionModelFromRoute,
@@ -156,7 +157,8 @@ export const selectEditSectionContext = createSelector(
                 model, // current item under editing, can be block, section or settings
                 block, // current block or null
                 section, // current section, useful in block
-                template // current template
+                template, // current template
+                utils: appHelpers
             }
         }
         : null
