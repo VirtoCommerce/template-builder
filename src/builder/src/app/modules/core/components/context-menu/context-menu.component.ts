@@ -19,14 +19,7 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
     @Output() onAction = new EventEmitter<ContextMenuActionType>();
 
     isOpen = false;
-    positions: ConnectedPosition[] = [
-        {
-            originX: 'end',
-            originY: 'bottom',
-            overlayX: 'start',
-            overlayY: 'top',
-        },
-    ];
+    positions: ConnectedPosition[] = [];
 
     constructor(private cdr: ChangeDetectorRef) { }
     ngAfterViewInit(): void {
@@ -66,10 +59,19 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
         if (event.pageY > window.innerHeight / 2) {
             this.positions = [
                 {
-                    originX: 'end',
+                    originX: 'start',
                     originY: 'top',
                     overlayX: 'start',
                     overlayY: 'bottom',
+                },
+            ];
+        } else {
+            this.positions = [
+                {
+                    originX: 'start',
+                    originY: 'bottom',
+                    overlayX: 'start',
+                    overlayY: 'top',
                 },
             ];
         }
