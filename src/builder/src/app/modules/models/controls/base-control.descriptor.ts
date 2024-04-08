@@ -26,4 +26,5 @@ export interface BaseControlDescriptor {
     tab?: string;
     group?: string;
 
+    displayPropertyName?: string | string[];
 }
