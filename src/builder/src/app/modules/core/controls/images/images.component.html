@@ -39,6 +39,7 @@
                      [title]="file.name"
                      (click)="selectFile($any(file))">{{ file.name }}</div>
                 <div class="actions">
+                    <app-icon class="copy-url" (click)="copyUrl($any(file))">content_copy</app-icon>
                     <app-icon class="remove-image" (click)="deleteFile($any(file))">delete</app-icon>
                     <app-drag-handle *ngIf="sortable"
                                      cdkDragHandle
