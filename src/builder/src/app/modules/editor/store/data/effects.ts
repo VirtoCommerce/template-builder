@@ -263,6 +263,7 @@ export class TemplateEditorDataEffects {
                         msg: {
                             self: true,
                             hasChanges: true,
+                            path: x.entry.path,
                             published: state?.published || false,
                             source: 'builder'
                         }
