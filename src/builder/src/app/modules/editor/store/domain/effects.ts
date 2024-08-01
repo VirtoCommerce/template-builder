@@ -166,19 +166,19 @@ export class TemplateEditorDomainEffects {
                 : editorHelpers.duplicateSection(template!, sectionId);
             const message = sharedActions.broadcastMessage({
                 msg: blockId
-                ? {
-                    type: 'changed',
-                    template: changedTemplate.template,
-                    section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
-                    sectionId: changedTemplate.sectionId
-                }
-                : {
-                    type: 'add',
-                    template: changedTemplate.template,
-                    section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
-                    sectionId: changedTemplate.sectionId,
-                    index: changedTemplate.template.content.findIndex(x => x.id === changedTemplate.sectionId),
-                }
+                    ? {
+                        type: 'changed',
+                        template: changedTemplate.template,
+                        section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
+                        sectionId: changedTemplate.sectionId
+                    }
+                    : {
+                        type: 'add',
+                        template: changedTemplate.template,
+                        section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
+                        sectionId: changedTemplate.sectionId,
+                        index: changedTemplate.template.content.findIndex(x => x.id === changedTemplate.sectionId),
+                    }
             });
             return [
                 message,
@@ -302,20 +302,23 @@ export class TemplateEditorDomainEffects {
         filter(({ options }) => !options.parent),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, template]) => !!template),
-        switchMap(([{ options }, { template, templateKey }]) => [
-            actions.updateTemplateAction({
-                template: editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex), // section can be null
-                templateKey
-            }),
-            sharedActions.broadcastMessage({
-                msg: {
-                    type: 'swap',
-                    template: template,
-                    currentIndex: options.previousIndex,
-                    newIndex: options.currentIndex
-                }
-            })
-        ])
+        switchMap(([{ options }, { template, templateKey }]) => {
+            const newTemplate = editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex); // section can be null
+            return [
+                actions.updateTemplateAction({
+                    template: newTemplate,
+                    templateKey
+                }),
+                sharedActions.broadcastMessage({
+                    msg: {
+                        type: 'swap',
+                        template: newTemplate,
+                        currentIndex: options.previousIndex,
+                        newIndex: options.currentIndex
+                    }
+                })
+            ];
+        })
     ));
 
     orderBlocks$ = createEffect(() => this.actions$.pipe(
