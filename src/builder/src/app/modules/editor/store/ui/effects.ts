@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 import { withLatestFrom, filter, tap, map, catchError, switchMap } from "rxjs/operators";
 
-import { broadcastMessage } from '@shared/store/actions';
+import { broadcastPreviewMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
 import * as sharedSelectors from '@shared/store/selectors';
 
@@ -107,7 +107,7 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectBlockModelFromRoute)
         ),
         switchMap(([, template, entry, parentKey, section, block]) => {
-            const message = section ? [broadcastMessage({
+            const message = section ? [broadcastPreviewMessage({
                 msg: {
                     type: 'changed',
                     template, section, block,
@@ -161,7 +161,7 @@ export class TemplateEditorUiEffects {
             const sharedSchemaName = !!section ? "_blocks" : "_sections";
             const fullSchema = editorHelpers.prepareSchema(item, shared, objects, sharedSchemaName);
             const model = editorHelpers.generatePreviewBySchema(fullSchema);
-            return broadcastMessage({
+            return broadcastPreviewMessage({
                 msg: {
                     type: 'preview',
                     template, section, model,
@@ -174,7 +174,7 @@ export class TemplateEditorUiEffects {
     hoverSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.hoverSection),
         map(({ sectionId }) =>
-            broadcastMessage({
+            broadcastPreviewMessage({
                 msg: {
                     type: 'hover',
                     sectionId
@@ -190,7 +190,7 @@ export class TemplateEditorUiEffects {
             this.store$.select(sharedSelectors.selectCurrentTemplateEntry)
         ),
         map(([{ sectionId }, template, entry]) =>
-            broadcastMessage({
+            broadcastPreviewMessage({
                 msg: {
                     type: 'select',
                     template, sectionId,
@@ -209,7 +209,7 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectSectionModelFromRoute)
         ),
         map(([{ sectionId, blockId }, template, entry, section]) =>
-            broadcastMessage({
+            broadcastPreviewMessage({
                 msg: {
                     type: 'select',
                     template, section, sectionId, blockId,

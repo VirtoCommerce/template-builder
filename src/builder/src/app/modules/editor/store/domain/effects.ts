@@ -58,7 +58,7 @@ export class TemplateEditorDomainEffects {
 
             const fullSchema = editorHelpers.prepareSchema(schema, shared, objects, sharedSchemaName);
             const result = editorHelpers.addItemToTemplate(fullSchema, template!, section || null); // section can be null
-            const message = sharedActions.broadcastMessage({
+            const message = sharedActions.broadcastPreviewMessage({
                 msg: {
                     type: 'add',
                     template: result.template,
@@ -117,7 +117,7 @@ export class TemplateEditorDomainEffects {
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
         filter(([, { template }]) => !!template),
         switchMap(([, { template }]) => [
-            sharedActions.broadcastMessage({
+            sharedActions.broadcastPreviewMessage({
                 msg: {
                     type: 'reload',
                     template: template
@@ -141,7 +141,7 @@ export class TemplateEditorDomainEffects {
                     : editorHelpers.applySectionChanges(template!, { hidden: action === 'hide' }, sectionId),
                 templateKey
             }),
-            sharedActions.broadcastMessage({
+            sharedActions.broadcastPreviewMessage({
                 msg: {
                     type: action,
                     template: template!,
@@ -164,7 +164,7 @@ export class TemplateEditorDomainEffects {
             const changedTemplate = blockId
                 ? editorHelpers.duplicateBlock(template!, sectionId, blockId)
                 : editorHelpers.duplicateSection(template!, sectionId);
-            const message = sharedActions.broadcastMessage({
+            const message = sharedActions.broadcastPreviewMessage({
                 msg: blockId
                     ? {
                         type: 'changed',
@@ -282,7 +282,7 @@ export class TemplateEditorDomainEffects {
                                 template: newTemplate,
                                 templateKey
                             }),
-                            sharedActions.broadcastMessage({
+                            sharedActions.broadcastPreviewMessage({
                                 msg: {
                                     type: blockId ? 'update' : 'remove',
                                     sectionId: sectionId,
@@ -309,7 +309,7 @@ export class TemplateEditorDomainEffects {
                     template: newTemplate,
                     templateKey
                 }),
-                sharedActions.broadcastMessage({
+                sharedActions.broadcastPreviewMessage({
                     msg: {
                         type: 'swap',
                         template: newTemplate,
@@ -341,21 +341,15 @@ export class TemplateEditorDomainEffects {
             this.store$.select(selectors.selectCurrentTemplateModel)
         ),
         filter(([, entry, template]) => !!template && !(entry?.previewUrl) && !!(entry?.previewRule)),
-        // delay(1000), // todo: ad-hoc solution. we need to wait until the preview is completely loaded and then send messages
         tap(([, entry, template]) => {
             const url = this.evaluator.evaluate(entry.previewRule, { item: template });
             url && this.eventsBus.emit({
-                type: 'navigate',
-                url: url // || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
+                target: 'preview',
+                payload: {
+                    type: 'navigate',
+                    url: url
+                }
             });
         })
     ), { dispatch: false });
-
-    // enrichNavigateMessages$ = createEffect(() => this.eventsBus.enrich().pipe(
-    //     filter(x => x.type === 'navigate'),
-    //     withLatestFrom(
-    //         this.store$.select(selectors.changeTemplateContext),
-    //     ),
-    //     map(([msg, { template, section, block }]) => ({...msg, template, section, block}))
-    // ));
 }

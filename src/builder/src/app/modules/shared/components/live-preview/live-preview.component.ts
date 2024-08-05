@@ -40,7 +40,7 @@ export class LivePreviewComponent implements OnInit {
     constructor(
         private store: Store<BuilderState>,
         private sanitizer: DomSanitizer,
-        private eventBus: EventsBusService,
+        private eventsBus: EventsBusService,
         private config: AppConfig
     ) { }
 
@@ -60,13 +60,13 @@ export class LivePreviewComponent implements OnInit {
         // + hide
         // + show
 
-        this.eventBus.on(() => true, msg => {
-            switch (msg.type) {
+        this.eventsBus.on(args => args.target === 'preview', msg => {
+            switch (msg.payload?.type) {
                 case 'preview-loaded':
                     this.previewLoadedSource.next(true);
                     break;
                 default:
-                    this.sendMessage(msg);
+                    this.sendMessage(msg.payload);
                     break;
             }
         });

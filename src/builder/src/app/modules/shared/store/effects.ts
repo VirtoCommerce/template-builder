@@ -6,7 +6,7 @@ import { delay } from 'rxjs/operators';
 import { catchError, switchMap, map, of, withLatestFrom, filter, tap, fromEvent } from "rxjs";
 
 import { EventsBusService, NotificationsService } from "@core/services";
-import { TemplatesService, MetaDataService } from '@shared/services';
+import { TemplatesService, MetaDataService, BroadcastPlatformService } from '@shared/services';
 import { AppConfig } from '@integration/services';
 
 import { BuilderState } from "./state";
@@ -26,8 +26,11 @@ export class SharedEffects {
         private eventsBus: EventsBusService,
         private notification: NotificationsService,
         private metaDataService: MetaDataService,
-        private appConfig: AppConfig
-    ) { }
+        private appConfig: AppConfig,
+        broadcast: BroadcastPlatformService,
+    ) {
+        // broadcast shoud be injected to call constructor
+    }
 
     raiseInitModule$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
@@ -206,8 +209,11 @@ export class SharedEffects {
         filter(([, template]) => !!template?.previewUrl),
         tap(([, template]) => {
             this.eventsBus.emit({
-                type: 'navigate',
-                url: template!.previewUrl // || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
+                target: 'preview',
+                payload: {
+                    type: 'navigate',
+                    url: template!.previewUrl // || this.appConfig.getContext().location.params.path || this.appConfig.getValue('startPreviewPath') || '/'
+                }
             });
         })
     ), { dispatch: false });
@@ -218,21 +224,22 @@ export class SharedEffects {
             this.store$.select(fromState.selectCurrentTemplatesEntries)
         ),
         tap(([{ templateKey }, templates]) => templates?.[templateKey]?.previewUrl && this.eventsBus.emit({
-            type: 'navigate',
-            url: templates?.[templateKey]?.previewUrl
+            target: 'preview',
+            payload: {
+                type: 'navigate',
+                url: templates?.[templateKey]?.previewUrl
+            }
         }))
     ), { dispatch: false });
 
-    broadcastMessage$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.broadcastMessage),
-        filter(({ msg }) => !msg.self),
-        tap(({ msg }) => this.eventsBus.emit(msg))
+    broadcastPreviewMessage$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.broadcastPreviewMessage),
+        tap(({ msg }) => this.eventsBus.emit({ target: 'preview', payload: msg }))
     ), { dispatch: false });
 
-    broadcastMessageSelf$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.broadcastMessage),
-        filter(({ msg }) => msg.self),
-        tap(({ msg }) => window.opener?.postMessage(msg, window.location.origin))
+    broadcastPlatformMessage$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.broadcastPlatformMessage),
+        tap(({ msg }) => this.eventsBus.emit({ target: 'platform', payload: msg }))
     ), { dispatch: false });
 
     showNotification$ = createEffect(() => this.actions$.pipe(
@@ -258,7 +265,7 @@ export class SharedEffects {
 
     previewLoaded$ = createEffect(() => this.actions$.pipe(
         ofType(actions.previewLoaded),
-        tap(() => this.eventsBus.emit({ type: 'preview-loaded' })),
+        tap(() => this.eventsBus.emit({ target: 'preview', payload: { type: 'preview-loaded' }})),
         map(() => actions.setLivePreviewUrl())
     ));
 

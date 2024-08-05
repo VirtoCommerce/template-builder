@@ -65,7 +65,7 @@ function pasteBlockIntoSection(
     if (accept) {
         const changedTemplate = editorHelpers.insertBlock(template!, action.section.id, action.block?.id || null, value.content, direction);
         return [
-            sharedActions.broadcastMessage({
+            sharedActions.broadcastPreviewMessage({
                 msg: {
                     type: 'changed',
                     template: changedTemplate.template,
@@ -109,7 +109,7 @@ function pasteSectionIntoTemplate(
         (!templateEntry.sections || !templateEntry.sections.length || templateEntry.sections?.includes(value.content.type))) {
         const changedTemplate = editorHelpers.insertSection(template!, action.section?.id || null, value.content, direction);
         return [
-            sharedActions.broadcastMessage({
+            sharedActions.broadcastPreviewMessage({
                 msg: {
                     type: 'add',
                     template: changedTemplate.template,

@@ -6,7 +6,7 @@ import { withLatestFrom, filter, mapTo, map, switchMapTo } from "rxjs/operators"
 import * as actions from "../actions";
 import { BuilderState } from "../state";
 
-import { broadcastMessage } from '@shared/store/actions';
+import { broadcastPreviewMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
 import * as routingSelectors from '@shared/routing'
 

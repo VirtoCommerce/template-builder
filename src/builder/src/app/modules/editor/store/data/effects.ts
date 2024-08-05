@@ -18,7 +18,7 @@ import { helpers as editorHelpers } from '@editor/helpers';
 import * as actions from "../actions";
 import * as shared from '@shared/store/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";
-import { broadcastMessage } from '@shared/store/actions';
+import { broadcastPreviewMessage } from '@shared/store/actions';
 import * as selectors from "../selectors";
 import * as fromRoute from '@shared/routing';
 import * as fromShared from '@shared/store/selectors';
@@ -104,7 +104,7 @@ export class TemplateEditorDataEffects {
             switchMap(template => [
                 actions.getTemplatePublishStatus({ templateKey }),
                 actions.loadTemplateModelSuccess({ template, templateKey }),
-                broadcastMessage({
+                broadcastPreviewMessage({
                     msg: {
                         type: 'page',
                         template,
@@ -126,7 +126,7 @@ export class TemplateEditorDataEffects {
     passTemplateToPreview$ = createEffect(() => this.actions$.pipe(
         ofType(shared.previewLoaded),
         withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
-        map(([, { template, templateEntry }]) => broadcastMessage({
+        map(([, { template, templateEntry }]) => broadcastPreviewMessage({
             msg: {
                 type: 'page',
                 template,
@@ -173,13 +173,14 @@ export class TemplateEditorDataEffects {
         switchMap(([, { templateKey, entry, path, type }]) => this.templates.publishTemplate(path, type, entry).pipe(
             switchMap(() => [
                 actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: false, published: true }),
-                shared.broadcastMessage({
+                shared.broadcastPlatformMessage({
                     msg: {
-                        self: true,
                         hasChanges: false,
                         published: true,
-                        path,
-                        source: 'builder'
+                        source: 'builder',
+                        relativeUrl: path,
+                        contentType: type,
+                        template: entry,
                     }
                 }),
             ]),
@@ -195,13 +196,14 @@ export class TemplateEditorDataEffects {
         switchMap(([, { templateKey, entry, path, type }]) => this.templates.unpublishTemplate(path, type, entry).pipe(
             switchMap(() => [
                 actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: true, published: false }),
-                shared.broadcastMessage({
+                shared.broadcastPlatformMessage({
                     msg: {
-                        self: true,
                         hasChanges: true,
                         published: false,
-                        path,
-                        source: 'builder'
+                        source: 'builder',
+                        relativeUrl: path,
+                        contentType: type,
+                        template: entry,
                     }
                 }),
             ]),
@@ -259,11 +261,12 @@ export class TemplateEditorDataEffects {
                 switchMap(() => templates.map(x => [
                     actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }),
                     actions.getTemplatePublishStatusSuccess({ templateKey: x.info.key, hasChanges: true, published: false }),
-                    shared.broadcastMessage({
+                    shared.broadcastPlatformMessage({
                         msg: {
-                            self: true,
                             hasChanges: true,
-                            path: x.entry.path,
+                            relativeUrl: x.entry.path,
+                            contentType: x.entry.type,
+                            template: x.content,
                             published: state?.published || false,
                             source: 'builder'
                         }
@@ -274,11 +277,11 @@ export class TemplateEditorDataEffects {
         })
     ));
 
-    stateChangedInPlatform$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
-        filter((event: MessageEvent) => event.data.source === 'platform'),
-        tap(event => console.log(event.data)),
-        map(({data}) => actions.getTemplatePublishStatusSuccess({ hasChanges: data.hasChanges, published: data.published, templateKey: data.templateKey }))
-    ));
+    // stateChangedInPlatform$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
+    //     filter((event: MessageEvent) => event.data.source === 'platform'),
+    //     tap(event => console.log(event.data)),
+    //     map(({data}) => actions.getTemplatePublishStatusSuccess({ hasChanges: data.hasChanges, published: data.published, templateKey: data.templateKey }))
+    // ));
 
     resetTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeContextMenuAction),
