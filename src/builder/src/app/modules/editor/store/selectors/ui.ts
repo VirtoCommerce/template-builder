@@ -173,9 +173,10 @@ export const changeTemplateContext = createSelector(
     fromRoute.selectTemplateKeyParameter,
     fromRoute.selectSectionIdParameter,
     fromRoute.selectBlockIdParameter,
+    fromRoute.selectInsertIndexParameter,
     fromShared.selectCurrentTemplateEntry,
-    (template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry) =>
-        ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry })
+    (template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, insertIndex, templateEntry) =>
+        ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, insertIndex, templateEntry })
 );
 
 export const selectToolbarButtonsState = (context: { useTheme: boolean, useDrafts: boolean, useExternalPreview: boolean }) => createSelector(

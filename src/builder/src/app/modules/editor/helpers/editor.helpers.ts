@@ -12,7 +12,7 @@ import {
 // todo: refactor these
 // replace section/block in collection can be extracted and done with lodash
 
-export function addItemToTemplate(schema: SectionSchema, template: TemplateModel, section: SectionModel | null): {
+export function addItemToTemplate(schema: SectionSchema, template: TemplateModel, section: SectionModel | null, insertIndex: number): {
     template: TemplateModel,
     sectionId: string,
     blockId?: string
@@ -21,12 +21,14 @@ export function addItemToTemplate(schema: SectionSchema, template: TemplateModel
     model.id = generateSectionId(model); // id generator center requried
 
     if (!section) {
+        const index = insertIndex === -1 ? template.content.length : insertIndex;
         return {
             template: {
                 ...template,
                 content: [
-                    ...template.content,
-                    model
+                    ...template.content.slice(0, index),
+                    model,
+                    ...template.content.slice(index),
                 ]
             },
             sectionId: model.id

@@ -18,12 +18,12 @@ const routes: Routes = [
         data: { module: EditorModuleInfo.name, toolbar: ToolbarHostComponent },
         children: [
             {
-                path: 'add',
+                path: 'add/:insertIndex',
                 component: AddSectionComponent,
                 data: { module: EditorModuleInfo.name, mode: 'add-section' }
             },
             {
-                path: 'add/:sectionId',
+                path: 'add/:sectionId/:insertIndex',
                 component: AddSectionComponent,
                 data: { module: EditorModuleInfo.name, mode: 'add-block' }
             },

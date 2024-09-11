@@ -29,13 +29,13 @@ export class TemplateEditorUiEffects {
     navigateToAddSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.showBlankSections),
         filter(x => !x.sectionId),
-        map(() => routingActions.go({ path: ['/pages/add'] }))
+        map(({ positionIndex }) => routingActions.go({ path: ['/pages/add', positionIndex] }))
     ));
 
     navigateToAddBlock$ = createEffect(() => this.actions$.pipe(
         ofType(actions.showBlankSections),
         filter(x => !!x.sectionId),
-        map(({ sectionId }) => routingActions.go({ path: ['/pages/add', sectionId] }))
+        map(({ sectionId, positionIndex }) => routingActions.go({ path: ['/pages/add', sectionId, positionIndex] }))
     ));
 
     navigateToEditTemplate$ = createEffect(() => this.actions$.pipe(

@@ -9,7 +9,7 @@ div[item] {
 }
 
 .sections-container {
-    @apply flex flex-col space-y-1 w-full;
+    @apply flex flex-col space-y-1 w-full relative;
 }
 .template-name {
     @apply grow min-w-0 whitespace-nowrap truncate cursor-default;
@@ -29,5 +29,18 @@ div[item] {
     @apply py-2 rounded px-6 block;
     &:hover {
         background: rgba(246, 246, 246, 1);
+    }
+}
+
+.add-button {
+    @apply absolute;
+    color: rgba(22, 101, 216, 1);
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: fit-content;
+    transition: opacity .2s;
+    &:hover {
+        opacity: 1 !important;
     }
 }

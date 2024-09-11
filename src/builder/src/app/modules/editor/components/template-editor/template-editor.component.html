@@ -12,7 +12,10 @@
                     </app-section-item>
                 </ng-container>
             </div>
-            <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
+            <div cdkDropList #container class="sections-container"
+                             (cdkDropListDropped)="reorderSections($event)"
+                             (mousemove)="onMouseMove($event)"
+                             (mouseleave)="onMouseLeave()">
                 <ng-container *ngFor="let section of vm.template!.content">
                     <app-collapsible-list-item [expandable]="$any(vm.sectionsState)[section.id]?.canHaveChildren || false"
                                                [opened]="$any(vm.sectionsState)[section.id]?.expanded || false"
@@ -43,6 +46,7 @@
                         </app-section-children-list>
                     </app-collapsible-list-item>
                 </ng-container>
+                <app-icon [ngStyle]="{ top: addButtonTop, opacity: addButtonOpacity }" class="add-button" (click)="addSectionClick()">add_circle</app-icon>
             </div>
             <div class="settings-container bottom"
                  *ngIf="vm.settingsSchemas?.bottom && vm.settingsSchemas?.bottom?.length">
@@ -65,7 +69,7 @@
                               (onAction)="onActionClick($event.action)"></app-context-menu>
         </div>
     </div>
-    <div footer-content>
+    <!-- <div footer-content>
         <app-icon-button icon="add" skin="blue" text="Add block" (click)="addSectionClick()"></app-icon-button>
-    </div>
+    </div> -->
 </app-panel>

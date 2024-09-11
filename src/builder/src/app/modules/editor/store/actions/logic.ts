@@ -9,7 +9,7 @@ import {
     SectionSchema
 } from "@models/document";
 
-export const showBlankSections = createAction('[template editor] show blank sections', props<{ sectionId: string | null }>());
+export const showBlankSections = createAction('[template editor] show blank sections', props<{ sectionId: string | null, positionIndex: number }>());
 export const closeAddItemPanel = createAction('[template editor] close add item panel');
 export const editSectionAction = createAction('[template editor] edit section', props<{ sectionId: string }>());
 export const editBlockAction = createAction('[template editor] edit block', props<{ sectionId: string, blockId: string }>());
