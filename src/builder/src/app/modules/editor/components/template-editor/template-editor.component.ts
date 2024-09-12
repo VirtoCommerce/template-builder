@@ -98,7 +98,7 @@ export class TemplateEditorComponent implements OnInit {
 
         if (top < 0) {
             this.currentInsertIndex = 0;
-            this.addButtonTop = '-24px';
+            this.addButtonTop = '-18px';
             return;
         }
 
@@ -106,18 +106,18 @@ export class TemplateEditorComponent implements OnInit {
             const childRect = target.children[i].getBoundingClientRect();
             const childTop = childRect.top - rect.top;
             const childBottom = childRect.bottom - rect.top;
-            if (top >= childTop && top < childBottom + 4) {
+            if (top >= childTop && top < childBottom + 10) {
                 const m = (childBottom + childTop) / 2;
                 const onTop = top < m;
                 this.currentInsertIndex = onTop ? i : i + 1;
-                const position  = onTop ? childTop - 24 : childBottom - 20;
+                const position  = onTop ? childTop - 18 : childBottom - 14;
                 this.addButtonTop = `${position}px`;
                 return;
             }
         }
 
         this.currentInsertIndex = target.children.length;
-        this.addButtonTop = `${rect.height - 20}px`;
+        this.addButtonTop = `${rect.height - 14}px`;
     }
 
     onMouseLeave() {

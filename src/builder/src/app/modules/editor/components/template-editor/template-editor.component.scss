@@ -39,6 +39,7 @@ div[item] {
     right: 0;
     margin-inline: auto;
     width: fit-content;
+    cursor: pointer;
     transition: opacity .2s;
     &:hover {
         opacity: 1 !important;
