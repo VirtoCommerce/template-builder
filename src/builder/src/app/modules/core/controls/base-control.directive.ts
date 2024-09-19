@@ -1,4 +1,4 @@
-import { AfterContentInit, Directive, ElementRef, Input, OnInit, OnDestroy } from "@angular/core";
+import { AfterContentInit, Directive, ElementRef, Input, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { appHelpers } from "@app/modules/integration/helpers";
 // import { FormGroup } from '@angular/forms';
@@ -8,7 +8,7 @@ import { BaseControlDescriptor } from '@models/controls';
 @Directive()
 export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit, OnDestroy {
 
-    descriptor!: T;
+    descriptor: T | null = null;
     context!: ControlContext;
     currentForm!: FormGroup;
 
@@ -16,6 +16,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     onValueChanged = (_: any) => { };
     onControlTouched = (_: any) => { };
 
+    @Output() valueChanged = new EventEmitter<any>();
 
     ngOnInit(): void {
         this.initContent();
@@ -26,7 +27,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     }
 
     ngAfterContentInit(): void {
-        if (this.descriptor.autofocus) {
+        if (this.descriptor?.autofocus) {
             // child must not change the value of parent properties
             // but focus change the parent form (un)touched property indirectly
             // to avoid the ExpressionChangedAfterItHasBeenCheckedError focus should be changed outside the digest cycle
@@ -54,6 +55,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     registerOnValueChanged(fn: (_: any) => void) {
         this.onValueChanged = (value) => {
             this.controlValue = value;
+            this.valueChanged.emit(value);
             fn(value);
         }
     }

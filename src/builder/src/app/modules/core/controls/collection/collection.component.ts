@@ -74,11 +74,11 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }
 
     getTitle(item: any, index: number): string {
-        return (!!this.descriptor.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
+        return (!!this.descriptor?.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
     }
 
     getDescriptors(): ControlDescriptor[] {
-        return this.descriptor.element; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+        return this.descriptor?.element || []; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
     }
 
     addItem() {
@@ -98,8 +98,8 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
             this.collectionFormArray.insert(index + 1, newItem);
             this.openedItem = newItem;
         } else if (event.action === 'delete') {
-            if (!this.descriptor.skipRemoveConfirmation) {
-                this.modals.confirm(this.descriptor.removeMessage || 'Do you want to delete this item?').subscribe((data: any) => {
+            if (!this.descriptor?.skipRemoveConfirmation) {
+                this.modals.confirm(this.descriptor?.removeMessage || 'Do you want to delete this item?').subscribe((data: any) => {
                     if (data) {
                         this.collectionFormArray.removeAt(index);
                     }

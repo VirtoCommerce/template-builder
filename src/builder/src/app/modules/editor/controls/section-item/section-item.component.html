@@ -1,12 +1,17 @@
 <div class="section-item"
      [ngClass]="{'hidden': section.hidden}"
-     (click)="onItemClick()"
+     (click)="onItemClick($event)"
      (mouseover)="onItemHover()"
      (mouseenter)="isHover = true"
      (mouseleave)="isHover = false">
-    <app-icon>{{ getSectionIcon() }}</app-icon>
+    <div class="w-6 h-6" (mouseenter)="isIconHover = true" (mouseleave)="isIconHover = false">
+        <app-icon *ngIf="!displayCheckbox">{{ getSectionIcon() }}</app-icon>
+        <app-checkbox *ngIf="displayCheckbox"
+            (valueChanged)="onCheckboxValueChanged($event)"
+            (click)="onCheckboxClick($event)"></app-checkbox>
+    </div>
     <div class="name" title="{{ getSectionName() }} ({{ section.id }})">{{ getSectionName() }}</div>
-    <app-context-menu *ngIf="!static && sectionSchema" [getActions]="getItemActions"
+    <app-context-menu *ngIf="hasContextMenu" [getActions]="getItemActions"
                       [visible]="isHover"
                       (onAction)="onActionClick($event)"></app-context-menu>
 </div>

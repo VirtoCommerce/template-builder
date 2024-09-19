@@ -13,15 +13,15 @@ import { AssetFile } from '../../models';
 })
 export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> {
 
-    uploadImage = (file: File) => this.data.uploadAsset(<AssetFile>file, this.descriptor, this.context, () => { }, { randomizeAssetName: true });
+    uploadImage = (file: File) => this.data.uploadAsset(<AssetFile>file, this.descriptor || {}, this.context, () => { }, { randomizeAssetName: true });
 
     constructor(private data: AssetsService) {
         super();
     }
 
     override setControlValue(value: any): void {
-        const isMarkdown = this.descriptor.resultType === 'markdown';
-        const isHtml = this.descriptor.resultType === 'html';
+        const isMarkdown = this.descriptor?.resultType === 'markdown';
+        const isHtml = this.descriptor?.resultType === 'html';
         const isMixed = !isMarkdown && !isHtml;
         const isValueStringOrNull = typeof value === 'string' || value === null;
 
@@ -36,11 +36,11 @@ export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> 
         this.controlValue = result;
     }
 
-    valueChanged(event: MarkdownModel) {
+    onInputValueChanged(event: MarkdownModel) {
         let value: MarkdownModel | string | null;
-        if (this.descriptor.resultType === 'markdown') {
+        if (this.descriptor?.resultType === 'markdown') {
             value = event.markdown;
-        } else if (this.descriptor.resultType === 'html') {
+        } else if (this.descriptor?.resultType === 'html') {
             value = event.html;
         } else {
             value = event;

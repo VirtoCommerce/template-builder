@@ -1,9 +1,9 @@
-<label class="pb-label" [attr.title]="descriptor.hint" class="pb-label">{{ descriptor.label }}</label>
+<label class="pb-label" [attr.title]="descriptor?.hint" class="pb-label">{{ descriptor?.label }}</label>
 
 <ngv-markdown [value]="controlValue"
-              [styles]="descriptor.styles || []"
+              [styles]="descriptor?.styles || []"
               [uploader]="uploadImage"
-              [options]="descriptor.editorOptions || {}"
-              (valueChanged)="valueChanged($event)"></ngv-markdown>
+              [options]="descriptor?.editorOptions || {}"
+              (valueChanged)="onInputValueChanged($event)"></ngv-markdown>
 
-<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>
+<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>

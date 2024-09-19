@@ -1,5 +1,5 @@
-<label [attr.title]="descriptor.hint" class="pb-label collection-title">{{ descriptor.label }}</label>
-<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>
+<label [attr.title]="descriptor?.hint" class="pb-label collection-title">{{ descriptor?.label }}</label>
+<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
 <div class="collection-wrapper" [formGroup]="form" cdkDropList (cdkDropListDropped)="reorderItems($event)">
     <div formArrayName="list" *ngFor="let item of collectionFormArray.controls; let i = index">
         <div class="item-wrapper"
@@ -13,7 +13,7 @@
                  (click)="toggle(item)">
                 <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem"></app-chevron>
                 <!-- <app-icon class="chevron">chevron_right</app-icon> -->
-                <label [attr.title]="descriptor.hint" class="pb-label">{{ getTitle(item.value, i) }}</label>
+                <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item.value, i) }}</label>
                 <app-context-menu [actions]="itemActions"
                                   [visible]="hoverItem === item"
                                   (onAction)="onActionClick($event, item, i)"></app-context-menu>
@@ -29,6 +29,6 @@
     <app-icon-button class="add-button"
                      icon="add"
                      skin="blue"
-                     [text]="descriptor.addText || 'Add item'"
+                     [text]="descriptor?.addText || 'Add item'"
                      (click)="addItem()"></app-icon-button>
 </div>

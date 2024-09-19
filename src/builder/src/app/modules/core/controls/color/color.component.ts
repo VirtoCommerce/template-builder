@@ -37,7 +37,7 @@ export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     }
 
     clearColor() {
-        this.onValueChanged(this.descriptor.clearValue || null);
+        this.onValueChanged(this.descriptor?.clearValue || null);
         this.close();
     }
 

@@ -1,8 +1,8 @@
 <!-- picker on click -->
-<ng-container *ngIf="!descriptor.inline; else inlinePicker">
+<ng-container *ngIf="!descriptor?.inline; else inlinePicker">
     <div class="flex items-center justify-between"
          (click)="togglePopover()">
-        <label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
+        <label class="pb-label" [attr.title]="descriptor?.hint">{{ descriptor?.label }}</label>
         <div #trigger="cdkOverlayOrigin"
              class="border rounded w-7 h-7 mr-2 cursor-pointer"
              cdkOverlayOrigin
@@ -17,18 +17,18 @@
                  (detach)="close()"
                  (backdropClick)="outsideClick($event)">
         <div class="picker-holder">
-            <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
+            <color-sketch *ngIf="descriptor?.colorMode !== 'presets'"
                           class="sketch-color-picker-component"
                           [className]="'popup-color-picker'"
                           [color]="controlValue || ''"
-                          [presetColors]="descriptor.presets || []"
-                          [disableAlpha]="descriptor.disableAlpha || false"
+                          [presetColors]="descriptor?.presets || []"
+                          [disableAlpha]="descriptor?.disableAlpha || false"
                           (onChangeComplete)="changeColor($event)"></color-sketch>
-            <color-twitter *ngIf="descriptor.colorMode === 'presets'"
+            <color-twitter *ngIf="descriptor?.colorMode === 'presets'"
                            [className]="'popup-color-picker'"
                            triangle="hide"
                            [color]="controlValue || ''"
-                           [colors]="descriptor.presets || []"
+                           [colors]="descriptor?.presets || []"
                            (onChangeComplete)="changeColor($event)"></color-twitter>
             <div class="m-4 flex flex-row-reverse space-x-4 space-x-reverse">
                 <button (click)="applyColor()">Ok</button>
@@ -39,17 +39,17 @@
 
 </ng-container>
 <ng-template #inlinePicker>
-    <label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-    <color-sketch *ngIf="descriptor.colorMode !== 'presets'"
+    <label class="pb-label" [attr.title]="descriptor?.hint">{{ descriptor?.label }}</label>
+    <color-sketch *ngIf="descriptor?.colorMode !== 'presets'"
                   [className]="'inline-color-picker max-w-sm'"
                   [color]="controlValue || ''"
-                  [presetColors]="descriptor.presets || []"
-                  [disableAlpha]="descriptor.disableAlpha || false"
+                  [presetColors]="descriptor?.presets || []"
+                  [disableAlpha]="descriptor?.disableAlpha || false"
                   (onChangeComplete)="changeColor($event)"></color-sketch>
-    <color-twitter *ngIf="descriptor.colorMode === 'presets'"
+    <color-twitter *ngIf="descriptor?.colorMode === 'presets'"
                    triangle="hide"
                    [className]="'inline-color-picker'"
                    [color]="controlValue || ''"
-                   [colors]="descriptor.presets || []"
+                   [colors]="descriptor?.presets || []"
                    (onChangeComplete)="changeColor($event)"></color-twitter>
 </ng-template>

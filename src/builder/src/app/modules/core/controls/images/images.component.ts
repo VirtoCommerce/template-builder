@@ -13,7 +13,7 @@ import { ImagesDescriptor } from '@models/controls';
 export class ImagesComponent extends BaseFilesComponent<ImagesDescriptor> {
 
     getMaxListHeight(): string {
-        return this.innerValue.length <= (this.descriptor.collapseThreshold || 4) || this.expanded || !!this.selectedFile
+        return this.innerValue.length <= (this.descriptor?.collapseThreshold || 4) || this.expanded || !!this.selectedFile
             ? 'inherit'
             : '12rem'
     }

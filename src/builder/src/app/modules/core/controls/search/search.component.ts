@@ -43,7 +43,7 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     override initContent() {
         this.searchEvent$.pipe(
             takeUntil(this.ngUnsubscribe$),
-            debounceTime(this.descriptor.debounceTime || 1000) // move to settings
+            debounceTime(this.descriptor?.debounceTime || 1000) // move to settings
         ).subscribe({
             next: (searchQuery) => {
                 this.searchModel(searchQuery);
@@ -52,8 +52,8 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     }
 
     getButtonText(): string {
-        if (this.descriptor.button !== true) {
-            return <string>this.descriptor.button;
+        if (this.descriptor?.button !== true) {
+            return <string>this.descriptor?.button;
         }
         return 'Search';
     }
@@ -81,17 +81,17 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
                 this.cdk.detectChanges();
             }
         };
-        if (!!this.descriptor.request) {
+        if (!!this.descriptor?.request) {
             this.data.doRequest(this.descriptor.request, context).pipe(
                 takeUntil(this.ngUnsubscribe$),
                 map(result => ({ key: 'value', result }))
             ).subscribe(observer);
-        } else if (!!this.descriptor.requests) {
+        } else if (!!this.descriptor?.requests) {
             const keys = Object.keys(this.descriptor.requests);
             from(keys).pipe(
                 takeUntil(this.ngUnsubscribe$),
                 concatMap(key => {
-                    const request = this.descriptor.requests[key];
+                    const request = this.descriptor!.requests[key];
                     context.item = value;
                     return this.data.doRequest(request, context).pipe(
                         takeUntil(this.ngUnsubscribe$),
@@ -117,7 +117,7 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     }
 
     isArrayDisplayInfo() {
-        return !!this.descriptor.displayInfo && Array.isArray(this.descriptor.displayInfo);
+        return !!this.descriptor?.displayInfo && Array.isArray(this.descriptor.displayInfo);
     }
 
     onPaste(event: ClipboardEvent) {

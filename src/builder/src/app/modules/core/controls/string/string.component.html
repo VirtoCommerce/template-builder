@@ -1,29 +1,29 @@
-<label class="pb-label" [attr.title]="descriptor.hint" class="pb-label">{{ descriptor.label }}</label>
+<label class="pb-label" [attr.title]="descriptor?.hint" class="pb-label">{{ descriptor?.label }}</label>
 
-<ng-container *ngIf="!descriptor.multiline">
+<ng-container *ngIf="!descriptor?.multiline">
     <input
            #control
            type="text"
            class="control"
            [value]="controlValue"
-           [placeholder]="descriptor.placeholder || ''"
+           [placeholder]="descriptor?.placeholder || ''"
            (keyup)="raiseOnChange($event)" />
 </ng-container>
 
-<ng-container *ngIf="descriptor.multiline">
+<ng-container *ngIf="descriptor?.multiline">
     <textarea
               #textarea
               rows="4"
               class="control"
               [value]="controlValue"
-              [placeholder]="descriptor.placeholder || ''"
+              [placeholder]="descriptor?.placeholder || ''"
               (keyup)="raiseOnChange($event)"></textarea>
 </ng-container>
 
-<ng-container *ngIf="descriptor.actions">
+<ng-container *ngIf="descriptor?.actions">
     <div class="flex flex-row-reverse">
         <div class="flex align-items-stretch py-1">
-            <app-icon-button *ngFor="let action of descriptor.actions|keyvalue"
+            <app-icon-button *ngFor="let action of descriptor?.actions|keyvalue"
                 (click)="onAction(action.value)"
                 [text]="action.value.label"
                 [icon]="action.value.icon"
@@ -33,4 +33,4 @@
     </div>
 </ng-container>
 
-<p *ngIf="descriptor.info" class="info">{{ descriptor.info }}</p>
+<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>

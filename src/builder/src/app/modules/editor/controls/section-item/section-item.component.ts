@@ -21,14 +21,22 @@ import { ContextMenuHelper, helpers } from '@editor/helpers';
 export class SectionItemComponent implements OnInit {
 
     isHover: boolean = false;
+    isIconHover: boolean = false;
 
     @Input() section!: SectionModel;
     @Input() sectionSchema!: SectionSchema;
-    @Input() static: boolean = false;
+    @Input() hasContextMenu: boolean = false;
+    @Input() selectable: boolean = true;
+    @Input() selected: boolean = false;
 
     @Output() actionClick = new EventEmitter<string>();
     @Output() itemClick = new EventEmitter();
     @Output() itemHover = new EventEmitter();
+    @Output() itemSelect = new EventEmitter();
+
+    get displayCheckbox(): boolean {
+        return (this.isIconHover && this.selectable) || this.selected;
+    }
 
     constructor(private helper: ContextMenuHelper) { }
 
@@ -36,10 +44,19 @@ export class SectionItemComponent implements OnInit {
 
     }
 
-    onItemClick() {
+    onItemClick(event: MouseEvent) {
+        console.log(event);
         if (!!this.sectionSchema) {
             this.itemClick.emit();
         }
+    }
+
+    onCheckboxClick(event: MouseEvent) {
+        event.stopPropagation();
+    }
+
+    onCheckboxValueChanged(value: boolean) {
+        this.itemSelect.emit(value);
     }
 
     onActionClick(event: ContextMenuAction) {

@@ -25,11 +25,11 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
     }
 
     getTitle(): string {
-        return (!!this.descriptor.displayField && this.controlValue[this.descriptor.displayField]) || this.descriptor.label || this.descriptor.title || '[no title]';
+        return (!!this.descriptor?.displayField && this.controlValue[this.descriptor.displayField]) || this.descriptor?.label || this.descriptor?.title || '[no title]';
     }
 
     getDescriptors(): ControlDescriptor[] {
-        return this.descriptor.element; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+        return this.descriptor?.element || []; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
     }
 
     toggle() {
