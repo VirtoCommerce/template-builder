@@ -10,21 +10,15 @@ export class CollapsibleListItemComponent implements OnInit {
     @Input() opened = false;
     @Input() expandable: boolean = false;
     @Input() hovered: boolean = false;
+    @Input() highlight: boolean = false;
 
     @Output() openChanged = new EventEmitter<boolean>();
-    @Output() visibleChanged = new EventEmitter<boolean>();
 
     constructor() { }
 
     ngOnInit(): void { }
 
     onChevronClick() {
-        this.opened = !this.opened;
-        this.openChanged.emit(this.opened);
+        this.openChanged.emit(!this.opened);
     }
-
-    onVisibleChanged(value: boolean) {
-        this.visibleChanged.emit(value);
-    }
-
 }

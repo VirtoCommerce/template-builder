@@ -1,7 +1,7 @@
 import { Dictionary } from "@models/index";
 
 export interface EditorUIState {
-    states: Dictionary<{
+    addSectionPaneStates: Dictionary<{
         opened: boolean;
     }>;
     previewItemType: string | null;
@@ -13,7 +13,7 @@ export interface EditorUIState {
 };
 
 export const initialState: EditorUIState = {
-    states: {},
+    addSectionPaneStates: {},
     previewItemType: null,
     currentSectionsFilter: null,
     dragSectionId: null,

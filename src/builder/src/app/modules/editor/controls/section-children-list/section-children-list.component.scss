@@ -8,8 +8,12 @@
 
 .block-item {
     @apply flex flex-row py-2 pl-2 rounded bg-white;
+    transition: background-color 0.2s;
     &:hover {
         background: rgba(246, 246, 246, 1);
+    }
+    &.selected {
+        background-color: #FFF8EB;
     }
 }
 

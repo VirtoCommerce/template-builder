@@ -59,9 +59,10 @@ import { LAYOUT_COMPONENTS } from './layout';
             name: 'Builder',
             maxAge: 25,
             // logOnly: environment.production,
-            // actionsBlocklist: [
-            //     ...actionsToIgnore
-            // ]
+            actionsBlocklist: [
+                '[shared] broadcast preview message',
+                '[template editor] hover section',
+            ]
         }),
 
         CoreModule,

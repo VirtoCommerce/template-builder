@@ -3,10 +3,11 @@
      (click)="onItemClick($event)"
      (mouseover)="onItemHover()"
      (mouseenter)="isHover = true"
-     (mouseleave)="isHover = false">
+     (mouseleave)="isHover = false; isIconHover = false;">
     <div class="w-6 h-6" (mouseenter)="isIconHover = true" (mouseleave)="isIconHover = false">
         <app-icon *ngIf="!displayCheckbox">{{ getSectionIcon() }}</app-icon>
         <app-checkbox *ngIf="displayCheckbox"
+            [controlValue]="selected"
             (valueChanged)="onCheckboxValueChanged($event)"
             (click)="onCheckboxClick($event)"></app-checkbox>
     </div>

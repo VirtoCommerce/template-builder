@@ -40,9 +40,9 @@ export const isLoading = createSelector(
     state => state.isTemplateLoading || state.isSchemasLoading
 );
 
-export const selectSectionGroupStates = createSelector(
+export const selectAddSectionPaneGroupStates = createSelector(
     selectTemplateUIState,
-    state => state.states
+    state => state.addSectionPaneStates
 );
 
 export const selectPreviewItemType = createSelector(
@@ -55,28 +55,52 @@ export const selectCurrentDragSection = createSelector(
     state => state.dragSectionId
 );
 
+const hasSelectedSection = createSelector(
+    fromDomain.selectCurrentTemplateState,
+    state => !!state?.sections && Object.values(state.sections).some(x => x.selected)
+);
+
+const selectKeyOfSectionWithSelectedBlock = createSelector(
+    fromDomain.selectCurrentTemplateState,
+    state => Object.keys(state?.sections || {}).find(x => Object.values(state?.sections[x].blocks || {}).some(b => b.selected))
+);
+
 export const selectSectionsState = createSelector(
     fromDomain.selectCurrentTemplateState,
     fromData.selectCurrentTemplateModel,
     fromData.selectSectionsSchemas,
     selectCurrentDragSection,
-    (state, model, schemas, dragSectionId) => (schemas && model?.content.filter(x => x.type && x.id).reduce((result, section) => {
-        const canHaveChildren = (schemas[section.type]?.blocks?.length || 0) > 0;
-        // const expanded =
-        //     !!dragSectionId
-        //         ? false
-        //         : state?.sections[section.id]?.expanded === undefined
-        //             ? canHaveChildren
-        //             : state?.sections[section.id]?.expanded;
-        return <SectionStatesList>{
-            ...result,
-            [section.id]: <SectionState>{
-                expanded: canHaveChildren,
-                canHaveChildren,
-                ...state?.sections[section.id],
-            }
-        };
-    }, {})) || <SectionStatesList>{}
+    hasSelectedSection,
+    selectKeyOfSectionWithSelectedBlock,
+    (state, model, schemas, dragSectionId, hasSelectedSection, sectionKeyWithSelectedBlock) => {
+        const result = (schemas && model?.content.filter(x => x.type && x.id).reduce((result, section) => {
+            const canHaveChildren = (schemas[section.type]?.blocks?.length || 0) > 0;
+            // const expanded =
+            //     !!dragSectionId
+            //         ? false
+            //         : state?.sections[section.id]?.expanded === undefined
+            //             ? canHaveChildren
+            //             : state?.sections[section.id]?.expanded;
+            return <SectionStatesList>{
+                ...result,
+                [section.id]: <SectionState>{
+                    expanded: canHaveChildren,
+                    canHaveChildren,
+                    selectable: !sectionKeyWithSelectedBlock,
+                    ...state?.sections[section.id],
+                    blocks: canHaveChildren ? section.blocks?.reduce((res, v) => ({
+                        ...res,
+                        [v.id]: {
+                            selected: res[v.id]?.selected || false,
+                            selectable: !hasSelectedSection && (!sectionKeyWithSelectedBlock || sectionKeyWithSelectedBlock === section.id),
+                        }
+                    }), state?.sections[section.id]?.blocks || {}) : {},
+                }
+            };
+        }, <SectionStatesList>{})) || <SectionStatesList>{};
+        console.log(result);
+        return result;
+    }
 );
 
 export const editTemplateContext = createSelector(
@@ -99,7 +123,7 @@ export const editTemplateContext = createSelector(
 
 export const selectAddItemContext = createSelector(
     fromData.selectGroupedSectionSchemas,
-    selectSectionGroupStates,
+    selectAddSectionPaneGroupStates,
     selectPreviewItemType,
     selectCurrentSectionsFilter,
     fromData.selectSectionModelFromRoute,

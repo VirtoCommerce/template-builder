@@ -12,6 +12,7 @@ import * as fromRoute from '@shared/routing';
 import * as fromState from '@editor/store/selectors';
 import * as actions from '@editor/store/actions';
 import { RFC_2822 } from 'moment';
+import { BlockState } from '../../models';
 
 @Component({
     selector: 'app-template-editor',
@@ -31,6 +32,7 @@ export class TemplateEditorComponent implements OnInit {
     addButtonTop = '0';
     addButtonOpacity = 0;
     currentInsertIndex = 0;
+    currentHoverId: string | null = null;
 
     // templateKeyParameter$ = this.store.select(fromRoute.selectTemplateKeyParameter);
 
@@ -68,6 +70,15 @@ export class TemplateEditorComponent implements OnInit {
         this.store.dispatch(actions.hoverSection({ sectionId: section.id }));
     }
 
+    onItemSelectChanged(selected: boolean, section: SectionModel, templateKey: string, vm: any) {
+        console.log(vm);
+        this.store.dispatch(actions.sectionStateChangedAction({ sectionId: section.id, templateKey, state: { selected } }));
+    }
+
+    onBlockSelectChanged(selected: boolean, blockId: string, sectionId: string, templateKey: string) {
+        this.store.dispatch(actions.sectionStateChangedAction({ sectionId, templateKey, state: { blocks: { [blockId]: <BlockState>{ selected } } } }));
+    }
+
     onBlockClick(section: SectionModel, block: SectionModel) {
         this.store.dispatch(actions.editBlockAction({ sectionId: section.id, blockId: block.id }));
     }
@@ -75,8 +86,8 @@ export class TemplateEditorComponent implements OnInit {
         this.store.dispatch(actions.showBlankSections({ sectionId: section.id, positionIndex: -1 }));
     }
 
-    toggleSection(sectionId: string, template: string) {
-        this.store.dispatch(actions.toggleSectionAction({ sectionId, template }));
+    toggleSection(expanded: boolean, sectionId: string, templateKey: string) {
+        this.store.dispatch(actions.sectionStateChangedAction({ sectionId, templateKey, state: { expanded } }));
     }
 
     onActionClick(event: string, section?: SectionModel, block?: SectionModel) {
@@ -110,7 +121,7 @@ export class TemplateEditorComponent implements OnInit {
                 const m = (childBottom + childTop) / 2;
                 const onTop = top < m;
                 this.currentInsertIndex = onTop ? i : i + 1;
-                const position  = onTop ? childTop - 18 : childBottom - 14;
+                const position = onTop ? childTop - 18 : childBottom - 14;
                 this.addButtonTop = `${position}px`;
                 return;
             }

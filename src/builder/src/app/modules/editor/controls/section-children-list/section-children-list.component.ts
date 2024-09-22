@@ -1,6 +1,6 @@
 import { CdkDragSortEvent } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { SectionsSchemasList } from '@editor/models';
+import { BlockStatesList, SectionsSchemasList } from '@editor/models';
 import { ReorderItemsModel } from '@core/models';
 import { SectionModel } from '@models/document';
 
@@ -11,10 +11,14 @@ import { SectionModel } from '@models/document';
 })
 export class SectionChildrenListComponent implements OnInit {
 
+    currentHoverId: string | null = null;
+
     @Input() section!: SectionModel;
     @Input() blocksSchemas!: SectionsSchemasList;
+    @Input() states!: BlockStatesList;
 
     @Output() itemClick = new EventEmitter<SectionModel>();
+    @Output() checkChanged = new EventEmitter<{ blockId: string, selected: boolean }>();
     @Output() addBlockClick = new EventEmitter();
     @Output() reorderBlocks = new EventEmitter<ReorderItemsModel>();
     @Output() executeAction = new EventEmitter<{ action: string, block: SectionModel }>();
@@ -38,5 +42,9 @@ export class SectionChildrenListComponent implements OnInit {
 
     onActionExecuted(action: string, block: SectionModel) {
         this.executeAction.emit({ action, block });
+    }
+
+    onItemSelectChanged(selected: boolean, blockId: string) {
+        this.checkChanged.emit({ blockId, selected });
     }
 }

@@ -13,7 +13,16 @@ export interface TemplateState {
 export interface SectionState {
     expanded: boolean;
     canHaveChildren?: boolean;
+    selected: boolean;
+    selectable: boolean;
+    blocks: BlockStatesList;
+}
+
+export interface BlockState {
+    selected: boolean;
+    selectable: boolean;
 }
 
 export type TemplateStatesList = Dictionary<TemplateState>;
 export type SectionStatesList = Dictionary<SectionState>;
+export type BlockStatesList = Dictionary<BlockState>;

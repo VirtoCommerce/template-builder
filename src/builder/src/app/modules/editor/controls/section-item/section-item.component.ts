@@ -32,7 +32,7 @@ export class SectionItemComponent implements OnInit {
     @Output() actionClick = new EventEmitter<string>();
     @Output() itemClick = new EventEmitter();
     @Output() itemHover = new EventEmitter();
-    @Output() itemSelect = new EventEmitter();
+    @Output() itemSelectChanged = new EventEmitter();
 
     get displayCheckbox(): boolean {
         return (this.isIconHover && this.selectable) || this.selected;
@@ -45,7 +45,6 @@ export class SectionItemComponent implements OnInit {
     }
 
     onItemClick(event: MouseEvent) {
-        console.log(event);
         if (!!this.sectionSchema) {
             this.itemClick.emit();
         }
@@ -56,7 +55,7 @@ export class SectionItemComponent implements OnInit {
     }
 
     onCheckboxValueChanged(value: boolean) {
-        this.itemSelect.emit(value);
+        this.itemSelectChanged.emit(value);
     }
 
     onActionClick(event: ContextMenuAction) {

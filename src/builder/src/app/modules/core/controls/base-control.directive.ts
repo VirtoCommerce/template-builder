@@ -12,8 +12,8 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     context!: ControlContext;
     currentForm!: FormGroup;
 
-    controlValue: any;
-    onValueChanged = (_: any) => { };
+    @Input() controlValue: any;
+    onValueChanged = (value: any) => this.defaultValueChanged(value);
     onControlTouched = (_: any) => { };
 
     @Output() valueChanged = new EventEmitter<any>();
@@ -54,8 +54,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     registerOnValueChanged(fn: (_: any) => void) {
         this.onValueChanged = (value) => {
-            this.controlValue = value;
-            this.valueChanged.emit(value);
+            this.defaultValueChanged(value);
             fn(value);
         }
     }
@@ -85,6 +84,11 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     protected getFocusableControl(): ElementRef | null {
         return null;
+    }
+
+    protected defaultValueChanged(value: any) {
+        this.controlValue = value;
+        this.valueChanged.emit(value);
     }
 
     protected initContent() { }

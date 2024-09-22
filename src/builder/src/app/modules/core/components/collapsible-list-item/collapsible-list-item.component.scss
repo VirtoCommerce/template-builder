@@ -4,8 +4,16 @@
 
 .item-holder {
     @apply flex flex-row py-2 rounded;
-    &:hover, &.hovered {
+    transition: background-color 0.2s;
+
+    &:hover,
+    &.hovered {
         background: rgba(246, 246, 246, 1);
+    }
+
+
+    &.highlighted {
+        background-color: #FFF8EB;
     }
 }
 
