@@ -68,8 +68,6 @@ function reorderSectionsInList(list: SectionModel[], currentIndex: number, previ
         newList.splice(currentIndex, 0, item);
         return newList
     } else {
-
-        console.log(previousIndex, currentIndex);
         const delta = previousIndex > currentIndex ? -1 : 0;
 
         let firstUntouchedElement: SectionModel | null = null;

@@ -3,13 +3,15 @@
         <div class="block-item"
              cdkDragBoundary=".blocks-container"
              cdkDragLockAxis="y"
+             cdkDrag
              [ngClass]="{ 'selected': states[block.id]?.selected }"
+             (cdkDragStarted)="blockDragStarted($event)"
+             (cdkDragReleased)="blockDragCompleted()"
              (mouseenter)="currentHoverId = block.id"
-             (mouseleave)="currentHoverId = null"
-             cdkDrag>
+             (mouseleave)="currentHoverId = null">
             <app-section-item [sectionSchema]="blocksSchemas[block.type]"
-                              [selectable]="states[block.id].selectable"
-                              [selected]="states[block.id].selected"
+                              [selectable]="states[block.id]?.selectable || false"
+                              [selected]="states[block.id]?.selected || false"
                               [hasContextMenu]="!selectMode"
                               [section]="block"
                               (itemClick)="onItemClick(block)"
@@ -17,8 +19,15 @@
                               (itemSelectChanged)="onItemSelectChanged($event, block.id)">
             </app-section-item>
             <app-drag-handle cdkDragHandle
-                    [cdkDragHandleDisabled]="!((!selectMode && block.id === currentHoverId) || states[block.id]?.selected || false)"
-                    [visible]="(!selectMode && block.id === currentHoverId) || states[block.id]?.selected || false"></app-drag-handle>
+                             [cdkDragHandleDisabled]="!((!selectMode && block.id === currentHoverId) || states[block.id]?.selected || false)"
+                             [visible]="(!selectMode && block.id === currentHoverId) || states[block.id]?.selected || false"></app-drag-handle>
+            <div class="section-placeholder" *cdkDragPlaceholder></div>
+            <span class="drag-preview" *cdkDragPreview>
+                {{
+                selectedBlocksCount === 1 || selectedBlocksCount === 0 ? '1 section' : ( selectedBlocksCount + '
+                sections')
+                }}
+            </span>
         </div>
     </ng-container>
 </div>
