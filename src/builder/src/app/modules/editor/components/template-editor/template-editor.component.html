@@ -22,11 +22,15 @@
                                                [opened]="vm.sectionsState[section.id].expanded"
                                                [hovered]="(hoveredSectionId$ | async) == section.id"
                                                [highlight]="vm.sectionsState[section.id].selected"
+                                               [ngClass]="{
+                                                    dragging: vm.sectionsState[section.id].isDragging,
+                                                    selected: vm.sectionsState[section.id].selected
+                                               }"
                                                cdkDragBoundary=".ps"
                                                cdkDragLockAxis="y"
                                                cdkDrag
-                                               (cdkDragStarted)="sectionDragStarted(section)"
-                                               (cdkDragReleased)="sectionDragCompleted(section)"
+                                               (cdkDragStarted)="sectionDragStarted($event, section)"
+                                               (cdkDragReleased)="sectionDragCompleted($event, section)"
                                                (openChanged)="toggleSection($event, section.id, vm.templateState!.key)">
                         <div item>
                             <div class="item-holder"
@@ -36,29 +40,38 @@
                                                   [section]="section"
                                                   [selectable]="vm.sectionsState[section.id].selectable"
                                                   [selected]="vm.sectionsState[section.id].selected"
-                                                  [hasContextMenu]="true"
-                                                  (itemClick)="onSectionClick(section)"
+                                                  [hasContextMenu]="!vm.selectMode && vm.currentDragSection.length === 0"
+                                                  (itemClick)="!vm.selectMode && onSectionClick(section)"
                                                   (itemHover)="onSectionHover(section)"
                                                   (actionClick)="onActionClick($event, section)"
-                                                  (itemSelectChanged)="onItemSelectChanged($event, section, vm.templateState!.key, vm)">
+                                                  (itemSelectChanged)="onItemSelectChanged($event, section, vm.templateState!.key)">
                                 </app-section-item>
                                 <app-drag-handle cdkDragHandle
-                                                 [visible]="section.id === currentHoverId || vm.sectionsState[section.id].selected"></app-drag-handle>
+                                                 [cdkDragHandleDisabled]="!((!vm.selectMode && section.id === currentHoverId) || vm.sectionsState[section.id].selected)"
+                                                 [visible]="(!vm.selectMode && section.id === currentHoverId) || vm.sectionsState[section.id].selected"></app-drag-handle>
                             </div>
                         </div>
                         <app-section-children-list [section]="section"
                                                    [blocksSchemas]="vm.blocksSchemas!"
                                                    [states]="vm.sectionsState[section.id].blocks"
-                                                   (itemClick)="onBlockClick(section, $event)"
+                                                   [selectMode]="vm.selectMode"
+                                                   (itemClick)="!vm.selectMode && onBlockClick(section, $event)"
                                                    (addBlockClick)="addBlockClick(section)"
                                                    (reorderBlocks)="reorderBlocks($event)"
                                                    (executeAction)="onActionClick($event.action, section, $event.block)"
                                                    (checkChanged)="onBlockSelectChanged($event.selected, $event.blockId, section.id, vm.templateState!.key)">
                         </app-section-children-list>
+                        <div class="section-placeholder" *cdkDragPlaceholder></div>
+                        <span class="drag-preview" *cdkDragPreview>{{ vm.selectedSectionsCount === 1 ||
+                            vm.selectedSectionsCount === 0 ? '1 section' : ( vm.selectedSectionsCount + ' sections')
+                            }}</span>
                     </app-collapsible-list-item>
                 </ng-container>
-                <app-icon [ngStyle]="{ top: addButtonTop, opacity: addButtonOpacity }" class="add-button"
-                          (click)="addSectionClick()">add_circle</app-icon>
+                <ng-container *ngIf="!vm.selectMode && vm.currentDragSection.length === 0">
+                    <div [ngStyle]="{ top: addLineTop, opacity: addButtonOpacity }" class="line"></div>
+                    <app-icon [ngStyle]="{ top: addButtonTop, opacity: addButtonOpacity }" class="add-button"
+                              (click)="addSectionClick()">add_circle</app-icon>
+                </ng-container>
             </div>
             <div class="settings-container bottom"
                  *ngIf="vm.settingsSchemas?.bottom && vm.settingsSchemas?.bottom?.length">

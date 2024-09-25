@@ -23,7 +23,7 @@ export const selectAddItemTitle = createSelector(
     (section, schema) => {
         if (!section)
             return 'Add block';
-            // return 'Add section';
+        // return 'Add section';
         const name = helpers.getSectionName(section, schema || null, 'section');
         const result = `Add block to '${name}'`;
         return result;
@@ -50,9 +50,34 @@ export const selectPreviewItemType = createSelector(
     state => state.previewItemType
 );
 
-export const selectCurrentDragSection = createSelector(
+export const selectCurrentDragSections = createSelector(
     selectTemplateUIState,
-    state => state.dragSectionId
+    state => state.dragSectionIds
+);
+
+function getSelectedIds(states: SectionStatesList): string[] {
+    const result = [];
+    for (const key in states) {
+        if (states[key].selected) {
+            result.push(key);
+        }
+        if (result.length === 0) {
+            for (const blockKey in states[key].blocks) {
+                if (states[key].blocks[blockKey].selected) {
+                    result.push(blockKey);
+                }
+            }
+            if (result.length > 0) {
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+export const selectCheckedItems = createSelector(
+    fromDomain.selectCurrentTemplateState,
+    state => getSelectedIds(state?.sections || {})
 );
 
 const hasSelectedSection = createSelector(
@@ -69,28 +94,24 @@ export const selectSectionsState = createSelector(
     fromDomain.selectCurrentTemplateState,
     fromData.selectCurrentTemplateModel,
     fromData.selectSectionsSchemas,
-    selectCurrentDragSection,
+    selectCurrentDragSections,
     hasSelectedSection,
     selectKeyOfSectionWithSelectedBlock,
-    (state, model, schemas, dragSectionId, hasSelectedSection, sectionKeyWithSelectedBlock) => {
+    (state, model, schemas, dragSectionIds, hasSelectedSection, sectionKeyWithSelectedBlock) => {
         const result = (schemas && model?.content.filter(x => x.type && x.id).reduce((result, section) => {
             const canHaveChildren = (schemas[section.type]?.blocks?.length || 0) > 0;
-            // const expanded =
-            //     !!dragSectionId
-            //         ? false
-            //         : state?.sections[section.id]?.expanded === undefined
-            //             ? canHaveChildren
-            //             : state?.sections[section.id]?.expanded;
             return <SectionStatesList>{
                 ...result,
                 [section.id]: <SectionState>{
                     expanded: canHaveChildren,
                     canHaveChildren,
+                    isDragging: dragSectionIds.indexOf(section.id) !== -1,
                     selectable: !sectionKeyWithSelectedBlock,
                     ...state?.sections[section.id],
                     blocks: canHaveChildren ? section.blocks?.reduce((res, v) => ({
                         ...res,
                         [v.id]: {
+                            isDragging: dragSectionIds.indexOf(v.id) !== -1,
                             selected: res[v.id]?.selected || false,
                             selectable: !hasSelectedSection && (!sectionKeyWithSelectedBlock || sectionKeyWithSelectedBlock === section.id),
                         }
@@ -98,7 +119,6 @@ export const selectSectionsState = createSelector(
                 }
             };
         }, <SectionStatesList>{})) || <SectionStatesList>{};
-        console.log(result);
         return result;
     }
 );
@@ -111,10 +131,16 @@ export const editTemplateContext = createSelector(
     fromData.selectBlocksSchemas,
     fromData.selectTemplateSettings,
     fromData.selectCurrentTemplateSettingsSchemas,
-    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas) => {
+    selectCurrentDragSections,
+    (template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas, currentDragSection) => {
+        const selectedSectionsCount = Object.values(sectionsState).filter(x => x.selected).length;
+        const selectedBlocksCount = Object.values(sectionsState).reduce((acc, value) => acc + Object.values(value.blocks).filter(x => x.selected).length, 0);
         const result = template && sectionsSchemas && blocksSchemas
             ? {
-                template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas
+                template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas,
+                selectedSectionsCount, selectedBlocksCount,
+                currentDragSection,
+                selectMode: selectedSectionsCount > 0 || selectedBlocksCount > 0
             }
             : null;
         return result;

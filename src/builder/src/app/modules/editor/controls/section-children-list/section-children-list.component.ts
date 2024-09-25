@@ -16,6 +16,7 @@ export class SectionChildrenListComponent implements OnInit {
     @Input() section!: SectionModel;
     @Input() blocksSchemas!: SectionsSchemasList;
     @Input() states!: BlockStatesList;
+    @Input() selectMode: boolean = false;
 
     @Output() itemClick = new EventEmitter<SectionModel>();
     @Output() checkChanged = new EventEmitter<{ blockId: string, selected: boolean }>();

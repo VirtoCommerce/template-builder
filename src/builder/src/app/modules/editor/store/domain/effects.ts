@@ -300,10 +300,13 @@ export class TemplateEditorDomainEffects {
     orderSections$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sortItems),
         filter(({ options }) => !options.parent),
-        withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
+        withLatestFrom(
+            this.store$.select(selectors.changeTemplateContext),
+            this.store$.select(selectors.selectCheckedItems)
+        ),
         filter(([, template]) => !!template),
-        switchMap(([{ options }, { template, templateKey }]) => {
-            const newTemplate = editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex); // section can be null
+        switchMap(([{ options }, { template, templateKey }, checkedItems]) => {
+            const newTemplate = editorHelpers.reorderSections(template!, options.currentIndex, options.previousIndex, checkedItems); // section can be null
             return [
                 actions.updateTemplateAction({
                     template: newTemplate,
@@ -324,11 +327,14 @@ export class TemplateEditorDomainEffects {
     orderBlocks$ = createEffect(() => this.actions$.pipe(
         ofType(actions.sortItems),
         filter(({ options }) => !!options.parent),
-        withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
+        withLatestFrom(
+            this.store$.select(selectors.changeTemplateContext),
+            this.store$.select(selectors.selectCheckedItems)
+        ),
         filter(([, template]) => !!template),
-        switchMap(([{ options }, { template, templateKey }]) => [
+        switchMap(([{ options }, { template, templateKey }, checkedItems]) => [
             actions.updateTemplateAction({
-                template: editorHelpers.reorderBlocks(template!, options.parent!, options.currentIndex, options.previousIndex), // section can be null
+                template: editorHelpers.reorderBlocks(template!, options.parent!, options.currentIndex, options.previousIndex, checkedItems), // section can be null
                 templateKey
             }),
         ])

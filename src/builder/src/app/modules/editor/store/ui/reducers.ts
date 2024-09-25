@@ -33,11 +33,11 @@ export const editorUIReducers = createReducer<EditorUIState>(
     })),
     on(actions.startDragSection, (state, { sectionId }) => ({
         ...state,
-        dragSectionId: sectionId
+        dragSectionIds: [...state.dragSectionIds, sectionId]
     })),
     on(actions.releaseDragSection, (state, { sectionId }) => ({
         ...state,
-        dragSectionId: null
+        dragSectionIds: []
     })),
 
     on(actions.loadTemplateModel, state => ({ ...state, isTemplateLoading: true })),

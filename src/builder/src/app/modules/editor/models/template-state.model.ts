@@ -15,12 +15,14 @@ export interface SectionState {
     canHaveChildren?: boolean;
     selected: boolean;
     selectable: boolean;
+    isDragging: boolean;
     blocks: BlockStatesList;
 }
 
 export interface BlockState {
     selected: boolean;
     selectable: boolean;
+    isDragging: boolean;
 }
 
 export type TemplateStatesList = Dictionary<TemplateState>;

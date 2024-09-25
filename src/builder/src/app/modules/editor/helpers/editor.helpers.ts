@@ -60,22 +60,42 @@ export function addItemToTemplate(schema: SectionSchema, template: TemplateModel
     }
 }
 
-function reorderSectionsInList(list: SectionModel[], currentIndex: number, previousIndex: number): SectionModel[] {
-    const newList = [...list];
-    const item = newList[previousIndex];
-    newList.splice(previousIndex, 1);
-    newList.splice(currentIndex, 0, item);
-    return newList;
+function reorderSectionsInList(list: SectionModel[], currentIndex: number, previousIndex: number, sectionIds: string[]): SectionModel[] {
+    if (sectionIds.length === 0) {
+        const newList = [...list];
+        const item = newList[previousIndex];
+        newList.splice(previousIndex, 1);
+        newList.splice(currentIndex, 0, item);
+        return newList
+    } else {
+
+        console.log(previousIndex, currentIndex);
+        const delta = previousIndex > currentIndex ? -1 : 0;
+
+        let firstUntouchedElement: SectionModel | null = null;
+        for (let i = currentIndex + delta; i >= 0; i--) {
+            if (sectionIds.indexOf(list[i].id) === -1) {
+                firstUntouchedElement = list[i];
+                break;
+            }
+        }
+
+        const elementsToPaste = list.filter(x => sectionIds.indexOf(x.id) !== -1);
+        const newList = list.filter(x => sectionIds.indexOf(x.id) === -1);
+        const newIndex = firstUntouchedElement === null ? 0 : newList.indexOf(firstUntouchedElement) + 1;
+        newList.splice(newIndex, 0, ...elementsToPaste);
+        return newList;
+    }
 }
 
-export function reorderSections(template: TemplateModel, currentIndex: number, previousIndex: number): TemplateModel {
+export function reorderSections(template: TemplateModel, currentIndex: number, previousIndex: number, sectionIds: string[]): TemplateModel {
     return {
         ...template,
-        content: reorderSectionsInList(template.content, currentIndex, previousIndex)
+        content: reorderSectionsInList(template.content, currentIndex, previousIndex, sectionIds)
     };
 }
 
-export function reorderBlocks(template: TemplateModel, section: SectionModel, currentIndex: number, previousIndex: number): TemplateModel {
+export function reorderBlocks(template: TemplateModel, section: SectionModel, currentIndex: number, previousIndex: number, blockIds: string[]): TemplateModel {
     const sectionIndex = template.content.findIndex(item => item.id === section.id);
     return {
         ...template,
@@ -83,7 +103,7 @@ export function reorderBlocks(template: TemplateModel, section: SectionModel, cu
             ...template.content.slice(0, sectionIndex),
             {
                 ...section,
-                blocks: reorderSectionsInList(section.blocks, currentIndex, previousIndex)
+                blocks: reorderSectionsInList(section.blocks, currentIndex, previousIndex, blockIds)
             },
             ...template.content.slice(sectionIndex + 1)
         ]

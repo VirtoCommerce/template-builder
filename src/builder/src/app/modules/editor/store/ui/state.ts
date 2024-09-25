@@ -6,7 +6,7 @@ export interface EditorUIState {
     }>;
     previewItemType: string | null;
     currentSectionsFilter: string | null;
-    dragSectionId: string | null;
+    dragSectionIds: string[];
     isTemplateLoading: boolean;
     isSchemasLoading: boolean;
     hoveredSectionId: string | null;
@@ -16,7 +16,7 @@ export const initialState: EditorUIState = {
     addSectionPaneStates: {},
     previewItemType: null,
     currentSectionsFilter: null,
-    dragSectionId: null,
+    dragSectionIds: [],
     isTemplateLoading: false,
     isSchemasLoading: false,
     hoveredSectionId: null,

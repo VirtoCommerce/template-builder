@@ -1,6 +1,6 @@
 @import '../../../../../layout/variables.scss';
 
-:host {
+:host.visible {
     @apply cursor-move;
 }
 
