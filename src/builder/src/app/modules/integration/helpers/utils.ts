@@ -30,6 +30,11 @@ export function spreadPropertyByOther(obj: any, keyProperty: string, ...spreadPr
     return result;
 }
 
+export function generateAnchor(value: string): string {
+    // replace spaces with dashes
+    return value.toLowerCase().replace(/[^\w\s-]+/g, '').replace(/\n$/, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 export function generateUniqueString(length: number): string {
     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-';
     const randomChar = () => characters[Math.floor(Math.random() * characters.length)];
@@ -71,7 +76,14 @@ export function template(value: string, ...args: any) {
 }
 
 export function evalInContext(expr: string, context: any): any {
-    return function () { return eval(expr); }.call(context);
+    return function () {
+        try{
+            return eval(expr);
+        } catch(e) {
+            console.log(expr, context, e);
+        }
+        return null;
+    }.call(context);
 }
 
 export function getValueOrDefault(value: any, defaultValue: any = null) {
@@ -88,6 +100,10 @@ export function getValueByPath(model: any, path: any): any {
         return null;
     }
     return result;
+}
+
+export function stripHtmlTags(str: string) {
+    return str.replace(/<[^>]*>/g, ' ');
 }
 
 export function combine(...parts: string[]): string {
@@ -145,4 +161,10 @@ export function arrayCastByConfig(item: any, isArray: boolean | null = null): an
         return [item];
     }
     return item;
+}
+
+export function cutString(value: string, length = 50): string {
+    if (!value) return '';
+    if (value.length <= length) return value;
+    return value.substring(0, length) + '...';
 }

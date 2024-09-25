@@ -108,7 +108,7 @@ export class ThemeDomainEffects {
             this.store$.select(domainSelectors.selectCurrentSettings)
         ),
         map(([{ settings }, currentSettings]) =>
-            sharedActions.broadcastMessage({ msg: { type: 'settings', settings: settings || currentSettings } })
+            sharedActions.broadcastPreviewMessage({ msg: { type: 'settings', settings: settings || currentSettings } })
         )
     ));
 }

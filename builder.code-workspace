@@ -1,13 +1,16 @@
 {
 	"folders": [
 		{
-			"path": "src\\builder"
+			"path": "src/builder"
 		},
 		{
-			"path": "src\\bridge"
+			"path": "src/bridge"
 		},
 		{
-			"path": "src/preview"
+			"path": "src/vue-preview"
+		},
+		{
+			"path": "src/vanilla-preview"
 		}
 	],
 	"settings": {}

@@ -1,5 +1,6 @@
 import { AfterContentInit, Directive, ElementRef, Input, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup } from "@angular/forms";
+import { appHelpers } from "@app/modules/integration/helpers";
 // import { FormGroup } from '@angular/forms';
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
@@ -59,6 +60,16 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     registerOnControlTouched(fn: (_: any) => void) {
         this.onControlTouched = fn;
+    }
+
+    onAction(action: { label?: string | undefined; icon?: string | undefined; execute?: string | undefined; }) {
+        if (!action.execute) {
+            return;
+        }
+        const result = appHelpers.evalInContext(action.execute, this.context);
+        if (result) {
+            this.setControlValue(result);
+        }
     }
 
     protected applyNewValue() { }

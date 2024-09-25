@@ -9,6 +9,7 @@ export interface EditorUIState {
     dragSectionId: string | null;
     isTemplateLoading: boolean;
     isSchemasLoading: boolean;
+    hoveredSectionId: string | null;
 };
 
 export const initialState: EditorUIState = {
@@ -17,5 +18,6 @@ export const initialState: EditorUIState = {
     currentSectionsFilter: null,
     dragSectionId: null,
     isTemplateLoading: false,
-    isSchemasLoading: false
+    isSchemasLoading: false,
+    hoveredSectionId: null,
 };

@@ -15,6 +15,7 @@ import * as fromData from "./data";
 import * as fromShared from '@shared/store';
 
 import { helpers } from "@editor/helpers";
+import { appHelpers } from "@integration/helpers";
 
 export const selectAddItemTitle = createSelector(
     fromData.selectSectionModelFromRoute,
@@ -27,6 +28,11 @@ export const selectAddItemTitle = createSelector(
         const result = `Add block to '${name}'`;
         return result;
     }
+);
+
+export const hoveredSectionId = createSelector(
+    selectTemplateUIState,
+    state => state.hoveredSectionId
 );
 
 export const isLoading = createSelector(
@@ -151,7 +157,8 @@ export const selectEditSectionContext = createSelector(
                 model, // current item under editing, can be block, section or settings
                 block, // current block or null
                 section, // current section, useful in block
-                template // current template
+                template, // current template
+                utils: appHelpers
             }
         }
         : null
@@ -166,20 +173,22 @@ export const changeTemplateContext = createSelector(
     fromRoute.selectTemplateKeyParameter,
     fromRoute.selectSectionIdParameter,
     fromRoute.selectBlockIdParameter,
+    fromRoute.selectInsertIndexParameter,
     fromShared.selectCurrentTemplateEntry,
-    (template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry) =>
-        ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, templateEntry })
+    (template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, insertIndex, templateEntry) =>
+        ({ template, section, block, sectionsSchemas, blocksSchemas, templateKey, sectionId, blockId, insertIndex, templateEntry })
 );
 
-export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
+export const selectToolbarButtonsState = (context: { useTheme: boolean, useDrafts: boolean, useExternalPreview: boolean }) => createSelector(
     // fromDomain.selectCurrentTemplateState,
     fromShared.hasDirty,
+    fromDomain.selectCurrentTemplateState,
     // todo: undo
     // todo: redo
     // todo: have settings
-    isDirty => {
+    (hasDirty, state) => {
         const result = <ActionButtonDescriptor[][]>[];
-        if (useTheme) {
+        if (context.useTheme) {
             result.push([
                 {
                     icon: 'settings',
@@ -187,6 +196,37 @@ export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
                     title: 'Theme settings',
                     type: 'outline'
                 }
+            ]);
+        }
+
+        if (context.useExternalPreview) {
+            result.push([
+                {
+                    canAction: !hasDirty,
+                    icon: 'visibility',
+                    alias: 'external-preview',
+                    title: 'Preview',
+                    type: 'outline'
+                }
+            ]);
+        }
+
+        if (context.useDrafts && !state?.isLoading && !state?.error) {
+            result.push([
+                {
+                    canAction: !hasDirty && state?.published && !state?.hasChanges,
+                    icon: 'unpublished',
+                    alias: 'unpublish',
+                    title: 'Unpublish',
+                    type: 'outline'
+                },
+                {
+                    canAction: !hasDirty && state?.hasChanges,
+                    icon: 'publish',
+                    alias: 'publish',
+                    title: 'Publish',
+                    type: 'outline'
+                },
             ]);
         }
 
@@ -212,7 +252,7 @@ export const selectToolbarButtonsState = (useTheme: boolean) => createSelector(
 
         result.push([
             {
-                canAction: isDirty,
+                canAction: hasDirty,
                 title: 'Save',
                 alias: 'save',
                 type: 'primary'

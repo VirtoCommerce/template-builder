@@ -12,10 +12,14 @@
                     </app-section-item>
                 </ng-container>
             </div>
-            <div cdkDropList class="sections-container" (cdkDropListDropped)="reorderSections($event)">
+            <div cdkDropList #container class="sections-container"
+                             (cdkDropListDropped)="reorderSections($event)"
+                             (mousemove)="onMouseMove($event)"
+                             (mouseleave)="onMouseLeave()">
                 <ng-container *ngFor="let section of vm.template!.content">
-                    <app-collapsible-list-item [expandable]="vm.sectionsState[section.id]?.canHaveChildren || false"
-                                               [opened]="vm.sectionsState[section.id]?.expanded || false"
+                    <app-collapsible-list-item [expandable]="$any(vm.sectionsState)[section.id]?.canHaveChildren || false"
+                                               [opened]="$any(vm.sectionsState)[section.id]?.expanded || false"
+                                               [hovered]="(hoveredSectionId$ | async) == section.id"
                                                cdkDragBoundary=".ps"
                                                cdkDragLockAxis="y"
                                                cdkDrag
@@ -27,6 +31,7 @@
                                 <app-section-item [sectionSchema]="vm.sectionsSchemas![section.type]"
                                                   [section]="section"
                                                   (itemClick)="onSectionClick(section)"
+                                                  (itemHover)="onSectionHover(section)"
                                                   (actionClick)="onActionClick($event, section)">
                                 </app-section-item>
                                 <app-drag-handle cdkDragHandle></app-drag-handle>
@@ -41,10 +46,11 @@
                         </app-section-children-list>
                     </app-collapsible-list-item>
                 </ng-container>
+                <app-icon [ngStyle]="{ top: addButtonTop, opacity: addButtonOpacity }" class="add-button" (click)="addSectionClick()">add_circle</app-icon>
             </div>
             <div class="settings-container bottom"
                  *ngIf="vm.settingsSchemas?.bottom && vm.settingsSchemas?.bottom?.length">
-                 <ng-container *ngFor="let schema of vm.settingsSchemas.bottom">
+                <ng-container *ngFor="let schema of vm.settingsSchemas.bottom">
                     <app-section-item class="static-item"
                                       [sectionSchema]="schema"
                                       [section]="vm.settings"
@@ -64,7 +70,6 @@
         </div>
     </div>
     <div footer-content>
-        <!-- <app-icon-button icon="add" skin="blue" text="Add section" (click)="addSectionClick()"></app-icon-button> -->
         <app-icon-button icon="add" skin="blue" text="Add block" (click)="addSectionClick()"></app-icon-button>
     </div>
 </app-panel>

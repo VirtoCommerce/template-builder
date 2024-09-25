@@ -40,7 +40,7 @@ export class LivePreviewComponent implements OnInit {
     constructor(
         private store: Store<BuilderState>,
         private sanitizer: DomSanitizer,
-        private eventBus: EventsBusService,
+        private eventsBus: EventsBusService,
         private config: AppConfig
     ) { }
 
@@ -50,21 +50,23 @@ export class LivePreviewComponent implements OnInit {
         // + preview
         // + select
         // + changed - update
-        // - add
-        // - clone
-        // - reload
-        // - remove
-        // - swap
-        // - hide - not necessary
-        // - show - not necessary
+        // + add
+        // + remove
+        // + hover
+        // + clone
+        // + insert
+        // + swap
+        // + reload
+        // + hide
+        // + show
 
-        this.eventBus.on(() => true, msg => {
-            switch (msg.type) {
+        this.eventsBus.on(args => args.target === 'preview', msg => {
+            switch (msg.payload?.type) {
                 case 'preview-loaded':
                     this.previewLoadedSource.next(true);
                     break;
                 default:
-                    this.sendMessage(msg);
+                    this.sendMessage(msg.payload);
                     break;
             }
         });

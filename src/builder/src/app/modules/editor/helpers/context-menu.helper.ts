@@ -83,6 +83,11 @@ export class ContextMenuHelper {
             action: 'reset-template',
             title: 'Reset template',
             icon: 'restart_alt'
+        },
+        'refresh-preview': {
+            action: 'refresh-preview',
+            title: 'Refresh preview',
+            icon: 'refresh'
         }
     }
 
@@ -125,7 +130,7 @@ export class ContextMenuHelper {
         const emptyClipboardData = !(await this.hasClipboardData());
         const result: (string | [string, boolean])[] = [
             ['paste-section', emptyClipboardData],
-            'reset-template'
+            'reset-template', 'refresh-preview'
         ];
         return this.getActions(result);
     }

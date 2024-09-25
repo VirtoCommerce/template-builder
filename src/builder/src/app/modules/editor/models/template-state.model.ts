@@ -4,6 +4,8 @@ import { Dictionary } from '@models/index';
 export interface TemplateState {
     id: string;
     isLoading: boolean;
+    hasChanges?: boolean;
+    published?: boolean;
     error?: string;
     sections: SectionStatesList;
 }

@@ -1,9 +1,8 @@
 import { createSelector } from '@ngrx/store';
-// import { RouterReducerState, getSelectors } from '@ngrx/router-store';
 import { BuilderState } from './state';
 import { EditorModuleInfo } from '@models/modules';
 
-// import { appHelpers } from '@core/services';
+import * as helpers from '@core/helpers';
 
 export const selectFeature = (state: BuilderState) => state.router;
 
@@ -106,6 +105,11 @@ export const selectTemplateKeyParameter = createSelector(
 export const selectSectionIdParameter = createSelector(
     selectPathParams,
     params => params && params['sectionId'] || ''
+);
+
+export const selectInsertIndexParameter = createSelector(
+    selectPathParams,
+    params => params && helpers.coreHelpers.parseIntOrDefault(params['insertIndex'], -1)
 );
 
 export const selectSettingsTypeParameter = createSelector(

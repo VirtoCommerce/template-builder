@@ -1,7 +1,7 @@
 import { ModalService } from '@core/services';
 import { Injectable } from "@angular/core";
 
-import { of } from "rxjs";
+import { fromEvent, of } from "rxjs";
 import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, exhaustMap, tap } from "rxjs/operators";
 
 import { Store } from "@ngrx/store";
@@ -18,7 +18,7 @@ import { helpers as editorHelpers } from '@editor/helpers';
 import * as actions from "../actions";
 import * as shared from '@shared/store/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";
-import { broadcastMessage } from '@shared/store/actions';
+import { broadcastPreviewMessage } from '@shared/store/actions';
 import * as selectors from "../selectors";
 import * as fromRoute from '@shared/routing';
 import * as fromShared from '@shared/store/selectors';
@@ -102,8 +102,9 @@ export class TemplateEditorDataEffects {
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap(template => [
+                actions.getTemplatePublishStatus({ templateKey }),
                 actions.loadTemplateModelSuccess({ template, templateKey }),
-                broadcastMessage({
+                broadcastPreviewMessage({
                     msg: {
                         type: 'page',
                         template,
@@ -122,6 +123,32 @@ export class TemplateEditorDataEffects {
         ))
     ));
 
+    passTemplateToPreview$ = createEffect(() => this.actions$.pipe(
+        ofType(shared.previewLoaded),
+        withLatestFrom(this.store$.select(selectors.changeTemplateContext)),
+        map(([, { template, templateEntry }]) => broadcastPreviewMessage({
+            msg: {
+                type: 'page',
+                template,
+                ...templateEntry?.previewMessage
+            }
+         }))
+    ));
+
+    getTemplatePublishStatus$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.getTemplatePublishStatus),
+        withLatestFrom(
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
+            this.store$.select(fromRoute.selectPathParameter),
+            this.store$.select(fromRoute.selectTypeParameter)
+        ),
+        switchMap(([{ templateKey }, entry, path, type]) => this.templates.getTemplatePublishStatus(path, type, entry).pipe(
+            filter(status => !!status),
+            map(({ hasChanges, published }) => actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges, published })),
+            catchError(error => of(actions.getTemplatePublishStatusFails({ error, templateKey })))
+        ))
+    ));
+
     // saveTemplates$ = createEffect(() => this.actions$.pipe(
     //     ofType(actions.executeToolbarAction),
     //     filter(({ action }) => action === 'save-new'),
@@ -136,6 +163,61 @@ export class TemplateEditorDataEffects {
     //         );
     //     })
     // ));
+
+    publishTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'publish'),
+        withLatestFrom(
+            this.store$.select(selectors.selectRunActionContext),
+        ),
+        switchMap(([, { templateKey, entry, path, type }]) => this.templates.publishTemplate(path, type, entry).pipe(
+            switchMap(() => [
+                actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: false, published: true }),
+                shared.broadcastPlatformMessage({
+                    msg: {
+                        hasChanges: false,
+                        published: true,
+                        source: 'builder',
+                        relativeUrl: path,
+                        contentType: type,
+                        template: entry,
+                    }
+                }),
+            ]),
+        ))
+    ));
+
+    unpublishTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'unpublish'),
+        withLatestFrom(
+            this.store$.select(selectors.selectRunActionContext),
+        ),
+        switchMap(([, { templateKey, entry, path, type }]) => this.templates.unpublishTemplate(path, type, entry).pipe(
+            switchMap(() => [
+                actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: true, published: false }),
+                shared.broadcastPlatformMessage({
+                    msg: {
+                        hasChanges: true,
+                        published: false,
+                        source: 'builder',
+                        relativeUrl: path,
+                        contentType: type,
+                        template: entry,
+                    }
+                }),
+            ]),
+        ))
+    ));
+
+    externalPreviewAction$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'external-preview'),
+        withLatestFrom(
+            this.store$.select(selectors.selectRunActionContext),
+        ),
+        tap(([, { entry, path, type }]) => this.templates.externalPreview(path, type, entry))
+    ), { dispatch: false });
 
     saveTemplate$ = createEffect(() => this.actions$.pipe(
         ofType(actions.executeToolbarAction),
@@ -161,7 +243,7 @@ export class TemplateEditorDataEffects {
         }).pipe(
             map((result) => result?.accept
                 ? actions.saveTemplates({
-                    templates: result.entries.map(x => changedTemplates.find(y => y.info.key === x)!)
+                    templates: result.entries.map(x => changedTemplates.find(y => y.info.key === x)!).filter(x => !!x.content)
                 })
                 : shared.empty()
             )
@@ -170,12 +252,59 @@ export class TemplateEditorDataEffects {
 
     sendTemplateToServer$ = createEffect(() => this.actions$.pipe(
         ofType(actions.saveTemplates),
-        switchMap(({ templates }) => {
-            return this.templates.saveTemplates(templates).pipe(
-                switchMap(() => templates.map(x => actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }))),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentTemplateState),
+        ),
+        switchMap(([{ templates }, state]) => {
+            const templatesToSave = templates.filter(x => !!x.content);
+            return this.templates.saveTemplates(templatesToSave).pipe(
+                switchMap(() => templates.map(x => [
+                    actions.saveTemplateSuccess({ templateKey: x.info.key, parentKey: x.info.parent, template: x.content }),
+                    actions.getTemplatePublishStatusSuccess({ templateKey: x.info.key, hasChanges: true, published: false }),
+                    shared.broadcastPlatformMessage({
+                        msg: {
+                            hasChanges: true,
+                            relativeUrl: x.entry.path,
+                            contentType: x.entry.type,
+                            template: x.content,
+                            published: state?.published || false,
+                            source: 'builder'
+                        }
+                    }),
+                ]).flatMap(x => x)),
                 catchError(error => of(actions.saveTemplateFails({ error })))
             );
         })
     ));
 
+    // stateChangedInPlatform$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
+    //     filter((event: MessageEvent) => event.data.source === 'platform'),
+    //     tap(event => console.log(event.data)),
+    //     map(({data}) => actions.getTemplatePublishStatusSuccess({ hasChanges: data.hasChanges, published: data.published, templateKey: data.templateKey }))
+    // ));
+
+    resetTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeContextMenuAction),
+        filter(x => x.action === 'reset-template'),
+        withLatestFrom(this.store$.select(fromRoute.selectTemplateKeyParameter)),
+        map(([, templateKey]) => actions.reloadTemplateModel({ templateKey }))
+    ));
+
+    reloadTemplate$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.reloadTemplateModel),
+        withLatestFrom(
+            this.store$.select(fromShared.selectCurrentTemplateEntry),
+            this.store$.select(fromRoute.selectPathParameter),
+            this.store$.select(fromRoute.selectTypeParameter)
+        ),
+        switchMap(([{ templateKey }, entry, path, type]) => this.templates.getTemplate(path, type, entry).pipe(
+            filter(template => !!template),
+            map(template => editorHelpers.prepareTemplate(template!)),
+            switchMap((template) => [
+                actions.reloadTemplateModelSuccess({ templateKey, template }),
+                actions.refreshPreview(),
+            ]),
+            catchError(error => of(actions.reloadTemplateModelFails({ error, templateKey })))
+        ))
+    ));
 }

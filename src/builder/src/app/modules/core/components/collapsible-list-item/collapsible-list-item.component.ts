@@ -9,6 +9,7 @@ export class CollapsibleListItemComponent implements OnInit {
 
     @Input() opened = false;
     @Input() expandable: boolean = false;
+    @Input() hovered: boolean = false;
 
     @Output() openChanged = new EventEmitter<boolean>();
     @Output() visibleChanged = new EventEmitter<boolean>();

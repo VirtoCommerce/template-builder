@@ -71,9 +71,9 @@ export const sharedReducers = createReducer<SharedState>(
             [parentKey!]: {
                 ...state.childrenTemplatesState[parentKey!],
                 states: {
-                    ...state.childrenTemplatesState[parentKey!].states,
+                    ...state.childrenTemplatesState[parentKey!]?.states || {},
                     [templateKey]: {
-                        ...state.childrenTemplatesState[parentKey!].states?.[templateKey],
+                        ...state.childrenTemplatesState[parentKey!]?.states?.[templateKey],
                         isDirty: dirty
                     }
                 }

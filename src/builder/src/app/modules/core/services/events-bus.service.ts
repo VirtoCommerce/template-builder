@@ -1,6 +1,7 @@
 import { Injectable, Predicate } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Subject, Subscription, Observable, tap, map, switchMap, switchMapTo, filter, withLatestFrom } from "rxjs";
+import { Subject, Subscription, tap, filter } from "rxjs";
+import { EventBusArgs } from "../models";
 
 export type Enricher = {
     filter: (item: any) => boolean;
@@ -23,7 +24,7 @@ export class EventsBusService {
     //     this.selectors.push(...selectors);
     // }
 
-    on(matcher: Predicate<any>, handler: (item: any) => void): Subscription {
+    on(matcher: Predicate<EventBusArgs>, handler: (item: EventBusArgs) => void): Subscription {
         return this.events$
             .asObservable()
             .pipe(
@@ -37,7 +38,7 @@ export class EventsBusService {
             .subscribe();
     }
 
-    emit(item: any) {
+    emit(item: EventBusArgs) {
         this.events$.next(item);
     }
 }

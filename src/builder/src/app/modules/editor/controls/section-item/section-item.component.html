@@ -1,11 +1,12 @@
 <div class="section-item"
      [ngClass]="{'hidden': section.hidden}"
      (click)="onItemClick()"
+     (mouseover)="onItemHover()"
      (mouseenter)="isHover = true"
      (mouseleave)="isHover = false">
     <app-icon>{{ getSectionIcon() }}</app-icon>
     <div class="name" title="{{ getSectionName() }} ({{ section.id }})">{{ getSectionName() }}</div>
-    <app-context-menu *ngIf="!static" [getActions]="getItemActions"
+    <app-context-menu *ngIf="!static && sectionSchema" [getActions]="getItemActions"
                       [visible]="isHover"
                       (onAction)="onActionClick($event)"></app-context-menu>
 </div>

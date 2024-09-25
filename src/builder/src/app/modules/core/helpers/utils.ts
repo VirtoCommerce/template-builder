@@ -34,3 +34,8 @@ export function createDefaultObject(settings: ControlDescriptor[]): any {
     }
     return settings.filter(x => typeof(x.default) !== 'undefined').reduce((acc, value) => ({...acc, [<string>value.id] : value.default}), {});
 }
+
+export function parseIntOrDefault(v: any, defaultValue: number): number {
+    const result = v ? parseInt(v, 10) : defaultValue;
+    return isNaN(result) ? defaultValue : result;
+}

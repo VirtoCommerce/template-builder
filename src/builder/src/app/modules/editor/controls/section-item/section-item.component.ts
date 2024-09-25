@@ -5,7 +5,6 @@ import { ContextMenuAction } from '@core/models';
 import { SectionModel, SectionSchema } from '@models/document';
 import { ContextMenuHelper, helpers } from '@editor/helpers';
 
-
 @Component({
     selector: 'app-section-item',
     templateUrl: './section-item.component.html',
@@ -29,6 +28,7 @@ export class SectionItemComponent implements OnInit {
 
     @Output() actionClick = new EventEmitter<string>();
     @Output() itemClick = new EventEmitter();
+    @Output() itemHover = new EventEmitter();
 
     constructor(private helper: ContextMenuHelper) { }
 
@@ -46,6 +46,10 @@ export class SectionItemComponent implements OnInit {
         if (event !== '|') {
             this.actionClick.emit(event.action);
         }
+    }
+
+    onItemHover() {
+        this.itemHover.emit();
     }
 
     getSectionIcon(): string | null {

@@ -5,6 +5,7 @@
               (click)="gearClick($event)"
               #trigger="cdkOverlayOrigin">tune</app-icon>
     <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
+                 [cdkConnectedOverlayPositions]="positions"
                  [cdkConnectedOverlayOpen]="isOpen"
                  (detach)="hideActions()"
                  (overlayOutsideClick)="outsideClick($event)">

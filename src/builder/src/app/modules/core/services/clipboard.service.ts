@@ -14,7 +14,13 @@ export class ClipboardService {
     ) { }
 
     copy(data: ClipboardModel) {
-        this.clipboard.copy(JSON.stringify(data));
+        this.copyString(JSON.stringify(data));
+    }
+
+    copyString(value: string | null) {
+        if (value) {
+            this.clipboard.copy(value);
+        }
     }
 
     async getData(): Promise<ClipboardModel | null> {

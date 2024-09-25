@@ -65,6 +65,14 @@ function pasteBlockIntoSection(
     if (accept) {
         const changedTemplate = editorHelpers.insertBlock(template!, action.section.id, action.block?.id || null, value.content, direction);
         return [
+            sharedActions.broadcastPreviewMessage({
+                msg: {
+                    type: 'changed',
+                    template: changedTemplate.template,
+                    section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
+                    sectionId: changedTemplate.sectionId,
+                }
+            }),
             actions.updateTemplateAction({
                 template: changedTemplate.template,
                 templateKey: templateKey
@@ -101,6 +109,15 @@ function pasteSectionIntoTemplate(
         (!templateEntry.sections || !templateEntry.sections.length || templateEntry.sections?.includes(value.content.type))) {
         const changedTemplate = editorHelpers.insertSection(template!, action.section?.id || null, value.content, direction);
         return [
+            sharedActions.broadcastPreviewMessage({
+                msg: {
+                    type: 'add',
+                    template: changedTemplate.template,
+                    section: changedTemplate.template.content.find(x => x.id === changedTemplate.sectionId),
+                    sectionId: changedTemplate.sectionId,
+                    index: changedTemplate.template.content.findIndex(x => x.id === changedTemplate.sectionId),
+                }
+            }),
             actions.updateTemplateAction({
                 template: changedTemplate.template,
                 templateKey: templateKey

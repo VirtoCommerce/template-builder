@@ -6,7 +6,7 @@ import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload'
 import { Subscription } from 'rxjs';
 
 import { ControlContext, AssetFile } from '@core/models';
-import { ModalService, AssetsService } from '@core/services';
+import { ModalService, AssetsService, ClipboardService } from '@core/services';
 import { BaseControlDirective } from '@core/controls';
 import { FilesDescriptor } from '@models/controls';
 
@@ -32,6 +32,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     constructor(
         private modals: ModalService,
         private data: AssetsService,
+        private clipboard: ClipboardService,
         private cdr: ChangeDetectorRef) {
         super();
     }
@@ -112,6 +113,11 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         } else {
             this.deleteFileInternal(file);
         }
+    }
+
+    copyUrl(file: AssetFile) {
+        const value = this.data.getPreviewUrl(file, this.descriptor, this.getContext(file));
+        this.clipboard.copyString(value);
     }
 
     uploadItem(file: AssetFile) {

@@ -8,6 +8,14 @@ export interface BaseControlDescriptor {
     autofocus?: boolean;
     sort?: number;
 
+    actions?: {
+        [key: string]: {
+            label?: string;
+            icon?: string;
+            execute?: string;
+        };
+    };
+
     info?: string;
     placeholder?: string;
     hint?: string;
@@ -18,4 +26,5 @@ export interface BaseControlDescriptor {
     tab?: string;
     group?: string;
 
+    displayPropertyName?: string | string[];
 }

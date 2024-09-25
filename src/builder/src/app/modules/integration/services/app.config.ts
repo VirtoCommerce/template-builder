@@ -112,7 +112,10 @@ export type OptionName = 'templatesListUrl'
     | 'fullPreviewUrl'
     | 'skipTheme'
     | 'skipTemplates'
-    | 'assetsUrlTemplate';
+    | 'assetsUrlTemplate'
+    | 'publish'
+    | 'externalPreview'
+    ;
 
 // 'fullPreviewUrl'
 //     | 'waitPreviewResponseTimeout'

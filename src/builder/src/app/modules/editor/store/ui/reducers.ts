@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import * as actions from '../actions';
+import * as sharedActions from '@shared/store/actions';
 
 import { EditorUIState, initialState } from './state';
 
@@ -47,5 +48,6 @@ export const editorUIReducers = createReducer<EditorUIState>(
     on(actions.saveTemplateFails, state => ({ ...state, isTemplateLoading: false })),
     on(actions.loadTemplateSchemas, state => ({ ...state, isSchemasLoading: true })),
     on(actions.loadTemplateSchemasSuccess, state => ({ ...state, isSchemasLoading: false })),
-    on(actions.loadTemplateSchemasFails, state => ({ ...state, isSchemasLoading: false }))
+    on(actions.loadTemplateSchemasFails, state => ({ ...state, isSchemasLoading: false })),
+    on(sharedActions.previewSectionHovered, (state, { sectionId }) => ({ ...state, hoveredSectionId: sectionId })),
 );

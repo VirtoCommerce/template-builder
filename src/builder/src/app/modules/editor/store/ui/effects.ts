@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { of } from "rxjs";
 import { withLatestFrom, filter, tap, map, catchError, switchMap } from "rxjs/operators";
 
-import { broadcastMessage } from '@shared/store/actions';
+import { broadcastPreviewMessage } from '@shared/store/actions';
 import * as routingActions from '@shared/routing/actions';
 import * as sharedSelectors from '@shared/store/selectors';
 
@@ -29,13 +29,13 @@ export class TemplateEditorUiEffects {
     navigateToAddSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.showBlankSections),
         filter(x => !x.sectionId),
-        map(() => routingActions.go({ path: ['/pages/add'] }))
+        map(({ positionIndex }) => routingActions.go({ path: ['/pages/add', positionIndex] }))
     ));
 
     navigateToAddBlock$ = createEffect(() => this.actions$.pipe(
         ofType(actions.showBlankSections),
         filter(x => !!x.sectionId),
-        map(({ sectionId }) => routingActions.go({ path: ['/pages/add', sectionId] }))
+        map(({ sectionId, positionIndex }) => routingActions.go({ path: ['/pages/add', sectionId, positionIndex] }))
     ));
 
     navigateToEditTemplate$ = createEffect(() => this.actions$.pipe(
@@ -75,7 +75,7 @@ export class TemplateEditorUiEffects {
     ));
 
     navigateToEditSection$ = createEffect(() => this.actions$.pipe(
-        ofType(actions.editSectionAction),
+        ofType(actions.editSectionAction, sharedActions.selectSection),
         switchMap(({ sectionId }) => [
             routingActions.go({ path: ['/pages', sectionId] })
         ])
@@ -106,18 +106,22 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectSectionModelFromRoute),
             this.store$.select(selectors.selectBlockModelFromRoute)
         ),
-        switchMap(([, template, entry, parentKey, section, block]) => [
-            broadcastMessage({
+        switchMap(([, template, entry, parentKey, section, block]) => {
+            const message = section ? [broadcastPreviewMessage({
                 msg: {
                     type: 'changed',
                     template, section, block,
+                    sectionId: section?.id,
                     ...entry?.previewMessage
                 }
-            }),
-            parentKey
-                ? sharedActions.setDirtyState({ parentKey: parentKey, templateKey: entry.key, dirty: true })
-                : sharedActions.setRootDirtyState({ templateKey: entry.key, dirty: true })
-        ])
+            })] : [];
+            return [
+                ...message,
+                parentKey
+                    ? sharedActions.setDirtyState({ parentKey: parentKey, templateKey: entry.key, dirty: true })
+                    : sharedActions.setRootDirtyState({ templateKey: entry.key, dirty: true })
+            ];
+        })
     ));
 
     navigateToThemeSettings$ = createEffect(() => this.actions$.pipe(
@@ -157,7 +161,7 @@ export class TemplateEditorUiEffects {
             const sharedSchemaName = !!section ? "_blocks" : "_sections";
             const fullSchema = editorHelpers.prepareSchema(item, shared, objects, sharedSchemaName);
             const model = editorHelpers.generatePreviewBySchema(fullSchema);
-            return broadcastMessage({
+            return broadcastPreviewMessage({
                 msg: {
                     type: 'preview',
                     template, section, model,
@@ -167,6 +171,18 @@ export class TemplateEditorUiEffects {
         })
     ));
 
+    hoverSection$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.hoverSection),
+        map(({ sectionId }) =>
+            broadcastPreviewMessage({
+                msg: {
+                    type: 'hover',
+                    sectionId
+                }
+            })
+        )
+    ));
+
     scrollToSectionInPreview$ = createEffect(() => this.actions$.pipe(
         ofType(actions.editSectionAction),
         withLatestFrom(
@@ -174,11 +190,11 @@ export class TemplateEditorUiEffects {
             this.store$.select(sharedSelectors.selectCurrentTemplateEntry)
         ),
         map(([{ sectionId }, template, entry]) =>
-            broadcastMessage({
+            broadcastPreviewMessage({
                 msg: {
                     type: 'select',
                     template, sectionId,
-                    section: template?.content.find(x => x.id === sectionId),
+                    section: template?.content.find(x => x.id == sectionId),
                     ...entry?.previewMessage
                 }
             })
@@ -193,7 +209,7 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectSectionModelFromRoute)
         ),
         map(([{ sectionId, blockId }, template, entry, section]) =>
-            broadcastMessage({
+            broadcastPreviewMessage({
                 msg: {
                     type: 'select',
                     template, section, sectionId, blockId,
