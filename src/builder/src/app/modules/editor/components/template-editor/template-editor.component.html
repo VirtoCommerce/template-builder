@@ -69,6 +69,7 @@
                 </ng-container>
                 <ng-container *ngIf="!vm.selectMode && vm.currentDragSection.length === 0">
                     <div [ngStyle]="{ top: addLineTop, opacity: addButtonOpacity }" class="line"></div>
+                    <div [ngStyle]="{ top: addLineTop, opacity: addButtonOpacity }" class="line right-line"></div>
                     <app-icon [ngStyle]="{ top: addButtonTop, opacity: addButtonOpacity }" class="add-button"
                               (click)="addSectionClick()">add_circle</app-icon>
                 </ng-container>

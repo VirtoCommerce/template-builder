@@ -64,9 +64,13 @@ div[item] {
 .line {
     @apply absolute;
     left: 0;
-    right: 0;
+    right: calc(50% + 12px);
     background-color: black;
     height: 1px;
+    &.right-line {
+        right: 0;
+        left: calc(50% + 12px);
+    }
 }
 
 .drag-preview {
