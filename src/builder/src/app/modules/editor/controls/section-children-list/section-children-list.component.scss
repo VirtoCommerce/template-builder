@@ -10,10 +10,10 @@
     @apply flex flex-row py-2 pl-2 rounded bg-white;
     transition: background-color 0.2s;
     &:hover {
-        background: rgba(246, 246, 246, 1);
+        background: #F3F6F9;
     }
     &.selected {
-        background-color: #FFF8EB;
+        background-color: #E3EFF5;
     }
 }
 
