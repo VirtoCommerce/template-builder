@@ -134,7 +134,7 @@ export const editTemplateContext = createSelector(
     selectCurrentDragSections,
     (template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas, currentDragSection) => {
         const selectedSectionsCount = Object.values(sectionsState).filter(x => x.selected).length;
-        const selectedBlocksCount = Object.values(sectionsState).reduce((acc, value) => acc + Object.values(value.blocks).filter(x => x.selected).length, 0);
+        const selectedBlocksCount = Object.values(sectionsState).reduce((acc, value) => acc + Object.values(value.blocks || {}).filter(x => x.selected).length, 0);
         const result = template && sectionsSchemas && blocksSchemas
             ? {
                 template, templateState, sectionsState, sectionsSchemas, blocksSchemas, settings, settingsSchemas,

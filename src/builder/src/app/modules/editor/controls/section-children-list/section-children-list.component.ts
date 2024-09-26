@@ -25,7 +25,7 @@ export class SectionChildrenListComponent implements OnInit {
     }
     @Input()
     public set states(value: BlockStatesList) {
-        this.selectedBlocksCount = Object.values(value).filter(x => x.selected).length;
+        this.selectedBlocksCount = Object.values(value || {}).filter(x => x.selected).length;
         this._states = value;
     }
     @Input() selectMode: boolean = false;
