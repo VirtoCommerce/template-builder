@@ -39,8 +39,8 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
 
     protected override initContent(): void {
         super.initContent();
-        this.multiple = this.descriptor.multiple !== false;
-        this.sortable = this.descriptor.sortable !== false && this.multiple;
+        this.multiple = this.descriptor?.multiple !== false;
+        this.sortable = this.descriptor?.sortable !== false && this.multiple;
         this.innerValue = this.getValue();
         this.control = this.createUploadControl();
         this.subscription = this.control.valueChanges.subscribe(items => {
@@ -75,7 +75,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     selectFile(file: AssetFile) {
-        if (this.descriptor.element && this.descriptor.element.length) {
+        if (this.descriptor?.element && this.descriptor.element.length) {
             this.unsubscribeElement();
             if (file === this.selectedFile) {
                 this.closeEditor();
@@ -104,8 +104,8 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     deleteFile(file: AssetFile) {
-        if (!this.descriptor.skipRemoveConfirmation) {
-            this.modals.confirm(this.descriptor.removeMessage || 'Do you want to delete this item?').subscribe((data: any) => {
+        if (!this.descriptor?.skipRemoveConfirmation) {
+            this.modals.confirm(this.descriptor?.removeMessage || 'Do you want to delete this item?').subscribe((data: any) => {
                 if (data) {
                     this.deleteFileInternal(file);
                 }
@@ -116,7 +116,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     copyUrl(file: AssetFile) {
-        const value = this.data.getPreviewUrl(file, this.descriptor, this.getContext(file));
+        const value = this.data.getPreviewUrl(file, this.descriptor || {}, this.getContext(file));
         this.clipboard.copyString(value);
     }
 
@@ -125,14 +125,14 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
             file.uploading = true;
             file.error = null;
             const context = this.getContext(file);
-            this.data.uploadAsset(file, this.descriptor, context, value => {
+            this.data.uploadAsset(file, this.descriptor || {}, context, value => {
                 file.progress = value;
             }).subscribe({
                 next: (_) => {
                     // result of request is the same object as file
                     file.uploaded = true;
                     file.uploading = false;
-                    file.previewUrl = this.data.getPreviewUrl(file, this.descriptor, context);
+                    file.previewUrl = this.data.getPreviewUrl(file, this.descriptor || {}, context);
                     file.error = null;
                     this.raiseValueChanged();
                     this.cdr.detectChanges();
@@ -232,23 +232,23 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         } else if (item instanceof File) {
             result = <AssetFile>item;
             // here result is a single model item with data property and default File properties
-            if (this.descriptor.element && this.descriptor.element.length) {
+            if (this.descriptor?.element && this.descriptor.element.length) {
                 // need to generate 'data' property
                 result.data = coreHelpers.createDefaultObject(this.descriptor.element);
             }
         } else {
             result = <AssetFile>{
                 lastModified: 0,
-                name: (item[this.descriptor.filenameField || 'filename']
-                    || item[this.descriptor.urlField || 'url']?.substring(item[this.descriptor.urlField || 'url'].lastIndexOf('/') + 1)) ?? null,
-                webkitRelativePath: item[this.descriptor.urlField || 'url'],
+                name: (item[this.descriptor?.filenameField || 'filename']
+                    || item[this.descriptor?.urlField || 'url']?.substring(item[this.descriptor?.urlField || 'url'].lastIndexOf('/') + 1)) ?? null,
+                webkitRelativePath: item[this.descriptor?.urlField || 'url'],
                 data: item,
-                url: item[this.descriptor.urlField || 'url'],
+                url: item[this.descriptor?.urlField || 'url'],
                 uploaded: true
             };
         }
         const context = this.getContext(result);
-        result.previewUrl = this.data.getPreviewUrl(result, this.descriptor, context);
+        result.previewUrl = this.data.getPreviewUrl(result, this.descriptor || {}, context);
         return result;
     }
 
@@ -259,13 +259,13 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     private createUploadControl(): FileUploadControl {
-        return new FileUploadControl(this.getControlOptions(), this.descriptor.maxFileSize ? FileUploadValidators.fileSize(this.descriptor.maxFileSize) : undefined);
+        return new FileUploadControl(this.getControlOptions(), this.descriptor?.maxFileSize ? FileUploadValidators.fileSize(this.descriptor.maxFileSize) : undefined);
     }
 
     protected getControlOptions() {
         return {
             listVisible: false,
-            accept: (this.descriptor.accept || '').split(','),
+            accept: (this.descriptor?.accept || '').split(','),
             discardInvalid: true,
             disabled: false,
             multiple: !!this.multiple,
@@ -289,8 +289,8 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     private convertFileToValue(item: AssetFile): any {
-        const hasElement = !!this.descriptor.element && this.descriptor.element.length > 0;
-        const propertiesSet = this.descriptor.urlField || this.descriptor.filenameField;
+        const hasElement = !!this.descriptor?.element && this.descriptor.element.length > 0;
+        const propertiesSet = this.descriptor?.urlField || this.descriptor?.filenameField;
 
 
         let result: any = {};
@@ -305,9 +305,9 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         // property names set, has element
         else if (hasElement || propertiesSet) {
             result = <any>{  // return an object with url, filename and other data
-                [this.descriptor.filenameField || 'filename']: item.name,
+                [this.descriptor?.filenameField || 'filename']: item.name,
                 ...(item.data || {}),
-                [this.descriptor.urlField || 'url']: item.url || item.webkitRelativePath || item.name
+                [this.descriptor?.urlField || 'url']: item.url || item.webkitRelativePath || item.name
             };
         }
 

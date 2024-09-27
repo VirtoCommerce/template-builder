@@ -57,5 +57,24 @@ export const editorDomainReducers = createReducer<EditorDomainState>(
             }
         }
     })),
-
+    on(actions.sectionStateChangedAction, (state, { templateKey, sectionId, state: seactionState }) => ({
+        ...state,
+        states: {
+            ...state.states,
+            [templateKey]: {
+                ...state.states[templateKey],
+                sections: {
+                    ...state.states[templateKey]?.sections,
+                    [sectionId]: {
+                        ...state.states[templateKey]?.sections[sectionId],
+                        ...seactionState,
+                        blocks: {
+                            ...state.states[templateKey]?.sections[sectionId]?.blocks,
+                            ...seactionState.blocks
+                        }
+                    }
+                }
+            }
+        }
+    })),
 );

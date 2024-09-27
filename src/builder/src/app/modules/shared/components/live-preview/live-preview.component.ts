@@ -79,6 +79,9 @@ export class LivePreviewComponent implements OnInit {
             if (this.frame) {
                 const frame = this.frame.nativeElement as HTMLIFrameElement;
                 const message = { ...msg, source: 'builder' };
+                if (message.type !== 'hover') {
+                    console.log(message);
+                }
                 frame.contentWindow?.postMessage(message, this.url);
             }
         });
