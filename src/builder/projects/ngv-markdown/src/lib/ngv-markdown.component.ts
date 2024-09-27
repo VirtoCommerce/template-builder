@@ -198,7 +198,6 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
         this.easyMDE?.codemirror.on("change", () => {
             const markdown: string | null = this.easyMDE?.value() || null;
             const html = markdown ? marked(markdown) : null;
-            console.log(html);
             this.valueChanged.emit({ markdown, html });
         });
     }

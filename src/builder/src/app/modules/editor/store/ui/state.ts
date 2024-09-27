@@ -1,22 +1,22 @@
 import { Dictionary } from "@models/index";
 
 export interface EditorUIState {
-    states: Dictionary<{
+    addSectionPaneStates: Dictionary<{
         opened: boolean;
     }>;
     previewItemType: string | null;
     currentSectionsFilter: string | null;
-    dragSectionId: string | null;
+    dragSectionIds: string[];
     isTemplateLoading: boolean;
     isSchemasLoading: boolean;
     hoveredSectionId: string | null;
 };
 
 export const initialState: EditorUIState = {
-    states: {},
+    addSectionPaneStates: {},
     previewItemType: null,
     currentSectionsFilter: null,
-    dragSectionId: null,
+    dragSectionIds: [],
     isTemplateLoading: false,
     isSchemasLoading: false,
     hoveredSectionId: null,

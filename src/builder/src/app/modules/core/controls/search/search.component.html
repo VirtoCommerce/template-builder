@@ -1,16 +1,16 @@
-<label class="pb-label" [attr.title]="descriptor.hint">{{ descriptor.label }}</label>
-<input *ngIf="!descriptor.button" #control type="text" class="control" [value]="controlValue.__searchQuery"
+<label class="pb-label" [attr.title]="descriptor?.hint">{{ descriptor?.label }}</label>
+<input *ngIf="!descriptor?.button" #control type="text" class="control" [value]="controlValue.__searchQuery"
        (paste)="onPaste($event)" (keyup)="onTextChange($event)" />
 
-<app-icon-button *ngIf="descriptor.button" class="my-4"
+<app-icon-button *ngIf="descriptor?.button" class="my-4"
     (click)="doRequest()" [text]="getButtonText()" skin="outline-blue"></app-icon-button>
 
 <div *ngIf="!!controlValue.__nodata; else modelInfo" class="my-4">
-    {{ descriptor.nodataText }}
+    {{ descriptor?.nodataText }}
 </div>
 <ng-template #modelInfo>
     <ng-container *ngIf="isArrayDisplayInfo()">
-        <div class="my-4" *ngFor="let field of descriptor.displayInfo">
+        <div class="my-4" *ngFor="let field of descriptor?.displayInfo">
             <label>{{ field.label }}</label>
             <div [ngSwitch]="field.type">
                 <img class="" alt="" *ngSwitchCase="'image'" [src]="getAssetUrl(field)" />

@@ -42,8 +42,8 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     raiseValueChanged(event: any) { }
 
     compareWith = (itemInSelect: any, itemInSource: any) => {
-        const vA = (itemInSelect.value || itemInSelect)[this.descriptor.equalKey || 'value'] || itemInSelect.value || itemInSelect;
-        const v0 = (itemInSource.value || itemInSource)[this.descriptor.equalKey || 'value'] || itemInSource.value || itemInSource;
+        const vA = (itemInSelect.value || itemInSelect)[this.descriptor?.equalKey || 'value'] || itemInSelect.value || itemInSelect;
+        const v0 = (itemInSource.value || itemInSource)[this.descriptor?.equalKey || 'value'] || itemInSource.value || itemInSource;
         return vA === v0;
     }
 
@@ -63,11 +63,11 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     private updateOptions() {
 
         const options = [
-            of(this.descriptor.options || []), // start value
+            of(this.descriptor?.options || []), // start value
             this.doRequest(null), // initial loaded items
         ];
 
-        if (this.descriptor.searchable) {
+        if (this.descriptor?.searchable) {
             options.push(
                 this.searchEvent$.pipe(
                     distinctUntilChanged(),
@@ -76,7 +76,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
                 ));
         }
 
-        if (this.descriptor.optionsSelector) {
+        if (this.descriptor?.optionsSelector) {
             options.push(of(appHelpers.evalInContext(this.descriptor.optionsSelector, this.context)));
         }
 
@@ -92,12 +92,12 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     private doRequest(filter: string | null): Observable<any[]> {
         let result: Observable<any[]> = of([]);
-        if (this.descriptor.request) {
+        if (this.descriptor?.request) {
             const context = { ...this.context, __searchQuery: filter };
             result = this.data.doRequest(this.descriptor.request, context).pipe(
                 map(items => items?.map((x: any) => ({
-                    label: x[this.descriptor.request.label],
-                    group: this.descriptor.request.group ? x[this.descriptor.request.group] : null,
+                    label: x[this.descriptor!.request.label],
+                    group: this.descriptor!.request.group ? x[this.descriptor!.request.group] : null,
                     value: x
                 })) || []),
                 tap(() => this.loading = false),
@@ -108,8 +108,8 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             );
         }
         return result.pipe(
-            map(items => [...this.descriptor.options || [], ...items]),
-            map(items => !filter || !this.descriptor.searchable
+            map(items => [...this.descriptor?.options || [], ...items]),
+            map(items => !filter || !this.descriptor?.searchable
                 ? items
                 : items.filter(item => item.label.toLocaleUpperCase().indexOf(filter.toLocaleUpperCase()) !== -1)
             )

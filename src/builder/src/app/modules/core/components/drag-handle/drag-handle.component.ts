@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-drag-handle',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./drag-handle.component.scss']
 })
 export class DragHandleComponent implements OnInit {
+
+    @HostBinding('class.visible')
+    @Input() visible = false;
+    @Input() info: string = '';
 
     constructor() { }
 

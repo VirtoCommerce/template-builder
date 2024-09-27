@@ -13,7 +13,7 @@ export class StringComponent extends BaseControlDirective<StringDescriptor> {
     @ViewChild('textarea') textarea!: ElementRef;
 
     override getFocusableControl(): ElementRef {
-        return this.descriptor.multiline
+        return this.descriptor?.multiline
             ? this.textarea
             : this.control;
     }

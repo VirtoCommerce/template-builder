@@ -20,7 +20,7 @@ export const showClipboardModal = createAction('[template editor] showClipboardM
 
 export const hoverSection = createAction('[template editor] hover section', props<{ sectionId: string }>());
 
-export const templateContentChanged = createAction('[template editor] template content changed]');
+export const templateContentChanged = createAction('[template editor] template content changed');
 
 export const addItemAction = createAction('[template editor] add item', props<{ schema: SectionSchema }>());
 
