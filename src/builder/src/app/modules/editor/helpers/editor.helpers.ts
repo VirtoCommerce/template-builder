@@ -109,11 +109,11 @@ export function reorderBlocks(template: TemplateModel, section: SectionModel, cu
 }
 
 export function generateSectionId(section: SectionModel, force: boolean = false): string {
-    let result = section.id
+    let result = '' + section.id
     if (force || !result) {
         result = appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
     }
-    return '' + result;
+    return result;
 }
 
 export function generateModelBySchema(schema: SectionSchema): SectionModel {
