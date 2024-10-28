@@ -72,14 +72,14 @@ function reorderSectionsInList(list: SectionModel[], currentIndex: number, previ
 
         let firstUntouchedElement: SectionModel | null = null;
         for (let i = currentIndex + delta; i >= 0; i--) {
-            if (sectionIds.indexOf(list[i].id) === -1) {
+            if (sectionIds.indexOf(list[i].id.toString()) === -1) {
                 firstUntouchedElement = list[i];
                 break;
             }
         }
 
-        const elementsToPaste = list.filter(x => sectionIds.indexOf(x.id) !== -1);
-        const newList = list.filter(x => sectionIds.indexOf(x.id) === -1);
+        const elementsToPaste = list.filter(x => sectionIds.indexOf(x.id.toString()) !== -1);
+        const newList = list.filter(x => sectionIds.indexOf(x.id.toString()) === -1);
         const newIndex = firstUntouchedElement === null ? 0 : newList.indexOf(firstUntouchedElement) + 1;
         newList.splice(newIndex, 0, ...elementsToPaste);
         return newList;
@@ -94,7 +94,7 @@ export function reorderSections(template: TemplateModel, currentIndex: number, p
 }
 
 export function reorderBlocks(template: TemplateModel, section: SectionModel, currentIndex: number, previousIndex: number, blockIds: string[]): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id === section.id);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === section.id);
     return {
         ...template,
         content: [
@@ -135,7 +135,7 @@ export function generatePreviewBySchema(schema: SectionSchema): SectionModel {
 }
 
 export function applySectionChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === sectionId);
     const section = template.content[sectionIndex];
     return {
         ...template,
@@ -161,9 +161,9 @@ export function applySettingsChanges(template: TemplateModel, changes: Partial<S
 }
 
 export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => item.id == blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id.toString() === blockId);
     const block = section.blocks[blockIndex];
     const newSection = {
         ...section,
@@ -194,9 +194,9 @@ export function duplicateBlock(
         sectionId: string,
         blockId: string
     } {
-    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => item.id == blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id.toString() === blockId);
     const block = section.blocks[blockIndex];
     const newId = generateSectionId(block, true);
     const new__id = block['__id'] ? newId : undefined;
@@ -228,7 +228,7 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
     sectionId: string,
     blockId?: string
 } {
-    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === sectionId);
     const section = template.content[sectionIndex];
     const newId = generateSectionId(section, true);
     const new__id = section['__id'] ? newId : undefined;
@@ -247,9 +247,9 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
 }
 
 export function removeBlock(template: TemplateModel, sectionId: string, blockId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => item.id == blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id.toString() === blockId);
     const newSection = {
         ...section,
         blocks: [
@@ -268,7 +268,7 @@ export function removeBlock(template: TemplateModel, sectionId: string, blockId:
 }
 
 export function removeSection(template: TemplateModel, sectionId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => item.id == sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id.toString() === sectionId);
     return {
         ...template,
         content: [
