@@ -317,7 +317,8 @@ export class TemplateEditorDomainEffects {
                         type: 'swap',
                         template: newTemplate,
                         currentIndex: options.previousIndex,
-                        newIndex: options.currentIndex
+                        newIndex: options.currentIndex,
+                        sectionIds: checkedItems
                     }
                 })
             ];

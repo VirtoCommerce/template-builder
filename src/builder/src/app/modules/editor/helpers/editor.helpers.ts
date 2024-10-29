@@ -135,7 +135,7 @@ export function generatePreviewBySchema(schema: SectionSchema): SectionModel {
 }
 
 export function applySectionChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => (item.id) === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];
     return {
         ...template,
@@ -161,9 +161,9 @@ export function applySettingsChanges(template: TemplateModel, changes: Partial<S
 }
 
 export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => (item.id) === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => (item.id) === blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
     const block = section.blocks[blockIndex];
     const newSection = {
         ...section,
@@ -194,9 +194,9 @@ export function duplicateBlock(
         sectionId: string,
         blockId: string
     } {
-    const sectionIndex = template.content.findIndex(item => (item.id) === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => (item.id) === blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
     const block = section.blocks[blockIndex];
     const newId = generateSectionId(block, true);
     const new__id = block['__id'] ? newId : undefined;
@@ -228,7 +228,7 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
     sectionId: string,
     blockId?: string
 } {
-    const sectionIndex = template.content.findIndex(item => (item.id) === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];
     const newId = generateSectionId(section, true);
     const new__id = section['__id'] ? newId : undefined;
@@ -247,9 +247,9 @@ export function duplicateSection(template: TemplateModel, sectionId: string): {
 }
 
 export function removeBlock(template: TemplateModel, sectionId: string, blockId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => (item.id) === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     const section = template.content[sectionIndex];
-    const blockIndex = section.blocks.findIndex(item => (item.id) === blockId);
+    const blockIndex = section.blocks.findIndex(item => item.id === blockId);
     const newSection = {
         ...section,
         blocks: [
@@ -268,7 +268,7 @@ export function removeBlock(template: TemplateModel, sectionId: string, blockId:
 }
 
 export function removeSection(template: TemplateModel, sectionId: string): TemplateModel {
-    const sectionIndex = template.content.findIndex(item => (item.id) === sectionId);
+    const sectionIndex = template.content.findIndex(item => item.id === sectionId);
     return {
         ...template,
         content: [
