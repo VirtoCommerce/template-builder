@@ -26,11 +26,12 @@ export class SwapHandler extends BaseHandler {
                 vm.element.remove();
             }
 
+            const newIndex = firstUntouchedElement === null ? 0 : list.indexOf(firstUntouchedElement) + 1;
             // insert dragged elements
             for (let i = elementsToPaste.length - 1; i >= 0; i--) {
                 const vm = elementsToPaste[i];
-                list.splice(msg.newIndex, 0, vm);
-                this.renderer.insert(vm, msg.newIndex);
+                list.splice(newIndex, 0, vm);
+                this.renderer.insert(vm, newIndex);
             }
         } else {
             const vm = list[msg.currentIndex];
