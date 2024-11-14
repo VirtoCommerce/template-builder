@@ -109,7 +109,7 @@ export function reorderBlocks(template: TemplateModel, section: SectionModel, cu
 }
 
 export function generateSectionId(section: SectionModel, force: boolean = false): string {
-    let result = '' + section.id
+    let result = section.id ? '' + section.id : undefined;
     if (force || !result) {
         result = appHelpers.onlyLettersAndDigits(`${section.type}${appHelpers.generateUniqueString(4)}`);
     }
