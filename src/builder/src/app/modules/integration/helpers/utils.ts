@@ -31,6 +31,9 @@ export function spreadPropertyByOther(obj: any, keyProperty: string, ...spreadPr
 }
 
 export function generateAnchor(value: string): string {
+    if (!value) {
+        return generateUniqueString(10);
+    }
     // replace spaces with dashes
     return value.toLowerCase().replace(/[^\w\s-]+/g, '').replace(/\n$/, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
 }

@@ -1,3 +1,5 @@
+import { selectCurrentItemForEdit } from './../selectors/data';
+import { validateItemUnderEdit } from './../actions/data';
 import { ModalService } from '@core/services';
 import { Injectable } from "@angular/core";
 
@@ -17,6 +19,7 @@ import { BuilderState } from "../state";
 import { helpers as editorHelpers } from '@editor/helpers';
 import * as actions from "../actions";
 import * as shared from '@shared/store/actions';
+import * as routerActions from '@shared/routing/actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from "@ngrx/router-store";
 import { broadcastPreviewMessage } from '@shared/store/actions';
 import * as selectors from "../selectors";
@@ -104,6 +107,7 @@ export class TemplateEditorDataEffects {
             switchMap(template => [
                 actions.getTemplatePublishStatus({ templateKey }),
                 actions.loadTemplateModelSuccess({ template, templateKey }),
+                actions.validateItemUnderEdit(),
                 broadcastPreviewMessage({
                     msg: {
                         type: 'page',
@@ -121,6 +125,19 @@ export class TemplateEditorDataEffects {
                 })
             ])
         ))
+    ));
+
+    validateItemUnderEdit$ = createEffect(() => this.actions$.pipe(
+        ofType(validateItemUnderEdit),
+        withLatestFrom(
+            this.store$.select(selectors.selectCurrentItemForEdit),
+            this.store$.select(fromRoute.selectSectionIdParameter),
+            this.store$.select(fromRoute.selectBlockIdParameter),
+        ),
+        filter(([_, item, sectionId, blockId]) => (!!sectionId || !!blockId) && !item),
+        switchMap(() => [
+            routerActions.go({ path: ['/pages'] }),
+        ])
     ));
 
     passTemplateToPreview$ = createEffect(() => this.actions$.pipe(

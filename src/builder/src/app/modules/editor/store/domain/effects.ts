@@ -63,7 +63,8 @@ export class TemplateEditorDomainEffects {
                     type: 'add',
                     template: result.template,
                     section: result.template.content.find(x => x.id === result.sectionId),
-                    sectionId: result.sectionId
+                    sectionId: result.sectionId,
+                    index: insertIndex
                 }
             });
             return [
