@@ -10,7 +10,7 @@ export const sharedReducers = createReducer<SharedState>(
     initialState,
 
     on(actions.loadTemplateEntries, state => ({ ...state, templatesEntriesLoading: true, templatesEntriesLoaded: false })),
-    on(actions.loadTemplateEntriesSuccess, (state, { templatesEntries }) => ({ ...state, templatesEntriesLoading: false, templatesEntriesLoaded: true, templatesEntries })),
+    on(actions.useTemplateEntries, (state, { templatesEntries }) => ({ ...state, templatesEntriesLoading: false, templatesEntriesLoaded: true, templatesEntries })),
     on(actions.loadTemplateEntriesFails, state => ({ ...state, templatesEntriesLoading: false, templatesEntriesLoaded: false })),
     on(actions.initShared, state => ({ ...state, appInitialized: true })),
 

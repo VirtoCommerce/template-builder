@@ -91,7 +91,8 @@ export class BuilderHttpClient extends HttpClient {
                         this._cache.set(cacheKey, x);
                     }
                     if (this._cache.size > this.cacheSize) {
-                        this._cache.delete(this._cache.keys().next().value);
+                        const key = this._cache.keys().next().value;
+                        key && this._cache.delete(key);
                     }
                 })
             );

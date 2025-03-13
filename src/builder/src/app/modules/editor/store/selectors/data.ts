@@ -35,6 +35,11 @@ export const selectCurrentTemplateName = createSelector(
     (model, fileName) => model?.settings?.['displayName'] || model?.settings?.['name'] || fileName || '[no name]'
 );
 
+export const selectAllSchemas = createSelector(
+    selectTemplateDataState,
+    state => state.schemas
+);
+
 export const selectSectionsSchemas = createSelector(
     selectTemplateDataState,
     state => state.schemas

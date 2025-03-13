@@ -17,6 +17,8 @@ export const loadTemplateEntries = createAction('[shared] load template entries'
 export const loadTemplateEntriesSuccess = createAction('[shared] load template entries success', props<{ templatesEntries: TemplateEntryList }>());
 export const loadTemplateEntriesFails = createAction('[shared] load template entries fails', props<{ error: HttpErrorResponse }>());
 
+export const useTemplateEntries = createAction('[shared] use template entries', props<{ templatesEntries: TemplateEntryList }>());
+
 export const templateChanged = createAction('[shared] template changed', props<{ templateType: string, path: string, parent: string | null }>());
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
@@ -44,3 +46,5 @@ export const previewLoaded = createAction('[shared] preview loaded');
 export const selectSection = createAction('[shared] select section', props<{ sectionId: number }>());
 export const setWindowTitle = createAction('[shared] set window title', props<{ title: string | null }>());
 export const previewSectionHovered = createAction('[shared] preview section hovered', props<{ sectionId: string | null }>());
+
+export const updateCustomSchemas = createAction('[shared] update custom schemas', props<{ schemas: any }>());

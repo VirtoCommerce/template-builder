@@ -1,5 +1,6 @@
+import { SchemasList } from './../../models/schemas.model';
 import { selectCurrentItemForEdit } from './../selectors/data';
-import { validateItemUnderEdit } from './../actions/data';
+import { validateItemUnderEdit, useSchemasAction } from './../actions/data';
 import { ModalService } from '@core/services';
 import { Injectable } from "@angular/core";
 
@@ -89,9 +90,60 @@ export class TemplateEditorDataEffects {
     loadSchemas$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateSchemas),
         exhaustMap(() => this.schemas.getSchemas().pipe(
+            filter(schemas => !!schemas),
             map(schemas => actions.loadTemplateSchemasSuccess({ schemas })),
             catchError(error => of(actions.loadTemplateSchemasFails({ error })))
         ))
+    ));
+
+    // schemas are loaded from the server. apply it to the current state
+    mergeServerSchemas$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadTemplateSchemasSuccess),
+        withLatestFrom(
+            this.store$.select(selectors.selectAllSchemas),
+        ),
+        filter(([{ schemas }]) => !!schemas),
+        map(([{ schemas }, allSchemas]) => {
+            const serverSchemas = schemas || {} as SchemasList;
+            if (!allSchemas) {
+                return useSchemasAction({ schemas: serverSchemas });
+            }
+
+            // custom schemas have been loaded before
+            // and they have higher priority
+            const result = {
+                sections: { ...serverSchemas.sections, ...allSchemas.sections },
+                objects: { ...serverSchemas.objects, ...allSchemas.objects },
+                blocks: { ...serverSchemas.blocks, ...allSchemas.blocks },
+                shared: { ...serverSchemas.shared, ...allSchemas.shared },
+            };
+
+            return useSchemasAction({ schemas: result });
+        }),
+    ));
+
+    mergeCustomSchemas$ = createEffect(() => this.actions$.pipe(
+        ofType(shared.updateCustomSchemas),
+        withLatestFrom(
+            this.store$.select(selectors.selectAllSchemas),
+        ),
+        filter(([{ schemas }]) => !!schemas),
+        map(([{ schemas }, allSchemas]) => {
+            const customSchemas = schemas || {} as SchemasList;
+            if (!allSchemas) {
+                return useSchemasAction({ schemas: customSchemas });
+            }
+
+            // server schemas have been loaded before
+            // bat custom schemas have higher priority
+            const result = {
+                sections: { ...allSchemas.sections, ...customSchemas.sections },
+                objects: { ...allSchemas.objects, ...customSchemas.objects },
+                blocks: { ...allSchemas.blocks, ...customSchemas.blocks },
+                shared: { ...allSchemas.shared, ...customSchemas.shared },
+            };
+            return useSchemasAction({ schemas: result })
+        })
     ));
 
     loadTemplate$ = createEffect(() => this.actions$.pipe(
@@ -149,7 +201,7 @@ export class TemplateEditorDataEffects {
                 template,
                 ...templateEntry?.previewMessage
             }
-         }))
+        }))
     ));
 
     getTemplatePublishStatus$ = createEffect(() => this.actions$.pipe(
