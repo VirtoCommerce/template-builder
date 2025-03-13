@@ -74,7 +74,7 @@ export class SharedEffects {
         ),
         map(([{ templatesEntries }, currentEntries]) => {
             const result = { ...templatesEntries, ...currentEntries };
-            return actions.loadTemplateEntriesSuccess({ templatesEntries: result });
+            return actions.useTemplateEntries({ templatesEntries: result });
         })
     ));
 
@@ -85,7 +85,7 @@ export class SharedEffects {
         ),
         map(([{ schemas }, currentEntries]) => {
             const result = { ...currentEntries, ...schemas?.templates };
-            return actions.loadTemplateEntriesSuccess({ templatesEntries: result });
+            return actions.useTemplateEntries({ templatesEntries: result });
         })
     ));
 
@@ -275,7 +275,7 @@ export class SharedEffects {
         switchMap(event => {
             const result: Action[] = [actions.previewLoaded()];
             if (event.data.data) {
-                // result.push(actions.updateCustomSchemas({ schemas: event.data.data }));
+                result.push(actions.updateCustomSchemas({ schemas: event.data.data }));
             }
             return result;
         }),

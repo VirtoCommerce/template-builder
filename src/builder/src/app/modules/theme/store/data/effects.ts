@@ -73,8 +73,8 @@ export class ThemeDataEffects {
 
     mergeCustomSettingsSchema$ = createEffect(() => this.actions$.pipe(
         ofType(shared.updateCustomSchemas),
-        filter(({ schemas }) => !!schemas?.settings),
-        map(({ schemas }) => actions.useSettingsSchema({ schema: schemas.settings }))
+        filter(({ schemas }) => !!schemas?.settingsSchema?.settings_schema),
+        map(({ schemas }) => actions.useSettingsSchema({ schema: schemas.settingsSchema.settings_schema }))
     ));
 
     saveSettings$ = createEffect(() => this.actions$.pipe(
