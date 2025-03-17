@@ -3,7 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { TemplateEntry, TemplateEntryList, TemplateEntryState } from '@shared/models';
 import { BuilderState, SharedState } from './state';
 
-import { selectPathParameter, selectTypeParameter, selectParentTemplateParameter, selectTemplateKeyParameter, selectPath } from '../routing';
+import { selectPathParameter, selectTypeParameter, selectParentTemplateParameter, selectTemplateKeyParameter, selectPath, selectPageIdParameter } from '../routing';
 
 export const selectSharedFeature = (state: BuilderState) => state.shared;
 
@@ -238,7 +238,8 @@ export const selectAllChildrenTemplatesWithState = createSelector(
     selectAllChildrenTemplatesStates,
     selectTypeParameter,
     selectPathParameter,
-    (parentTemplate, states, type, path) => Object.keys(states)
+    selectPageIdParameter,
+    (parentTemplate, states, type, path, pageId) => Object.keys(states)
         .filter(key => !!states[key].states)
         .reduce((result, key) => [
             ...result,
@@ -250,7 +251,8 @@ export const selectAllChildrenTemplatesWithState = createSelector(
                     entry: states[key].templates?.[child] || {
                         ...parentTemplate,
                         type,
-                        path
+                        path,
+                        pageId,
                     },
                     state: states[key].states?.[child] || null
                 }))

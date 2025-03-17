@@ -99,9 +99,10 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             this.store$.select(fromShared.selectCurrentTemplateEntry),
             this.store$.select(fromRoute.selectPathParameter),
-            this.store$.select(fromRoute.selectTypeParameter)
+            this.store$.select(fromRoute.selectTypeParameter),
+            this.store$.select(fromRoute.selectPageIdParameter),
         ),
-        switchMap(([{ templateKey }, templateEntry, path, type]) => this.templates.getTemplate(path, type, templateEntry).pipe(
+        switchMap(([{ templateKey }, templateEntry, path, type, pageId]) => this.templates.getTemplate(path, type, templateEntry, pageId).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap(template => [
@@ -312,9 +313,10 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             this.store$.select(fromShared.selectCurrentTemplateEntry),
             this.store$.select(fromRoute.selectPathParameter),
-            this.store$.select(fromRoute.selectTypeParameter)
+            this.store$.select(fromRoute.selectTypeParameter),
+            this.store$.select(fromRoute.selectPageIdParameter),
         ),
-        switchMap(([{ templateKey }, entry, path, type]) => this.templates.getTemplate(path, type, entry).pipe(
+        switchMap(([{ templateKey }, entry, path, type, pageId]) => this.templates.getTemplate(path, type, entry, pageId).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap((template) => [
