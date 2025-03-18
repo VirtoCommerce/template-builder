@@ -14,6 +14,7 @@ export interface TemplateEntry {
     previewUrl: string;
     previewRule: string;
     isDefault?: boolean | null;
+    sections?: string[];
     settings?: SectionPropertyDescriptor[];
     children?: TemplateEntryList;
     hasChildren: boolean;
