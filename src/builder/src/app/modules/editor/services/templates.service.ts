@@ -33,8 +33,9 @@ export class TemplatesService {
         );
     }
 
-    getTemplatePublishStatus(path: string, type: string, entry: TemplateEntry): Observable<{ published: boolean, hasChanges: boolean }> {
-        const publishStatusUrls = this.appConfig.getValue('publish', { item: entry, type, path });
+    getTemplatePublishStatus(path: string, type: string, entry: TemplateEntry, pageId: string): Observable<{ published: boolean, hasChanges: boolean }> {
+        const value = pageId ? 'publishPages' : 'publish';
+        const publishStatusUrls = this.appConfig.getValue(value, { item: entry, type, path, pageId });
         const statusUrl = publishStatusUrls['status'];
         const request = this.http.generateRequest(statusUrl, { item: entry });
         return this.http.doRequest<{ published: boolean, hasChanges: boolean }>(request, { nullWhenError: false }, null).pipe(
@@ -42,15 +43,17 @@ export class TemplatesService {
         );
     }
 
-    publishTemplate(path: string, type: string, entry: TemplateEntry): Observable<any> {
-        const publishStatusUrls = this.appConfig.getValue('publish', { item: entry, type, path });
+    publishTemplate(path: string, type: string, entry: TemplateEntry, pageId: string): Observable<any> {
+        const value = pageId ? 'publishPages' : 'publish';
+        const publishStatusUrls = this.appConfig.getValue(value, { item: entry, type, path, pageId });
         const statusUrl = publishStatusUrls['publish'];
         const request = this.http.generateRequest(statusUrl, { item: entry });
         return this.http.doRequest(request, { nullWhenError: false }, null);
     }
 
-    unpublishTemplate(path: string, type: string, entry: TemplateEntry): Observable<any> {
-        const publishStatusUrls = this.appConfig.getValue('publish', { item: entry, type, path });
+    unpublishTemplate(path: string, type: string, entry: TemplateEntry, pageId: string): Observable<any> {
+        const value = pageId ? 'publishPages' : 'publish';
+        const publishStatusUrls = this.appConfig.getValue(value, { item: entry, type, path, pageId });
         const statusUrl = publishStatusUrls['unpublish'];
         const request = this.http.generateRequest(statusUrl, { item: entry });
         return this.http.doRequest(request, { nullWhenError: false }, null);

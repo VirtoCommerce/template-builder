@@ -79,6 +79,17 @@
             "method": "POST"
         }
     },
+    "publishPages": {
+        "status": "/api/page-builder-pages/grouped/publish-status/?id={{pageId}}",
+        "publish": {
+            "url": "/api/page-builder-pages/grouped/publishing/?id={{pageId}}&publish=true",
+            "method": "POST"
+        },
+        "unpublish": {
+            "url": "/api/page-builder-pages/grouped/publishing/?id={{pageId}}&publish=false",
+            "method": "POST"
+        }
+    },
     "externalPreview": {
         "url": "{{settings.storefrontUrl}}/pages?path={{path}}"
     },
