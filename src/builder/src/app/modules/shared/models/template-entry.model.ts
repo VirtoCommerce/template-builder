@@ -14,15 +14,8 @@ export interface TemplateEntry {
     previewUrl: string;
     previewRule: string;
     isDefault?: boolean | null;
-    sections?: string[];
     settings?: SectionPropertyDescriptor[];
     children?: TemplateEntryList;
     hasChildren: boolean;
     previewMessage?: any;
 }
-
-// export interface SearchPathEntry {
-//     path: string;
-//     type: string;
-//     excludes?: string[];
-// }

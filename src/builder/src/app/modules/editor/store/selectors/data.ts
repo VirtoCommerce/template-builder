@@ -89,9 +89,8 @@ export const selectBlocksSchemasList = createSelector(
 const selectCurrentTemplateAllSectionsSchemasUnsorted = createSelector(
     selectSectionsSchemas,
     fromShared.selectCurrentTemplateEntry,
-    (schemas, entry) => entry?.sections
-        ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x).sort()
-        : appHelpers.toList(schemas, 'type')
+    (schemas, entry) => (appHelpers.toList(schemas, 'type') as SectionSchema[])
+        .filter(x => !x.targetTemplates || x.targetTemplates.find(x => x === entry?.key))
 );
 
 function compareSchemas(a: { sort?: number, name: string, type?: string }, b: { sort?: number, name: string, type?: string }): number {

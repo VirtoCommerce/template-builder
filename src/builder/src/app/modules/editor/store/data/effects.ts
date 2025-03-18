@@ -1,18 +1,15 @@
 import { SchemasList } from './../../models/schemas.model';
-import { selectCurrentItemForEdit } from './../selectors/data';
 import { validateItemUnderEdit, useSchemasAction } from './../actions/data';
 import { ModalService } from '@core/services';
 import { Injectable } from "@angular/core";
 
-import { fromEvent, of } from "rxjs";
-import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, exhaustMap, tap } from "rxjs/operators";
+import { of } from "rxjs";
+import { withLatestFrom, filter, map, catchError, switchMap, exhaustMap, tap } from "rxjs/operators";
 
 import { Store } from "@ngrx/store";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 
 import { RouterStateUrl } from '@shared/routing';
-
-// import { ThemeSettingsService } from '@theme/services';
 
 import { SaveTemplateComponent } from '@shared/dialogs';
 
