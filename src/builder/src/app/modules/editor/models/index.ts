@@ -2,6 +2,7 @@
 // export * from './templates-schemas-list.model';
 
 export * from './template-state.model';
+export * from './template-entity.model';
 
 export * from './schemas.model';
 export * from './sections-schemas-list.model';

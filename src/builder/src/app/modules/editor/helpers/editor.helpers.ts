@@ -4,6 +4,7 @@ import { PageModel, SectionModel, SectionSchema, TemplateModel } from '@models/d
 import {
     ObjectsSchemasList,
     SectionsSchemasList,
+    TemplateEntity,
     // TemplatesList,
     // TemplateSchema,
     // SectionsSchemasList
@@ -313,24 +314,29 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
 // }
 
 export function prepareTemplate(template: TemplateModel): TemplateModel {
-    const result = {
-        ...template,
-        content: template?.content?.map(section => {
-            const res = {
-                ...section,
-                id: generateSectionId(section)
-            };
-            if (section.blocks) {
-                res.blocks = section.blocks.map((block, _) => ({
-                    ...block,
-                    id: generateSectionId(block)
-                }));
-            }
-            return res;
-        }) || []
-    };
+    try {
+        const result = {
+            ...template,
+            content: template?.content?.map(section => {
+                const res = {
+                    ...section,
+                    id: generateSectionId(section)
+                };
+                if (section.blocks) {
+                    res.blocks = section.blocks.map((block, _) => ({
+                        ...block,
+                        id: generateSectionId(block)
+                    }));
+                }
+                return res;
+            }) || []
+        };
 
-    return result;
+        return result;
+    } catch (e) {
+        console.log(e);
+        return template;
+    }
 }
 
 export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | PageModel | null): TemplateModel | null {
@@ -349,17 +355,19 @@ export function convertTemplateIntoCorrectVersion(template: TemplateModel | Sect
     } else if ('settings' in template && 'content' in template) {
         return template as TemplateModel;
     } else if ('pageContent' in template) {
-        const { pageContent, ...settings} = template as any;
+        const { pageContent, id, storeId, permalink, name, cultureName } = template as TemplateEntity;
 
-        const parsedContent = JSON.parse(pageContent || '[]');
-        (template as any).displayName = (template as any).name;
-        let result: TemplateModel = {
-            version: undefined, // force new version
+        const parsedContent = JSON.parse(pageContent || '{}');
+        const { settings, content } = parsedContent;
+
+        const result: TemplateModel = {
             settings: {
                 type: 'settings',
-                ...settings  // This will include any additional properties
+                displayName: name,
+                ...settings,
+                id, storeId, permalink, name, cultureName,
             } as SectionModel,
-            content: parsedContent,
+            content,
         };
 
         return result;
