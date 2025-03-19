@@ -337,7 +337,7 @@ export function convertTemplateIntoCorrectVersion(template: TemplateModel | Sect
     if (!template) {
         return null;
     }
-    
+
     // If template is already a TemplateModel, return it
     if ('settings' in template && 'content' in template) {
         return template as TemplateModel;
@@ -349,21 +349,22 @@ export function convertTemplateIntoCorrectVersion(template: TemplateModel | Sect
     } else if ('settings' in template && 'content' in template) {
         return template as TemplateModel;
     } else if ('pageContent' in template) {
-        const parsedContent = JSON.parse((template as any).pageContent);
-        (template as any).pageContent = undefined;
+        const { pageContent, ...settings} = template as any;
+
+        const parsedContent = JSON.parse(pageContent || '[]');
         (template as any).displayName = (template as any).name;
         let result: TemplateModel = {
             version: undefined, // force new version
             settings: {
                 type: 'settings',
-                ...template  // This will include any additional properties
+                ...settings  // This will include any additional properties
             } as SectionModel,
             content: parsedContent,
         };
 
         return result;
     }
-    
+
     return null;
 }
 
