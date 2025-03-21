@@ -208,7 +208,10 @@ export const selectEditSectionContext = createSelector(
                 block, // current block or null
                 section, // current section, useful in block
                 template, // current template
-                utils: appHelpers
+                schema: schema,
+                sectionSchema,
+                blockSchema,
+                utils: appHelpers,
             }
         }
         : null

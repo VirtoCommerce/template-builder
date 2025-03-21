@@ -7,6 +7,7 @@ export interface BaseMessage {
     // swap
     currentIndex?: number;
     newIndex?: number;
+    sectionIds?: string[];
 }
 
 export interface TemplateContent {

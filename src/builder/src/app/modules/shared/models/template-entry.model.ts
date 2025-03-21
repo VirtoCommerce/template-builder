@@ -20,9 +20,3 @@ export interface TemplateEntry {
     hasChildren: boolean;
     previewMessage?: any;
 }
-
-// export interface SearchPathEntry {
-//     path: string;
-//     type: string;
-//     excludes?: string[];
-// }

@@ -8,5 +8,5 @@ export interface EditorDataState {
 
 export const initialState: EditorDataState = {
     templates: {},
-    schemas: null
+    schemas: null,
 }

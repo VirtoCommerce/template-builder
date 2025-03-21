@@ -22,8 +22,12 @@ export const loadTemplateSchemas = createAction('[template editor] load template
 export const loadTemplateSchemasSuccess = createAction('[template editor] load template schemas success', props<{ schemas: SchemasList | null }>());
 export const loadTemplateSchemasFails = createAction('[template editor] load template schemas fails', props<{ error: HttpErrorResponse }>());
 
+export const useSchemasAction = createAction('[template editor] merge schemas', props<{ schemas: SchemasList }>());
+
 export const updateTemplateAction = createAction('[template editor] update template', props<{ template: TemplateModel, templateKey: string }>());
 
 export const saveTemplates = createAction('[template editor] save templates', props<{ templates: { entry: TemplateEntry , content: TemplateModel, info: TemplateEntryInfo }[] }>());
 export const saveTemplateSuccess = createAction('[template editor] save template success', props<{ templateKey: string, parentKey?: string, template: TemplateModel }>());
 export const saveTemplateFails = createAction('[template editor] save template fails', props<{ error: HttpErrorResponse }>());
+
+export const validateItemUnderEdit = createAction('[template editor] validate item under edit');

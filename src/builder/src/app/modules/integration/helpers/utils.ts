@@ -31,6 +31,9 @@ export function spreadPropertyByOther(obj: any, keyProperty: string, ...spreadPr
 }
 
 export function generateAnchor(value: string): string {
+    if (!value) {
+        return generateUniqueString(10);
+    }
     // replace spaces with dashes
     return value.toLowerCase().replace(/[^\w\s-]+/g, '').replace(/\n$/, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
 }
@@ -125,7 +128,7 @@ export function combine(...parts: string[]): string {
     return result;
 }
 
-export function toList(obj: any, keyPropertyName: string) {
+export function toList(obj: any, keyPropertyName: string): any[] {
     return Object.keys(obj).map(key => ({ [keyPropertyName]: key, ...obj[key] }));
 }
 

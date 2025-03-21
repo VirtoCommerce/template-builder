@@ -9,6 +9,7 @@ import { RouterStateUrl } from '@shared/routing';
 
 import { ThemeSettingsService } from '@theme/services';
 
+import * as shared from '@shared/store/actions';
 import * as actions from "../actions";
 import * as selectors from "../selectors";
 import { BuilderState } from "../state";
@@ -61,6 +62,19 @@ export class ThemeDataEffects {
             map(schema => actions.loadSettingsSchemaSuccess({ schema })),
             catchError(error => of(actions.loadSettingsSchemaFail({ error })))
         ))
+    ));
+
+    mergeServerSettingsSchema$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadSettingsSchemaSuccess),
+        withLatestFrom(this.store$.select(selectors.selectCurrentSettingsDataModel)),
+        filter(([, settingsData]) => !settingsData),
+        map(([{ schema }]) => actions.useSettingsSchema({ schema }))
+    ));
+
+    mergeCustomSettingsSchema$ = createEffect(() => this.actions$.pipe(
+        ofType(shared.updateCustomSchemas),
+        filter(({ schemas }) => !!schemas?.settingsSchema?.settings_schema),
+        map(({ schemas }) => actions.useSettingsSchema({ schema: schemas.settingsSchema.settings_schema }))
     ));
 
     saveSettings$ = createEffect(() => this.actions$.pipe(

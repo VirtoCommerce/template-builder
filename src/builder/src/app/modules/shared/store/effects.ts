@@ -67,6 +67,28 @@ export class SharedEffects {
         )),
     ));
 
+    mergeServerTemplateEntries$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.loadTemplateEntriesSuccess),
+        withLatestFrom(
+            this.store$.select(fromState.selectTemplatesEntries)
+        ),
+        map(([{ templatesEntries }, currentEntries]) => {
+            const result = { ...templatesEntries, ...currentEntries };
+            return actions.useTemplateEntries({ templatesEntries: result });
+        })
+    ));
+
+    mergeCustomTemplateEntries$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.updateCustomSchemas),
+        withLatestFrom(
+            this.store$.select(fromState.selectTemplatesEntries)
+        ),
+        map(([{ schemas }, currentEntries]) => {
+            const result = { ...currentEntries, ...schemas?.templates };
+            return actions.useTemplateEntries({ templatesEntries: result });
+        })
+    ));
+
     raiseInitApp$ = createEffect(() => this.actions$.pipe(
         ofType(actions.loadTemplateEntriesSuccess),
         withLatestFrom(this.store$.select(fromRoute.selectParentTemplateParameter)),
@@ -166,7 +188,7 @@ export class SharedEffects {
             const context = { item: templateEntry, filter, templates: entries };
             return this.templatesService.getChildrenTemplates(templateEntry!, context).pipe(
                 switchMap(childrenEntries => {
-                    const result = <Action[]>[actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: templateKey })];
+                    const result: Action[] = [actions.loadChildrenTemplatesSuccess({ childrenEntries, parentTemplate: templateKey })];
                     if (onInit) {
                         result.push(actions.initApp());
                         result.push(actions.setLivePreviewUrl());
@@ -250,7 +272,13 @@ export class SharedEffects {
     previewLoadedMessage$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
         filter((event: MessageEvent) => event.data.source === 'preview' && event.data.type === 'loaded'),
         tap(event => console.log(event.data)),
-        map(() => actions.previewLoaded())
+        switchMap(event => {
+            const result: Action[] = [actions.previewLoaded()];
+            if (event.data.data) {
+                result.push(actions.updateCustomSchemas({ schemas: event.data.data }));
+            }
+            return result;
+        }),
     ));
 
     selectSectionMessage$ = createEffect(() => fromEvent<MessageEvent>(window, 'message').pipe(
@@ -265,7 +293,7 @@ export class SharedEffects {
 
     previewLoaded$ = createEffect(() => this.actions$.pipe(
         ofType(actions.previewLoaded),
-        tap(() => this.eventsBus.emit({ target: 'preview', payload: { type: 'preview-loaded' }})),
+        tap(() => this.eventsBus.emit({ target: 'preview', payload: { type: 'preview-loaded' } })),
         map(() => actions.setLivePreviewUrl())
     ));
 

@@ -5,11 +5,11 @@
                  *ngIf="vm.settingsSchemas?.top && vm.settingsSchemas?.top?.length">
                 <ng-container *ngFor="let schema of vm.settingsSchemas.top">
                     <app-section-item class="static-item"
-                                      [sectionSchema]="schema"
+                                      [sectionSchema]="schema!"
                                       [section]="vm.settings"
                                       [selectable]="false"
                                       [hasContextMenu]="false"
-                                      (itemClick)="onSettingsClick(schema)">
+                                      (itemClick)="onSettingsClick(schema!)">
                     </app-section-item>
                 </ng-container>
             </div>
