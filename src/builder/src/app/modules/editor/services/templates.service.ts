@@ -68,8 +68,8 @@ export class TemplatesService {
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
         const templatesToSave = templates.map(template => (
             {
-                ...template, 
-                content: helpers.prepareTemplateForSave(template.content) 
+                ...template,
+                content: helpers.prepareTemplateForSave(template.content)
             }));
         const context = { templatesToSave };
         const saveTemplates = this.appConfig.getValue('saveTemplates', context);

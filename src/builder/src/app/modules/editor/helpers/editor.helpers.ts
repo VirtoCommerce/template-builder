@@ -1,14 +1,7 @@
 import { appHelpers } from '@integration/helpers';
 import { FilesDescriptor, SectionPropertyDescriptor } from '@models/controls';
 import { PageModel, SectionModel, SectionSchema, TemplateModel } from '@models/document';
-import {
-    ObjectsSchemasList,
-    SectionsSchemasList,
-    TemplateEntity,
-    // TemplatesList,
-    // TemplateSchema,
-    // SectionsSchemasList
-} from '@editor/models';
+import { ObjectsSchemasList, } from '@editor/models';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 
 // todo: refactor these
@@ -314,29 +307,24 @@ function generateModelBySettings(settings: SectionPropertyDescriptor[], mode: 'd
 // }
 
 export function prepareTemplate(template: TemplateModel): TemplateModel {
-    try {
-        const result = {
-            ...template,
-            content: template?.content?.map(section => {
-                const res = {
-                    ...section,
-                    id: generateSectionId(section)
-                };
-                if (section.blocks) {
-                    res.blocks = section.blocks.map((block, _) => ({
-                        ...block,
-                        id: generateSectionId(block)
-                    }));
-                }
-                return res;
-            }) || []
-        };
+    const result = {
+        ...template,
+        content: template?.content?.map(section => {
+            const res = {
+                ...section,
+                id: generateSectionId(section)
+            };
+            if (section.blocks) {
+                res.blocks = section.blocks.map((block, _) => ({
+                    ...block,
+                    id: generateSectionId(block)
+                }));
+            }
+            return res;
+        }) || []
+    };
 
-        return result;
-    } catch (e) {
-        console.log(e);
-        return template;
-    }
+    return result;
 }
 
 export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | PageModel | null): TemplateModel | null {
@@ -352,10 +340,8 @@ export function convertTemplateIntoCorrectVersion(template: TemplateModel | Sect
         // convert it to the new format
         const [settings, ...content] = template;
         return { settings: settings || {}, content: content || [], version: 1 };
-    } else if ('settings' in template && 'content' in template) {
-        return template as TemplateModel;
     } else if ('pageContent' in template) {
-        const { pageContent, id, storeId, permalink, name, cultureName } = template as TemplateEntity;
+        const { pageContent, id, storeId, permalink, name, cultureName } = template as PageModel;
 
         const parsedContent = JSON.parse(pageContent || '{}');
         const { settings, content } = parsedContent;

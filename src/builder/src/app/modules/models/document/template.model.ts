@@ -8,15 +8,6 @@ export interface TemplateModel {
     version?: number;
     settings: SectionModel;
     content: SectionModel[];
-
-    /*
-    storeId?: string,
-    cultureName?: string, 
-    name?: string, 
-    permalink?: string,
-    status?: string,
-    pageContent?: string,
-    */
 }
 
 export type TemplateModelsList = Dictionary<TemplateModel>;

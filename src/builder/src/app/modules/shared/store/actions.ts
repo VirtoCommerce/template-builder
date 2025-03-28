@@ -17,7 +17,7 @@ export const loadTemplateEntries = createAction('[shared] load template entries'
 export const loadTemplateEntriesSuccess = createAction('[shared] load template entries success', props<{ templatesEntries: TemplateEntryList }>());
 export const loadTemplateEntriesFails = createAction('[shared] load template entries fails', props<{ error: HttpErrorResponse }>());
 
-export const templateChanged = createAction('[shared] template changed', props<{ templateType: string, path: string, parent: string | null }>());
+export const templateChanged = createAction('[shared] template changed', props<{ templateType: string, path?: string, pageId?: string, parent: string | null }>());
 export const selectDefaultTemplate = createAction('[shared] select first template');
 export const changePreviewMode = createAction('[shared] change preview mode', props<{ mode: string | null }>());
 
@@ -25,7 +25,7 @@ export const changePreviewMode = createAction('[shared] change preview mode', pr
 export const setRootDirtyState = createAction('[shared] set root dirty state', props<{ templateKey: string, dirty: boolean }>());
 export const setDirtyState = createAction('[shared] set dirty state', props<{ templateKey: string, parentKey?: string, dirty: boolean }>());
 
-export const selectTemplate = createAction('[shared] select template', props<{ templateType: string, path: string, templateKey: string }>());
+export const selectTemplate = createAction('[shared] select template', props<{ templateType: string, path?: string, pageId?: string, templateKey: string }>());
 export const navigateToCurrentTemplate = createAction('[shared] navigate to current template');
 export const filterTemplates = createAction('[shared] filter templates', props<{ filter: string }>());
 export const displayRootTemplates = createAction('[shared] display root templates');
