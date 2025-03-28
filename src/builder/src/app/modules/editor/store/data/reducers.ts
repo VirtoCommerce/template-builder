@@ -7,7 +7,7 @@ import { EditorDataState, initialState } from './state';
 export const editorDataReducers = createReducer<EditorDataState>(
     initialState,
 
-    on(actions.loadTemplateSchemasSuccess, (state, { schemas }) => ({ ...state, schemas })),
+    on(actions.useSchemasAction, (state, { schemas }) => ({ ...state, schemas })),
     on(actions.loadTemplateModelSuccess, (state, { template, templateKey }) => ({ ...state, templates: { ...state.templates, [templateKey]: template } })),
     on(actions.reloadTemplateModelSuccess, (state, { template, templateKey }) => ({ ...state, templates: { ...state.templates, [templateKey]: template } })),
     on(actions.reloadTemplateModel, (state, { templateKey }) => {

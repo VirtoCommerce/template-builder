@@ -128,7 +128,7 @@ export function combine(...parts: string[]): string {
     return result;
 }
 
-export function toList(obj: any, keyPropertyName: string) {
+export function toList(obj: any, keyPropertyName: string): any[] {
     return Object.keys(obj).map(key => ({ [keyPropertyName]: key, ...obj[key] }));
 }
 

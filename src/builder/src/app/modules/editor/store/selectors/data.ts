@@ -35,6 +35,11 @@ export const selectCurrentTemplateName = createSelector(
     (model, fileName) => model?.settings?.['displayName'] || model?.settings?.['name'] || fileName || '[no name]'
 );
 
+export const selectAllSchemas = createSelector(
+    selectTemplateDataState,
+    state => state.schemas
+);
+
 export const selectSectionsSchemas = createSelector(
     selectTemplateDataState,
     state => state.schemas
@@ -78,15 +83,13 @@ export const selectBlocksSchemasList = createSelector(
     blocks => Object.keys(blocks).map(key => blocks[key])
 );
 
-// const selectCurrentTemplateAllSectionsSchemasSorted = createSelector(
-// );
-
 const selectCurrentTemplateAllSectionsSchemasUnsorted = createSelector(
     selectSectionsSchemas,
     fromShared.selectCurrentTemplateEntry,
     (schemas, entry) => entry?.sections
         ? entry.sections.map(type => ({ ...schemas[type], type })).filter(x => !!x).sort()
-        : appHelpers.toList(schemas, 'type')
+        : (appHelpers.toList(schemas, 'type') as SectionSchema[])
+            .filter(x => !x.targetTemplates || x.targetTemplates.find(x => x === entry?.key))
 );
 
 function compareSchemas(a: { sort?: number, name: string, type?: string }, b: { sort?: number, name: string, type?: string }): number {

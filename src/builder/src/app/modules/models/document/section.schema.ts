@@ -14,6 +14,8 @@ export interface SectionSchema {
     default?: SectionModel;
     preview?: SectionModel;
 
+    targetTemplates?: string[]; // list of template names where this section can be used
+
     group?: string;
     groupIcon?: string;
     groupSort?: number;
