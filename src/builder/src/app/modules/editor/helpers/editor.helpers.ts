@@ -1,13 +1,8 @@
 import { appHelpers } from '@integration/helpers';
 import { FilesDescriptor, SectionPropertyDescriptor } from '@models/controls';
-import { SectionModel, SectionSchema, TemplateModel } from '@models/document';
-import {
-    ObjectsSchemasList,
-    SectionsSchemasList,
-    // TemplatesList,
-    // TemplateSchema,
-    // SectionsSchemasList
-} from '@editor/models';
+import { PageModel, SectionModel, SectionSchema, TemplateModel } from '@models/document';
+import { ObjectsSchemasList, } from '@editor/models';
+import { Template } from '@angular/compiler/src/render3/r3_ast';
 
 // todo: refactor these
 // replace section/block in collection can be extracted and done with lodash
@@ -332,15 +327,39 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
     return result;
 }
 
-export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | null): TemplateModel | null {
-    // check template is array
-    if (Array.isArray(template)) {
+export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | PageModel | null): TemplateModel | null {
+    if (!template) {
+        return null;
+    }
+
+    // If template is already a TemplateModel, return it
+    if ('settings' in template && 'content' in template) {
+        return template as TemplateModel;
+    } else if (Array.isArray(template)) {
         // this is the old template format
         // convert it to the new format
         const [settings, ...content] = template;
-        template = { settings: settings || {}, content: content || [], version: 1 };
+        return { settings: settings || {}, content: content || [], version: 1 };
+    } else if ('pageContent' in template) {
+        const { pageContent, id, storeId, permalink, name, cultureName } = template as PageModel;
+
+        const parsedContent = JSON.parse(pageContent || '{}');
+        const { settings, content } = parsedContent;
+
+        const result: TemplateModel = {
+            settings: {
+                type: 'settings',
+                displayName: name,
+                ...settings,
+                id, storeId, permalink, name, cultureName,
+            } as SectionModel,
+            content,
+        };
+
+        return result;
     }
-    return template
+
+    return null;
 }
 
 export function prepareTemplateForSave(template: TemplateModel): SectionModel[] | TemplateModel {

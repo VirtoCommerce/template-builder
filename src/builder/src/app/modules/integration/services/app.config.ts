@@ -115,6 +115,7 @@ export type OptionName = 'templatesListUrl'
     | 'assetsUrlTemplate'
     | 'publish'
     | 'externalPreview'
+    | 'publishPages'
     ;
 
 // 'fullPreviewUrl'

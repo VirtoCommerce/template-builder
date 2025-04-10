@@ -131,6 +131,7 @@ export class SharedEffects {
             return actions.selectTemplate({
                 templateType: entry?.type || '',
                 path: entry?.path,
+                pageId: entry?.pageId,
                 templateKey
             })
         })
@@ -153,10 +154,10 @@ export class SharedEffects {
                 || templateType !== typeParameter
             )
             || !pathParameter), // or template parameter from route is empty
-        switchMap(([{ templateType, path }, parentTemplateKey]) => [
-            router.go({ queryParams: { templateType, path, parent: parentTemplateKey } }),
+        switchMap(([{ templateType, path, pageId }, parentTemplateKey]) => [
+            router.go({ queryParams: { templateType, path, pageId, parent: parentTemplateKey } }),
             // this action allows to inform other modules to do some stuff, i.e. editor module do the other redirect
-            actions.templateChanged({ templateType, path, parent: parentTemplateKey })
+            actions.templateChanged({ templateType, path, pageId, parent: parentTemplateKey })
         ])
     ));
 
