@@ -10,6 +10,7 @@ export interface ServerRequestDescriptor {
     cacheable?: boolean;
 
     init?: boolean | string;
+    fallbackValue?: any; // value to use when request failed
     // cacheContextPath?: string;
     // value: string | (string | ValueDescriptorModel)[];
     // resultField: string;

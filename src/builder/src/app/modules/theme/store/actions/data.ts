@@ -12,7 +12,7 @@ export const loadSettingsSchema = createAction('[theme data] load settings schem
 export const loadSettingsSchemaSuccess = createAction('[theme data] load settings schema success', props<{ schema: SettingsSchemaModel | null }>());
 export const loadSettingsSchemaFail = createAction('[theme data] load settings schema fail', props<{ error: HttpErrorResponse }>());
 
-export const useSettingsSchema = createAction('[theme data] ues settings schema', props<{ schema: SettingsSchemaModel | null }>());
+export const useSettingsSchema = createAction('[theme data] use settings schema', props<{ schema: SettingsSchemaModel | null }>());
 
 export const saveSettings = createAction('[theme data] save settings');
 export const saveSettingsSuccess = createAction('[theme data] save settings success');

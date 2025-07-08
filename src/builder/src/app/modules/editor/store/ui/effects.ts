@@ -107,14 +107,15 @@ export class TemplateEditorUiEffects {
             this.store$.select(selectors.selectBlockModelFromRoute)
         ),
         switchMap(([, template, entry, parentKey, section, block]) => {
-            const message = section ? [broadcastPreviewMessage({
+            const message = [broadcastPreviewMessage({
                 msg: {
                     type: 'changed',
                     template, section, block,
                     sectionId: section?.id,
                     ...entry?.previewMessage
                 }
-            })] : [];
+            })];
+            console.log(message);
             return [
                 ...message,
                 parentKey

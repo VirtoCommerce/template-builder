@@ -98,7 +98,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
                 map(items => items?.map((x: any) => ({
                     label: x[this.descriptor!.request.label],
                     group: this.descriptor!.request.group ? x[this.descriptor!.request.group] : null,
-                    value: x
+                    value: this.descriptor!.request.value ? x[this.descriptor!.request.value] : x,
                 })) || []),
                 tap(() => this.loading = false),
                 // tap(() => {
