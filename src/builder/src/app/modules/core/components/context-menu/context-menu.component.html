@@ -11,7 +11,7 @@
                  (overlayOutsideClick)="outsideClick($event)">
         <ul class="panel">
             <li *ngFor="let action of getActionsList()" [ngClass]="{ separator: action === '|' }">
-                <div *ngIf="action !== '|'" class="action-item" [ngClass]="{ inactive: action.inactive }" (click)="raiseOnAction(action)">
+                <div *ngIf="action !== '|'" class="action-item" [ngClass]="{ inactive: evaluateFunction(action.inactive) }" (click)="raiseOnAction(action)">
                     <app-icon>{{ action.icon }}</app-icon>
                     <span class="whitespace-nowrap">{{ action.title }}</span>
                 </div>

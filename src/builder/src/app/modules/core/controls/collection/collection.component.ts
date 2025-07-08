@@ -28,12 +28,13 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         title: 'Duplicate',
         icon: 'file_copy',
         selected: false,
-        inactive: false
+        inactive: () => !this.canAddItem()
     }, {
         action: 'delete',
         title: 'Delete',
         icon: 'delete_outline'
     }];
+
 
     form!: FormGroup;
     collectionFormArray!: FormArray;
@@ -81,6 +82,10 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         return this.descriptor?.element || []; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
     }
 
+    canAddItem(): boolean {
+        return !this.descriptor?.maxCount || this.collectionFormArray.length < this.descriptor.maxCount;
+    }
+
     addItem() {
         const descriptors = this.getDescriptors();
         const item = formsHelpers.generateForm(
@@ -93,6 +98,9 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
 
     onActionClick(event: ContextMenuActionType, item: AbstractControl, index: number) {
         if (event.action === 'duplicate') {
+            if (!this.canAddItem()) {
+                return;
+            }
             const descriptors = this.getDescriptors();
             const newItem = formsHelpers.generateForm(item.value, descriptors);
             this.collectionFormArray.insert(index + 1, newItem);
