@@ -152,7 +152,7 @@ export function applySettingsChanges(template: TemplateModel, changes: Partial<S
             ...template.settings,
             ...changes
         }
-    }
+    };
 }
 
 export function applyBlockChanges(template: TemplateModel, changes: Partial<SectionModel>, sectionId: string, blockId: string): TemplateModel {

@@ -46,7 +46,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         this.subscription = this.control.valueChanges.subscribe(items => {
             if (items && items.length) {
                 const files = items.map((x, index) => this.convertValueToFile(x, index));
-                this.uploadFiles(<any>items);
+                this.uploadFiles(files);
                 if (!!this.multiple) {
                     this.innerValue.push(...files);
                 } else {
@@ -227,7 +227,6 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
                 name: item ? item.startsWith('data:') ? '[inline data]' : item.substring(item.lastIndexOf('/') + 1) : null,
                 webkitRelativePath: item,
                 url: item,
-                uploaded: true
             };
         } else if (item instanceof File) {
             result = <AssetFile>item;
@@ -244,11 +243,13 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
                 webkitRelativePath: item[this.descriptor?.urlField || 'url'],
                 data: item,
                 url: item[this.descriptor?.urlField || 'url'],
-                uploaded: true
             };
         }
         const context = this.getContext(result);
         result.previewUrl = this.data.getPreviewUrl(result, this.descriptor || {}, context);
+        result.uploaded = false;
+        result.uploading = false;
+
         return result;
     }
 

@@ -1,15 +1,11 @@
-import { ServerRequestDescriptor } from '@models/http';
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom, Observable, of } from 'rxjs';
-import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 
 import { appHelpers } from '../helpers';
 
 import { EnvironmentRef } from './environment.ref';
 import { EvaluatorService } from './evaluator.service';
-import { BuilderHttpClient } from './builder-http.client';
 
 @Injectable({
     providedIn: 'root'
@@ -106,8 +102,6 @@ export type OptionName = 'templatesListUrl'
     | 'settingsDataRequest'
     | 'settingsSchemaRequest'
     | 'saveSettings'
-    | 'settingsPath'
-    | 'startPreviewPath'
     | 'uploadAssetsRequest'
     | 'fullPreviewUrl'
     | 'skipTheme'

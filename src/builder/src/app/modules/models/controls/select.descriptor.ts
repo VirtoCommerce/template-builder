@@ -5,6 +5,7 @@ import { SelectOptionModel } from './select-option.model';
 export interface OptionsRequest extends ServerRequestDescriptor {
     group: string;
     label: string;
+    value?: string; // property name to use as value or empty if value is the object itself
 }
 
 export interface SelectDescriptor extends BaseControlDescriptor {
