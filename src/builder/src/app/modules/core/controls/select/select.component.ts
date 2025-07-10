@@ -102,9 +102,9 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             return null;
         }
         return {
-            label: item[this.descriptor!.request.label] || item,
-            group: this.descriptor!.request.group ? item[this.descriptor!.request.group] : null,
-            value: this.descriptor!.request.value ? item[this.descriptor!.request.value] : item,
+            label: this.descriptor!.request?.label ? item[this.descriptor!.request.label] : item,
+            group: this.descriptor!.request?.group ? item[this.descriptor!.request.group] : null,
+            value: this.descriptor!.request?.value ? item[this.descriptor!.request.value] : item,
         };
     }
 
