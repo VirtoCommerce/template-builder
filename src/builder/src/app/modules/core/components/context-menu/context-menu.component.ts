@@ -32,6 +32,13 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
 
     }
 
+    evaluateFunction(func: boolean | (() => boolean) | undefined): boolean {
+        if (typeof func === 'function') {
+            return func();
+        }
+        return !!func;
+    }
+
     getActionsList(): ContextMenuAction[] {
         if (!this.actions && this.getActions) {
             this.getActions().then(actions => {

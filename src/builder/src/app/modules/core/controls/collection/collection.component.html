@@ -29,6 +29,7 @@
     <app-icon-button class="add-button"
                      icon="add"
                      skin="blue"
+                     *ngIf="canAddItem()"
                      [text]="descriptor?.addText || 'Add item'"
                      (click)="addItem()"></app-icon-button>
 </div>

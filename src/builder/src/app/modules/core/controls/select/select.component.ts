@@ -50,7 +50,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     override initContent() {
         super.initContent();
         this.form = new FormGroup({
-            value: new FormControl(this.controlValue)
+            value: new FormControl(this.selectControlValue)
         });
         this.updateOptions();
         this.form.valueChanges.subscribe({
@@ -58,6 +58,13 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
                 this.onValueChanged(v.value);
             }
         });
+    }
+
+    get selectControlValue(): any {
+        if (this.controlValue && Array.isArray(this.controlValue)) {
+            return this.controlValue.map((x: any) => this.convertItemToOption(x));
+        }
+        return this.convertItemToOption(this.controlValue);
     }
 
     private updateOptions() {
@@ -85,9 +92,20 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     unselect(item: any) {
         this.form.controls['value'].setValue(
-            this.controlValue.filter((x: any) => !this.compareWith(x, item)),
+            this.selectControlValue.filter((x: any) => !this.compareWith(x, item)),
             { emitEvent: true }
         );
+    }
+
+    private convertItemToOption(item: any) {
+        if (!item) {
+            return null;
+        }
+        return {
+            label: this.descriptor!.request?.label && item[this.descriptor!.request.label] || item,
+            group: this.descriptor!.request?.group && item[this.descriptor!.request.group] || null,
+            value: this.descriptor!.request?.value && item[this.descriptor!.request.value] || item,
+        };
     }
 
     private doRequest(filter: string | null): Observable<any[]> {
@@ -95,11 +113,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
         if (this.descriptor?.request) {
             const context = { ...this.context, __searchQuery: filter };
             result = this.data.doRequest(this.descriptor.request, context).pipe(
-                map(items => items?.map((x: any) => ({
-                    label: x[this.descriptor!.request.label],
-                    group: this.descriptor!.request.group ? x[this.descriptor!.request.group] : null,
-                    value: this.descriptor!.request.value ? x[this.descriptor!.request.value] : x,
-                })) || []),
+                map(items => items?.map((x: any) => this.convertItemToOption(x)) || []),
                 tap(() => this.loading = false),
                 // tap(() => {
                 //     const value = this.select.itemsList.findItem(this.controlValue);
