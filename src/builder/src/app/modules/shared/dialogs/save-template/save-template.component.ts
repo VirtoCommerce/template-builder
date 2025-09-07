@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TemplateEntryInfo } from '@shared/models';
 
@@ -13,11 +13,11 @@ export class SaveTemplateComponent implements OnInit {
     @ViewChild('selectAllInput') selectAllInput!: ElementRef<HTMLInputElement>;
 
     entries: TemplateEntryInfo[];
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     constructor(
         private dialogRef: MatDialogRef<SaveTemplateComponent>,
-        fb: FormBuilder,
+        fb: UntypedFormBuilder,
         @Inject(MAT_DIALOG_DATA) data: { entries: TemplateEntryInfo[] }
     ) {
         const result = data.entries.reduce((acc, value) => ({ ...acc, [value.key]: true}), {});

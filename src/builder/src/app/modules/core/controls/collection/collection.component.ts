@@ -1,6 +1,6 @@
 import { ModalService } from './../../services/modal.service';
 import { Component } from '@angular/core';
-import { FormArray, FormGroup, AbstractControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
@@ -36,8 +36,8 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }];
 
 
-    form!: FormGroup;
-    collectionFormArray!: FormArray;
+    form!: UntypedFormGroup;
+    collectionFormArray!: UntypedFormArray;
 
     toggle(item: any) {
         if (this.openedItem === item) {
@@ -51,7 +51,7 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         super();
     }
 
-    getContext(item: FormGroup, index: number): ControlContext {
+    getContext(item: UntypedFormGroup, index: number): ControlContext {
         return { ...this.context, item: this.controlValue, index, element: item.value, parent: this.context /*, filter: null */ };
     }
 
@@ -66,7 +66,7 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
             super.setControlValue(value);
             const descriptors = this.getDescriptors();
             this.collectionFormArray = formsHelpers.generateFormArray(value, descriptors);
-            this.form = new FormGroup({ list: this.collectionFormArray });
+            this.form = new UntypedFormGroup({ list: this.collectionFormArray });
             this.unsubscribe();
             this.subscription = this.form.valueChanges.subscribe(x => {
                 this.onValueChanged(x.list);

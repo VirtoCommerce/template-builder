@@ -9,7 +9,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { SelectDescriptor } from '@models/controls';
 import { BaseControlDirective } from '@core/controls';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { appHelpers } from '@integration/helpers';
 
@@ -25,7 +25,7 @@ import { appHelpers } from '@integration/helpers';
 })
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     options$!: Observable<any[]>;
     searchEvent$ = new Subject<string>();
     loading: boolean = false;
@@ -49,8 +49,8 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     override initContent() {
         super.initContent();
-        this.form = new FormGroup({
-            value: new FormControl(this.selectControlValue)
+        this.form = new UntypedFormGroup({
+            value: new UntypedFormControl(this.selectControlValue)
         });
         this.updateOptions();
         this.form.valueChanges.subscribe({

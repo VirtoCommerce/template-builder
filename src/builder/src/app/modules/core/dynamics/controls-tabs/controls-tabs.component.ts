@@ -1,6 +1,6 @@
 import { GroupsStateModel, TabModel } from '@core/models';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
@@ -12,7 +12,7 @@ import { BaseControlDescriptor } from '@models/controls';
 })
 export class ControlsTabsComponent implements OnInit {
 
-    @Input() currentForm!: FormGroup;
+    @Input() currentForm!: UntypedFormGroup;
     @Input() context!: ControlContext;
     @Input() descriptors!: BaseControlDescriptor[];
 

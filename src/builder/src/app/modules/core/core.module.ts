@@ -72,24 +72,18 @@ const CDK_MODULES = [
         ...ALL_COMPONENTS,
         ...CDK_MODULES,
     ],
-    entryComponents: [...CONTROLS, ...DIALOGS],
     imports: [
         CommonModule,
         ReactiveFormsModule,
-
         ...MATERIAL_MODULES,
         ...CDK_MODULES,
-
         PerfectScrollbarModule,
-
         FileUploadModule,
         ColorSketchModule,
         ColorTwitterModule,
         NgSelectModule,
         CKEditorModule,
-
         NgvMarkdownModule,
-
         // todo: use options from builder config
         // https://www.npmjs.com/package/ngx-toastr
         ToastrModule.forRoot()

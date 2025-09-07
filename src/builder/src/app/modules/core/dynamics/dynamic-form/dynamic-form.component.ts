@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { formsHelpers } from '@core/helpers';
@@ -41,7 +41,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     }
     @Output() modelChanged = new EventEmitter<ModelChangedEventArgs>();
 
-    form: FormGroup | null = null;
+    form: UntypedFormGroup | null = null;
 
     constructor(private cdr: ChangeDetectorRef, private zone: NgZone) { }
 

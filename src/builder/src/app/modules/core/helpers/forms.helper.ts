@@ -1,20 +1,20 @@
 import { ObjectsSchemasList } from '@editor/models';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SectionPropertyDescriptor, ObjectDescriptor, ControlDescriptor, CollectionDescriptor } from '@models/controls';
 
-export function generateForm(model: any, properties: SectionPropertyDescriptor[]): FormGroup {
-    const result = new FormGroup({});
+export function generateForm(model: any, properties: SectionPropertyDescriptor[]): UntypedFormGroup {
+    const result = new UntypedFormGroup({});
     if (properties) {
         properties.filter(p => !!p.id).forEach(p => {
             const value = model[p.id];
-            result.addControl(p.id, new FormControl(value));
+            result.addControl(p.id, new UntypedFormControl(value));
         });
     }
     return result;
 }
 
-export function generateFormArray(items: any[], properties: SectionPropertyDescriptor[]): FormArray {
-    return new FormArray(items.map(item => generateForm(item, properties)));
+export function generateFormArray(items: any[], properties: SectionPropertyDescriptor[]): UntypedFormArray {
+    return new UntypedFormArray(items.map(item => generateForm(item, properties)));
 }
 
 export function mergeDescriptors(objects: ObjectsSchemasList, descriptor: ObjectDescriptor | CollectionDescriptor): ControlDescriptor[] {

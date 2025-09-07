@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
@@ -17,7 +17,7 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 
     private subscription: Subscription | null = null;
 
-    objectForm!: FormGroup;
+    objectForm!: UntypedFormGroup;
     expanded = false;
 
     constructor() {

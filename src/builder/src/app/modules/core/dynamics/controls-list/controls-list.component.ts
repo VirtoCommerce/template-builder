@@ -1,6 +1,6 @@
 import { DisplayTextDescriptor } from '@models/controls';
 import { Component, Input, OnInit } from "@angular/core";
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
@@ -14,7 +14,7 @@ import { appHelpers } from '@integration/helpers';
 export class ControlsListComponent implements OnInit {
 
     // @Input() sectionModel!: SectionModel;
-    @Input() currentForm!: FormGroup;
+    @Input() currentForm!: UntypedFormGroup;
     @Input() context!: ControlContext;
     @Input() descriptors!: BaseControlDescriptor[]; // todo: controls order
 

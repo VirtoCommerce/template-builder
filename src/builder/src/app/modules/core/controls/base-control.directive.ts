@@ -1,5 +1,5 @@
 import { AfterContentInit, Directive, ElementRef, Input, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { appHelpers } from "@app/modules/integration/helpers";
 // import { FormGroup } from '@angular/forms';
 import { ControlContext } from '@core/models';
@@ -10,7 +10,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     descriptor: T | null = null;
     context!: ControlContext;
-    currentForm!: FormGroup;
+    currentForm!: UntypedFormGroup;
 
     @Input() controlValue: any;
     onValueChanged = (value: any) => this.defaultValueChanged(value);

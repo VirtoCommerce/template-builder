@@ -8,7 +8,7 @@ import {
     // HostBinding,
     ChangeDetectorRef
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormGroup } from '@angular/forms';
 
 import { ControlHostDirective } from './control-host.directive';
 import { ControlsFactory, BaseControlDirective } from '@core/controls';
@@ -31,15 +31,15 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
 
     private component!: BaseControlDirective<BaseControlDescriptor>;
     private _context!: ControlContext;
-    private _currentForm!: FormGroup;
+    private _currentForm!: UntypedFormGroup;
 
     @ViewChild(ControlHostDirective, { static: true }) host!: ControlHostDirective;
 
     @Input() descriptor!: BaseControlDescriptor;
-    @Input() get currentForm(): FormGroup {
+    @Input() get currentForm(): UntypedFormGroup {
         return this._currentForm;
     }
-    set currentForm(value: FormGroup) {
+    set currentForm(value: UntypedFormGroup) {
         this._currentForm = value;
         if (this.component) {
             this.component.currentForm = value;

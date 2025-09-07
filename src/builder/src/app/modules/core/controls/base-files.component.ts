@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Directive } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     private elementSubscription: Subscription | null = null;
     private previousExpanded: boolean | null = null;
 
-    elementForm: FormGroup | null = null;
+    elementForm: UntypedFormGroup | null = null;
     control!: FileUploadControl; // control used for d-n-d only
     selectedFile: AssetFile | null = null;
     expanded: boolean = false;

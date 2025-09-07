@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext, TabModel, GroupsStateModel } from '@core/models';
 
@@ -12,7 +12,7 @@ export class ControlsTabComponent implements OnInit {
 
     @Input() tab!: TabModel;
     @Input() state!: GroupsStateModel;
-    @Input() currentForm!: FormGroup;
+    @Input() currentForm!: UntypedFormGroup;
     @Input() context!: ControlContext;
 
     constructor() { }
