@@ -101,20 +101,9 @@ export class TemplateEditorDataEffects {
         ),
         filter(([{ schemas }]) => !!schemas),
         map(([{ schemas }, allSchemas]) => {
-            const serverSchemas = schemas || {} as SchemasList;
-            if (!allSchemas) {
-                return useSchemasAction({ schemas: serverSchemas });
-            }
-
             // custom schemas have been loaded before
             // and they have higher priority
-            const result = {
-                sections: { ...serverSchemas.sections, ...allSchemas.sections },
-                objects: { ...serverSchemas.objects, ...allSchemas.objects },
-                blocks: { ...serverSchemas.blocks, ...allSchemas.blocks },
-                shared: { ...serverSchemas.shared, ...allSchemas.shared },
-            };
-
+            const result = editorHelpers.mergeSchemas(schemas || {} as SchemasList, allSchemas)
             return useSchemasAction({ schemas: result });
         }),
     ));
@@ -126,20 +115,11 @@ export class TemplateEditorDataEffects {
         ),
         filter(([{ schemas }]) => !!schemas),
         map(([{ schemas }, allSchemas]) => {
-            const customSchemas = schemas || {} as SchemasList;
-            if (!allSchemas) {
-                return useSchemasAction({ schemas: customSchemas });
-            }
 
             // server schemas have been loaded before
-            // bat custom schemas have higher priority
-            const result = {
-                sections: { ...allSchemas.sections, ...customSchemas.sections },
-                objects: { ...allSchemas.objects, ...customSchemas.objects },
-                blocks: { ...allSchemas.blocks, ...customSchemas.blocks },
-                shared: { ...allSchemas.shared, ...customSchemas.shared },
-            };
-            return useSchemasAction({ schemas: result })
+            // but custom schemas have higher priority
+            const result = editorHelpers.mergeSchemas(allSchemas, schemas || {} as SchemasList)
+            return useSchemasAction({ schemas: result });
         })
     ));
 

@@ -1,7 +1,7 @@
 import { appHelpers } from '@integration/helpers';
 import { FilesDescriptor, SectionPropertyDescriptor } from '@models/controls';
 import { PageModel, SectionModel, SectionSchema, TemplateModel } from '@models/document';
-import { ObjectsSchemasList, } from '@editor/models';
+import { ObjectsSchemasList, SchemasList, } from '@editor/models';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 
 // todo: refactor these
@@ -503,6 +503,23 @@ function fillElementProperty(setting: SectionPropertyDescriptor, objects: Object
     };
 }
 
+export function mergeSchemas(lowPrioritySchemas: SchemasList | null, highPrioritySchemas: SchemasList | null): SchemasList {
+    if (!highPrioritySchemas) {
+        return lowPrioritySchemas!;
+    }
+    if (!lowPrioritySchemas) {
+        return highPrioritySchemas;
+    }
+
+    const result = {
+        sections: { ...lowPrioritySchemas.sections, ...highPrioritySchemas.sections },
+        objects: { ...lowPrioritySchemas.objects, ...highPrioritySchemas.objects },
+        blocks: { ...lowPrioritySchemas.blocks, ...highPrioritySchemas.blocks },
+        shared: { ...lowPrioritySchemas.shared, ...highPrioritySchemas.shared },
+    };
+    return result;
+}
+
 export function prepareSchema(schema: SectionSchema,
     shared: ObjectsSchemasList,
     objects: ObjectsSchemasList,
@@ -514,7 +531,7 @@ export function prepareSchema(schema: SectionSchema,
         const itemSettings = schema?.includeShared?.map(name => shared?.[name]?.settings)?.flat(1)
             .filter(x => !!x && !schema.settings?.find(s => s.id === x.id));
 
-        const result = {
+        const orderedResult = {
             ...schema,
             settings: [
                 ...schema.settings,
@@ -535,6 +552,26 @@ export function prepareSchema(schema: SectionSchema,
                 return 0;
             })
         };
+
+        // here we should take general settings for shared["_controls"] by names
+        // example: the editor with type 'text' for all block should have one property changed
+        // So _controls may look like
+        // {
+        //    "text": {
+        //        "config": {
+        //        "language": "ru"
+        //        }
+        //    }
+        // }
+        // after the next operation all editors will have this setting
+        const result = {
+            ...orderedResult,
+            settings: orderedResult.settings.map(x => ({
+                ...(<any>shared?.['_controls'])?.[x.type],
+                ...x,
+            })),
+        };
+
         return result;
     } catch (e) {
         return schema;

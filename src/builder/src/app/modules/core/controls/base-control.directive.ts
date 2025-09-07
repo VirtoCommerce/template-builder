@@ -8,7 +8,14 @@ import { BaseControlDescriptor } from '@models/controls';
 @Directive()
 export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit, OnDestroy {
 
-    descriptor: T | null = null;
+    private _descriptor: T | null = null;
+    public get descriptor(): T | null {
+        return this._descriptor;
+    }
+    public set descriptor(value: T | null) {
+        this._descriptor = value;
+        this.descriptorChanged();
+    }
     context!: ControlContext;
     currentForm!: FormGroup;
 
@@ -93,4 +100,5 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     protected initContent() { }
     protected destroyContent() { }
+    protected descriptorChanged() { }
 }
