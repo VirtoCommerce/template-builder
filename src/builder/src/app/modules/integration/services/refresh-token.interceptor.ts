@@ -45,7 +45,13 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
             if (this.refreshTokenInProgress) {
                 return new Observable(observer => {
                     this.tokenRefreshed$.subscribe(() => {
-                        observer.next();
+                        const auth = this.jwt.getInfo();
+                        const updatedRequest = request.clone({
+                            setHeaders: {
+                                Authorization: `Bearer ${auth.token}`
+                            }
+                        });
+                        observer.next(updatedRequest);
                         observer.complete();
                     });
                 });

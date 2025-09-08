@@ -17,12 +17,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
-import { MatDatepickerModule } from '@matheo/datepicker';
-import { MatNativeDateModule } from '@matheo/datepicker/core';
+// import { MatDatepickerModule } from '@matheo/datepicker';
+// import { MatNativeDateModule } from '@matheo/datepicker/core';
+import { MatDatepickerModule, MatNativeDateModule } from 'ngv-datepicker';
 
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+// import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+// import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+// import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { ColorSketchModule } from 'ngx-color/sketch';
@@ -77,7 +80,8 @@ const CDK_MODULES = [
         ReactiveFormsModule,
         ...MATERIAL_MODULES,
         ...CDK_MODULES,
-        PerfectScrollbarModule,
+        // PerfectScrollbarModule,
+        NgScrollbarModule,
         FileUploadModule,
         ColorSketchModule,
         ColorTwitterModule,

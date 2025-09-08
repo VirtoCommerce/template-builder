@@ -124,7 +124,7 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private handlePasteValue() {
-        this.easyMDE?.codemirror.on("paste", (_: any, event: ClipboardEvent) => {
+        this.easyMDE?.codemirror.on(<any><unknown>"paste", (_: any, event: ClipboardEvent) => {
             if (event.clipboardData) {
                 if (this.tryToPasteHtml(event.clipboardData)) {
                     event.preventDefault();

@@ -2,8 +2,10 @@
     <ng-content select="[title-content]"></ng-content>
 </div>
 
-<div class="panel-body" #panelBody [perfectScrollbar]>
-    <ng-content></ng-content>
+<div class="panel-body" #panelBody>
+    <ng-scrollbar>
+        <ng-content></ng-content>
+    </ng-scrollbar>
 </div>
 
 <div class="panel-footer" #panelFooterRef *ngIf="hasFooter">

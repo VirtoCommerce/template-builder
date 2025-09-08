@@ -2,7 +2,6 @@ import { appHelpers } from '@integration/helpers';
 import { FilesDescriptor, SectionPropertyDescriptor } from '@models/controls';
 import { PageModel, SectionModel, SectionSchema, TemplateModel } from '@models/document';
 import { ObjectsSchemasList, } from '@editor/models';
-import { Template } from '@angular/compiler/src/render3/r3_ast';
 
 // todo: refactor these
 // replace section/block in collection can be extracted and done with lodash

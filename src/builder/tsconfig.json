@@ -48,6 +48,10 @@
             "ngv-markdown": [
               "dist/ngv-markdown/ngv-markdown",
               "dist/ngv-markdown"
+            ],
+            "ngv-datepicker": [
+              "dist/ngv-datepicker/ngv-datepicker",
+              "dist/ngv-datepicker"
             ]
         }
     },

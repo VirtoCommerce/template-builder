@@ -20,10 +20,10 @@ export class LivePreviewComponent implements OnInit {
     @ViewChild('frame', { static: false }) frame: ElementRef | undefined;
 
     private previewLoadedSource = new BehaviorSubject<boolean>(false);
-    private previewLoaded$ = new Observable(observer => {
+    private previewLoaded$ = new Observable<boolean>(observer => {
         this.previewLoadedSource.subscribe(result => {
             if (result) {
-                observer.next();
+                observer.next(true);
                 observer.complete();
             }
         });

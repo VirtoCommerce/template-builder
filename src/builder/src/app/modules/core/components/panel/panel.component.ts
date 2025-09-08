@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
-import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+// import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 @Component({
     selector: 'app-panel',
@@ -10,7 +10,7 @@ export class PanelComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     @ViewChild('panelFooterRef') panelFooterRef!: ElementRef;
     @ViewChild('panelBody') panelBody!: ElementRef;
-    @ViewChild(PerfectScrollbarDirective, { static: false }) perfectScrollbarDirectiveRef?: PerfectScrollbarDirective;
+    // @ViewChild(PerfectScrollbarDirective, { static: false }) perfectScrollbarDirectiveRef?: PerfectScrollbarDirective;
 
     hasFooter = true;
 
@@ -25,6 +25,6 @@ export class PanelComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
 
     ngAfterViewChecked(): void {
-        this.perfectScrollbarDirectiveRef?.update();
+        // this.perfectScrollbarDirectiveRef?.update();
     }
 }

@@ -27,17 +27,19 @@
                     <h3 class="list-title">{{ titleText }}</h3>
                 </div>
                 <app-separator></app-separator>
-                <ul *ngIf="!!parentItems?.length" class="grow overflow-y-auto relative" [perfectScrollbar]>
-                    <li *ngFor="let item of parentItems">
-                        <button class="list-item-btn"
-                                [attr.title]="getItemName(item)"
-                                (click)="selectItem(item)">
-                            <span class="min-w-0 truncate">{{ getItemName(item) }}</span>
-                            <span *ngIf="item.isDirty" class="is-dirty"></span>
-                            <app-icon *ngIf="item.hasChildren">chevron_right</app-icon>
-                        </button>
-                    </li>
-                </ul>
+                <ng-scrollbar>
+                    <ul *ngIf="!!parentItems?.length" class="grow overflow-y-auto relative">
+                        <li *ngFor="let item of parentItems">
+                            <button class="list-item-btn"
+                                    [attr.title]="getItemName(item)"
+                                    (click)="selectItem(item)">
+                                <span class="min-w-0 truncate">{{ getItemName(item) }}</span>
+                                <span *ngIf="item.isDirty" class="is-dirty"></span>
+                                <app-icon *ngIf="item.hasChildren">chevron_right</app-icon>
+                            </button>
+                        </li>
+                    </ul>
+                </ng-scrollbar>
                 <div *ngIf="!!filter && !parentItems?.length">
                     <p class="p-4 pb-2">No results found</p>
                     <!-- todo: maybe move this label into settings? -->
@@ -51,15 +53,17 @@
                     <h3 class="list-title">{{ titleText }}</h3>
                 </div>
                 <app-separator></app-separator>
-                <ul *ngIf="!!childrenItems?.length" class="grow overflow-y-auto" [perfectScrollbar]>
-                    <li *ngFor="let item of childrenItems">
-                        <button class="list-item-btn"
-                                (click)="selectItem(item)">
-                            <span class="min-w-0 truncate">{{ getItemName(item) }}</span>
-                            <span *ngIf="item.isDirty" class="is-dirty"></span>
-                        </button>
-                    </li>
-                </ul>
+                <ng-scrollbar>
+                    <ul *ngIf="!!childrenItems?.length" class="grow overflow-y-auto">
+                        <li *ngFor="let item of childrenItems">
+                            <button class="list-item-btn"
+                                    (click)="selectItem(item)">
+                                <span class="min-w-0 truncate">{{ getItemName(item) }}</span>
+                                <span *ngIf="item.isDirty" class="is-dirty"></span>
+                            </button>
+                        </li>
+                    </ul>
+                </ng-scrollbar>
                 <div *ngIf="!!filter && !childrenItems?.length">
                     <p class="p-4 pb-2">No results found</p>
                     <!-- todo: maybe move this label into settings? -->
