@@ -129,9 +129,9 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromShared.selectCurrentTemplateEntry),
             this.store$.select(fromRoute.selectPathParameter),
             this.store$.select(fromRoute.selectTypeParameter),
-            this.store$.select(fromRoute.selectPageIdParameter),
+            this.store$.select(fromRoute.selectGroupIdParameter),
         ),
-        switchMap(([{ templateKey }, templateEntry, path, type, pageId]) => this.templates.getTemplate(path, type, templateEntry, pageId).pipe(
+        switchMap(([{ templateKey }, templateEntry, path, type, groupId]) => this.templates.getTemplate(path, type, templateEntry, groupId).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap(template => [
@@ -152,7 +152,7 @@ export class TemplateEditorDataEffects {
                     message: 'Could not load template',
                     msgType: 'error',
                     top: true
-                })
+                }),
             ])
         ))
     ));
@@ -188,9 +188,9 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromShared.selectCurrentTemplateEntry),
             this.store$.select(fromRoute.selectPathParameter),
             this.store$.select(fromRoute.selectTypeParameter),
-            this.store$.select(fromRoute.selectPageIdParameter),
+            this.store$.select(fromRoute.selectGroupIdParameter),
         ),
-        switchMap(([{ templateKey }, entry, path, type, pageId]) => this.templates.getTemplatePublishStatus(path, type, entry, pageId).pipe(
+        switchMap(([{ templateKey }, entry, path, type, groupId]) => this.templates.getTemplatePublishStatus(path, type, entry || {}, groupId).pipe(
             filter(status => !!status),
             map(({ hasChanges, published }) => actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges, published })),
             catchError(error => of(actions.getTemplatePublishStatusFails({ error, templateKey })))
@@ -218,7 +218,7 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             this.store$.select(selectors.selectRunActionContext),
         ),
-        switchMap(([, { templateKey, entry, path, type, pageId }]) => this.templates.publishTemplate(path, type, entry, pageId).pipe(
+        switchMap(([, { templateKey, entry, path, type, groupId }]) => this.templates.publishTemplate(path, type, entry, groupId).pipe(
             switchMap(() => [
                 actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: false, published: true }),
                 shared.broadcastPlatformMessage({
@@ -241,7 +241,7 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             this.store$.select(selectors.selectRunActionContext),
         ),
-        switchMap(([, { templateKey, entry, path, type, pageId }]) => this.templates.unpublishTemplate(path, type, entry, pageId).pipe(
+        switchMap(([, { templateKey, entry, path, type, groupId }]) => this.templates.unpublishTemplate(path, type, entry, groupId).pipe(
             switchMap(() => [
                 actions.getTemplatePublishStatusSuccess({ templateKey, hasChanges: true, published: false }),
                 shared.broadcastPlatformMessage({
@@ -272,9 +272,52 @@ export class TemplateEditorDataEffects {
         filter(({ action }) => action === 'save'),
         withLatestFrom(
             this.store$.select(selectors.selectChangedTemplates),
+            this.store$.select(fromRoute.selectGroupIdParameter),
         ),
-        filter(([, changedTemplates]) => changedTemplates.length === 1),
+        filter(([, changedTemplates, groupId]) => changedTemplates.length === 1 && !groupId),
         map(([, changedTemplates]) => actions.saveTemplates({ templates: changedTemplates }))
+    ));
+
+    // should be changed to universal approach
+    saveGroupedPage$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.executeToolbarAction),
+        filter(({ action }) => action === 'save'),
+        withLatestFrom(
+            this.store$.select(selectors.selectChangedTemplates),
+            this.store$.select(fromRoute.selectGroupIdParameter),
+        ),
+        filter(([, , groupId]) => !!groupId),
+        switchMap(([, changedTemplates, groupId]) => {
+            const groupedPageContent = changedTemplates[0].content;
+            return this.templates.saveGroupedPage(groupId!, groupedPageContent).pipe(
+                switchMap(() => [
+                    actions.saveTemplateSuccess({
+                        templateKey: changedTemplates[0].info.key,
+                        parentKey: changedTemplates[0].info.parent,
+                        template: changedTemplates[0].content
+                    }),
+                    actions.getTemplatePublishStatusSuccess({ templateKey: changedTemplates[0].info.key, hasChanges: true, published: false }),
+                    shared.broadcastPlatformMessage({
+                        msg: {
+                            hasChanges: true,
+                            relativeUrl: changedTemplates[0].entry.path,
+                            contentType: changedTemplates[0].entry.type,
+                            template: changedTemplates[0].content,
+                            published: false,
+                            source: 'builder'
+                        }
+                    }),
+                    changedTemplates.length > 1
+                        ? shared.showNotification({
+                            message: 'Only current page was saved',
+                            msgType: 'warning',
+                            top: true
+                        })
+                        : shared.empty()
+                ]),
+                catchError(error => of(actions.saveTemplateFails({ error })))
+            );
+        })
     ));
 
     showSaveDialog$ = createEffect(() => this.actions$.pipe(
@@ -282,8 +325,9 @@ export class TemplateEditorDataEffects {
         filter(({ action }) => action === 'save'),
         withLatestFrom(
             this.store$.select(selectors.selectChangedTemplates),
+            this.store$.select(fromRoute.selectGroupIdParameter),
         ),
-        filter(([, changedTemplates]) => changedTemplates.length > 1),
+        filter(([, changedTemplates, groupId]) => changedTemplates.length > 1 && !groupId),
         switchMap(([, changedTemplates]) => this.modals.show<{ accept: boolean, entries: string[] }>(SaveTemplateComponent, {
             data: {
                 entries: changedTemplates.map(x => x.info)
@@ -344,9 +388,9 @@ export class TemplateEditorDataEffects {
             this.store$.select(fromShared.selectCurrentTemplateEntry),
             this.store$.select(fromRoute.selectPathParameter),
             this.store$.select(fromRoute.selectTypeParameter),
-            this.store$.select(fromRoute.selectPageIdParameter),
+            this.store$.select(fromRoute.selectGroupIdParameter),
         ),
-        switchMap(([{ templateKey }, entry, path, type, pageId]) => this.templates.getTemplate(path, type, entry, pageId).pipe(
+        switchMap(([{ templateKey }, entry, path, type, groupId]) => this.templates.getTemplate(path, type, entry, groupId).pipe(
             filter(template => !!template),
             map(template => editorHelpers.prepareTemplate(template!)),
             switchMap((template) => [

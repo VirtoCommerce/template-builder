@@ -329,7 +329,7 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
 
 export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | PageModel | null): TemplateModel | null {
     if (!template) {
-        return null;
+        return { settings: <any>{}, content: [] };
     }
 
     // If template is already a TemplateModel, return it
