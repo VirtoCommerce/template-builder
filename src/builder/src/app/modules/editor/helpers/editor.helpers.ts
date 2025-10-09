@@ -328,8 +328,12 @@ export function prepareTemplate(template: TemplateModel): TemplateModel {
 }
 
 export function convertTemplateIntoCorrectVersion(template: TemplateModel | SectionModel[] | PageModel | null): TemplateModel | null {
+    if (typeof template === 'string') {
+        template = JSON.parse(template);
+    }
+
     if (!template) {
-        return { settings: <any>{}, content: [] };
+        return { settings: { id: '', type: 'settings', displayName: '', hidden: false, blocks: [] }, content: [] };
     }
 
     // If template is already a TemplateModel, return it
@@ -362,7 +366,7 @@ export function convertTemplateIntoCorrectVersion(template: TemplateModel | Sect
     return null;
 }
 
-export function prepareTemplateForSave(template: TemplateModel): SectionModel[] | TemplateModel {
+export function prepareTemplateForSave(template: TemplateModel): TemplateModel | SectionModel[] {
     if (template.version === 1) {
         return [template.settings, ...template.content];
     }
