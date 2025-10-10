@@ -37,7 +37,12 @@ export class AppConfig {
         }
     }
 
-    getValue(property: OptionName, context: any = null) {
+    getValueByEntryType(property: OptionName, context: any = null, type: string | null = null): any {
+        const source = this.getValue(property, context);
+        return source[type || 'default'] || source['default'] || source;
+    }
+
+    getValue(property: OptionName, context: any = null): any {
         if (!context) {
             return this.settings[property];
         } else {
@@ -69,12 +74,22 @@ export class AppConfig {
                 params[p[0]] = allValues.length === 1 ? p[1] : allValues;
             }
             const { hash, href, host, protocol, pathname, origin } = this.env.nativeWindow.location;
+            const [hashPath, hashParams] = hash && hash.split('?').length > 1 ?
+                [hash.split('?')[0], new URLSearchParams(hash.split('?')[1])] :
+                [null, null];
+            if (hashParams) {
+                for (const p of <any>hashParams) {
+                    const allValues = hashParams.getAll(p[0]);
+                    params[p[0]] = allValues.length === 1 ? p[1] : allValues;
+                }
+            }
+
             this._context = {
                 config: this.mergedConfig,
                 settings: this.settings,
                 location: {
                     url: href, params: params, path: pathname,
-                    host, protocol, hash, origin
+                    host, protocol, hash, hashPath, origin
                 }
             };
         }
@@ -110,6 +125,7 @@ export type OptionName = 'templatesListUrl'
     | 'publish'
     | 'externalPreview'
     | 'publishPages'
+    | 'saveGroupedPage'
     ;
 
 // 'fullPreviewUrl'

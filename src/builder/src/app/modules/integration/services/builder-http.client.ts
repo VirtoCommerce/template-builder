@@ -43,9 +43,13 @@ export class BuilderHttpClient extends HttpClient {
         }
         return this.doRequestInternal<T>(<any>request, additionalOptions, context).pipe(
             catchError(error => {
-                if (!!(additionalOptions?.nullWhenError)) {
+                const isLast = !requests || (Array.isArray(requests) && requests.length === 0);
+                if (!isLast) {
                     console.log(error);
                     return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
+                }
+                if (!!(additionalOptions?.nullWhenError)) {
+                    return of(null);
                 }
                 throw error;
             }),

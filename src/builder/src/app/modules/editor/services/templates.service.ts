@@ -16,15 +16,15 @@ export class TemplatesService {
     constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
 
     // this method requires templateId and parent to identify template, end template entry to fill out a request
-    getTemplate(path: string, type: string, template: TemplateEntry, pageId: string): Observable<TemplateModel | null> {
-        const entry = { ...template, path, pageId }
-        if (!entry.pageId && !entry.path) {
+    getTemplate(path: string, type: string, template: TemplateEntry, groupId: string): Observable<TemplateModel | null> {
+        const entry = { ...template, path, groupId }
+        if (!entry.groupId && !entry.path) {
             return of(null);
         }
 
         // get template depends of its type. If no such type, use '__template' entry
-        const templateUrl = this.appConfig.getValue('templateUrl', { item: entry, type, path, pageId });
-        const targetUrl = templateUrl[entry.type || type || '__templates'] || templateUrl['__templates'] || templateUrl;
+        const templateUrl = this.appConfig.getValueByEntryType('templateUrl', { item: entry, type, path, groupId }, entry.type || type);
+        const targetUrl = templateUrl; //this.getValueByEntryType(templateUrl, entry, type);
         const request = this.http.generateRequest(targetUrl, { item: entry });
         return this.http.doRequest<TemplateModel | SectionModel[] | PageModel>(request, { nullWhenError: false }, null).pipe(
             map(template =>
@@ -33,9 +33,9 @@ export class TemplatesService {
         );
     }
 
-    getTemplatePublishStatus(path: string, type: string, entry: TemplateEntry, pageId: string): Observable<{ published: boolean, hasChanges: boolean }> {
-        const value = pageId ? 'publishPages' : 'publish';
-        const publishStatusUrls = this.appConfig.getValue(value, { item: entry, type, path, pageId });
+    getTemplatePublishStatus(path: string, type: string, entry: TemplateEntry, groupId: string): Observable<{ published: boolean, hasChanges: boolean }> {
+        const value = groupId ? 'publishPages' : 'publish';
+        const publishStatusUrls = this.appConfig.getValueByEntryType(value, { item: entry, type, path, groupId }, entry.type || type);
         const statusUrl = publishStatusUrls['status'];
         const request = this.http.generateRequest(statusUrl, { item: entry });
         return this.http.doRequest<{ published: boolean, hasChanges: boolean }>(request, { nullWhenError: false }, null).pipe(
@@ -43,17 +43,17 @@ export class TemplatesService {
         );
     }
 
-    publishTemplate(path: string, type: string, entry: TemplateEntry, pageId: string): Observable<any> {
-        const value = pageId ? 'publishPages' : 'publish';
-        const publishStatusUrls = this.appConfig.getValue(value, { item: entry, type, path, pageId });
+    publishTemplate(path: string, type: string, entry: TemplateEntry, groupId: string): Observable<any> {
+        const value = groupId ? 'publishPages' : 'publish';
+        const publishStatusUrls = this.appConfig.getValueByEntryType(value, { item: entry, type, path, groupId }, entry.type || type);
         const statusUrl = publishStatusUrls['publish'];
         const request = this.http.generateRequest(statusUrl, { item: entry });
         return this.http.doRequest(request, { nullWhenError: false }, null);
     }
 
-    unpublishTemplate(path: string, type: string, entry: TemplateEntry, pageId: string): Observable<any> {
-        const value = pageId ? 'publishPages' : 'publish';
-        const publishStatusUrls = this.appConfig.getValue(value, { item: entry, type, path, pageId });
+    unpublishTemplate(path: string, type: string, entry: TemplateEntry, groupId: string): Observable<any> {
+        const value = groupId ? 'publishPages' : 'publish';
+        const publishStatusUrls = this.appConfig.getValueByEntryType(value, { item: entry, type, path, groupId }, entry.type || type);
         const statusUrl = publishStatusUrls['unpublish'];
         const request = this.http.generateRequest(statusUrl, { item: entry });
         return this.http.doRequest(request, { nullWhenError: false }, null);
@@ -63,6 +63,13 @@ export class TemplatesService {
         const previewUrl = this.appConfig.getValue('externalPreview', { item: entry, type, path });
         // open new tab with the previewUrl
         window.open(previewUrl.url, '_blank');
+    }
+
+    saveGroupedPage(groupId: string, pageContent: any): Observable<any> {
+        const context = { groupId, content: pageContent };
+        const saveGroupedPage = this.appConfig.getValue('saveGroupedPage', context);
+        const request = this.http.generateRequest(saveGroupedPage, null, context);
+        return this.http.doRequest(request);
     }
 
     saveTemplates(templates: { entry: TemplateEntry, content: TemplateModel }[]): Observable<any> {
@@ -76,4 +83,8 @@ export class TemplatesService {
         const request = this.http.generateRequest(saveTemplates, null, context);
         return this.http.doRequest(request);
     }
+
+    // private getValueByEntryType(source: any, entry: TemplateEntry, type: string): any {
+    //     return source[entry.type || type || 'default'] || source['default'] || source;
+    // }
 }

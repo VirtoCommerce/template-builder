@@ -10,7 +10,7 @@ export const editorUIReducers = createReducer<EditorUIState>(
 
     on(actions.toggleGroupAction, (state, { groupId }) => ({
         ...state,
-        states: {
+        addSectionPaneStates: {
             ...state.addSectionPaneStates,
             [groupId]: {
                 ...state.addSectionPaneStates[groupId],
