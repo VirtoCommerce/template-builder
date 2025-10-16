@@ -43,7 +43,7 @@
             }
         ]
     },
-    "fullPreviewUrl": "{{settings.storefrontUrl}}{{settings.previewPath}}?ep={{location.origin}}",
+    "fullPreviewUrl": "{{=combine(this.settings.storefrontUrl, this.settings.previewPath)}}?ep={{location.origin}}",
     "themeName": {
         "init": true,
         "url": "/api/stores/{{location.params.storeId}}",
