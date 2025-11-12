@@ -59,7 +59,11 @@
     "templateUrl": {
         "default": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type={{type}}&draft=true",
         "pages": [
-            "/api/page-builder-pages/grouped/{{location.params.groupId}}/content",
+            {
+                "url": "/api/page-builder-pages/grouped/{{location.params.groupId}}/content",
+                "method": "GET",
+                "fallbackValue": "{\"settings\":{},\"content\": []}"
+            },
             "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=pages&draft=true"
         ],
         "blogs": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=blogs&draft=true"
