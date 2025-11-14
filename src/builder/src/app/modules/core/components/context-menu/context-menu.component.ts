@@ -92,7 +92,7 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
     }
 
     raiseOnAction(action: ContextMenuAction) {
-        if (action !== '|' && !action.inactive) {
+        if (action !== '|' && !this.evaluateFunction(action.inactive)) {
             this.onAction.emit(action);
             this.hideActions();
         }

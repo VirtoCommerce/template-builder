@@ -3,21 +3,37 @@
 :host {
     color: $icons-color;
     @apply flex items-center;
+
     &.hoverable:hover {
         background: $hover-color;
     }
+
     &.inline {
         font-size: inherit;
+
         mat-icon {
             font-size: inherit;
         }
+
         @apply inline-block cursor-pointer px-1;
+
         &:hover {
             background-color: none;
         }
     }
+
     &.disabled {
         color: $disable-icon-color;
+    }
+
+    &.small-size {
+        font-size: $small-icon-size;
+
+        mat-icon {
+            font-size: $small-icon-size;
+            height: $small-icon-size;
+            width: $small-icon-size;
+        }
     }
 }
 
