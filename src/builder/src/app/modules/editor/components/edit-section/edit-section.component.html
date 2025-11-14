@@ -14,10 +14,10 @@
                     <div class="edit-section-title" [ngClass]="{ 'invisible-section': vm.model.hidden, 'name-only': vm.isEditSettings }">
                         <div class="whitespace-normal">{{ sectionName$|async }}</div>
                         <div class="section-info" *ngIf="!vm.isEditSettings">
-                            <span [cdkCopyToClipboard]="vm.model.type">Type: {{ vm.schema.name || vm.schema.type || vm.model.type }}<app-icon
-                                          [inline]="true">content_copy</app-icon></span><br />
-                            <span [cdkCopyToClipboard]="vm.model.id">ID: {{ vm.model.id }}<app-icon [inline]="true">
-                                    content_copy</app-icon></span>
+                            <span [cdkCopyToClipboard]="vm.model.type">Type: {{ vm.schema.name || vm.schema.type || vm.model.type }}
+                                <app-icon [smallSize]="true" [inline]="true">content_copy</app-icon></span><br />
+                            <span [cdkCopyToClipboard]="vm.model.id">ID: {{ vm.model.id }}
+                                <app-icon [smallSize]="true" [inline]="true">content_copy</app-icon></span>
                         </div>
                     </div>
                     <app-context-menu *ngIf="!vm.isEditSettings" [visible]="true"
