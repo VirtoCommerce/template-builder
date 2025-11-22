@@ -9,13 +9,14 @@ export function spreadPropertyByOther(obj: any, keyProperty: string, ...spreadPr
             return groups;
         }
 
-        return {
+        const groupsResult = {
+            ...groups,
             [group]: spreadProperties.reduce((acc, prop) => ({
                 ...acc,
-                [prop]: obj[key][prop]
+                [prop]: obj[key][prop] || groups?.[group]?.[prop]
             }), <any>{}),
-            ...groups
         };
+        return groupsResult;
     }, <any>{});
     const result = Object.keys(obj).reduce((result, key) => {
         const group = obj[key][keyProperty];

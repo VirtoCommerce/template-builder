@@ -4,7 +4,7 @@ import { SectionSchema } from '@models/index';
 
 export const NO_NAME_GROUP_KEY = '__noname__';
 export function groupSections(list: SectionSchema[]): ItemsGroup<SectionSchema>[] {
-    if (list) {
+    if (list && list.length) {
         const groups = list.reduce((acc, value) => {
             const groupName = value.group || NO_NAME_GROUP_KEY;
             if (!acc[groupName]) {
