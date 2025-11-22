@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^15.2.10",
     "@angular/router": "^15.2.10",
     "@github/paste-markdown": "^1.4.2",
-    "@iplab/ngx-file-upload": "^14.0.2",
+    "@iplab/ngx-file-upload": "^15.0.0",
     "@ng-select/ng-select": "^9.1.0",
     "@ngrx/effects": "^14.3.3",
     "@ngrx/router-store": "^14.3.3",
@@ -50,7 +50,9 @@
     "zone.js": "~0.11.5"
   },
   "devDependencies": {
-    "@angular-builders/custom-webpack": "^14.1.0",
+    "@angular-devkit/core": "^15.2.11",
+    "@angular-devkit/architect": "^0.1502.11",
+    "@angular-builders/custom-webpack": "^15.0.0",
     "@angular-devkit/build-angular": "^15.2.11",
     "@angular/cli": "^15.2.11",
     "@angular/compiler-cli": "^15.2.10",
