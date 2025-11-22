@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EnvironmentRef } from '@integration/services';
 import { BaseControlDirective } from '@core/controls';
 import { NumberDescriptor } from '@models/controls';
-import { MatSliderChange } from '@angular/material/slider';
+import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
 
 @Component({
   selector: 'app-number',
