@@ -9,6 +9,7 @@
 @import './layout/controls.scss';
 @import './layout/dialogs.scss';
 @import './layout/extras.scss';
+@import '../dist/ngv-datepicker/prebuilt-themes/indigo-pink.css';
 
 body {
     font-family: 'Inter', sans-serif;
@@ -31,4 +32,8 @@ body {
 
 .toast-top-right {
     transform: translateY(3rem);
+}
+
+.ng-scroll-content {
+    @apply max-w-full;
 }

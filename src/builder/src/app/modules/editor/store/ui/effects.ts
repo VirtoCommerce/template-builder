@@ -115,7 +115,6 @@ export class TemplateEditorUiEffects {
                     ...entry?.previewMessage
                 }
             })];
-            console.log(message);
             return [
                 ...message,
                 parentKey

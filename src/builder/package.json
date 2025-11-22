@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "serve": "ng serve",
-    "build": "ng build ngv-markdown && ng build",
+    "build:datepicker:themes": "sass --load-path=node_modules projects/ngv-datepicker/src/lib/prebuilt-themes:dist/ngv-datepicker/prebuilt-themes --style=compressed",
+    "build": "ng build ngv-markdown && ng build ngv-datepicker && npm run build:datepicker:themes && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -29,6 +30,7 @@
     "@ngrx/router-store": "^14.3.3",
     "@ngrx/store": "^14.3.3",
     "@ngrx/store-devtools": "^14.3.3",
+    "chrono-node": "^2.9.0",
     "ckeditor4": "^4.25.1",
     "ckeditor4-angular": "^4.0.1",
     "date-fns": "^3.6.0",
@@ -71,6 +73,7 @@
     "postcss-import": "^14.1.0",
     "postcss-loader": "^7.0.0",
     "postcss-scss": "^4.0.4",
+    "sass": "^1.69.0",
     "tailwindcss": "^3.0.24",
     "typescript": "~4.8.4"
   }

@@ -84,7 +84,7 @@ export class SectionItemComponent implements OnInit {
     }
 
     getItemActions: () => Promise<ContextMenuAction[]> = () => {
-        const result = this.helper.getSectionsActions(this.section, !!this.sectionSchema.blocks?.length);
+        const result = this.helper.getSectionsActions(this.section, !!this.sectionSchema?.blocks?.length);
         return result;
     };
 }

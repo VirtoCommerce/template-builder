@@ -2,6 +2,34 @@
 
 Fork of the official Material Datepicker for Angular with time picking support.
 
+Local library name in this workspace: `ngv-datepicker`.
+
+After building (`npm run build` at `builder` root) the prebuilt theme CSS files are generated under `dist/ngv-datepicker/prebuilt-themes/*.css`. To use one, add for example:
+
+```json
+"styles": [
+  "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+  "node_modules/ngv-datepicker/prebuilt-themes/indigo-pink.css",
+  "src/styles.scss"
+]
+```
+
+Or import directly in `src/styles.scss`:
+
+```scss
+@import 'ngv-datepicker/prebuilt-themes/indigo-pink.css';
+```
+
+For custom theming instead of a prebuilt theme, include the mixin:
+
+```scss
+@use '@angular/material' as mat;
+@use 'ngv-datepicker/src/lib/_datepicker-theme' as datepicker;
+// define $theme
+@include datepicker.theme($theme);
+```
+Ensure `stylePreprocessorOptions.includePaths` contains `node_modules`.
+
 The datepicker allows users to enter a date either through text input, or by choosing a date from the calendar.
 
 ## Installation
@@ -31,7 +59,7 @@ import { MatNativeDateModule } from '@matheo/datepicker/core';
 export class AppModule {}
 ```
 
-**Note** that the `MatDatepickerModule` can be loaded into feature modules,  
+**Note** that the `MatDatepickerModule` can be loaded into feature modules,
 but it requires the providers given by `MatNativeDateModule`,
 so it's recommended to import the former in your root Module.
 There's the `MatLuxonDateModule` at `@matheo/datepicker/luxon`

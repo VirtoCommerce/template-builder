@@ -13,7 +13,7 @@ export class OverlapPanelComponent implements OnInit {
     @Input() expandable = true;
     @HostBinding("class.inplace") @Input() skipTranslate: boolean | null = false;
 
-    @HostListener('window:resize', ['$event'])
+    @HostListener('window:resize')
     onResize() {
         this.changeWidth();
     }

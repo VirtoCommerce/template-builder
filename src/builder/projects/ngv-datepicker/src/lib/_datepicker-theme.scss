@@ -363,21 +363,31 @@ $clock-cell-size: 14.1666% !default;
 
 @mixin _density($config-or-theme) {}
 
+// Modern theme mixin: accepts either a full Angular Material theme map
+// (with `color` key) or a legacy color config map; normalizes and applies.
 @mixin theme($theme-or-color-config) {
-  $theme: theming.private-legacy-get-theme($theme-or-color-config);
-  @include theming.private-check-duplicate-theme-styles($theme, 'mat-datepicker') {
-    $color: mat.get-color-config($theme);
-    $density: mat.get-density-config($theme);
-    $typography: mat.get-typography-config($theme);
+// Normalize: accept either full theme map (with color key) or legacy color config map.
+    $theme: $theme-or-color-config;
 
-    @if $color != null {
+    @if meta.type-of($theme-or-color-config) !=map or not map.has-key($theme-or-color-config, color) {
+        $theme: (
+            color: $theme-or-color-config
+        );
+}
+
+$color: mat.get-color-config($theme);
+$density: mat.get-density-config($theme);
+$typography: mat.get-typography-config($theme);
+
+  @if $color {
       @include color($color);
-    }
-    @if $density != null {
+  }
+
+  @if $density {
       @include _density($density);
-    }
-    @if $typography != null {
+  }
+
+  @if $typography {
       @include typography($typography);
-    }
   }
 }

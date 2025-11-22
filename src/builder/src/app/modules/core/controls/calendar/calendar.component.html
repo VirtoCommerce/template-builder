@@ -28,6 +28,8 @@
         <mat-calendar class="max-w-sm"
                       [selected]="controlValue"
                       [type]="descriptor?.mode || 'date'"
+                      [minDate]="descriptor?.minDate"
+                      [maxDate]="descriptor?.maxDate"
                       [twelveHour]="true"
                       (selectedChange)="raiseValueChanged($event)"></mat-calendar>
     </div>
