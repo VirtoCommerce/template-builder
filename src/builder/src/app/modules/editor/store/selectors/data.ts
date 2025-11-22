@@ -256,6 +256,6 @@ export const selectRunActionContext = createSelector(
     fromShared.selectCurrentTemplateEntry,
     fromRoute.selectPathParameter,
     fromRoute.selectTypeParameter,
-    fromRoute.selectPageIdParameter,
-    (templateKey, entry, path, type, pageId) => ({ templateKey, entry, path, type, pageId })
+    fromRoute.selectGroupIdParameter,
+    (templateKey, entry, path, type, groupId) => ({ templateKey, entry, path, type, groupId })
 );

@@ -86,9 +86,9 @@ export const selectPathParameter = createSelector(
     queryParams => queryParams && queryParams['path'] || ''
 );
 
-export const selectPageIdParameter = createSelector(
+export const selectGroupIdParameter = createSelector(
     selectQueryParams,
-    queryParams => queryParams && queryParams['pageId'] || ''
+    queryParams => queryParams && queryParams['groupId'] || ''
 );
 
 export const selectParentTemplateParameter = createSelector(
@@ -104,18 +104,18 @@ export const selectTypeParameter = createSelector(
 export const selectTemplateKeyParameter = createSelector(
     selectTypeParameter,
     selectPathParameter,
-    selectPageIdParameter,
-    (type, path, pageId) => {
+    selectGroupIdParameter,
+    (type, path, groupId) => {
         if (!!type) {
-            if (pageId) {
-                return `${type}::${pageId}`
+            if (groupId) {
+                return `${type}::${groupId}`
             }
             else {
                 return `${type}::${path}`;
             }
         } else {
-            if (pageId) {
-                return pageId;
+            if (groupId) {
+                return groupId;
             }
             else {
                 return path;

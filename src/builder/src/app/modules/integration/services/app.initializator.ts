@@ -19,6 +19,7 @@ export class AppInitializator {
 
     init(): Promise<any> {
         // todo: dangerous! check that this is security
+        console.log(this.config.getContext());
         const configUrl = this.config.getContext().location.params.configUrl || 'data/settings.json';
         return firstValueFrom(this.loadSettingsFrom(configUrl, null, DefaultConfig).pipe(
             // tap(result => {

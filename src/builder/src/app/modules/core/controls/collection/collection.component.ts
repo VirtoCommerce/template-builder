@@ -1,4 +1,4 @@
-import { ModalService } from './../../services/modal.service';
+import { ModalService } from '@core/services';
 import { Component } from '@angular/core';
 import { UntypedFormArray, UntypedFormGroup, AbstractControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { BaseControlDirective } from '@core/controls';
 import { CollectionDescriptor, ControlDescriptor } from '@models/controls';
 
-import { ContextMenuAction, ContextMenuActionType, ControlContext } from '@core/models';
+import { ContextMenuActionType, ControlContext } from '@core/models';
 import { coreHelpers, formsHelpers } from '@core/helpers';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { appHelpers } from '@integration/helpers';
@@ -19,6 +19,8 @@ import { appHelpers } from '@integration/helpers';
 export class CollectionComponent extends BaseControlDirective<CollectionDescriptor> {
 
     private subscription: Subscription | null = null;
+    private titleCache = new WeakMap<object, string>();
+    private titleIndex = 1;
 
     hoverItem: any | null = null;
     openedItem: any | null = null;
@@ -74,8 +76,30 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         }
     }
 
-    getTitle(item: any, index: number): string {
-        return (!!this.descriptor?.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
+    getTitle(item: AbstractControl): string {
+
+        const cached = this.titleCache.get(item);
+        if (cached) return cached;
+
+        const fromField =
+            this.descriptor?.displayField
+                ? appHelpers.getValueByPath(item.value as any, this.descriptor.displayField)
+                : undefined;
+
+        const title = (fromField && String(fromField)) ?? `Item ${this.titleIndex++}`;
+        this.titleCache.set(item, title);
+        return title;
+
+
+    // let result = item['___storedTitle'];
+
+    // if (!result) {
+    //     result = (!!this.descriptor?.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
+    //     item['___storedTitle'] = result;
+    // }
+    // return result;
+
+    // return (!!this.descriptor?.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
     }
 
     getDescriptors(): ControlDescriptor[] {

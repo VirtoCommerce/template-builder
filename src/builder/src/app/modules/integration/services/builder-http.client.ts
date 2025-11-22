@@ -43,14 +43,22 @@ export class BuilderHttpClient extends HttpClient {
         }
         return this.doRequestInternal<T>(<any>request, additionalOptions, context).pipe(
             catchError(error => {
-                if (!!(additionalOptions?.nullWhenError)) {
+                const isLast = !requests || (Array.isArray(requests) && requests.length === 0);
+                if (!isLast) {
                     console.log(error);
                     return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
+                }
+                if (!!(additionalOptions?.nullWhenError)) {
+                    return of(null);
                 }
                 throw error;
             }),
             switchMap(result => {
                 if (result === null || result === <any>'' || result === undefined) {
+                    const fallbackValue = (request && typeof request !== 'string') ? request.fallbackValue : null;
+                    if (!!fallbackValue) {
+                        return of(fallbackValue);
+                    }
                     return this.queueRequests<T>((<any>requests).shift(), requests, additionalOptions, context);
                 }
                 return of(result);
@@ -145,6 +153,7 @@ export class BuilderHttpClient extends HttpClient {
             method: evaluatedRequest.method || 'GET',
             body: evaluatedRequest.body,
             response: evaluatedRequest.response,
+            fallbackValue: evaluatedRequest.fallbackValue,
             options: {
                 responseType: 'json',
                 ...evaluatedRequest.options

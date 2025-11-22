@@ -43,7 +43,7 @@
             }
         ]
     },
-    "fullPreviewUrl": "{{settings.storefrontUrl}}{{settings.previewPath}}?ep={{location.origin}}",
+    "fullPreviewUrl": "{{=combine(this.settings.storefrontUrl, this.settings.previewPath)}}?ep={{location.origin}}",
     "themeName": {
         "init": true,
         "url": "/api/stores/{{location.params.storeId}}",
@@ -57,16 +57,28 @@
     "templatesListUrl": "/api/pagebuilder/templates?storeId={{location.params.storeId}}&theme={{config.themeName}}",
     "sectionsListUrl": "/api/pagebuilder/sections?storeId={{location.params.storeId}}&theme={{config.themeName}}",
     "templateUrl": {
-        "__templates": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type={{type}}&draft=true",
-        "pages": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=pages&draft=true&pageId={{pageId}}",
+        "default": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type={{type}}&draft=true",
+        "pages": [
+            {
+                "url": "/api/page-builder-pages/grouped/{{location.params.groupId}}/content",
+                "method": "GET",
+                "fallbackValue": "{\"settings\":{},\"content\": []}"
+            },
+            "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=pages&draft=true"
+        ],
         "blogs": "/api/pagebuilder/template?storeId={{location.params.storeId}}&theme={{config.themeName}}&path={{path}}&type=blogs&draft=true"
     },
     "saveTemplates": {
         "url": "/api/pagebuilder/save?storeId={{location.params.storeId}}&theme={{config.themeName}}&draft=true",
         "method": "POST",
         "body": {
-            "files": "{{=JSON.stringify(this.templatesToSave.map(x => ({ path: x.entry.path, pageId: x.entry.pageId, type: x.entry.type, content: x.content })))}}"
+            "files": "{{=JSON.stringify(this.templatesToSave.map(x => ({ path: x.entry.path, groupId: x.entry.groupId, type: x.entry.type, content: x.content })))}}"
         }
+    },
+    "saveGroupedPage": {
+        "url": "/api/page-builder-pages/grouped/{{location.params.groupId}}/content",
+        "method": "POST",
+        "body": "{{=JSON.stringify(this.content, null, 2)}}"
     },
     "publish": {
         "status": "/api/content/{{type}}/{{location.params.storeId}}/publish-status?relativeUrl={{path}}",
@@ -80,13 +92,13 @@
         }
     },
     "publishPages": {
-        "status": "/api/page-builder-pages/grouped/publish-status/?id={{pageId}}",
+        "status": "/api/page-builder-pages/grouped/publish-status/{{groupId}}",
         "publish": {
-            "url": "/api/page-builder-pages/grouped/publishing/?id={{pageId}}&publish=true",
+            "url": "/api/page-builder-pages/grouped/publishing/{{groupId}}?publish=true",
             "method": "POST"
         },
         "unpublish": {
-            "url": "/api/page-builder-pages/grouped/publishing/?id={{pageId}}&publish=false",
+            "url": "/api/page-builder-pages/grouped/publishing/{{groupId}}?publish=false",
             "method": "POST"
         }
     },

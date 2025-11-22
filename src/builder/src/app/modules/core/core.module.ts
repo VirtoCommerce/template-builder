@@ -45,7 +45,7 @@ const ALL_COMPONENTS = [
     ...COMPONENTS,
     ...CONTROLS,
     ...DYNAMIC_COMPONENTS,
-    ...DIALOGS
+    ...DIALOGS,
 ];
 
 const MATERIAL_MODULES = [

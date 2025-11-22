@@ -13,11 +13,11 @@
                  (click)="toggle(item)">
                 <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem"></app-chevron>
                 <!-- <app-icon class="chevron">chevron_right</app-icon> -->
-                <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item.value, i) }}</label>
+                <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item) }}</label>
                 <app-context-menu [actions]="itemActions"
                                   [visible]="hoverItem === item"
                                   (onAction)="onActionClick($event, item, i)"></app-context-menu>
-                <app-drag-handle cdkDragHandle></app-drag-handle>
+                <app-drag-handle [visible]="hoverItem === item" cdkDragHandle></app-drag-handle>
             </div>
             <div class="editor-wrapper" *ngIf="item === openedItem">
                 <app-controls-list [currentForm]="$any(item)"

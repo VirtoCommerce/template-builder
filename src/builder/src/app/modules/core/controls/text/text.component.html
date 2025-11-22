@@ -3,6 +3,6 @@
     editorUrl="external/ckeditor/ckeditor.js"
     [data]="controlValue"
     [type]="editorType"
-    [config]="descriptor?.config || config"
+    [config]="config"
     (dataChange)="onValueChanged($event)"
 ></ckeditor>
