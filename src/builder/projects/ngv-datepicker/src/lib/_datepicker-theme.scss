@@ -118,10 +118,9 @@ $clock-cell-size: 14.1666% !default;
     $divider-color: mat.get-color-from-palette($foreground, divider);
 
     @if meta.type-of($divider-color) == color {
-      // The divider color is set under the assumption that it'll be used
-      // for a solid border, but because we're using a dashed border for the
-      // preview range, we need to bump its opacity to ensure that it's visible.
-      color: rgba($divider-color, math.min(opacity($divider-color) * 2, 1));
+    // Increase visibility for dashed preview range by boosting alpha.
+        $new-alpha: math.min(color.opacity($divider-color) * 2, 1);
+        color: color.change($divider-color, $alpha: $new-alpha);
     }
     @else {
       color: $divider-color;
@@ -204,7 +203,8 @@ $clock-cell-size: 14.1666% !default;
   }
 
   .mat-clock {
-    background-color: darken(white, 6);
+    // darken(white, 6) -> color.adjust with relative lightness decrease
+        background-color: color.adjust(white, $lightness: -6%);
     border-radius: 50%;
     position: relative;
   }
@@ -292,7 +292,8 @@ $clock-cell-size: 14.1666% !default;
 
     &.mat-clock-cell-selected {
       color: white;
-      background-color: lighten(mat.get-color-from-palette(map.get($config, primary), text), 5);
+    // lighten(...,5) -> color.adjust with relative lightness increase
+        background-color: color.adjust(mat.get-color-from-palette(map.get($config, primary), text), $lightness: 5%);
     }
   }
 }
