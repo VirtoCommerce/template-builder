@@ -103,7 +103,7 @@
         }
     },
     "externalPreview": {
-        "url": "{{settings.storefrontUrl}}/pages?path={{path}}"
+        "url": "{{settings.storefrontUrl}}/designer-preview?pageId={{groupId}}"
     },
     "settingsDataRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{settings.settingsPath}}&type=themes",
     "settingsSchemaRequest": "/api/pagebuilder/template?storeId={{location.params.storeId}}&path={{config.themeName}}/config/settings_schema.json&type=themes",
