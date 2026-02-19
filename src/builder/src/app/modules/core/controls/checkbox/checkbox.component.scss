@@ -4,18 +4,18 @@
 
     // must be in the material theme
 
-    ::ng-deep .mat-checkbox-label {
+    ::ng-deep .mdc-label {
         color: $label-color;
     }
 
-    ::ng-deep .mat-checkbox-frame {
-        border-color: #8C9196;
+    ::ng-deep .mdc-checkbox__background {
+        border-color: #8C9196 !important;
         border-radius: .25rem;
     }
 
-    ::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
-    ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-        background-color: #1665D8;
+    ::ng-deep .mat-mdc-checkbox-checked .mdc-checkbox__background {
+        background-color: #1665D8 !important;
+        border-color: #1665D8 !important;
         border-radius: .25rem;
     }
 }

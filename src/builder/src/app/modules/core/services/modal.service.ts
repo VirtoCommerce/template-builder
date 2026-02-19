@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComponentType } from '@angular/cdk/portal';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ConfirmComponent, AlertComponent } from '../dialogs';
 

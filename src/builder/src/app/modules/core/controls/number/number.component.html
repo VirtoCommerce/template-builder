@@ -23,10 +23,8 @@
     [min]="descriptor?.min"
     [max]="descriptor?.max"
     [step]="descriptor?.step"
-    [value]="controlValue"
-    [thumbLabel]="descriptor?.thumb || false"
+    [discrete]="descriptor?.thumb || false"
     [ngClass]="{ 'has-thumb': descriptor?.thumb }"
-    (input)="sliderChanged($event)"
-></mat-slider>
+><input matSliderThumb [value]="controlValue" (valueChange)="sliderChanged($event)"></mat-slider>
 
 <p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
