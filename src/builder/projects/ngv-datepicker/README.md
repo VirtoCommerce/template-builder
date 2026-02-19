@@ -4,6 +4,18 @@ Fork of the official Material Datepicker for Angular with time picking support.
 
 Local library name in this workspace: `ngv-datepicker`.
 
+## Angular 15 Migration Notes
+
+This workspace has been upgraded to Angular 15. The datepicker theming mixins continue to work with the Angular Material v15 theming API (`@use '@angular/material' as mat;`).
+
+Highlights:
+- Legacy `@import` has been replaced by `@use` in all theme examples.
+- The custom datepicker theme mixin uses the object theme syntax (`mat.define-light-theme(( color: (...) ))`).
+- Deprecated Sass color helpers (`darken`, `lighten`, manual `rgba` with opacity) were replaced internally by `sass:color` adjustments.
+- TSLint was deprecated; ESLint configuration now lives at the workspace root (`.eslintrc.json`). Update any local build or CI scripts to run `npm run lint`.
+
+Prebuilt theme CSS may be imported directly (see below). Manual Sass compilation scripts are kept only for backward compatibility and will be removed in a future cleanup.
+
 After building (`npm run build` at `builder` root) the prebuilt theme CSS files are generated under `dist/ngv-datepicker/prebuilt-themes/*.css`. To use one, add for example:
 
 ```json
@@ -29,6 +41,30 @@ For custom theming instead of a prebuilt theme, include the mixin:
 @include datepicker.theme($theme);
 ```
 Ensure `stylePreprocessorOptions.includePaths` contains `node_modules`.
+
+### Updated Theming Example (Angular 15)
+
+```scss
+@use '@angular/material' as mat;
+@use 'ngv-datepicker/src/lib/_datepicker-theme' as datepicker;
+
+$primary-palette: mat.define-palette(mat.$indigo-palette);
+$accent-palette: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$warn-palette: mat.define-palette(mat.$red-palette);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+));
+
+@include mat.core();
+@include datepicker.theme($theme);
+```
+
+No private legacy theming functions are required; pass either a full theme map or include `color` / `typography` mixins individually if you need granular control.
 
 The datepicker allows users to enter a date either through text input, or by choosing a date from the calendar.
 

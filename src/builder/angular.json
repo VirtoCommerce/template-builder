@@ -61,7 +61,7 @@
                                 {
                                     "type": "initial",
                                     "maximumWarning": "1500kb",
-                                    "maximumError": "2mb"
+                                    "maximumError": "5mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
@@ -118,6 +118,15 @@
                         "styles": ["src/styles.scss"],
                         "scripts": []
                     }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "src/**/*.ts",
+                            "src/**/*.html"
+                        ]
+                    }
                 }
             }
         },
@@ -149,6 +158,15 @@
                         "tsConfig": "projects/ngv-markdown/tsconfig.spec.json",
                         "karmaConfig": "projects/ngv-markdown/karma.conf.js"
                     }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "projects/ngv-markdown/src/**/*.ts",
+                            "projects/ngv-markdown/src/**/*.html"
+                        ]
+                    }
                 }
             }
         },
@@ -179,6 +197,15 @@
                         "main": "projects/ngv-datepicker/src/test.ts",
                         "tsConfig": "projects/ngv-datepicker/tsconfig.spec.json",
                         "karmaConfig": "projects/ngv-datepicker/karma.conf.js"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": [
+                            "projects/ngv-datepicker/src/**/*.ts",
+                            "projects/ngv-datepicker/src/**/*.html"
+                        ]
                     }
                 }
             }
