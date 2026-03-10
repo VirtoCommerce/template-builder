@@ -264,7 +264,7 @@ export class TemplateEditorDataEffects {
         withLatestFrom(
             this.store$.select(selectors.selectRunActionContext),
         ),
-        tap(([, { entry, path, type }]) => this.templates.externalPreview(path, type, entry))
+        tap(([, { entry, path, type, groupId }]) => this.templates.externalPreview(path, type, entry, groupId))
     ), { dispatch: false });
 
     saveTemplate$ = createEffect(() => this.actions$.pipe(

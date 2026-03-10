@@ -59,8 +59,8 @@ export class TemplatesService {
         return this.http.doRequest(request, { nullWhenError: false }, null);
     }
 
-    externalPreview(path: string, type: string, entry: TemplateEntry) {
-        const previewUrl = this.appConfig.getValue('externalPreview', { item: entry, type, path });
+    externalPreview(path: string, type: string, entry: TemplateEntry, groupId: string): void {
+        const previewUrl = this.appConfig.getValue('externalPreview', { item: entry, type, path, groupId });
         // open new tab with the previewUrl
         window.open(previewUrl.url, '_blank');
     }
