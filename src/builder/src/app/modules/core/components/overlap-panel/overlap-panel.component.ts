@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, HostBinding, HostListener, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, DestroyRef, HostBinding, HostListener, inject } from '@angular/core';
 import { EnvironmentRef } from '@integration/services';
 import { Component, Input, ElementRef } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
@@ -17,6 +17,7 @@ export class OverlapPanelComponent {
     private readonly windowRef = inject(EnvironmentRef);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly elementRef = inject(ElementRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     @Input() expandable = true;
     @HostBinding("class.inplace") @Input() skipTranslate: boolean | null = false;
@@ -33,13 +34,8 @@ export class OverlapPanelComponent {
     isOpened = false; // todo: maybe should be stored in state or in url
 
     ngAfterViewInit(): void {
-        this._interval = setInterval(() => {
-            this.changeWidth();
-        }, 1000);
-    }
-
-    ngOnDestroy(): void {
-        clearInterval(this._interval);
+        this._interval = setInterval(() => this.changeWidth(), 1000);
+        this.destroyRef.onDestroy(() => clearInterval(this._interval));
     }
 
     toggle() {
