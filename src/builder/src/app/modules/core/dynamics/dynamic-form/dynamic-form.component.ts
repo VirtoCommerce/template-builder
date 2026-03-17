@@ -29,7 +29,7 @@ export class DynamicFormComponent implements OnInit {
     private _currentSectionId: string | null = null;
     private _currentSection: object | null = null;
 
-    @Input() get sectionModel(): SectionModel {
+    @Input({ required: true }) get sectionModel(): SectionModel {
         return this._sectionModel;
     }
     set sectionModel(value: SectionModel) {
@@ -39,7 +39,7 @@ export class DynamicFormComponent implements OnInit {
         }
     }
     readonly context = input.required<ControlContext>();
-    @Input() get descriptors(): BaseControlDescriptor[] {
+    @Input({ required: true }) get descriptors(): BaseControlDescriptor[] {
         return this._descriptors;
     }
     set descriptors(value: BaseControlDescriptor[]) {

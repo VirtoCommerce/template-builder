@@ -30,7 +30,7 @@ export class SectionChildrenListComponent {
     public get states(): BlockStatesList {
         return this._states;
     }
-    @Input()
+    @Input({ required: true })
     public set states(value: BlockStatesList) {
         this.selectedBlocksCount = Object.values(value || {}).filter(x => x.selected).length;
         this._states = value;

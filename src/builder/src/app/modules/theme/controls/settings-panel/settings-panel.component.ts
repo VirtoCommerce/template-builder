@@ -15,8 +15,8 @@ import { IconComponent } from '@core/components/icon/icon.component';
 })
 export class SettingsPanelComponent {
 
-    readonly settings = input<any>();
-    readonly group = input<any>();
+    readonly settings = input.required<any>();
+    readonly group = input.required<any>();
     readonly context = input.required<ControlContext>();
 
     readonly backClick = output();

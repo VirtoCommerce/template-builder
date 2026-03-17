@@ -44,7 +44,7 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
     readonly host = viewChild.required(ControlHostDirective);
 
     readonly descriptor = input.required<BaseControlDescriptor>();
-    @Input() get currentForm(): UntypedFormGroup {
+    @Input({ required: true }) get currentForm(): UntypedFormGroup {
         return this._currentForm;
     }
     set currentForm(value: UntypedFormGroup) {
@@ -55,7 +55,7 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    @Input() get context(): ControlContext {
+    @Input({ required: true }) get context(): ControlContext {
         return this._context;
     }
     set context(value: ControlContext) {

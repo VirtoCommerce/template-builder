@@ -20,7 +20,7 @@ export class PresetsIconComponent {
     readonly icon = input<string | null | undefined>(undefined);
     readonly preview = input<string | null | undefined>(undefined);
 
-    @Input() get name(): string {
+    @Input({ required: true }) get name(): string {
         return this._name;
     }
     set name(value: string) {
