@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 
-import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormRecord, FormControl } from '@angular/forms';
 import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TemplateEntryInfo } from '@shared/models';
 import { IconComponent } from '@core/components/icon/icon.component';
@@ -18,24 +18,17 @@ export class SaveTemplateComponent {
 
     @ViewChild('selectAllInput') selectAllInput!: ElementRef<HTMLInputElement>;
 
-    entries: TemplateEntryInfo[];
-    form: UntypedFormGroup;
+    private readonly dialogRef = inject(MatDialogRef<SaveTemplateComponent>);
+    private readonly data = inject<{ entries: TemplateEntryInfo[] }>(MAT_DIALOG_DATA);
 
-    constructor(
-        private dialogRef: MatDialogRef<SaveTemplateComponent>,
-        fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) data: { entries: TemplateEntryInfo[] }
-    ) {
-        const result = data.entries.reduce((acc, value) => ({ ...acc, [value.key]: true}), {});
-        this.entries = data.entries;
-        this.form = fb.group(result);
-    }
+    readonly entries = this.data.entries;
+    readonly form = new FormRecord(
+        Object.fromEntries(this.entries.map(e => [e.key, new FormControl(true, { nonNullable: true })]))
+    );
 
     selectAll(event: Event) {
-        console.log(event);
-        const element = <HTMLInputElement>event.target;
-        const value = element.checked;
-        this.entries.forEach(x => this.form.get(x.key)?.setValue(!!value));
+        const value = (event.target as HTMLInputElement).checked;
+        this.entries.forEach(e => this.form.get(e.key)?.setValue(value));
     }
 
     setSelectAll() {
@@ -48,9 +41,7 @@ export class SaveTemplateComponent {
 
     confirm() {
         const value = this.form.value;
-        const result = { entries: Object.keys(value).filter(key => value[key]), accept: true };
-        console.log(result);
-        this.dialogRef.close(result);
+        this.dialogRef.close({ entries: Object.keys(value).filter(key => value[key]), accept: true });
     }
 
     decline() {
