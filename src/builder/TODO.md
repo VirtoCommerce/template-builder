@@ -1,20 +1,23 @@
-* [x] операции с блоками
-  * [x] сортировка
-  * [x] добавление
-  * [x] удаление
-  * [x] обновление
-  * [x] клонирование блока
-  * [x] visibility
+* [x] Operations with blocks
+  * [x] Sorting
+  * [x] Adding
+  * [x] Deleting
+  * [x] Updating
+  * [x] Cloning block
+  * [x] Visibility toggle
 * [ ] undo/redo
 * [x] copy/paste
-* [ ] сохранение
-  * [x] single
-  * [ ] by template
-* [x] режимы просмотра
-  * [x] десктоп
-  * [x] мобильный
-  * [x] планшет
-* [ ] превью
+* [ ] saving process
+  * [x] single template
+  * [ ] each template independently
+  * [ ] all templates together
+* [x] viewing modes
+  * [x] desktop
+  * [x] mobile
+  * [x] tablet
+* [ ] preview
+  * [ ] in new tab
+  * [x] in iframe
 * [ ] загрузка файлов в хранилище
 * [ ] выбор шаблона из списка
   * [ ] поиск страницы

@@ -15,7 +15,7 @@
     }
 }
 
-::ng-deep .menu-panel .mat-menu-content {
+::ng-deep .menu-panel .mat-mdc-menu-content {
     padding: 0 !important; // todo: move to theme redefine $vertical-padding (https://github.com/angular/components/blob/main/src/material/menu/menu.scss#L47)
 }
 
