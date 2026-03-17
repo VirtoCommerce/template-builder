@@ -1,6 +1,7 @@
 import {
     Component,
     Input,
+    Type,
     input,
     OnInit,
     viewChild,
@@ -67,18 +68,22 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
     }
 
     ngOnInit(): void {
-        const type = this.controlsFactory.resolve(this.descriptor().type);
-        if (!type) {
-            // todo: null is not possible, maybe remove it?
-            console.log('unknown component type:', this.descriptor());
+        const descriptorType = this.descriptor().type;
+        if (this.controlsFactory.isLazy(descriptorType)) {
+            this.controlsFactory.resolveAsync(descriptorType).then(type => this.createComponent(type));
         } else {
-            const viewContainerRef = this.host().viewContainerRef;
-            const componentRef = viewContainerRef.createComponent(type); // todo: control type must be set as generic type, but now i don't know how do it for generic type (BaseControlDirective<T problem here>)
-            this.component = componentRef.instance;
-            this.component.descriptor = this.descriptor();
-            this.component.currentForm = this.currentForm;
-            this.component.context = this.context;
+            this.createComponent(this.controlsFactory.resolve(descriptorType));
         }
+    }
+
+    private createComponent(type: Type<any>): void {
+        const viewContainerRef = this.host().viewContainerRef;
+        const componentRef = viewContainerRef.createComponent(type);
+        this.component = componentRef.instance;
+        this.component.descriptor = this.descriptor();
+        this.component.currentForm = this.currentForm;
+        this.component.context = this.context;
+        this.cdr.detectChanges();
     }
 
     onChange = (_: any) => { };

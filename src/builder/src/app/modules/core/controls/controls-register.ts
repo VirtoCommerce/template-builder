@@ -1,13 +1,8 @@
 import { inject } from '@angular/core';
 
 import { ControlsFactory } from './controls.factory';
-import { CalendarComponent } from './calendar/calendar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CollectionComponent } from './collection/collection.component';
-import { ColorComponent } from './color/color.component';
-import { FilesComponent } from './files/files.component';
-import { ImagesComponent } from './images/images.component';
-import { MarkdownComponent } from './markdown/markdown.component';
 import { NumberComponent } from './number/number.component';
 import { ObjectComponent } from './object/object.component';
 import { SearchComponent } from './search/search.component';
@@ -18,13 +13,9 @@ import { TextComponent } from './text/text.component';
 export function registerControls(): () => void {
     const factory = inject(ControlsFactory);
     return () => {
-        factory.register('calendar', CalendarComponent);
+        // Light controls — loaded eagerly
         factory.register('checkbox', CheckboxComponent);
-        factory.register('color', ColorComponent);
-        factory.register('files', FilesComponent);
-        factory.register('images', ImagesComponent);
         factory.register('list', CollectionComponent);
-        factory.register('markdown', MarkdownComponent);
         factory.register('number', NumberComponent);
         factory.register('object', ObjectComponent);
         factory.register('slider', NumberComponent);
@@ -32,5 +23,17 @@ export function registerControls(): () => void {
         factory.register('string', StringComponent);
         factory.register('text', TextComponent);
         factory.register('search', SearchComponent);
+
+        // Heavy controls — loaded lazily on first use
+        factory.registerLazy('calendar', () =>
+            import('./calendar/calendar.component').then(m => m.CalendarComponent));
+        factory.registerLazy('color', () =>
+            import('./color/color.component').then(m => m.ColorComponent));
+        factory.registerLazy('markdown', () =>
+            import('./markdown/markdown.component').then(m => m.MarkdownComponent));
+        factory.registerLazy('files', () =>
+            import('./files/files.component').then(m => m.FilesComponent));
+        factory.registerLazy('images', () =>
+            import('./images/images.component').then(m => m.ImagesComponent));
     };
 }

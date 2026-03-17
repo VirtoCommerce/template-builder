@@ -13,21 +13,30 @@
             </li>
             @for (group of vm.groups; track group) {
               <li class="border-b">
-                <app-add-section-group [group]="group"
-                  [opened]="vm.states.groups[group.name].opened"
-                  [underPreviewType]="vm.states.previewItemType"
-                  (onOpened)="onToggleGroup(group)"
-                  (onPreview)="onPreviewItem($event)"
-                  (onAdd)="onAddItem($event)">
-                </app-add-section-group>
+                @defer (on viewport; prefetch on idle) {
+                  <app-add-section-group [group]="group"
+                    [opened]="vm.states.groups[group.name].opened"
+                    [underPreviewType]="vm.states.previewItemType"
+                    (onOpened)="onToggleGroup(group)"
+                    (onPreview)="onPreviewItem($event)"
+                    (onAdd)="onAddItem($event)">
+                  </app-add-section-group>
+                } @placeholder {
+                  <div class="h-10"></div>
+                }
               </li>
             }
             @for (item of vm.items; track item) {
               <li class="border-b">
-                <app-add-section-item [section]="item"
-                  [inPreview]="item.type === vm.states.previewItemType"
-                  (onPreview)="onPreviewItem(item)"
-                (onAdd)="onAddItem(item)"></app-add-section-item>
+                @defer (on viewport; prefetch on idle) {
+                  <app-add-section-item [section]="item"
+                    [inPreview]="item.type === vm.states.previewItemType"
+                    (onPreview)="onPreviewItem(item)"
+                    (onAdd)="onAddItem(item)">
+                  </app-add-section-item>
+                } @placeholder {
+                  <div class="h-10"></div>
+                }
               </li>
             }
             @if ((filter$|async) && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length) {
