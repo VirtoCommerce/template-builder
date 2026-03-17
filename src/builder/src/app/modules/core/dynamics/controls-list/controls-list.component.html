@@ -1,21 +1,24 @@
 <div [formGroup]="currentForm" class="controls-holder">
-    <ng-container *ngFor="let control of descriptors">
-        <!-- Header or Paragraph -->
-        <h2 class="control-title" *ngIf="control.type === 'header'">{{ getContent(control) }}</h2>
-        <p class="control-text" *ngIf="control.type === 'paragraph'">{{ getContent(control) }}</p>
-        <!-- Simple control -->
-        <!-- <app-control-holder *ngIf="displayEditor(control)" [descriptor]="control" [group]="group"
-            [context]="context" [formControlName]="control.id"></app-control-holder> -->
-        <!-- Info -->
-        <!-- <p *ngIf="control.type !== 'image' && getInfo(control) !== undefined" class="form-help">
-            {{getInfo(control)}}</p> -->
-
-        <ng-container *ngIf="checkVisibility(control) && control.type !== 'header' && control.type !== 'paragraph'">
-            <app-control-holder [descriptor]="control"
-                                [currentForm]="currentForm"
-                                [context]="context"
-                                [formControlName]="control.id">
-            </app-control-holder>
-        </ng-container>
-    </ng-container>
+  @for (control of descriptors; track control) {
+    <!-- Header or Paragraph -->
+    @if (control.type === 'header') {
+      <h2 class="control-title">{{ getContent(control) }}</h2>
+    }
+    @if (control.type === 'paragraph') {
+      <p class="control-text">{{ getContent(control) }}</p>
+    }
+    <!-- Simple control -->
+    <!-- <app-control-holder *ngIf="displayEditor(control)" [descriptor]="control" [group]="group"
+  [context]="context" [formControlName]="control.id"></app-control-holder> -->
+  <!-- Info -->
+  <!-- <p *ngIf="control.type !== 'image' && getInfo(control) !== undefined" class="form-help">
+{{getInfo(control)}}</p> -->
+@if (checkVisibility(control) && control.type !== 'header' && control.type !== 'paragraph') {
+  <app-control-holder [descriptor]="control"
+    [currentForm]="currentForm"
+    [context]="context"
+    [formControlName]="control.id">
+  </app-control-holder>
+}
+}
 </div>

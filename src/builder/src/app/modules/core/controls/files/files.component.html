@@ -1,48 +1,69 @@
 <label class="pb-label" [attr.title]="descriptor?.hint">{{ descriptor?.label }}</label>
-<div *ngIf="control">
+@if (control) {
+  <div>
     <file-upload [control]="control" [multiple]="multiple">
-        <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
-            <div *ngIf="isFileDragDropAvailable">
-                Add file or drop files to upload
-            </div>
-            <span *ngIf="!isFileDragDropAvailable">Add file</span>
-        </ng-template>
+      <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+        @if (isFileDragDropAvailable) {
+          <div>
+            Add file or drop files to upload
+          </div>
+        }
+        @if (!isFileDragDropAvailable) {
+          <span>Add file</span>
+        }
+      </ng-template>
     </file-upload>
-    <p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
-    <div class="file-list"
-         cdkDropList
-         [ngStyle]="{ 'max-height': getMaxListHeight() }"
-         *ngIf="innerValue.length > 0"
-         (cdkDropListDropped)="onReorderItems($event)">
-        <ng-container *ngFor="let file of innerValue; let i = index">
-            <div cdkDragBoundary=".file-list"
-                 cdkDragLockAxis="y"
-                 cdkDrag
-                 [cdkDragDisabled]="!sortable"
-                 (cdkDragReleased)="onReleaseDrag()">
-                <div class="file-item" [ngClass]="{ 'has-extra-props': descriptor?.element && descriptor?.element?.length }">
-                    <app-chevron *ngIf="descriptor?.element && descriptor?.element?.length"
-                                 [opened]="selectedFile === file" (click)="selectFile($any(file))"></app-chevron>
-                    <app-icon class="file-type">attachment</app-icon>
-                    <div class="file-name" [title]="file.name" (click)="selectFile($any(file))">{{ file.name }}</div>
-                    <app-icon class="delete-icon" (click)="deleteFile($any(file))">delete</app-icon>
-                    <app-drag-handle *ngIf="sortable" cdkDragHandle (mousedown)="onStartDrag()"
-                                     (mouseup)="onReleaseDrag()"></app-drag-handle>
-                </div>
-                <ng-container>
-                    <mat-progress-bar *ngIf="$any(file).uploading" mode="indeterminate"></mat-progress-bar>
-                    <div class="error" *ngIf="$any(file).error">{{ $any(file).error }}<br /><span class="reload"
-                              (click)="uploadItem($any(file))">reload</span></div>
-                    <div *ngIf="selectedFile === file && elementForm && descriptor && !isDrag" class="selected-file-properties">
-                        <app-controls-list [currentForm]="elementForm"
-                                           [descriptors]="descriptor.element"
-                                           [context]="getContext($any(file))"></app-controls-list>
-                    </div>
-                </ng-container>
+    @if (descriptor?.info) {
+      <p class="info">{{ descriptor?.info }}</p>
+    }
+    @if (innerValue.length > 0) {
+      <div class="file-list"
+        cdkDropList
+        [ngStyle]="{ 'max-height': getMaxListHeight() }"
+        (cdkDropListDropped)="onReorderItems($event)">
+        @for (file of innerValue; track file; let i = $index) {
+          <div cdkDragBoundary=".file-list"
+            cdkDragLockAxis="y"
+            cdkDrag
+            [cdkDragDisabled]="!sortable"
+            (cdkDragReleased)="onReleaseDrag()">
+            <div class="file-item" [ngClass]="{ 'has-extra-props': descriptor?.element && descriptor?.element?.length }">
+              @if (descriptor?.element && descriptor?.element?.length) {
+                <app-chevron
+                [opened]="selectedFile === file" (click)="selectFile($any(file))"></app-chevron>
+              }
+              <app-icon class="file-type">attachment</app-icon>
+              <div class="file-name" [title]="file.name" (click)="selectFile($any(file))">{{ file.name }}</div>
+              <app-icon class="delete-icon" (click)="deleteFile($any(file))">delete</app-icon>
+              @if (sortable) {
+                <app-drag-handle cdkDragHandle (mousedown)="onStartDrag()"
+                (mouseup)="onReleaseDrag()"></app-drag-handle>
+              }
             </div>
-        </ng-container>
-    </div>
-    <app-icon-button *ngIf="innerValue.length > (descriptor?.collapseThreshold || 6)" class="show-all"
-                     [text]="expanded ? 'Show less' : 'Show all'"
-                     (click)="toggleList()"></app-icon-button>
-</div>
+            <ng-container>
+              @if ($any(file).uploading) {
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              }
+              @if ($any(file).error) {
+                <div class="error">{{ $any(file).error }}<br /><span class="reload"
+                (click)="uploadItem($any(file))">reload</span></div>
+              }
+              @if (selectedFile === file && elementForm && descriptor && !isDrag) {
+                <div class="selected-file-properties">
+                  <app-controls-list [currentForm]="elementForm"
+                    [descriptors]="descriptor.element"
+                  [context]="getContext($any(file))"></app-controls-list>
+                </div>
+              }
+            </ng-container>
+          </div>
+        }
+      </div>
+    }
+    @if (innerValue.length > (descriptor?.collapseThreshold || 6)) {
+      <app-icon-button class="show-all"
+        [text]="expanded ? 'Show less' : 'Show all'"
+      (click)="toggleList()"></app-icon-button>
+    }
+  </div>
+}

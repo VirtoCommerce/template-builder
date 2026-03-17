@@ -1,43 +1,45 @@
 <app-panel>
-    <div title-content>
-        <div class="grow pl-2">
-            Theme settings
-        </div>
-        <div>
-            <app-icon-button (click)="onPresetsClick()" icon="tune" text="Presets" skin="link"></app-icon-button>
-        </div>
+  <div title-content>
+    <div class="grow pl-2">
+      Theme settings
     </div>
-    <div class="flex flex-col">
-        <ng-container *ngIf="uiState$|async as uiState">
-            <ng-container *ngIf="schema$|async as schema">
-                <div *ngFor="let group of schema" class="group">
-                    <div (click)="toggleGroup(group)" class="list-item group-title">
-                        <div class="group-name" [attr.title]="group.name">
-                            {{group.name}}
-                        </div>
-                        <div>
-                            <app-chevron [opened]="uiState[group.name].opened"></app-chevron>
-                        </div>
-                    </div>
-                    <ng-container *ngIf="uiState[group.name].opened">
-                        <ng-container *ngIf="settings$|async as settings">
-                            <app-dynamic-form [sectionModel]="$any(settings)"
-                                              [descriptors]="group.settings"
-                                              [context]="context"
-                                              (modelChanged)="onSettingsChanged($event)"></app-dynamic-form>
-                        </ng-container>
-                    </ng-container>
-                </div>
-            </ng-container>
-        </ng-container>
+    <div>
+      <app-icon-button (click)="onPresetsClick()" icon="tune" text="Presets" skin="link"></app-icon-button>
     </div>
+  </div>
+  <div class="flex flex-col">
+    @if (uiState$|async; as uiState) {
+      @if (schema$|async; as schema) {
+        @for (group of schema; track group) {
+          <div class="group">
+            <div (click)="toggleGroup(group)" class="list-item group-title">
+              <div class="group-name" [attr.title]="group.name">
+                {{group.name}}
+              </div>
+              <div>
+                <app-chevron [opened]="uiState[group.name].opened"></app-chevron>
+              </div>
+            </div>
+            @if (uiState[group.name].opened) {
+              @if (settings$|async; as settings) {
+                <app-dynamic-form [sectionModel]="$any(settings)"
+                  [descriptors]="group.settings"
+                  [context]="context"
+                (modelChanged)="onSettingsChanged($event)"></app-dynamic-form>
+              }
+            }
+          </div>
+        }
+      }
+    }
+  </div>
 </app-panel>
-<ng-container *ngIf="editableGroup$|async as editableGroup">
-    <ng-container *ngIf="settings$|async as settings">
-        <app-settings-panel [context]="context"
-                            [group]="editableGroup"
-                            [settings]="settings"
-                            (backClick)="onBackClick(editableGroup)"
-                            (settingsChanged)="onSettingsChanged($event)"></app-settings-panel>
-    </ng-container>
-</ng-container>
+@if (editableGroup$|async; as editableGroup) {
+  @if (settings$|async; as settings) {
+    <app-settings-panel [context]="context"
+      [group]="editableGroup"
+      [settings]="settings"
+      (backClick)="onBackClick(editableGroup)"
+    (settingsChanged)="onSettingsChanged($event)"></app-settings-panel>
+  }
+}

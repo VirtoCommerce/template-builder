@@ -1,8 +1,8 @@
-<ng-container *ngFor="let action of actions">
-    <app-icon-button [icon]="action.icon"
-                     [text]="action.title"
-                     [skin]="action.type"
-                     [disabled]="action.canAction === false"
-                     (click)="raiseOnClick(action)">
-    </app-icon-button>
-</ng-container>
+@for (action of actions; track action) {
+  <app-icon-button [icon]="action.icon"
+    [text]="action.title"
+    [skin]="action.type"
+    [disabled]="action.canAction === false"
+    (click)="raiseOnClick(action)">
+  </app-icon-button>
+}

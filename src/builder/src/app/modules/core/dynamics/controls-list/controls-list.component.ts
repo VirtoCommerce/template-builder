@@ -1,6 +1,6 @@
 import { DisplayTextDescriptor } from '@models/controls';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
-import { NgIf, NgFor } from '@angular/common';
+
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext } from '@core/models';
@@ -14,7 +14,7 @@ import { ControlHolderComponent } from '@core/dynamics/control-holder.component'
     styleUrls: ['./controls-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, ReactiveFormsModule, ControlHolderComponent]
+    imports: [ReactiveFormsModule, ControlHolderComponent]
 })
 export class ControlsListComponent implements OnInit {
 

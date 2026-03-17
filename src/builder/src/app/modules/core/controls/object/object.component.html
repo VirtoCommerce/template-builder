@@ -1,13 +1,17 @@
 <div class="object-wrapper" [ngClass]="{ expanded: expanded }">
-    <div class="label-wrapper" (click)="toggle()">
-        <app-chevron [opened]="expanded" [hoverable]="true">chevron_right</app-chevron>
-        <label [attr.title]="descriptor?.hint || getTitle()" class="pb-label">{{ getTitle() }}</label>
+  <div class="label-wrapper" (click)="toggle()">
+    <app-chevron [opened]="expanded" [hoverable]="true">chevron_right</app-chevron>
+    <label [attr.title]="descriptor?.hint || getTitle()" class="pb-label">{{ getTitle() }}</label>
+  </div>
+  @if (expanded && objectForm && descriptor?.view !== 'panel' && descriptor?.view !== 'popup') {
+    <div>
+      <app-controls-list [currentForm]="objectForm"
+        [descriptors]="getDescriptors()"
+      [context]="getContext()"></app-controls-list>
+      @if (descriptor?.info) {
+        <p class="info pl-6 pr-2">{{ descriptor?.info }}</p>
+      }
     </div>
-    <div *ngIf="expanded && objectForm && descriptor?.view !== 'panel' && descriptor?.view !== 'popup'">
-        <app-controls-list [currentForm]="objectForm"
-                           [descriptors]="getDescriptors()"
-                           [context]="getContext()"></app-controls-list>
-        <p *ngIf="descriptor?.info" class="info pl-6 pr-2">{{ descriptor?.info }}</p>
-    </div>
+  }
 </div>
 <!-- <app-overlap-panel></app-overlap-panel> -->

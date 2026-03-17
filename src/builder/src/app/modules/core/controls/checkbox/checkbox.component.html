@@ -1,7 +1,9 @@
 <mat-checkbox
-    [checked]="controlValue"
-    [title]="descriptor?.hint || ''"
-    (change)="raiseValueChanged($event.checked)">
-    {{descriptor?.label}}
+  [checked]="controlValue"
+  [title]="descriptor?.hint || ''"
+  (change)="raiseValueChanged($event.checked)">
+  {{descriptor?.label}}
 </mat-checkbox>
-<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
+@if (descriptor?.info) {
+  <p class="info">{{ descriptor?.info }}</p>
+}

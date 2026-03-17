@@ -9,14 +9,14 @@ import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
 import * as fromRoute from '@shared/routing';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
-import { NgClass, NgIf, AsyncPipe } from '@angular/common';
+import { NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-live-preview',
     templateUrl: './live-preview.component.html',
     styleUrls: ['./live-preview.component.scss'],
     standalone: true,
-    imports: [NgClass, NgIf, AsyncPipe]
+    imports: [NgClass, AsyncPipe]
 })
 export class LivePreviewComponent implements OnInit {
 

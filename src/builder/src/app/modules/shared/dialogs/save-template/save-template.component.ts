@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
-import { NgFor } from '@angular/common';
+
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TemplateEntryInfo } from '@shared/models';
 import { IconComponent } from '@core/components/icon/icon.component';
 import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
@@ -12,7 +12,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     styleUrls: ['./save-template.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgFor, ReactiveFormsModule, MatDialogModule, IconComponent, IconButtonComponent]
+    imports: [ReactiveFormsModule, MatDialogContent, MatDialogActions, IconComponent, IconButtonComponent]
 })
 export class SaveTemplateComponent implements OnInit {
 

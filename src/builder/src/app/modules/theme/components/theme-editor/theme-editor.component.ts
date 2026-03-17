@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter, AfterViewInit, inject } from '@angular/core';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { ModelChangedEventArgs } from '@core/models';
@@ -18,7 +18,7 @@ import * as actions from '@theme/store/actions';
     styleUrls: ['./theme-editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, AsyncPipe, PanelComponent, IconButtonComponent, ChevronComponent, DynamicFormComponent, SettingsPanelComponent]
+    imports: [AsyncPipe, PanelComponent, IconButtonComponent, ChevronComponent, DynamicFormComponent, SettingsPanelComponent]
 })
 export class ThemeEditorComponent implements OnInit {
 

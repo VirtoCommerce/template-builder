@@ -1,17 +1,23 @@
 <div class="container">
-    <div class="group" (click)="raiseOnOpened()">
-        <app-icon *ngIf="group.icon">{{ group.icon }}</app-icon>
-        <div class="name">{{ group.name }}</div>
-        <app-chevron [opened]="opened" [vertical]="true"></app-chevron>
-    </div>
-    <ul *ngIf="opened">
-        <li *ngFor="let item of group.items" class="border-b">
-            <app-add-section-item [section]="item"
-                                  [inPreview]="item.type === underPreviewType"
-                                  [child]="true"
-                                  (onPreview)="raiseOnPreview(item)"
-                                  (onAdd)="raiseOnAdd(item)">
-            </app-add-section-item>
+  <div class="group" (click)="raiseOnOpened()">
+    @if (group.icon) {
+      <app-icon>{{ group.icon }}</app-icon>
+    }
+    <div class="name">{{ group.name }}</div>
+    <app-chevron [opened]="opened" [vertical]="true"></app-chevron>
+  </div>
+  @if (opened) {
+    <ul>
+      @for (item of group.items; track item) {
+        <li class="border-b">
+          <app-add-section-item [section]="item"
+            [inPreview]="item.type === underPreviewType"
+            [child]="true"
+            (onPreview)="raiseOnPreview(item)"
+            (onAdd)="raiseOnAdd(item)">
+          </app-add-section-item>
         </li>
+      }
     </ul>
+  }
 </div>

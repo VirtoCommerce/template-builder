@@ -1,6 +1,6 @@
 import { ModalService } from '@core/services';
 import { Component, DestroyRef, inject } from '@angular/core';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -26,9 +26,7 @@ import { ControlsListComponent } from '@core/dynamics/controls-list/controls-lis
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, ReactiveFormsModule, DragDropModule,
-              ChevronComponent, ContextMenuComponent, DragHandleComponent,
-              IconButtonComponent, ControlsListComponent]
+    imports: [NgClass, ReactiveFormsModule, DragDropModule, ChevronComponent, ContextMenuComponent, DragHandleComponent, IconButtonComponent, ControlsListComponent]
 })
 export class CollectionComponent extends BaseControlDirective<CollectionDescriptor> {
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgIf, NgClass } from '@angular/common';
-import { MatRippleModule } from '@angular/material/core';
+import { NgClass } from '@angular/common';
+import { MatRipple } from '@angular/material/core';
 import { ChevronComponent } from '@core/components/chevron/chevron.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { ChevronComponent } from '@core/components/chevron/chevron.component';
     styleUrls: ['./controls-group.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgClass, MatRippleModule, ChevronComponent]
+    imports: [NgClass, MatRipple, ChevronComponent]
 })
 export class ControlsGroupComponent implements OnInit {
 

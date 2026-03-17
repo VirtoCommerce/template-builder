@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { NgClass, AsyncPipe } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BuilderState } from '@editor/store/state';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,7 @@ import * as fromRoute from '@shared/routing/selectors';
     styleUrls: ['./edit-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgClass, AsyncPipe, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
+    imports: [NgClass, AsyncPipe, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
 })
 export class EditSectionComponent implements OnInit {
 

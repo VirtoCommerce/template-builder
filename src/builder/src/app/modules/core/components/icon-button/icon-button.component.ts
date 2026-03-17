@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { IconComponent } from '../icon/icon.component';
     styleUrls: ['./icon-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgClass, IconComponent]
+    imports: [NgClass, IconComponent]
 })
 export class IconButtonComponent implements OnInit {
 

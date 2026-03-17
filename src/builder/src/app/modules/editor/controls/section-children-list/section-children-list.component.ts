@@ -1,6 +1,6 @@
 import { CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { BlockStatesList, SectionsSchemasList } from '@editor/models';
 import { ReorderItemsModel } from '@core/models';
 import { SectionModel } from '@models/document';
@@ -15,7 +15,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     styleUrls: ['./section-children-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgFor, NgClass, DragDropModule, SectionItemComponent, DragHandleComponent, IconButtonComponent]
+    imports: [NgClass, DragDropModule, SectionItemComponent, DragHandleComponent, IconButtonComponent]
 })
 export class SectionChildrenListComponent implements OnInit {
 

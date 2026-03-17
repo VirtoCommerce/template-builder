@@ -1,7 +1,7 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { NgIf, NgFor, AsyncPipe, KeyValuePipe } from '@angular/common';
+import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
 import { PanelComponent } from '@core/components/panel/panel.component';
@@ -21,7 +21,7 @@ import * as fromRoute from '@shared/routing/selectors';
     styleUrls: ['./add-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, AddSectionGroupComponent, AddSectionItemComponent]
+    imports: [AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, AddSectionGroupComponent, AddSectionItemComponent]
 })
 export class AddSectionComponent implements OnInit {
 

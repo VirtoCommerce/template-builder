@@ -1,39 +1,41 @@
 <app-overlap-panel [skipTranslate]="isHalfScreen$|async" [expandable]="false">
-    <app-panel>
-        <div class="flex flex-col">
-            <ng-container *ngIf="viewModel$|async as vm">
-                <div class="search-holder"
-                     [ngClass]="{ 'not-found': (filter$|async) && !(vm.presets|keyvalue).length }">
-                    <input placeholder="Search preset by name"
-                           class="search"
-                           type="search"
-                           [value]="filter$|async"
-                           (keyup)="applyPresetsFilter($event)"
-                           (search)="applyPresetsFilter($event)" />
-                </div>
-                <div *ngFor="let preset of vm.presets|keyvalue"
-                     class="preset-item"
-                     [ngClass]="{ active: vm.state[preset.key]?.current }"
-                     (click)="previewPreset(preset.key)">
-                    <app-presets-icon [name]="$any(preset.key)"
-                                      [icon]="$any(preset.value).icon"
-                                      [preview]="$any(preset.value).preview"></app-presets-icon>
-                    <div class="item-name" title="{{ preset.key }}">{{ preset.key }}</div>
-                    <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
-                    </app-icon-button>
-                </div>
-                <ng-container *ngIf="(filter$|async) && !(vm.presets|keyvalue).length">
-                    <div class="no-presets">
-                        No presets found
-                    </div>
-                </ng-container>
-            </ng-container>
-        </div>
-        <ng-container title-content>
-            <div class="title pl-2">
-                <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
-                <div>Presets</div>
+  <app-panel>
+    <div class="flex flex-col">
+      @if (viewModel$|async; as vm) {
+        <div class="search-holder"
+          [ngClass]="{ 'not-found': (filter$|async) && !(vm.presets|keyvalue).length }">
+          <input placeholder="Search preset by name"
+            class="search"
+            type="search"
+            [value]="filter$|async"
+            (keyup)="applyPresetsFilter($event)"
+            (search)="applyPresetsFilter($event)" />
+          </div>
+          @for (preset of vm.presets|keyvalue; track preset) {
+            <div
+              class="preset-item"
+              [ngClass]="{ active: vm.state[preset.key]?.current }"
+              (click)="previewPreset(preset.key)">
+              <app-presets-icon [name]="$any(preset.key)"
+                [icon]="$any(preset.value).icon"
+              [preview]="$any(preset.value).preview"></app-presets-icon>
+              <div class="item-name" title="{{ preset.key }}">{{ preset.key }}</div>
+              <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
+              </app-icon-button>
             </div>
-        </ng-container>
+          }
+          @if ((filter$|async) && !(vm.presets|keyvalue).length) {
+            <div class="no-presets">
+              No presets found
+            </div>
+          }
+        }
+      </div>
+      <ng-container title-content>
+        <div class="title pl-2">
+          <app-icon (click)="onBackClick()" title="Back">chevron_left</app-icon>
+          <div>Presets</div>
+        </div>
+      </ng-container>
     </app-panel>
-</app-overlap-panel>
+  </app-overlap-panel>

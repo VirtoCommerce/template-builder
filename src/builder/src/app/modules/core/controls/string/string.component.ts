@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 
 import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { StringDescriptor } from '@models/controls';
@@ -11,7 +11,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     styleUrls: ['./string.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, KeyValuePipe, IconButtonComponent]
+    imports: [KeyValuePipe, IconButtonComponent]
 })
 export class StringComponent extends BaseControlDirective<StringDescriptor> {
     @ViewChild('control') control!: ElementRef;

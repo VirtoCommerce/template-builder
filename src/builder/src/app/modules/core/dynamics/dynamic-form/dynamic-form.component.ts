@@ -1,6 +1,6 @@
 import { Component, DestroyRef, Input, OnInit, Output, EventEmitter, ChangeDetectorRef, NgZone, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgIf } from '@angular/common';
+
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { ControlsTabsComponent } from '@core/dynamics/controls-tabs/controls-tab
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
     standalone: true,
-    imports: [NgIf, ReactiveFormsModule, ControlsTabsComponent]
+    imports: [ReactiveFormsModule, ControlsTabsComponent]
 })
 export class DynamicFormComponent implements OnInit {
 

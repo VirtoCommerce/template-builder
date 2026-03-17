@@ -2,7 +2,7 @@ import { AfterContentInit, AfterViewInit, ChangeDetectorRef, HostBinding, HostLi
 import { EnvironmentRef } from '@integration/services';
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './overlap-panel.component.html',
     styleUrls: ['./overlap-panel.component.scss'],
     standalone: true,
-    imports: [NgIf, NgClass, IconComponent]
+    imports: [NgClass, IconComponent]
 })
 export class OverlapPanelComponent implements OnInit {
 

@@ -1,10 +1,12 @@
 <div class="flex flex-row items-center justify-between w-full">
-    <label [attr.title]="descriptor?.hint" class="pb-label">{{ descriptor?.label }}</label>
-    <span *ngIf="descriptor?.type === 'slider'">{{ controlValue }}</span>
+  <label [attr.title]="descriptor?.hint" class="pb-label">{{ descriptor?.label }}</label>
+  @if (descriptor?.type === 'slider') {
+    <span>{{ controlValue }}</span>
+  }
 </div>
 
-<input #control
-    *ngIf="descriptor?.type !== 'slider'"
+@if (descriptor?.type !== 'slider') {
+  <input #control
     type="number"
     class="control"
     [min]="descriptor?.min"
@@ -16,15 +18,19 @@
     (keyup)="raiseOnChange($event.target)"
     (change)="raiseOnChange($event.target)"
     (blur)="raiseOnTouched($event.target)"
-/>
+    />
+}
 
-<mat-slider
-    *ngIf="descriptor?.type === 'slider'"
+@if (descriptor?.type === 'slider') {
+  <mat-slider
     [min]="descriptor?.min"
     [max]="descriptor?.max"
     [step]="descriptor?.step"
     [discrete]="descriptor?.thumb || false"
     [ngClass]="{ 'has-thumb': descriptor?.thumb }"
-><input matSliderThumb [value]="controlValue" (valueChange)="sliderChanged($event)"></mat-slider>
+    ><input matSliderThumb [value]="controlValue" (valueChange)="sliderChanged($event)"></mat-slider>
+  }
 
-<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
+  @if (descriptor?.info) {
+    <p class="info">{{ descriptor?.info }}</p>
+  }

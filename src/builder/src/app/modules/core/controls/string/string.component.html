@@ -1,36 +1,40 @@
 <label class="pb-label" [attr.title]="descriptor?.hint" class="pb-label">{{ descriptor?.label }}</label>
 
-<ng-container *ngIf="!descriptor?.multiline">
-    <input
-           #control
-           type="text"
-           class="control"
-           [value]="controlValue"
-           [placeholder]="descriptor?.placeholder || ''"
-           (keyup)="raiseOnChange($event)" />
-</ng-container>
+@if (!descriptor?.multiline) {
+  <input
+    #control
+    type="text"
+    class="control"
+    [value]="controlValue"
+    [placeholder]="descriptor?.placeholder || ''"
+    (keyup)="raiseOnChange($event)" />
+  }
 
-<ng-container *ngIf="descriptor?.multiline">
+  @if (descriptor?.multiline) {
     <textarea
-              #textarea
-              rows="4"
-              class="control"
-              [value]="controlValue"
-              [placeholder]="descriptor?.placeholder || ''"
-              (keyup)="raiseOnChange($event)"></textarea>
-</ng-container>
+      #textarea
+      rows="4"
+      class="control"
+      [value]="controlValue"
+      [placeholder]="descriptor?.placeholder || ''"
+    (keyup)="raiseOnChange($event)"></textarea>
+  }
 
-<ng-container *ngIf="descriptor?.actions">
+  @if (descriptor?.actions) {
     <div class="flex flex-row-reverse">
-        <div class="flex align-items-stretch py-1">
-            <app-icon-button *ngFor="let action of descriptor?.actions|keyvalue"
-                (click)="onAction(action.value)"
-                [text]="action.value.label"
-                [icon]="action.value.icon"
-                skin="outline-blue"
-            ></app-icon-button>
-        </div>
+      <div class="flex align-items-stretch py-1">
+        @for (action of descriptor?.actions|keyvalue; track action) {
+          <app-icon-button
+            (click)="onAction(action.value)"
+            [text]="action.value.label"
+            [icon]="action.value.icon"
+            skin="outline-blue"
+          ></app-icon-button>
+        }
+      </div>
     </div>
-</ng-container>
+  }
 
-<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
+  @if (descriptor?.info) {
+    <p class="info">{{ descriptor?.info }}</p>
+  }

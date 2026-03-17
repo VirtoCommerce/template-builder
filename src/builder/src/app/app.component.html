@@ -1,8 +1,10 @@
 <div class="flex flex-col h-screen">
-    <app-toolbar></app-toolbar>
-    <div class="flex flex-row grow">
-        <router-outlet></router-outlet>
-        <app-preview-area></app-preview-area>
-    </div>
+  <app-toolbar></app-toolbar>
+  <div class="flex flex-row grow">
+    <router-outlet></router-outlet>
+    <app-preview-area></app-preview-area>
+  </div>
 </div>
-<app-fullscreen-loader *ngIf="(isHttpLoading$|async) || (isEditorLoading$|async) || (isThemeLoading$|async)"></app-fullscreen-loader>
+@if ((isHttpLoading$|async) || (isEditorLoading$|async) || (isThemeLoading$|async)) {
+  <app-fullscreen-loader></app-fullscreen-loader>
+}

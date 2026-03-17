@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext, TabModel, GroupsStateModel } from '@core/models';
@@ -12,7 +12,7 @@ import { ControlsGroupComponent } from '@core/dynamics/controls-group/controls-g
     styleUrls: ['./controls-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, ReactiveFormsModule, ControlsListComponent, ControlsGroupComponent]
+    imports: [ReactiveFormsModule, ControlsListComponent, ControlsGroupComponent]
 })
 export class ControlsTabComponent implements OnInit {
 

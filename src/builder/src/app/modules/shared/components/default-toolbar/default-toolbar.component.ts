@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { ActionButtonDescriptor } from '@core/models';
 import { Store } from '@ngrx/store';
 
@@ -18,7 +18,7 @@ import { ActionsPanelComponent } from '@shared/components/actions-panel/actions-
     styleUrls: ['./default-toolbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, PreviewModeComponent, TemplateSelectorComponent, ActionsPanelComponent]
+    imports: [PreviewModeComponent, TemplateSelectorComponent, ActionsPanelComponent]
 })
 export class DefaultToolbarComponent implements OnInit {
 

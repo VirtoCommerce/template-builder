@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { IconWithPreviewComponent } from '@core/components/icon-with-preview/icon-with-preview.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { IconWithPreviewComponent } from '@core/components/icon-with-preview/ico
     styleUrls: ['./presets-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgStyle, IconWithPreviewComponent]
+    imports: [NgStyle, IconWithPreviewComponent]
 })
 export class PresetsIconComponent implements OnInit {
 

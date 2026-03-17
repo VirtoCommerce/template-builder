@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { UntypedFormGroup } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -17,7 +17,7 @@ import { ControlsListComponent } from '@core/dynamics/controls-list/controls-lis
   templateUrl: './object.component.html',
     styleUrls: ['./object.component.scss'],
     standalone: true,
-    imports: [NgIf, NgClass, ChevronComponent, ControlsListComponent]
+    imports: [NgClass, ChevronComponent, ControlsListComponent]
 })
 export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 

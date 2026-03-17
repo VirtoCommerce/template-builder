@@ -1,6 +1,6 @@
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     styleUrls: ['./paste-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [ReactiveFormsModule, MatDialogModule, IconButtonComponent]
+    imports: [ReactiveFormsModule, MatDialogContent, MatDialogActions, IconButtonComponent]
 })
 export class PasteContentComponent implements OnInit {
 

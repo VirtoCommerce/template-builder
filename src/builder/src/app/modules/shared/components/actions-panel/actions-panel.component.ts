@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgFor } from '@angular/common';
+
 
 import { ActionButtonDescriptor } from '@core/models';
 import { ActionButtonsComponent } from '@core/components/action-buttons/action-buttons.component';
@@ -10,7 +10,7 @@ import { ActionButtonsComponent } from '@core/components/action-buttons/action-b
     styleUrls: ['./actions-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgFor, ActionButtonsComponent]
+    imports: [ActionButtonsComponent]
 })
 export class ActionsPanelComponent implements OnInit {
 

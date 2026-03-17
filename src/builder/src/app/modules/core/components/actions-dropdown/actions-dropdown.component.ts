@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
+
+import { MatButton } from '@angular/material/button';
+import { MatMenu, MatMenuTrigger, MatMenuItem } from '@angular/material/menu';
 import { ActionButtonDescriptor } from '@core/models';
 import { IconComponent } from '../icon/icon.component';
 import { ChevronComponent } from '../chevron/chevron.component';
@@ -12,7 +12,7 @@ import { ChevronComponent } from '../chevron/chevron.component';
     styleUrls: ['./actions-dropdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, MatButtonModule, MatMenuModule, IconComponent, ChevronComponent]
+    imports: [MatButton, MatMenu, MatMenuTrigger, MatMenuItem, IconComponent, ChevronComponent]
 })
 export class ActionsDropdownComponent implements OnInit {
 

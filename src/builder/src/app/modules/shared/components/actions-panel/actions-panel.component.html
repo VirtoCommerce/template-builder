@@ -1,4 +1,5 @@
-<app-action-buttons class="p-4"
-                    *ngFor="let panel of panels"
-                    [actions]="panel"
-                    (onClick)="onActionExecuted($event)"></app-action-buttons>
+@for (panel of panels; track panel) {
+  <app-action-buttons class="p-4"
+    [actions]="panel"
+  (onClick)="onActionExecuted($event)"></app-action-buttons>
+}

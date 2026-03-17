@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { NgIf, NgClass } from '@angular/common';
-import { MatSliderModule } from '@angular/material/slider';
+import { NgClass } from '@angular/common';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 
 import { EnvironmentRef } from '@integration/services';
 import { BaseControlDirective } from '@core/controls/base-control.directive';
@@ -12,7 +12,7 @@ import { NumberDescriptor } from '@models/controls';
   styleUrls: ['./number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, NgClass, MatSliderModule]
+  imports: [NgClass, MatSlider, MatSliderThumb]
 })
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     private readonly windowRef = inject(EnvironmentRef);

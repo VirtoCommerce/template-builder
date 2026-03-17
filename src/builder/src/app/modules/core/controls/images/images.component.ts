@@ -1,8 +1,8 @@
 import { AssetFile } from '@core/models';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { CdkDragDrop, CdkDragEnter, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 import { BaseFilesComponent } from '../base-files.component';
@@ -18,9 +18,7 @@ import { ControlsListComponent } from '@core/dynamics/controls-list/controls-lis
     templateUrl: './images.component.html',
     styleUrls: ['./images.component.scss'],
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, NgStyle, DragDropModule, MatProgressSpinnerModule,
-              FileUploadModule, ChevronComponent, IconComponent, DragHandleComponent,
-              IconButtonComponent, ControlsListComponent]
+    imports: [NgClass, NgStyle, DragDropModule, MatProgressSpinner, FileUploadModule, ChevronComponent, IconComponent, DragHandleComponent, IconButtonComponent, ControlsListComponent]
 })
 export class ImagesComponent extends BaseFilesComponent<ImagesDescriptor> {
 

@@ -1,35 +1,42 @@
 <label [attr.title]="descriptor?.hint" class="pb-label collection-title">{{ descriptor?.label }}</label>
-<p *ngIf="descriptor?.info" class="info">{{ descriptor?.info }}</p>
+@if (descriptor?.info) {
+  <p class="info">{{ descriptor?.info }}</p>
+}
 <div class="collection-wrapper" [formGroup]="form" cdkDropList (cdkDropListDropped)="reorderItems($event)">
-    <div formArrayName="list" *ngFor="let item of collectionFormArray.controls; let i = index">
-        <div class="item-wrapper"
-             cdkDragBoundary=".collection-wrapper"
-             cdkDragLockAxis="y"
-             cdkDrag>
-            <div class="label-wrapper"
-                 [ngClass]="{ expanded: openedItem === item }"
-                 (mouseenter)="hoverItem = item"
-                 (mouseleave)="hoverItem = null"
-                 (click)="toggle(item)">
-                <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem"></app-chevron>
-                <!-- <app-icon class="chevron">chevron_right</app-icon> -->
-                <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item) }}</label>
-                <app-context-menu [actions]="itemActions"
-                                  [visible]="hoverItem === item"
-                                  (onAction)="onActionClick($event, item, i)"></app-context-menu>
-                <app-drag-handle [visible]="hoverItem === item" cdkDragHandle></app-drag-handle>
-            </div>
-            <div class="editor-wrapper" *ngIf="item === openedItem">
-                <app-controls-list [currentForm]="$any(item)"
-                                   [descriptors]="getDescriptors()"
-                                   [context]="getContext($any(item), i)"></app-controls-list>
-            </div>
+  @for (item of collectionFormArray.controls; track item; let i = $index) {
+    <div formArrayName="list">
+      <div class="item-wrapper"
+        cdkDragBoundary=".collection-wrapper"
+        cdkDragLockAxis="y"
+        cdkDrag>
+        <div class="label-wrapper"
+          [ngClass]="{ expanded: openedItem === item }"
+          (mouseenter)="hoverItem = item"
+          (mouseleave)="hoverItem = null"
+          (click)="toggle(item)">
+          <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem"></app-chevron>
+          <!-- <app-icon class="chevron">chevron_right</app-icon> -->
+          <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item) }}</label>
+          <app-context-menu [actions]="itemActions"
+            [visible]="hoverItem === item"
+          (onAction)="onActionClick($event, item, i)"></app-context-menu>
+          <app-drag-handle [visible]="hoverItem === item" cdkDragHandle></app-drag-handle>
         </div>
+        @if (item === openedItem) {
+          <div class="editor-wrapper">
+            <app-controls-list [currentForm]="$any(item)"
+              [descriptors]="getDescriptors()"
+            [context]="getContext($any(item), i)"></app-controls-list>
+          </div>
+        }
+      </div>
     </div>
+  }
+  @if (canAddItem()) {
     <app-icon-button class="add-button"
-                     icon="add"
-                     skin="blue"
-                     *ngIf="canAddItem()"
-                     [text]="descriptor?.addText || 'Add item'"
-                     (click)="addItem()"></app-icon-button>
+      icon="add"
+      skin="blue"
+      [text]="descriptor?.addText || 'Add item'"
+    (click)="addItem()"></app-icon-button>
+  }
 </div>

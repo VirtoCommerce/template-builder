@@ -1,15 +1,19 @@
 <div class="form-wrapper">
-    <div *ngIf="form">
-        <form [formGroup]="form">
-            <app-controls-tabs [currentForm]="form"
-                               [descriptors]="descriptors"
-                               [context]="context">
-            </app-controls-tabs>
-        </form>
+  @if (form) {
+    <div>
+      <form [formGroup]="form">
+        <app-controls-tabs [currentForm]="form"
+          [descriptors]="descriptors"
+          [context]="context">
+        </app-controls-tabs>
+      </form>
     </div>
-    <div *ngIf="!descriptors || !descriptors.length">
-        <p class="p-4">
-            No settings for current section / block
-        </p>
+  }
+  @if (!descriptors || !descriptors.length) {
+    <div>
+      <p class="p-4">
+        No settings for current section / block
+      </p>
     </div>
+  }
 </div>

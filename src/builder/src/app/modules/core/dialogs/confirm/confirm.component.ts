@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IconComponent } from '@core/components/icon/icon.component';
 import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
 
@@ -10,7 +10,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     styleUrls: ['./confirm.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, MatDialogModule, IconComponent, IconButtonComponent]
+    imports: [MatDialogContent, MatDialogActions, IconComponent, IconButtonComponent]
 })
 export class ConfirmComponent implements OnInit {
 

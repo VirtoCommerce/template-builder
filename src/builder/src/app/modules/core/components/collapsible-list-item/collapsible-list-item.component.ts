@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgIf, NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { ChevronComponent } from '../chevron/chevron.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { ChevronComponent } from '../chevron/chevron.component';
     styleUrls: ['./collapsible-list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgClass, NgStyle, ChevronComponent]
+    imports: [NgClass, NgStyle, ChevronComponent]
 })
 export class CollapsibleListItemComponent implements OnInit {
 

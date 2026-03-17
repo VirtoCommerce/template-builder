@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-icon',
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
     styleUrls: ['./icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [MatIconModule]
+    imports: [MatIcon]
 })
 export class IconComponent implements OnInit {
 

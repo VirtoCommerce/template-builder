@@ -1,7 +1,7 @@
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgClass, NgStyle } from '@angular/common';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 import { FilesDescriptor } from '@models/controls';
@@ -17,9 +17,7 @@ import { ControlsListComponent } from '@core/dynamics/controls-list/controls-lis
     templateUrl: './files.component.html',
     styleUrls: ['./files.component.scss'],
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, NgStyle, DragDropModule, MatProgressBarModule,
-              FileUploadModule, ChevronComponent, IconComponent, DragHandleComponent,
-              IconButtonComponent, ControlsListComponent]
+    imports: [NgClass, NgStyle, DragDropModule, MatProgressBar, FileUploadModule, ChevronComponent, IconComponent, DragHandleComponent, IconButtonComponent, ControlsListComponent]
 })
 export class FilesComponent extends BaseFilesComponent<FilesDescriptor> {
 

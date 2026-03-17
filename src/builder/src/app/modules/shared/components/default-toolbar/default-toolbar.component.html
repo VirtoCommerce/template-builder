@@ -1,10 +1,12 @@
 <app-preview-mode></app-preview-mode>
 <!-- <app-custom-actions></app-custom-actions> -->
 <div class="grow flex justify-center p-0">
-    <app-template-selector *ngIf="displayTemplateSelector"></app-template-selector>
+  @if (displayTemplateSelector) {
+    <app-template-selector></app-template-selector>
+  }
 </div>
-<ng-container *ngIf="panels">
-    <app-actions-panel [panels]="panels"
-                       (actionExecuted)="onActionExecuted($event)">
-    </app-actions-panel>
-</ng-container>
+@if (panels) {
+  <app-actions-panel [panels]="panels"
+    (actionExecuted)="onActionExecuted($event)">
+  </app-actions-panel>
+}

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { NgIf, NgFor, NgClass, NgStyle, AsyncPipe } from '@angular/common';
+import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
 import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 import { PanelComponent } from '@core/components/panel/panel.component';
@@ -29,7 +29,7 @@ import { domHelpers } from '@core/helpers';
     styleUrls: ['./template-editor.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush
     standalone: true,
-    imports: [NgIf, NgFor, NgClass, NgStyle, AsyncPipe, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
+    imports: [NgClass, NgStyle, AsyncPipe, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
 })
 export class TemplateEditorComponent implements OnInit {
 

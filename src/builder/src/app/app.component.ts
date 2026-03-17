@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
 import * as actions from '@shared/store/actions';
@@ -21,7 +21,7 @@ import { FullscreenLoaderComponent } from './layout/fullscreen-loader/fullscreen
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, AsyncPipe, RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
+    imports: [AsyncPipe, RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
 })
 export class AppComponent implements OnInit {
 

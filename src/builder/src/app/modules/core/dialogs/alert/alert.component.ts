@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-alert',
@@ -7,23 +7,15 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
     styleUrls: ['./alert.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [MatDialogModule]
+    imports: [MatDialogContent, MatDialogActions]
 })
-export class AlertComponent implements OnInit {
+export class AlertComponent {
 
-    title: string;
+    private readonly dialogRef = inject(MatDialogRef<AlertComponent>);
+    private readonly data = inject(MAT_DIALOG_DATA);
 
-    confirmText: string;
-
-    constructor(
-        private dialogRef: MatDialogRef<AlertComponent>,
-        @Inject(MAT_DIALOG_DATA) data: any
-    ) {
-        this.title = data.title;
-        this.confirmText = data.confirmText || 'ОК';
-    }
-
-    ngOnInit(): void { }
+    readonly title: string = this.data.title;
+    readonly confirmText: string = this.data.confirmText || 'ОК';
 
     confirm() {
         this.dialogRef.close();
