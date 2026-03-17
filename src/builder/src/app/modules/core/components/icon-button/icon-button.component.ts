@@ -10,7 +10,7 @@ import { IconComponent } from '../icon/icon.component';
     standalone: true,
     imports: [NgClass, IconComponent]
 })
-export class IconButtonComponent implements OnInit {
+export class IconButtonComponent {
 
     @Input() icon?: string;
     @Input() text?: string;
@@ -18,9 +18,6 @@ export class IconButtonComponent implements OnInit {
     @Input() disabled: boolean = false;
 
     @Output() onClick = new EventEmitter<MouseEvent>();
-
-    ngOnInit(): void {
-    }
 
     raiseOnClick(event: MouseEvent) {
         this.onClick.emit(event);

@@ -1,5 +1,5 @@
 import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, inject } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ContextMenuAction, ContextMenuActionType } from '@core/models';
@@ -13,7 +13,7 @@ import { IconComponent } from '../icon/icon.component';
     standalone: true,
     imports: [NgClass, NgStyle, OverlayModule, IconComponent]
 })
-export class ContextMenuComponent implements OnInit, AfterViewInit {
+export class ContextMenuComponent {
 
     @Input() actions: ContextMenuAction[] | null = null;
     @Input() visible: boolean = false;
@@ -26,16 +26,6 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
     private readonly cdr = inject(ChangeDetectorRef);
     isOpen = false;
     positions: ConnectedPosition[] = [];
-
-    ngAfterViewInit(): void {
-        // this.overlay.positionChange.subscribe(x => {
-        //     console.log(x);
-        // });
-    }
-
-    ngOnInit(): void {
-
-    }
 
     evaluateFunction(func: boolean | (() => boolean) | undefined): boolean {
         if (typeof func === 'function') {

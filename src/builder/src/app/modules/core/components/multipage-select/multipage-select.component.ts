@@ -46,7 +46,7 @@ import { IconComponent } from '../icon/icon.component';
         // )
     ]
 })
-export class MultipageSelectComponent implements OnInit {
+export class MultipageSelectComponent {
 
     @Input() panelClass: string = '';
 
@@ -66,9 +66,6 @@ export class MultipageSelectComponent implements OnInit {
 
     get currentLabel(): string {
         return this.current?.title || this.default?.title || '';
-    }
-
-    ngOnInit(): void {
     }
 
     close() {
