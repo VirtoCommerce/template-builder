@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
@@ -14,14 +14,9 @@ import { ControlsGroupComponent } from '@core/dynamics/controls-group/controls-g
     standalone: true,
     imports: [ReactiveFormsModule, ControlsListComponent, ControlsGroupComponent]
 })
-export class ControlsTabComponent implements OnInit {
-
-    @Input() tab!: TabModel;
-    @Input() state!: GroupsStateModel;
-    @Input() currentForm!: UntypedFormGroup;
-    @Input() context!: ControlContext;
-
-    ngOnInit(): void {
-    }
-
+export class ControlsTabComponent {
+    readonly tab = input.required<TabModel>();
+    readonly state = input.required<GroupsStateModel>();
+    readonly currentForm = input.required<UntypedFormGroup>();
+    readonly context = input.required<ControlContext>();
 }

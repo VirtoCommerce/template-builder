@@ -3,7 +3,7 @@ import { switchMap } from 'rxjs';
 import { tap } from 'rxjs';
 import { of } from 'rxjs';
 import { DataService } from '@core/services';
-import { ChangeDetectorRef, Component, DestroyRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, viewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
 import { concat, Observable, Subject } from 'rxjs';
@@ -38,7 +38,7 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     searchEvent$ = new Subject<string>();
     loading: boolean = false;
 
-    @ViewChild('selectControl', { static: true }) select!: NgSelectComponent;
+    readonly select = viewChild.required(NgSelectComponent);
 
     raiseValueChanged(event: any) { }
 

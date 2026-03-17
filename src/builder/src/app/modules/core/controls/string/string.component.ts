@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 
 import { BaseControlDirective } from '@core/controls/base-control.directive';
@@ -14,13 +14,13 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     imports: [KeyValuePipe, IconButtonComponent]
 })
 export class StringComponent extends BaseControlDirective<StringDescriptor> {
-    @ViewChild('control') control!: ElementRef;
-    @ViewChild('textarea') textarea!: ElementRef;
+    readonly control = viewChild.required<ElementRef>('control');
+    readonly textarea = viewChild.required<ElementRef>('textarea');
 
     override getFocusableControl(): ElementRef {
         return this.descriptor?.multiline
-            ? this.textarea
-            : this.control;
+            ? this.textarea()
+            : this.control();
     }
 
     raiseOnChange(event: Event) {

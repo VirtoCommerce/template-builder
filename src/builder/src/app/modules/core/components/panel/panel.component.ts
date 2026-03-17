@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ChangeDetectorRef, inject, viewChild } from '@angular/core';
 import { NgScrollbar } from 'ngx-scrollbar';
 
 @Component({
@@ -12,14 +12,13 @@ export class PanelComponent implements AfterViewInit {
 
     private readonly cdr = inject(ChangeDetectorRef);
 
-    @ViewChild('panelFooterRef') panelFooterRef!: ElementRef;
-    @ViewChild('panelBody') panelBody!: ElementRef;
-    // @ViewChild(PerfectScrollbarDirective, { static: false }) perfectScrollbarDirectiveRef?: PerfectScrollbarDirective;
+    readonly panelFooterRef = viewChild.required<ElementRef>('panelFooterRef');
+    readonly panelBody = viewChild.required<ElementRef>('panelBody');
 
     hasFooter = true;
 
     ngAfterViewInit(): void {
-        this.hasFooter = (<HTMLDivElement>this.panelFooterRef.nativeElement).children.length > 0;
+        this.hasFooter = (<HTMLDivElement>this.panelFooterRef().nativeElement).children.length > 0;
         this.cdr.detectChanges();
     }
 }

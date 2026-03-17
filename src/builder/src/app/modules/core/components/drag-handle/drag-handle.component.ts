@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
@@ -10,14 +10,12 @@ import { IconComponent } from '../icon/icon.component';
     standalone: true,
     imports: [NgStyle, IconComponent]
 })
-export class DragHandleComponent implements OnInit {
+export class DragHandleComponent {
 
-    @HostBinding('class.visible')
-    @Input() visible = false;
-    @Input() info: string = '';
+    readonly visible = input(false);
+    readonly info = input('');
 
-    ngOnInit(): void {
-    }
+    @HostBinding('class.visible') get visibleClass() { return this.visible(); }
 
     onClick(event: MouseEvent) {
         event.stopPropagation();

@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, DestroyRef, HostBinding, HostListener, inject } from '@angular/core';
+import { ChangeDetectorRef, DestroyRef, HostBinding, HostListener, inject } from '@angular/core';
 import { EnvironmentRef } from '@integration/services';
-import { Component, Input, ElementRef } from '@angular/core';
-import { Observable, of, delay } from 'rxjs';
+import { Component, input, ElementRef } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
@@ -19,8 +18,10 @@ export class OverlapPanelComponent {
     private readonly elementRef = inject(ElementRef);
     private readonly destroyRef = inject(DestroyRef);
 
-    @Input() expandable = true;
-    @HostBinding("class.inplace") @Input() skipTranslate: boolean | null = false;
+    readonly expandable = input(true);
+    readonly skipTranslate = input<boolean | null>(false);
+
+    @HostBinding("class.inplace") get skipTranslateClass() { return this.skipTranslate(); }
 
     @HostListener('window:resize')
     onResize() {
@@ -54,17 +55,5 @@ export class OverlapPanelComponent {
             this.cdr.detectChanges();
         });
     }
-
-    // getContentWidth(): number | null {
-    //     if (this.isOpened) {
-    //         return this.windowRef.nativeWindow.innerWidth / 2;
-    //     }
-    //     return null;
-    // }
-
-    // getPanelWidth(): number {
-    //     this.cdr.detectChanges();
-    //     return this.getContentWidth() || this.elementRef.nativeElement.offsetWidth;
-    // }
 
 }

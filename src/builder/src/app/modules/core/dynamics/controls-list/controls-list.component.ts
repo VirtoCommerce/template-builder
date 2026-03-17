@@ -1,5 +1,5 @@
 import { DisplayTextDescriptor } from '@models/controls';
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
@@ -18,10 +18,9 @@ import { ControlHolderComponent } from '@core/dynamics/control-holder.component'
 })
 export class ControlsListComponent {
 
-    // @Input() sectionModel!: SectionModel;
-    @Input() currentForm!: UntypedFormGroup;
-    @Input() context!: ControlContext;
-    @Input() descriptors!: BaseControlDescriptor[]; // todo: controls order
+    readonly currentForm = input.required<UntypedFormGroup>();
+    readonly context = input.required<ControlContext>();
+    readonly descriptors = input.required<BaseControlDescriptor[]>(); // todo: controls order
 
     getContent(control: BaseControlDescriptor): string {
         const result = <DisplayTextDescriptor>control;
@@ -31,7 +30,7 @@ export class ControlsListComponent {
     checkVisibility(descriptor: BaseControlDescriptor): boolean {
         if (!!descriptor.visibility && !descriptor.hidden) {
             try {
-                const result = appHelpers.evalInContext(descriptor.visibility!, this.context);
+                const result = appHelpers.evalInContext(descriptor.visibility!, this.context());
                 return result;
             } catch (error) {
                 console.error(error);

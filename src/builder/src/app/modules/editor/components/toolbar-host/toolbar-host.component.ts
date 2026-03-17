@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
@@ -17,7 +17,7 @@ import { DefaultToolbarComponent } from '@shared/components/default-toolbar/defa
     standalone: true,
     imports: [AsyncPipe, DefaultToolbarComponent]
 })
-export class ToolbarHostComponent implements OnInit {
+export class ToolbarHostComponent {
 
     private readonly store$ = inject(Store<BuilderState>);
     private readonly appConfig = inject(AppConfig);
@@ -29,9 +29,6 @@ export class ToolbarHostComponent implements OnInit {
             useExternalPreview: !!this.appConfig.getValue('externalPreview')
         }
     ));
-
-    ngOnInit(): void {
-    }
 
     onActionExecuted(action: string) {
         this.store$.dispatch(actions.executeToolbarAction({ action }));

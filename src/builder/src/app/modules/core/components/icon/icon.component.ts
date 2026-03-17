@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -9,13 +9,12 @@ import { MatIcon } from '@angular/material/icon';
     standalone: true,
     imports: [MatIcon]
 })
-export class IconComponent implements OnInit {
+export class IconComponent {
+    readonly inline = input<boolean>(false);
+    readonly hoverable = input<boolean>(false);
+    readonly smallSize = input<boolean>(false);
 
-    @Input() @HostBinding('class.inline') inline: boolean = false;
-    @Input() @HostBinding('class.hoverable') hoverable: boolean = false;
-    @Input() @HostBinding('class.small-size') smallSize: boolean = false;
-
-    ngOnInit(): void {
-    }
-
+    @HostBinding('class.inline') get inlineClass() { return this.inline(); }
+    @HostBinding('class.hoverable') get hoverableClass() { return this.hoverable(); }
+    @HostBinding('class.small-size') get smallSizeClass() { return this.smallSize(); }
 }

@@ -1,4 +1,4 @@
-<div [formGroup]="currentForm">
+<div [formGroup]="currentForm()">
   @if (hasTabs) {
     <mat-tab-group mat-align-tabs="center">
       @for (tab of tabs; track tab) {
@@ -8,8 +8,8 @@
           <app-controls-tab
             [tab]="tab"
             [state]="groupsState"
-            [currentForm]="currentForm"
-            [context]="context">
+            [currentForm]="currentForm()"
+            [context]="context()">
           </app-controls-tab>
         </mat-tab>
       }
@@ -19,8 +19,8 @@
     <app-controls-tab
       [tab]="tabs[0]"
       [state]="groupsState"
-      [currentForm]="currentForm"
-      [context]="context">
+      [currentForm]="currentForm()"
+      [context]="context()">
     </app-controls-tab>
   }
 </div>

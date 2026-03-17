@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ActionButtonDescriptor } from '@core/models';
 import { ActionsDropdownComponent } from '@core/components/actions-dropdown/actions-dropdown.component';
@@ -11,7 +11,7 @@ import { ActionsDropdownComponent } from '@core/components/actions-dropdown/acti
     standalone: true,
     imports: [ActionsDropdownComponent]
 })
-export class CustomActionsComponent implements OnInit {
+export class CustomActionsComponent {
 
     actions: ActionButtonDescriptor[] = [
         {
@@ -35,8 +35,4 @@ export class CustomActionsComponent implements OnInit {
             alias: ''
         }
     ];
-
-    ngOnInit(): void {
-    }
-
 }

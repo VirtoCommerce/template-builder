@@ -1,5 +1,5 @@
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { ColorTwitterModule } from 'ngx-color/twitter';

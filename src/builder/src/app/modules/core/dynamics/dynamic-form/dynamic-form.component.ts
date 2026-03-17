@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, OnInit, Output, EventEmitter, ChangeDetectorRef, NgZone, inject } from '@angular/core';
+import { Component, DestroyRef, Input, input, OnInit, output, ChangeDetectorRef, NgZone, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
@@ -38,7 +38,7 @@ export class DynamicFormComponent implements OnInit {
             this.generateForm(true);
         }
     }
-    @Input() context!: ControlContext;
+    readonly context = input.required<ControlContext>();
     @Input() get descriptors(): BaseControlDescriptor[] {
         return this._descriptors;
     }
@@ -48,7 +48,7 @@ export class DynamicFormComponent implements OnInit {
             this.generateForm();
         }
     }
-    @Output() modelChanged = new EventEmitter<ModelChangedEventArgs>();
+    readonly modelChanged = output<ModelChangedEventArgs>();
 
     form: UntypedFormGroup | null = null;
 

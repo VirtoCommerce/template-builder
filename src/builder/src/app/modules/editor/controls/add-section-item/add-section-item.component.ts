@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { cutString, stripHtmlTags } from '@app/modules/integration/helpers/utils';
 import { BaseControlDescriptor, SectionPropertyDescriptor } from '@app/modules/models';
@@ -14,18 +14,15 @@ import { IconComponent } from '@core/components/icon/icon.component';
     standalone: true,
     imports: [NgClass, IconComponent]
 })
-export class AddSectionItemComponent implements OnInit {
+export class AddSectionItemComponent {
 
-    @Input() section!: SectionSchema;
-    @Input() inPreview: boolean = false;
-    @Input() child: boolean = false;
-    @Input() descriptor: BaseControlDescriptor | undefined;
+    readonly section = input.required<SectionSchema>();
+    readonly inPreview = input(false);
+    readonly child = input(false);
+    readonly descriptor = input<BaseControlDescriptor | undefined>(undefined);
 
-    @Output() onPreview = new EventEmitter();
-    @Output() onAdd = new EventEmitter();
-
-    ngOnInit(): void {
-    }
+    readonly onPreview = output();
+    readonly onAdd = output();
 
     raiseOnPreview() {
         this.onPreview.emit();
@@ -33,11 +30,12 @@ export class AddSectionItemComponent implements OnInit {
 
     getSectionName(): string {
         const properties = ['name', 'type'];
-        if (this.descriptor && this.descriptor.displayPropertyName) {
-            const otherPropertiese = Array.isArray(this.descriptor.displayPropertyName) ? this.descriptor.displayPropertyName : [this.descriptor.displayPropertyName];
+        const descriptor = this.descriptor();
+        if (descriptor && descriptor.displayPropertyName) {
+            const otherPropertiese = Array.isArray(descriptor.displayPropertyName) ? descriptor.displayPropertyName : [descriptor.displayPropertyName];
             properties.splice(0, 0, ...otherPropertiese);
         }
-        const v = <any>this.section;
+        const v = <any>this.section();
         const result = properties.find(x => !!v[x])!;
         return cutString(stripHtmlTags(v[result]));
     }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, viewChild, inject } from '@angular/core';
 import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
 import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
@@ -36,7 +36,7 @@ export class TemplateEditorComponent {
     private readonly store = inject(Store<BuilderState>);
     private readonly helper = inject(ContextMenuHelper);
 
-    @ViewChild('container') container!: ElementRef<HTMLDivElement>;
+    readonly container = viewChild.required<ElementRef<HTMLDivElement>>('container');
 
     viewModel$ = this.store.select(fromState.editTemplateContext);
 
@@ -121,7 +121,7 @@ export class TemplateEditorComponent {
     };
 
     onMouseMove(args: MouseEvent) {
-        let target = this.container.nativeElement;
+        let target = this.container().nativeElement;
         const rect = target.getBoundingClientRect();
         const top = args.clientY - rect.top;
 

@@ -1,14 +1,14 @@
 <div>
   <div class="group-title"
     matRipple
-    [ngClass]="{opened: opened}"
+    [ngClass]="{opened: opened()}"
     (click)="onOpenedChanged()">
     <div class="grow">
-      {{ label }}
+      {{ label() }}
     </div>
-    <app-chevron [vertical]="true" [opened]="opened"></app-chevron>
+    <app-chevron [vertical]="true" [opened]="opened()"></app-chevron>
   </div>
-  @if (opened) {
+  @if (opened()) {
     <div class="group-body">
       <ng-content></ng-content>
     </div>

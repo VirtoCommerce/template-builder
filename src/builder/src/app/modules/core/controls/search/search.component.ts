@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DestroyRef, ElementRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ElementRef, viewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { JsonPipe } from '@angular/common';
 import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
@@ -28,7 +28,7 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     private readonly assets = inject(AssetsService);
     private searchEvent$ = new Subject<string | null>();
 
-    @ViewChild('control') control!: ElementRef;
+    readonly control = viewChild.required<ElementRef>('control');
 
     override setControlValue(value: any) {
         if (!value) {
@@ -123,7 +123,7 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     }
 
     override getFocusableControl(): ElementRef {
-        return this.control;
+        return this.control();
     }
 
     onTextChange(event: Event) {

@@ -1,5 +1,5 @@
 import { CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { BlockStatesList, SectionsSchemasList } from '@editor/models';
 import { ReorderItemsModel } from '@core/models';
@@ -17,15 +17,15 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     standalone: true,
     imports: [NgClass, DragDropModule, SectionItemComponent, DragHandleComponent, IconButtonComponent]
 })
-export class SectionChildrenListComponent implements OnInit {
+export class SectionChildrenListComponent {
 
     private _fakeElement: HTMLElement | null = null;
 
     currentHoverId: string | null = null;
     selectedBlocksCount = 0;
 
-    @Input() section!: SectionModel;
-    @Input() blocksSchemas!: SectionsSchemasList;
+    readonly section = input.required<SectionModel>();
+    readonly blocksSchemas = input.required<SectionsSchemasList>();
     private _states!: BlockStatesList;
     public get states(): BlockStatesList {
         return this._states;
@@ -35,19 +35,16 @@ export class SectionChildrenListComponent implements OnInit {
         this.selectedBlocksCount = Object.values(value || {}).filter(x => x.selected).length;
         this._states = value;
     }
-    @Input() selectMode: boolean = false;
+    readonly selectMode = input(false);
 
-    @Output() itemClick = new EventEmitter<SectionModel>();
-    @Output() checkChanged = new EventEmitter<{ blockId: string, selected: boolean }>();
-    @Output() addBlockClick = new EventEmitter();
-    @Output() reorderBlocks = new EventEmitter<ReorderItemsModel>();
-    @Output() executeAction = new EventEmitter<{ action: string, block: SectionModel }>();
-
-    ngOnInit(): void {
-    }
+    readonly itemClick = output<SectionModel>();
+    readonly checkChanged = output<{ blockId: string, selected: boolean }>();
+    readonly addBlockClick = output();
+    readonly reorderBlocks = output<ReorderItemsModel>();
+    readonly executeAction = output<{ action: string, block: SectionModel }>();
 
     onReorderBlocks(event: CdkDragSortEvent<SectionModel>) {
-        this.reorderBlocks.emit({ item: event.item.data, currentIndex: event.currentIndex, previousIndex: event.previousIndex, parent: this.section });
+        this.reorderBlocks.emit({ item: event.item.data, currentIndex: event.currentIndex, previousIndex: event.previousIndex, parent: this.section() });
     }
 
     onItemClick(block: SectionModel) {

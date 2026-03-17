@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { IconWithPreviewComponent } from '@core/components/icon-with-preview/icon-with-preview.component';
 
@@ -17,8 +17,8 @@ export class PresetsIconComponent {
     color!: string;
     letter!: string;
 
-    @Input() icon?: string | null = undefined;
-    @Input() preview?: string | null = undefined;
+    readonly icon = input<string | null | undefined>(undefined);
+    readonly preview = input<string | null | undefined>(undefined);
 
     @Input() get name(): string {
         return this._name;

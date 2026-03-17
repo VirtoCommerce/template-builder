@@ -1,9 +1,8 @@
 import { Store } from '@ngrx/store';
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import * as actions from '@shared/store/actions';
 import * as sharedSelectors from '@shared/store/selectors';
 import * as editorSelectors from '@editor/store/selectors';
 import * as themeSelectors from '@theme/store/selectors';
@@ -23,7 +22,7 @@ import { FullscreenLoaderComponent } from './layout/fullscreen-loader/fullscreen
     standalone: true,
     imports: [AsyncPipe, RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
     private store$ = inject(Store<SharedState & EditorState & ThemeState>);
 
@@ -38,6 +37,4 @@ export class AppComponent implements OnInit {
             // this.store$.dispatch(actions.closeAllPanels());
         }
     }
-
-    ngOnInit() { }
 }

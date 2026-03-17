@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ModelChangedEventArgs, ControlContext } from '@core/models';
 import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
 import { PanelComponent } from '@core/components/panel/panel.component';
@@ -13,17 +13,14 @@ import { IconComponent } from '@core/components/icon/icon.component';
     standalone: true,
     imports: [OverlapPanelComponent, PanelComponent, DynamicFormComponent, IconComponent]
 })
-export class SettingsPanelComponent implements OnInit {
+export class SettingsPanelComponent {
 
-    @Input() settings: any;
-    @Input() group: any;
-    @Input() context!: ControlContext;
+    readonly settings = input<any>();
+    readonly group = input<any>();
+    readonly context = input.required<ControlContext>();
 
-    @Output() backClick = new EventEmitter();
-    @Output() settingsChanged = new EventEmitter<ModelChangedEventArgs>();
-
-    ngOnInit(): void {
-    }
+    readonly backClick = output();
+    readonly settingsChanged = output<ModelChangedEventArgs>();
 
     onBackClick() {
         this.backClick.emit();

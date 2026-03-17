@@ -1,4 +1,4 @@
-@for (action of actions; track action) {
+@for (action of actions(); track action) {
   <app-icon-button [icon]="action.icon"
     [text]="action.title"
     [skin]="action.type"

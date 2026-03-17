@@ -1,6 +1,6 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { IconComponent } from '@core/components/icon/icon.component';
 import { ChevronComponent } from '@core/components/chevron/chevron.component';
@@ -14,19 +14,15 @@ import { AddSectionItemComponent } from '@editor/controls/add-section-item/add-s
     standalone: true,
     imports: [IconComponent, ChevronComponent, AddSectionItemComponent]
 })
-export class AddSectionGroupComponent implements OnInit {
+export class AddSectionGroupComponent {
 
-    @Input() group!: ItemsGroup<SectionSchema>;
-    @Input() opened: boolean = false;
+    readonly group = input.required<ItemsGroup<SectionSchema>>();
+    readonly opened = input(false);
+    readonly underPreviewType = input<string | null>(null);
 
-    @Input() underPreviewType: string | null = null;
-
-    @Output() onAdd = new EventEmitter<SectionSchema>();
-    @Output() onPreview = new EventEmitter<SectionSchema>();
-    @Output() onOpened = new EventEmitter();
-
-    ngOnInit(): void {
-    }
+    readonly onAdd = output<SectionSchema>();
+    readonly onPreview = output<SectionSchema>();
+    readonly onOpened = output();
 
     raiseOnAdd(section: SectionSchema) {
         this.onAdd.emit(section);

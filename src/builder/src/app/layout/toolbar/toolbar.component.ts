@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router, RouterOutlet } from '@angular/router';
 import { LogoComponent } from '@core/components/logo/logo.component';
@@ -11,13 +11,10 @@ import { ToolbarPlaceholderDirective } from './toolbar-placeholder.directive';
     standalone: true,
     imports: [LogoComponent, ToolbarPlaceholderDirective]
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
 
     private readonly router = inject(Router);
     private readonly store = inject(Store);
-
-    ngOnInit() {
-    }
 
     routerOutletActivated(ro: RouterOutlet) {
     }

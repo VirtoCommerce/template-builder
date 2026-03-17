@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { ActionButtonDescriptor } from '@core/models';
 import { IconButtonComponent } from '../icon-button/icon-button.component';
@@ -11,14 +11,11 @@ import { IconButtonComponent } from '../icon-button/icon-button.component';
     standalone: true,
     imports: [IconButtonComponent]
 })
-export class ActionButtonsComponent implements OnInit {
+export class ActionButtonsComponent {
 
-    @Input() actions: ActionButtonDescriptor[] = [];
+    readonly actions = input<ActionButtonDescriptor[]>([]);
 
-    @Output() onClick = new EventEmitter<ActionButtonDescriptor>();
-
-    ngOnInit(): void {
-    }
+    readonly onClick = output<ActionButtonDescriptor>();
 
     raiseOnClick(action: ActionButtonDescriptor) {
         this.onClick.emit(action);

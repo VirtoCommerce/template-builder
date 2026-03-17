@@ -1,5 +1,5 @@
 <div class="section-item"
-  [ngClass]="{'hidden': section.hidden}"
+  [ngClass]="{'hidden': section().hidden}"
   (click)="onItemClick($event)"
   (mouseover)="onItemHover()"
   (mouseenter)="isHover = true"
@@ -10,13 +10,13 @@
     }
     @if (displayCheckbox) {
       <app-checkbox
-        [controlValue]="selected"
+        [controlValue]="selected()"
         (valueChanged)="onCheckboxValueChanged($event)"
       (click)="onCheckboxClick($event)"></app-checkbox>
     }
   </div>
-  <div class="name" title="{{ getSectionName() }} ({{ section.id }})">{{ getSectionName() }}</div>
-  @if (hasContextMenu) {
+  <div class="name" title="{{ getSectionName() }} ({{ section().id }})">{{ getSectionName() }}</div>
+  @if (hasContextMenu()) {
     <app-context-menu [getActions]="getItemActions"
       [visible]="isHover"
     (onAction)="onActionClick($event)"></app-context-menu>

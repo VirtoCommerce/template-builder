@@ -2,7 +2,7 @@
 <div class="content" [style.width.px]="contentWidth">
   <ng-content></ng-content>
 </div>
-@if (expandable) {
+@if (expandable()) {
   <div
     class="expand"
     [style.left.px]="expanderPosition"

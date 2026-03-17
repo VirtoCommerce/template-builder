@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 
@@ -16,7 +16,7 @@ import { NumberDescriptor } from '@models/controls';
 })
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     private readonly windowRef = inject(EnvironmentRef);
-    @ViewChild('control') control!: ElementRef<HTMLInputElement>;
+    readonly control = viewChild.required<ElementRef<HTMLInputElement>>('control');
 
     onPaste(event: ClipboardEvent) {
         const value = (event.clipboardData || this.windowRef.nativeWindow.clipboardData).getData('text');
@@ -44,6 +44,6 @@ export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     }
 
     override getFocusableControl(): ElementRef {
-        return this.control;
+        return this.control();
     }
 }

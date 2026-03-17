@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild, inject } from '@angular/core';
 
 import { ReactiveFormsModule, FormRecord, FormControl } from '@angular/forms';
 import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
 })
 export class SaveTemplateComponent {
 
-    @ViewChild('selectAllInput') selectAllInput!: ElementRef<HTMLInputElement>;
+    readonly selectAllInput = viewChild.required<ElementRef<HTMLInputElement>>('selectAllInput');
 
     private readonly dialogRef = inject(MatDialogRef<SaveTemplateComponent>);
     private readonly data = inject<{ entries: TemplateEntryInfo[] }>(MAT_DIALOG_DATA);
@@ -35,8 +35,8 @@ export class SaveTemplateComponent {
         const value = this.form.value;
         const checked = Object.keys(value).every(key => value[key]);
         const indeterminate = !checked && Object.keys(value).some(key => value[key]);
-        this.selectAllInput.nativeElement.indeterminate = indeterminate;
-        this.selectAllInput.nativeElement.checked = checked || indeterminate;
+        this.selectAllInput().nativeElement.indeterminate = indeterminate;
+        this.selectAllInput().nativeElement.checked = checked || indeterminate;
     }
 
     confirm() {

@@ -1,5 +1,5 @@
-<div [formGroup]="currentForm" class="controls-holder">
-  @for (control of descriptors; track control) {
+<div [formGroup]="currentForm()" class="controls-holder">
+  @for (control of descriptors(); track control) {
     <!-- Header or Paragraph -->
     @if (control.type === 'header') {
       <h2 class="control-title">{{ getContent(control) }}</h2>
@@ -15,8 +15,8 @@
 {{getInfo(control)}}</p> -->
 @if (checkVisibility(control) && control.type !== 'header' && control.type !== 'paragraph') {
   <app-control-holder [descriptor]="control"
-    [currentForm]="currentForm"
-    [context]="context"
+    [currentForm]="currentForm()"
+    [context]="context()"
     [formControlName]="control.id">
   </app-control-holder>
 }

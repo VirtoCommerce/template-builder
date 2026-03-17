@@ -1,4 +1,4 @@
-<div class="wrapper" [ngStyle]="{ opacity: isOpen || visible ? '1' : '0' }">
+<div class="wrapper" [ngStyle]="{ opacity: isOpen || visible() ? '1' : '0' }">
   <app-icon class="icon"
     cdkOverlayOrigin
     [ngClass]="{ 'opened': isOpen }"

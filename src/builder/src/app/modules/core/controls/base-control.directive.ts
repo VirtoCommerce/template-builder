@@ -1,4 +1,4 @@
-import { AfterContentInit, Directive, ElementRef, Input, OnInit, Output, EventEmitter } from "@angular/core";
+import { AfterContentInit, Directive, ElementRef, Input, OnInit, output } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { appHelpers } from "@app/modules/integration/helpers";
 // import { FormGroup } from '@angular/forms';
@@ -23,7 +23,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     onValueChanged = (value: any) => this.defaultValueChanged(value);
     onControlTouched = (_: any) => { };
 
-    @Output() valueChanged = new EventEmitter<any>();
+    readonly valueChanged = output<any>();
 
     ngOnInit(): void {
         this.initContent();

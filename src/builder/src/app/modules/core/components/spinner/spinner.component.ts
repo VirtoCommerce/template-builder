@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
@@ -9,9 +9,5 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     standalone: true,
     imports: [MatProgressSpinner]
 })
-export class SpinnerComponent implements OnInit {
-
-  ngOnInit(): void {
-  }
-
+export class SpinnerComponent {
 }

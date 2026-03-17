@@ -12,17 +12,17 @@
         activeItem.title }}</div>
       }
     }
-    @if (!active && !!defaultTitle) {
-      <div class="text default-title-text">{{ defaultTitle }}</div>
+    @if (!active() && !!defaultTitle()) {
+      <div class="text default-title-text">{{ defaultTitle() }}</div>
     }
-    @if (displayChevron) {
+    @if (displayChevron()) {
       <app-chevron [opened]="isOpened" [vertical]="true"></app-chevron>
     }
   </span>
 </button>
-<mat-menu #menu="matMenu" [class]="'menu-panel ' + panelClass || ''">
+<mat-menu #menu="matMenu" [class]="'menu-panel ' + panelClass() || ''">
   <div class="flex flex-col p-1">
-    @for (action of actions; track action) {
+    @for (action of actions(); track action) {
       <button mat-menu-item (click)="actionChoosed(action)">
         <span class="item-inner">
           @if (action.icon) {

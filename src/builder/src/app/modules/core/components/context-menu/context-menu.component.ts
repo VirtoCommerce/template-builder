@@ -1,5 +1,5 @@
 import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, inject } from '@angular/core';
+import { Component, Input, input, output, ChangeDetectionStrategy, ChangeDetectorRef, viewChild, inject } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ContextMenuAction, ContextMenuActionType } from '@core/models';
@@ -16,12 +16,12 @@ import { IconComponent } from '../icon/icon.component';
 export class ContextMenuComponent {
 
     @Input() actions: ContextMenuAction[] | null = null;
-    @Input() visible: boolean = false;
-    @Input() getActions: (() => Promise<ContextMenuAction[]>) | null = null;
+    readonly visible = input(false);
+    readonly getActions = input<(() => Promise<ContextMenuAction[]>) | null>(null);
 
-    @ViewChild(CdkConnectedOverlay) overlay!: CdkConnectedOverlay;
+    readonly overlay = viewChild.required(CdkConnectedOverlay);
 
-    @Output() onAction = new EventEmitter<ContextMenuActionType>();
+    readonly onAction = output<ContextMenuActionType>();
 
     private readonly cdr = inject(ChangeDetectorRef);
     isOpen = false;
@@ -35,8 +35,9 @@ export class ContextMenuComponent {
     }
 
     getActionsList(): ContextMenuAction[] {
-        if (!this.actions && this.getActions) {
-            this.getActions().then(actions => {
+        const getActionsFn = this.getActions();
+        if (!this.actions && getActionsFn) {
+            getActionsFn().then((actions: ContextMenuAction[]) => {
                 this.actions = actions;
                 this.cdr.detectChanges();
             }).catch(() => {
@@ -51,7 +52,7 @@ export class ContextMenuComponent {
     }
 
     hideActions() {
-        if (!!this.getActions) {
+        if (!!this.getActions()) {
             this.actions = null;
         }
         this.isOpen = false;

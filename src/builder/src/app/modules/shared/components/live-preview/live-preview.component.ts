@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, viewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
@@ -26,7 +26,7 @@ export class LivePreviewComponent implements OnInit {
     private readonly eventsBus = inject(EventsBusService);
     private readonly config = inject(AppConfig);
 
-    @ViewChild('frame', { static: false }) frame: ElementRef | undefined;
+    readonly frame = viewChild<ElementRef>('frame');
 
     private previewLoadedSource = new BehaviorSubject<boolean>(false);
     private previewLoaded$ = new Observable<boolean>(observer => {
@@ -79,8 +79,8 @@ export class LivePreviewComponent implements OnInit {
 
     private sendMessage(msg: any) {
         this.previewLoaded$.subscribe(() => {
-            if (this.frame) {
-                const frame = this.frame.nativeElement as HTMLIFrameElement;
+            if (this.frame()) {
+                const frame = this.frame()!.nativeElement as HTMLIFrameElement;
                 const message = { ...msg, source: 'builder' };
                 if (message.type !== 'hover') {
                     console.log(message);

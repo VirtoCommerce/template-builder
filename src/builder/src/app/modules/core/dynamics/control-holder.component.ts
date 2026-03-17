@@ -1,8 +1,9 @@
 import {
     Component,
     Input,
+    input,
     OnInit,
-    ViewChild,
+    viewChild,
     forwardRef,
     ChangeDetectionStrategy,
     // HostBinding,
@@ -40,9 +41,9 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
     private _context!: ControlContext;
     private _currentForm!: UntypedFormGroup;
 
-    @ViewChild(ControlHostDirective, { static: true }) host!: ControlHostDirective;
+    readonly host = viewChild.required(ControlHostDirective);
 
-    @Input() descriptor!: BaseControlDescriptor;
+    readonly descriptor = input.required<BaseControlDescriptor>();
     @Input() get currentForm(): UntypedFormGroup {
         return this._currentForm;
     }
@@ -66,15 +67,15 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
     }
 
     ngOnInit(): void {
-        const type = this.controlsFactory.resolve(this.descriptor.type);
+        const type = this.controlsFactory.resolve(this.descriptor().type);
         if (!type) {
             // todo: null is not possible, maybe remove it?
-            console.log('unknown component type:', this.descriptor);
+            console.log('unknown component type:', this.descriptor());
         } else {
-            const viewContainerRef = this.host.viewContainerRef;
+            const viewContainerRef = this.host().viewContainerRef;
             const componentRef = viewContainerRef.createComponent(type); // todo: control type must be set as generic type, but now i don't know how do it for generic type (BaseControlDirective<T problem here>)
             this.component = componentRef.instance;
-            this.component.descriptor = this.descriptor;
+            this.component.descriptor = this.descriptor();
             this.component.currentForm = this.currentForm;
             this.component.context = this.context;
         }

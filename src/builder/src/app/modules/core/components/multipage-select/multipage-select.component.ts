@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NgScrollbar } from 'ngx-scrollbar';
@@ -48,24 +48,24 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class MultipageSelectComponent {
 
-    @Input() panelClass: string = '';
+    readonly panelClass = input('');
 
-    @Input() titleText: string | null = null;
-    @Input() filter: string | null = null;
-    @Input() filterPlaceholder: string = '';
-    @Input() default?: MultipageSelectDescriptor;
-    @Input() current: MultipageSelectDescriptor | null = null;
-    @Input() parentItems: MultipageSelectDescriptor[] | null = [];
-    @Input() childrenItems: MultipageSelectDescriptor[] | null = null;
+    readonly titleText = input<string | null>(null);
+    readonly filter = input<string | null>(null);
+    readonly filterPlaceholder = input('');
+    readonly default = input<MultipageSelectDescriptor>();
+    readonly current = input<MultipageSelectDescriptor | null>(null);
+    readonly parentItems = input<MultipageSelectDescriptor[] | null>([]);
+    readonly childrenItems = input<MultipageSelectDescriptor[] | null>(null);
 
-    @Output() itemSelected = new EventEmitter<MultipageSelectDescriptor>();
-    @Output() filterChanged = new EventEmitter<string>();
-    @Output() backClick = new EventEmitter();
+    readonly itemSelected = output<MultipageSelectDescriptor>();
+    readonly filterChanged = output<string>();
+    readonly backClick = output();
 
     isOpen = false;
 
     get currentLabel(): string {
-        return this.current?.title || this.default?.title || '';
+        return this.current()?.title || this.default()?.title || '';
     }
 
     close() {

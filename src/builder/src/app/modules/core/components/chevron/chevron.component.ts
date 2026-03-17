@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
@@ -10,13 +10,8 @@ import { IconComponent } from '../icon/icon.component';
     standalone: true,
     imports: [NgClass, IconComponent]
 })
-export class ChevronComponent implements OnInit {
-
-    @Input() opened = false;
-    @Input() vertical = false;
-    @Input() hoverable = true;
-
-    ngOnInit(): void {
-    }
-
+export class ChevronComponent {
+    readonly opened = input(false);
+    readonly vertical = input(false);
+    readonly hoverable = input(true);
 }

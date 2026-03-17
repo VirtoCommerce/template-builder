@@ -5,8 +5,8 @@
     <app-template-selector></app-template-selector>
   }
 </div>
-@if (panels) {
-  <app-actions-panel [panels]="panels"
+@if (panels()) {
+  <app-actions-panel [panels]="panels()!"
     (actionExecuted)="onActionExecuted($event)">
   </app-actions-panel>
 }

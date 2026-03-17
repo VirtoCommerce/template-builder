@@ -1,5 +1,5 @@
 import { GroupsStateModel, TabModel } from '@core/models';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
 
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { MatTabGroup, MatTab } from '@angular/material/tabs';
@@ -18,9 +18,9 @@ import { ControlsTabComponent } from '@core/dynamics/controls-tab/controls-tab.c
 })
 export class ControlsTabsComponent implements OnInit {
 
-    @Input() currentForm!: UntypedFormGroup;
-    @Input() context!: ControlContext;
-    @Input() descriptors!: BaseControlDescriptor[];
+    readonly currentForm = input.required<UntypedFormGroup>();
+    readonly context = input.required<ControlContext>();
+    readonly descriptors = input.required<BaseControlDescriptor[]>();
 
     groupsState: GroupsStateModel = {};
 
@@ -30,7 +30,7 @@ export class ControlsTabsComponent implements OnInit {
 
     ngOnInit(): void {
         this.groupsState = {};
-        const tabs = this.descriptors.reduce((acc, item) => {
+        const tabs = this.descriptors().reduce((acc, item) => {
             const key = item.tab || '';
             if (!acc[key]) {
                 acc[key] = {

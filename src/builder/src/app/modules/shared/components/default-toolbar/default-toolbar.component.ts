@@ -1,13 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 
 import { ActionButtonDescriptor } from '@core/models';
-import { Store } from '@ngrx/store';
 
 import { AppConfig } from '@integration/services';
 
-import { BuilderState } from '@shared/store';
-import * as fromState from '@shared/store';
-import * as actions from '@shared/store/actions';
 import { PreviewModeComponent } from '@shared/components/preview-mode/preview-mode.component';
 import { TemplateSelectorComponent } from '@shared/components/template-selector/template-selector.component';
 import { ActionsPanelComponent } from '@shared/components/actions-panel/actions-panel.component';
@@ -20,17 +16,14 @@ import { ActionsPanelComponent } from '@shared/components/actions-panel/actions-
     standalone: true,
     imports: [PreviewModeComponent, TemplateSelectorComponent, ActionsPanelComponent]
 })
-export class DefaultToolbarComponent implements OnInit {
+export class DefaultToolbarComponent {
 
     private readonly appConfig = inject(AppConfig);
 
-    @Input() panels: ActionButtonDescriptor[][] | null = null;
-    @Output() actionExecuted = new EventEmitter<string>();
+    readonly panels = input<ActionButtonDescriptor[][] | null>(null);
+    readonly actionExecuted = output<string>();
 
     displayTemplateSelector: boolean = !this.appConfig.getValue('skipTemplates');
-
-    ngOnInit(): void {
-    }
 
     onActionExecuted(item: string) {
         this.actionExecuted.emit(item);

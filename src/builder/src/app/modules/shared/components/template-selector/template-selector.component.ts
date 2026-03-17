@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { MultipageSelectComponent } from '@core/components/multipage-select/multipage-select.component';
@@ -20,7 +20,7 @@ import { map, of } from 'rxjs';
     standalone: true,
     imports: [AsyncPipe, MultipageSelectComponent]
 })
-export class TemplateSelectorComponent implements OnInit {
+export class TemplateSelectorComponent {
 
     private readonly store$ = inject(Store<BuilderState>);
 
@@ -37,10 +37,6 @@ export class TemplateSelectorComponent implements OnInit {
     childrenItems$ = this.store$.select(fromState.selectCurrentChildrenTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || null)
     );
-
-
-    ngOnInit(): void {
-    }
 
     onTemplateSelected(item: MultipageSelectDescriptor) {
         if (item.hasChildren) {

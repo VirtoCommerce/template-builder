@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { MatRipple } from '@angular/material/core';
 import { ChevronComponent } from '@core/components/chevron/chevron.component';
@@ -11,17 +11,14 @@ import { ChevronComponent } from '@core/components/chevron/chevron.component';
     standalone: true,
     imports: [NgClass, MatRipple, ChevronComponent]
 })
-export class ControlsGroupComponent implements OnInit {
+export class ControlsGroupComponent {
 
-    @Input() label: string | null = null;
-    @Input() opened: boolean = false;
+    readonly label = input<string | null>(null);
+    readonly opened = input(false);
 
-    @Output() openedChanged = new EventEmitter<boolean>();
-
-    ngOnInit(): void {
-    }
+    readonly openedChanged = output<boolean>();
 
     onOpenedChanged() {
-        this.openedChanged.emit(!this.opened);
+        this.openedChanged.emit(!this.opened());
     }
 }

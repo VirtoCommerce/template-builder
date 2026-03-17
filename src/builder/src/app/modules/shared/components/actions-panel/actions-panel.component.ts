@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 
 import { ActionButtonDescriptor } from '@core/models';
@@ -12,16 +12,15 @@ import { ActionButtonsComponent } from '@core/components/action-buttons/action-b
     standalone: true,
     imports: [ActionButtonsComponent]
 })
-export class ActionsPanelComponent implements OnInit {
+export class ActionsPanelComponent {
 
-    @Input() panels!: ActionButtonDescriptor[][];
+    readonly panels = input.required<ActionButtonDescriptor[][]>();
 
-    @Output() actionExecuted = new EventEmitter<string>();
-
-    ngOnInit(): void {
-    }
+    readonly actionExecuted = output<string>();
 
     onActionExecuted(item: ActionButtonDescriptor) {
-        this.actionExecuted.emit(item.alias);
+        if (item.alias) {
+            this.actionExecuted.emit(item.alias);
+        }
     }
 }

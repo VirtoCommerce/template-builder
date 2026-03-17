@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IconComponent } from '@core/components/icon/icon.component';
 import { CheckboxComponent } from '@core/controls/checkbox/checkbox.component';
@@ -25,34 +25,30 @@ import { ContextMenuHelper, helpers } from '@editor/helpers';
     //     ])
     // ]
 })
-export class SectionItemComponent implements OnInit {
+export class SectionItemComponent {
 
     private readonly helper = inject(ContextMenuHelper);
 
     isHover: boolean = false;
     isIconHover: boolean = false;
 
-    @Input() section!: SectionModel;
-    @Input() sectionSchema!: SectionSchema;
-    @Input() hasContextMenu: boolean = false;
-    @Input() selectable: boolean = true;
-    @Input() selected: boolean = false;
+    readonly section = input.required<SectionModel>();
+    readonly sectionSchema = input.required<SectionSchema>();
+    readonly hasContextMenu = input(false);
+    readonly selectable = input(true);
+    readonly selected = input(false);
 
-    @Output() actionClick = new EventEmitter<string>();
-    @Output() itemClick = new EventEmitter();
-    @Output() itemHover = new EventEmitter();
-    @Output() itemSelectChanged = new EventEmitter();
+    readonly actionClick = output<string>();
+    readonly itemClick = output();
+    readonly itemHover = output();
+    readonly itemSelectChanged = output<boolean>();
 
     get displayCheckbox(): boolean {
-        return (this.isIconHover && this.selectable) || this.selected;
-    }
-
-    ngOnInit(): void {
-
+        return (this.isIconHover && this.selectable()) || this.selected();
     }
 
     onItemClick(event: MouseEvent) {
-        if (!!this.sectionSchema) {
+        if (!!this.sectionSchema()) {
             this.itemClick.emit();
         }
     }
@@ -76,14 +72,14 @@ export class SectionItemComponent implements OnInit {
     }
 
     getSectionIcon(): string | null {
-        if (!this.sectionSchema) {
+        if (!this.sectionSchema()) {
             return null; // todo: unknown schema icon
         }
-        return this.sectionSchema.icon || 'blur_on'; // todo: schema hasn't icon
+        return this.sectionSchema().icon || 'blur_on'; // todo: schema hasn't icon
     }
 
     getSectionName(): string {
-        return helpers.getSectionName(this.section, this.sectionSchema);
+        return helpers.getSectionName(this.section(), this.sectionSchema());
         // if (this.sectionSchema?.displayField) {
         //     return <string>this.section[this.sectionSchema.displayField] || <string>this.section['name'] || this.section.type;
         // }
@@ -91,7 +87,7 @@ export class SectionItemComponent implements OnInit {
     }
 
     getItemActions: () => Promise<ContextMenuAction[]> = () => {
-        const result = this.helper.getSectionsActions(this.section, !!this.sectionSchema?.blocks?.length);
+        const result = this.helper.getSectionsActions(this.section(), !!this.sectionSchema()?.blocks?.length);
         return result;
     };
 }

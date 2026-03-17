@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
@@ -12,12 +12,12 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class IconButtonComponent {
 
-    @Input() icon?: string;
-    @Input() text?: string;
-    @Input() skin?: string;
-    @Input() disabled: boolean = false;
+    readonly icon = input<string>();
+    readonly text = input<string>();
+    readonly skin = input<string>();
+    readonly disabled = input(false);
 
-    @Output() onClick = new EventEmitter<MouseEvent>();
+    readonly onClick = output<MouseEvent>();
 
     raiseOnClick(event: MouseEvent) {
         this.onClick.emit(event);
