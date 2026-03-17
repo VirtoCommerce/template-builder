@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef, AfterViewChecked, inject } from '@angular/core';
 // import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { NgIf } from '@angular/common';
-import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 
 @Component({
     selector: 'app-panel',
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.scss'],
     standalone: true,
-    imports: [NgIf, NgScrollbarModule]
+    imports: [NgIf, NgScrollbar]
 })
 export class PanelComponent implements OnInit, AfterViewInit, AfterViewChecked {
 

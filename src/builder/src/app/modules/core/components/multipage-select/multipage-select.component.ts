@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { MultipageSelectDescriptor } from '@core/models';
 import { ChevronComponent } from '../chevron/chevron.component';
 import { SeparatorComponent } from '../separator/separator.component';
@@ -15,7 +15,7 @@ import { IconComponent } from '../icon/icon.component';
     styleUrls: ['./multipage-select.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgIf, NgFor, OverlayModule, NgScrollbarModule, ChevronComponent, SeparatorComponent, IconComponent],
+    imports: [NgIf, NgFor, OverlayModule, NgScrollbar, ChevronComponent, SeparatorComponent, IconComponent],
     animations: [
         // trigger(
         //     'templatesAnimation',
