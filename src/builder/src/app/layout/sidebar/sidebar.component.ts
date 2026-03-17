@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { BuilderState } from '@shared/routing';
 import * as fromRoute from '@shared/routing';
@@ -10,23 +10,13 @@ import * as fromRoute from '@shared/routing';
     styleUrls: ['./sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
 
     private readonly store = inject(Store<BuilderState>);
-    private readonly cdr = inject(ChangeDetectorRef);
 
-    @HostBinding('class.hidden') isHidden: boolean = false;
-    @HostBinding('class.desktop-50') desktop50: boolean = false;
+    private readonly isHidden$ = toSignal(this.store.select(fromRoute.isFullscreenPreviewMode), { initialValue: false });
+    private readonly desktop50$ = toSignal(this.store.select(fromRoute.isDesktop50), { initialValue: false });
 
-    constructor() {
-        // note! this subscription can be unsubscribed
-        this.store.select(fromRoute.isFullscreenPreviewMode).pipe(takeUntilDestroyed()).subscribe(
-            x => { this.isHidden = x; this.cdr.markForCheck(); }
-        );
-        this.store.select(fromRoute.isDesktop50).pipe(takeUntilDestroyed()).subscribe(
-            x => { this.desktop50 = x; this.cdr.markForCheck(); }
-        );
-    }
-
-    ngOnInit(): void { }
+    @HostBinding('class.hidden') get isHidden() { return this.isHidden$(); }
+    @HostBinding('class.desktop-50') get desktop50() { return this.desktop50$(); }
 }
