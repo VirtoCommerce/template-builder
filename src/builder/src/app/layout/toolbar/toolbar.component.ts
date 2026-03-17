@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as router from '@shared/routing/actions';
@@ -7,7 +7,8 @@ import { ActivationStart, Router, RouterOutlet } from '@angular/router';
 @Component({
     selector: 'app-toolbar',
     templateUrl: './toolbar.component.html',
-    styleUrls: ['./toolbar.component.scss']
+    styleUrls: ['./toolbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent implements OnInit {
 

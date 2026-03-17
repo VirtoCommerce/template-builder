@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModelChangedEventArgs, ControlContext } from '@core/models';
 
 @Component({
     selector: 'app-settings-panel',
     templateUrl: './settings-panel.component.html',
-    styleUrls: ['./settings-panel.component.scss']
+    styleUrls: ['./settings-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPanelComponent implements OnInit {
 

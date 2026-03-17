@@ -1,5 +1,5 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
 import { ColorDescriptor } from '@models/controls';
@@ -13,7 +13,8 @@ import { ColorEvent } from 'ngx-color';
 @Component({
   selector: 'app-color',
   templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss']
+  styleUrls: ['./color.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     isOpen = false;

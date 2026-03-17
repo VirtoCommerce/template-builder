@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MarkdownModel } from 'dist/ngv-markdown/lib/markdown.model';
 import { BaseControlDirective } from '@core/controls';
@@ -9,7 +9,8 @@ import { AssetFile } from '../../models';
 @Component({
     selector: 'app-markdown',
     templateUrl: './markdown.component.html',
-    styleUrls: ['./markdown.component.scss']
+    styleUrls: ['./markdown.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> {
 

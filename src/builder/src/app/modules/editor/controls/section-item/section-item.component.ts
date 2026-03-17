@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 // import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { ContextMenuAction } from '@core/models';
@@ -9,6 +9,7 @@ import { ContextMenuHelper, helpers } from '@editor/helpers';
     selector: 'app-section-item',
     templateUrl: './section-item.component.html',
     styleUrls: ['./section-item.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     // animations: [
     //     trigger('openClose', [
     //         state('open', style({ height: 'auto' })),

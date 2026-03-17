@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TemplateEntryInfo } from '@shared/models';
@@ -6,7 +6,8 @@ import { TemplateEntryInfo } from '@shared/models';
 @Component({
     selector: 'app-save-template',
     templateUrl: './save-template.component.html',
-    styleUrls: ['./save-template.component.scss']
+    styleUrls: ['./save-template.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SaveTemplateComponent implements OnInit {
 

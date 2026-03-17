@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext, TabModel, GroupsStateModel } from '@core/models';
@@ -6,7 +6,8 @@ import { ControlContext, TabModel, GroupsStateModel } from '@core/models';
 @Component({
     selector: 'app-controls-tab',
     templateUrl: './controls-tab.component.html',
-    styleUrls: ['./controls-tab.component.scss']
+    styleUrls: ['./controls-tab.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlsTabComponent implements OnInit {
 

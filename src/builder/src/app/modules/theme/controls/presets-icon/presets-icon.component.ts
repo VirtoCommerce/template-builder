@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-presets-icon',
     templateUrl: './presets-icon.component.html',
-    styleUrls: ['./presets-icon.component.scss']
+    styleUrls: ['./presets-icon.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PresetsIconComponent implements OnInit {
 

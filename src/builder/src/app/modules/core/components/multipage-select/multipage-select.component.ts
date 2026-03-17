@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 // import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -8,6 +8,7 @@ import { MultipageSelectDescriptor } from '@core/models';
     selector: 'app-multipage-select',
     templateUrl: './multipage-select.component.html',
     styleUrls: ['./multipage-select.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         // trigger(
         //     'templatesAnimation',

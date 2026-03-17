@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AppConfig } from '@integration/services';
@@ -10,7 +10,8 @@ import * as selectors from '@editor/store/selectors';
 @Component({
     selector: 'app-toolbar-host',
     templateUrl: './toolbar-host.component.html',
-    styleUrls: ['./toolbar-host.component.scss']
+    styleUrls: ['./toolbar-host.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarHostComponent implements OnInit {
 

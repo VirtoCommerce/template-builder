@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ModelChangedEventArgs } from '@core/models';
@@ -9,7 +9,8 @@ import * as actions from '@theme/store/actions';
 @Component({
     selector: 'app-theme-editor',
     templateUrl: './theme-editor.component.html',
-    styleUrls: ['./theme-editor.component.scss']
+    styleUrls: ['./theme-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeEditorComponent implements OnInit {
 

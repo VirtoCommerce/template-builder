@@ -1,5 +1,5 @@
 import { GroupsStateModel, TabModel } from '@core/models';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext } from '@core/models';
@@ -8,7 +8,8 @@ import { BaseControlDescriptor } from '@models/controls';
 @Component({
     selector: 'app-controls-tabs',
     templateUrl: './controls-tabs.component.html',
-    styleUrls: ['./controls-tabs.component.scss']
+    styleUrls: ['./controls-tabs.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlsTabsComponent implements OnInit {
 

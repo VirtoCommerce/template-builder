@@ -1,11 +1,12 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-add-section-group',
     templateUrl: './add-section-group.component.html',
-    styleUrls: ['./add-section-group.component.scss']
+    styleUrls: ['./add-section-group.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddSectionGroupComponent implements OnInit {
 

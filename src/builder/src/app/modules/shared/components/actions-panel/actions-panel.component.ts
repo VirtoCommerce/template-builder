@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ActionButtonDescriptor } from '@core/models';
 
 @Component({
     selector: 'app-actions-panel',
     templateUrl: './actions-panel.component.html',
-    styleUrls: ['./actions-panel.component.scss']
+    styleUrls: ['./actions-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionsPanelComponent implements OnInit {
 

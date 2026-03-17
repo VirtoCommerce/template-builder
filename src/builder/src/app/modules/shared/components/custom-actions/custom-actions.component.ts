@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { ActionButtonDescriptor } from '@core/models';
 
 @Component({
     selector: 'app-custom-actions',
     templateUrl: './custom-actions.component.html',
-    styleUrls: ['./custom-actions.component.scss']
+    styleUrls: ['./custom-actions.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomActionsComponent implements OnInit {
 

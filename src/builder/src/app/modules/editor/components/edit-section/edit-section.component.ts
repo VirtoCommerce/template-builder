@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BuilderState } from '@editor/store/state';
 import { Store } from '@ngrx/store';
 
@@ -14,7 +14,7 @@ import * as fromRoute from '@shared/routing/selectors';
     selector: 'app-edit-section',
     templateUrl: './edit-section.component.html',
     styleUrls: ['./edit-section.component.scss'],
-    // changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditSectionComponent implements OnInit {
 

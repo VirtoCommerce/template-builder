@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-controls-group',
     templateUrl: './controls-group.component.html',
-    styleUrls: ['./controls-group.component.scss']
+    styleUrls: ['./controls-group.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlsGroupComponent implements OnInit {
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MultipageSelectDescriptor } from '@core/models';
@@ -13,7 +13,8 @@ import { map, of } from 'rxjs';
 @Component({
     selector: 'app-template-selector',
     templateUrl: './template-selector.component.html',
-    styleUrls: ['./template-selector.component.scss']
+    styleUrls: ['./template-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateSelectorComponent implements OnInit {
 

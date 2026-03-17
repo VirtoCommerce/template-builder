@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { EnvironmentRef } from '@integration/services';
 import { BaseControlDirective } from '@core/controls';
@@ -7,7 +7,8 @@ import { NumberDescriptor } from '@models/controls';
 @Component({
   selector: 'app-number',
   templateUrl: './number.component.html',
-  styleUrls: ['./number.component.scss']
+  styleUrls: ['./number.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     @ViewChild('control') control!: ElementRef<HTMLInputElement>;

@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 
 import * as actions from '@shared/store/actions';
 import * as sharedSelectors from '@shared/store/selectors';
@@ -12,7 +12,8 @@ import { BuilderState as ThemeState } from '@theme/store';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
 

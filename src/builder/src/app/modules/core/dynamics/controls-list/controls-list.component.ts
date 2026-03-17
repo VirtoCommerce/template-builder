@@ -1,5 +1,5 @@
 import { DisplayTextDescriptor } from '@models/controls';
-import { Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { UntypedFormGroup } from '@angular/forms';
 
 import { ControlContext } from '@core/models';
@@ -9,7 +9,8 @@ import { appHelpers } from '@integration/helpers';
 @Component({
     selector: 'app-controls-list',
     templateUrl: './controls-list.component.html',
-    styleUrls: ['./controls-list.component.scss']
+    styleUrls: ['./controls-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlsListComponent implements OnInit {
 

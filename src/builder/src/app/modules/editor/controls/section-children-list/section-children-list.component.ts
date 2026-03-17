@@ -1,5 +1,5 @@
 import { CdkDragRelease, CdkDragSortEvent, CdkDragStart } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { BlockStatesList, SectionsSchemasList } from '@editor/models';
 import { ReorderItemsModel } from '@core/models';
 import { SectionModel } from '@models/document';
@@ -8,7 +8,8 @@ import { domHelpers } from '@core/helpers';
 @Component({
     selector: 'app-section-children-list',
     templateUrl: './section-children-list.component.html',
-    styleUrls: ['./section-children-list.component.scss']
+    styleUrls: ['./section-children-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SectionChildrenListComponent implements OnInit {
 

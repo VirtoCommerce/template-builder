@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ActionButtonDescriptor } from '@core/models';
@@ -10,7 +10,8 @@ import { tap } from 'rxjs';
 @Component({
     selector: 'app-preview-mode',
     templateUrl: './preview-mode.component.html',
-    styleUrls: ['./preview-mode.component.scss']
+    styleUrls: ['./preview-mode.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewModeComponent implements OnInit {
 

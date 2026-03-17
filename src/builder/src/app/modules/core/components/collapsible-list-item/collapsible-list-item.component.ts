@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-collapsible-list-item',
     templateUrl: './collapsible-list-item.component.html',
-    styleUrls: ['./collapsible-list-item.component.scss']
+    styleUrls: ['./collapsible-list-item.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CollapsibleListItemComponent implements OnInit {
 

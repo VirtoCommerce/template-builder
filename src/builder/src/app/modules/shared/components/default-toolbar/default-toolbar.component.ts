@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActionButtonDescriptor } from '@core/models';
 import { Store } from '@ngrx/store';
 
@@ -11,7 +11,8 @@ import * as actions from '@shared/store/actions';
 @Component({
     selector: 'app-default-toolbar',
     templateUrl: './default-toolbar.component.html',
-    styleUrls: ['./default-toolbar.component.scss']
+    styleUrls: ['./default-toolbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefaultToolbarComponent implements OnInit {
 

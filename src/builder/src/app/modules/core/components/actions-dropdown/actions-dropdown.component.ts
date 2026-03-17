@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActionButtonDescriptor } from '@core/models';
 
 @Component({
     selector: 'app-actions-dropdown',
     templateUrl: './actions-dropdown.component.html',
-    styleUrls: ['./actions-dropdown.component.scss']
+    styleUrls: ['./actions-dropdown.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionsDropdownComponent implements OnInit {
 

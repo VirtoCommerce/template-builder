@@ -1,6 +1,6 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { BuilderState } from '@editor/store/state';
@@ -12,7 +12,8 @@ import * as fromRoute from '@shared/routing/selectors';
 @Component({
     selector: 'app-add-section',
     templateUrl: './add-section.component.html',
-    styleUrls: ['./add-section.component.scss']
+    styleUrls: ['./add-section.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddSectionComponent implements OnInit {
 

@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-confirm',
     templateUrl: './confirm.component.html',
-    styleUrls: ['./confirm.component.scss']
+    styleUrls: ['./confirm.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmComponent implements OnInit {
 

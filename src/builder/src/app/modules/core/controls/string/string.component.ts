@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
 import { StringDescriptor } from '@models/controls';
@@ -6,7 +6,8 @@ import { StringDescriptor } from '@models/controls';
 @Component({
     selector: 'app-string',
     templateUrl: './string.component.html',
-    styleUrls: ['./string.component.scss']
+    styleUrls: ['./string.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StringComponent extends BaseControlDirective<StringDescriptor> {
     @ViewChild('control') control!: ElementRef;

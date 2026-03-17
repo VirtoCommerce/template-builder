@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { BuilderState } from '@theme/store/state';
@@ -10,7 +10,8 @@ import * as fromRoute from '@shared/routing/selectors';
 @Component({
     selector: 'app-presets-panel',
     templateUrl: './presets-panel.component.html',
-    styleUrls: ['./presets-panel.component.scss']
+    styleUrls: ['./presets-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PresetsPanelComponent implements OnInit {
 

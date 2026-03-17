@@ -1,11 +1,12 @@
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { Component, OnInit, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-paste-content',
     templateUrl: './paste-content.component.html',
-    styleUrls: ['./paste-content.component.scss']
+    styleUrls: ['./paste-content.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasteContentComponent implements OnInit {
 
