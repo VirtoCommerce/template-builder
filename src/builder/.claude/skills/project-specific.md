@@ -141,7 +141,8 @@ Sections/blocks are edited via forms generated from schemas:
 
 ## Build & Deployment
 
-- **Build:** `yarn build` = `ng build ngv-markdown && ng build` (library first, then app)
+- **Build:** `npm run build` — builds internal libraries (`ngv-markdown`, `ngv-datepicker`) first, then the main app. Do NOT run `ng build` directly unless the `dist/` folder already has built library artifacts.
+- **Dev server:** `npm start`
 - **Output:** `dist/template-builder/` — deployed as part of the .NET module
 - **Budget:** 1500KB initial warning, 2MB error
 - **The Angular app is embedded inside a C# .NET VirtoCommerce module** at `src/VirtoCommerce.PageBuilderModule.Web/`
