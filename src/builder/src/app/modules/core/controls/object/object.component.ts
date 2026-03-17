@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
 import { ControlDescriptor, ObjectDescriptor } from '@models/controls';
@@ -15,7 +16,8 @@ import { coreHelpers, formsHelpers } from '@core/helpers';
 })
 export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 
-    private subscription: Subscription | null = null;
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly formReset$ = new Subject<void>();
 
     objectForm!: UntypedFormGroup;
     expanded = false;
@@ -48,8 +50,11 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
             const v = value || {};
             super.setControlValue(v);
             this.objectForm = formsHelpers.generateForm(v, descriptors);
-            this.unsubscribe();
-            this.subscription = this.objectForm.valueChanges.subscribe(x => {
+            this.formReset$.next();
+            this.objectForm.valueChanges.pipe(
+                takeUntil(this.formReset$),
+                takeUntilDestroyed(this.destroyRef)
+            ).subscribe(x => {
                 this.onValueChanged(x);
             });
         }
@@ -62,10 +67,4 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
         };
     }
 
-    private unsubscribe() {
-        if (!!this.subscription) {
-            this.subscription.unsubscribe();
-            this.subscription = null;
-        }
-    }
 }

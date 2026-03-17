@@ -1,7 +1,8 @@
 import { ModalService } from '@core/services';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormArray, UntypedFormGroup, AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { BaseControlDirective } from '@core/controls';
 import { CollectionDescriptor, ControlDescriptor } from '@models/controls';
@@ -18,7 +19,8 @@ import { appHelpers } from '@integration/helpers';
 })
 export class CollectionComponent extends BaseControlDirective<CollectionDescriptor> {
 
-    private subscription: Subscription | null = null;
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly formReset$ = new Subject<void>();
     private titleCache = new WeakMap<object, string>();
     private titleIndex = 1;
 
@@ -69,8 +71,11 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
             const descriptors = this.getDescriptors();
             this.collectionFormArray = formsHelpers.generateFormArray(value, descriptors);
             this.form = new UntypedFormGroup({ list: this.collectionFormArray });
-            this.unsubscribe();
-            this.subscription = this.form.valueChanges.subscribe(x => {
+            this.formReset$.next();
+            this.form.valueChanges.pipe(
+                takeUntil(this.formReset$),
+                takeUntilDestroyed(this.destroyRef)
+            ).subscribe(x => {
                 this.onValueChanged(x.list);
             });
         }
@@ -148,14 +153,4 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         this.collectionFormArray.insert(event.currentIndex, item);
     }
 
-    protected override destroyContent(): void {
-        this.unsubscribe();
-    }
-
-    private unsubscribe() {
-        if (!!this.subscription) {
-            this.subscription.unsubscribe();
-            this.subscription = null;
-        }
-    }
 }

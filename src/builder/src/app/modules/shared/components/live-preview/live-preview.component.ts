@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
@@ -16,6 +16,8 @@ import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
     styleUrls: ['./live-preview.component.scss']
 })
 export class LivePreviewComponent implements OnInit {
+
+    private readonly destroyRef = inject(DestroyRef);
 
     @ViewChild('frame', { static: false }) frame: ElementRef | undefined;
 
@@ -60,7 +62,7 @@ export class LivePreviewComponent implements OnInit {
         // + hide
         // + show
 
-        this.eventsBus.on(args => args.target === 'preview', msg => {
+        const sub = this.eventsBus.on(args => args.target === 'preview', msg => {
             switch (msg.payload?.type) {
                 case 'preview-loaded':
                     this.previewLoadedSource.next(true);
@@ -70,6 +72,7 @@ export class LivePreviewComponent implements OnInit {
                     break;
             }
         });
+        this.destroyRef.onDestroy(() => sub.unsubscribe());
         this.url = this.config.getValue('fullPreviewUrl');
         this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
     }

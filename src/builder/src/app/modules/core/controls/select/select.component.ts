@@ -3,7 +3,8 @@ import { switchMap } from 'rxjs';
 import { tap } from 'rxjs';
 import { of } from 'rxjs';
 import { DataService } from '@core/services';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { concat, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -24,6 +25,8 @@ import { appHelpers } from '@integration/helpers';
     styleUrls: ['./select.component.scss']
 })
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
+
+    private readonly destroyRef = inject(DestroyRef);
 
     form!: UntypedFormGroup;
     options$!: Observable<any[]>;
@@ -53,7 +56,9 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             value: new UntypedFormControl(this.selectControlValue)
         });
         this.updateOptions();
-        this.form.valueChanges.subscribe({
+        this.form.valueChanges.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe({
             next: (v) => {
                 this.onValueChanged(v.value);
             }

@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, ElementRef, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { from, NextObserver, Subject, takeUntil } from 'rxjs';
+import { from, NextObserver, Subject } from 'rxjs';
 import { concatMap, debounceTime, map } from 'rxjs/operators';
 
 import { BaseControlDirective } from '@core/controls';
@@ -16,7 +17,7 @@ import { appHelpers } from '@integration/helpers';
     styleUrls: ['./search.component.scss']
 })
 export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
-    private readonly ngUnsubscribe$: Subject<void> = new Subject<void>();
+    private readonly destroyRef = inject(DestroyRef);
     private searchEvent$ = new Subject<string | null>();
 
     @ViewChild('control') control!: ElementRef;
@@ -35,14 +36,9 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
         private assets: AssetsService,
     ) { super(); }
 
-    override ngOnDestroy(): void {
-        this.ngUnsubscribe$.next();
-        this.ngUnsubscribe$.unsubscribe();
-    }
-
     override initContent() {
         this.searchEvent$.pipe(
-            takeUntil(this.ngUnsubscribe$),
+            takeUntilDestroyed(this.destroyRef),
             debounceTime(this.descriptor?.debounceTime || 1000) // move to settings
         ).subscribe({
             next: (searchQuery) => {
@@ -83,18 +79,18 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
         };
         if (!!this.descriptor?.request) {
             this.data.doRequest(this.descriptor.request, context).pipe(
-                takeUntil(this.ngUnsubscribe$),
+                takeUntilDestroyed(this.destroyRef),
                 map(result => ({ key: 'value', result }))
             ).subscribe(observer);
         } else if (!!this.descriptor?.requests) {
             const keys = Object.keys(this.descriptor.requests);
             from(keys).pipe(
-                takeUntil(this.ngUnsubscribe$),
+                takeUntilDestroyed(this.destroyRef),
                 concatMap(key => {
                     const request = this.descriptor!.requests[key];
                     context.item = value;
                     return this.data.doRequest(request, context).pipe(
-                        takeUntil(this.ngUnsubscribe$),
+                        takeUntilDestroyed(this.destroyRef),
                         map(result => ({ key, result }))
                     );
                 })

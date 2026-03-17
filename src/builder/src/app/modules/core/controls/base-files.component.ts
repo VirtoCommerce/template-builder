@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Directive } from '@angular/core';
+import { ChangeDetectorRef, DestroyRef, Directive, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormGroup } from '@angular/forms';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { ControlContext, AssetFile } from '@core/models';
 import { ModalService, AssetsService, ClipboardService } from '@core/services';
@@ -15,8 +16,8 @@ import { coreHelpers, formsHelpers } from '@core/helpers';
 @Directive()
 export abstract class BaseFilesComponent<T extends FilesDescriptor> extends BaseControlDirective<T> {
 
-    private subscription: Subscription | null = null;
-    private elementSubscription: Subscription | null = null;
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly elementReset$ = new Subject<void>();
     private previousExpanded: boolean | null = null;
 
     elementForm: UntypedFormGroup | null = null;
@@ -43,7 +44,9 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         this.sortable = this.descriptor?.sortable !== false && this.multiple;
         this.innerValue = this.getValue();
         this.control = this.createUploadControl();
-        this.subscription = this.control.valueChanges.subscribe(items => {
+        this.control.valueChanges.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(items => {
             if (items && items.length) {
                 const files = items.map((x, index) => this.convertValueToFile(x, index));
                 this.uploadFiles(files);
@@ -76,12 +79,14 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
 
     selectFile(file: AssetFile) {
         if (this.descriptor?.element && this.descriptor.element.length) {
-            this.unsubscribeElement();
             if (file === this.selectedFile) {
                 this.closeEditor();
             } else {
+                this.elementReset$.next();
                 this.elementForm = formsHelpers.generateForm(file.data, this.descriptor.element);
-                this.elementSubscription = this.elementForm.valueChanges.subscribe(value => {
+                this.elementForm.valueChanges.pipe(
+                    takeUntilDestroyed(this.destroyRef)
+                ).subscribe(value => {
                     (<any>this.selectedFile).data = value;
                     this.raiseValueChanged();
                 });
@@ -95,6 +100,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     private closeEditor() {
+        this.elementReset$.next();
         this.selectedFile = null;
         this.elementForm = null;
         if (this.previousExpanded !== null) {
@@ -170,31 +176,12 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         this.isDrag = false;
     }
 
-    protected override destroyContent(): void {
-        this.unsubscribe();
-        this.unsubscribeElement();
-    }
-
     private deleteFileInternal(file: AssetFile) {
         if (this.selectedFile === file) {
             this.selectedFile = null;
         }
         this.innerValue.splice(this.innerValue.indexOf(file), 1);
         this.raiseValueChanged();
-    }
-
-    private unsubscribe() {
-        if (!!this.subscription) {
-            this.subscription.unsubscribe();
-            this.subscription = null;
-        }
-    }
-
-    private unsubscribeElement() {
-        if (!!this.elementSubscription) {
-            this.elementSubscription.unsubscribe();
-            this.elementSubscription = null;
-        }
     }
 
     private raiseValueChanged() {

@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, Output, EventEmitter, ChangeDetectorRef, NgZone, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { formsHelpers } from '@core/helpers';
 import { ControlContext, ModelChangedEventArgs } from '@core/models';
@@ -12,13 +13,15 @@ import { SectionModel } from '@models/document';
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss']
 })
-export class DynamicFormComponent implements OnInit, OnDestroy {
+export class DynamicFormComponent implements OnInit {
+
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly formReset$ = new Subject<void>();
 
     private _sectionModel!: SectionModel;
     private _descriptors!: BaseControlDescriptor[];
     private _currentSectionId: string | null = null;
     private _currentSection: object | null = null;
-    private _subscription: Subscription | null = null;
 
     @Input() get sectionModel(): SectionModel {
         return this._sectionModel;
@@ -49,32 +52,24 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         this.generateForm();
     }
 
-    ngOnDestroy(): void {
-        this.unsubscribe();
-    }
-
     private generateForm(modelChanged: boolean = false) {
         const m = this.sectionModel;
         if (m && !!this.descriptors && (!this.form || m.id !== this._currentSectionId)) {
             this._currentSectionId = m.id;
             this.form = null;
-            this.unsubscribe();
+            this.formReset$.next();
             setTimeout(() => {
                 const form = formsHelpers.generateForm(m, this.descriptors);
-                const subscription = form.valueChanges.subscribe(value => {
+                form.valueChanges.pipe(
+                    takeUntilDestroyed(this.destroyRef)
+                ).subscribe(value => {
                     this.modelChanged.emit({
-                        model: {
-                            ...this.sectionModel,
-                            ...value
-                        },
-                        changes: {
-                            ...value
-                        }
+                        model: { ...this.sectionModel, ...value },
+                        changes: { ...value }
                     });
                 });
                 this.zone.run(() => {
                     this.form = form;
-                    this._subscription = subscription;
                     this.cdr.detectChanges(); // todo: here or out of a zone cycle?
                 });
             });
@@ -88,12 +83,5 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     private equalsModels(a: any, b: any): boolean {
         return !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
-    }
-
-    private unsubscribe() {
-        if (this._subscription !== null) {
-            this._subscription.unsubscribe();
-            this._subscription = null;
-        }
     }
 }
