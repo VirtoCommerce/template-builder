@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { AppConfig } from '@integration/services';
@@ -6,14 +7,20 @@ import { AppConfig } from '@integration/services';
 import { BuilderState } from '@editor/store/state';
 import * as actions from '@editor/store/actions';
 import * as selectors from '@editor/store/selectors';
+import { DefaultToolbarComponent } from '@shared/components/default-toolbar/default-toolbar.component';
 
 @Component({
     selector: 'app-toolbar-host',
     templateUrl: './toolbar-host.component.html',
     styleUrls: ['./toolbar-host.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [AsyncPipe, DefaultToolbarComponent]
 })
 export class ToolbarHostComponent implements OnInit {
+
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly appConfig = inject(AppConfig);
 
     panels$ = this.store$.select(selectors.selectToolbarButtonsState(
         {
@@ -22,11 +29,6 @@ export class ToolbarHostComponent implements OnInit {
             useExternalPreview: !!this.appConfig.getValue('externalPreview')
         }
     ));
-
-    constructor(
-        private store$: Store<BuilderState>,
-        private appConfig: AppConfig
-    ) { }
 
     ngOnInit(): void {
     }

@@ -1,18 +1,23 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgIf, NgClass } from '@angular/common';
 import { UntypedFormGroup } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { ControlDescriptor, ObjectDescriptor } from '@models/controls';
 
 import { ControlContext } from '@core/models';
 import { coreHelpers, formsHelpers } from '@core/helpers';
+import { ChevronComponent } from '@core/components/chevron/chevron.component';
+import { ControlsListComponent } from '@core/dynamics/controls-list/controls-list.component';
 
 @Component({
   selector: 'app-object',
   templateUrl: './object.component.html',
-  styleUrls: ['./object.component.scss']
+    styleUrls: ['./object.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgClass, ChevronComponent, ControlsListComponent]
 })
 export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 
@@ -21,10 +26,6 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 
     objectForm!: UntypedFormGroup;
     expanded = false;
-
-    constructor() {
-        super();
-    }
 
     getTitle(): string {
         return (!!this.descriptor?.displayField && this.controlValue[this.descriptor.displayField]) || this.descriptor?.label || this.descriptor?.title || '[no title]';

@@ -11,6 +11,13 @@ export class RouterSerializer implements RouterStateSerializer<RouterStateUrl> {
         }
         const { url, root: { queryParams } } = routerState;
         const { params, data } = route;
-        return { url, params, queryParams, data, isEmpty: false };
+
+        // Exclude function/class references from data: NgRx deep-freezes state in dev mode,
+        // which would freeze component classes and break Angular's DI metadata assignment.
+        const serializableData = Object.fromEntries(
+            Object.entries(data).filter(([, v]) => typeof v !== 'function')
+        );
+
+        return { url, params, queryParams, data: serializableData, isEmpty: false };
     }
 }

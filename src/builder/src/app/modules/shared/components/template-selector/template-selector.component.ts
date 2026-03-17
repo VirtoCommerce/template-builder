@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { MultipageSelectComponent } from '@core/components/multipage-select/multipage-select.component';
 
 import { MultipageSelectDescriptor } from '@core/models';
 import { TemplateEntryState, TemplateEntry } from '@shared/models';
@@ -14,7 +16,9 @@ import { map, of } from 'rxjs';
     selector: 'app-template-selector',
     templateUrl: './template-selector.component.html',
     styleUrls: ['./template-selector.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [AsyncPipe, MultipageSelectComponent]
 })
 export class TemplateSelectorComponent implements OnInit {
 

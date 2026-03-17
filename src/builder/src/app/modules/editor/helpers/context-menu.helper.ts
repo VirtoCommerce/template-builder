@@ -1,12 +1,11 @@
 import { Injectable, inject } from "@angular/core";
-import { EditorServicesModule } from '@editor/editor-services.module';
 
 import { ClipboardService } from '@core/services';
 import { ContextMenuAction } from '@core/models';
 import { Dictionary, SectionModel } from '@models/index';
 
 @Injectable({
-    providedIn: EditorServicesModule
+    providedIn: 'root'
 })
 export class ContextMenuHelper {
     private readonly clipboard = inject(ClipboardService);

@@ -1,16 +1,17 @@
-import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
 import { switchMap } from 'rxjs';
 import { tap } from 'rxjs';
 import { of } from 'rxjs';
 import { DataService } from '@core/services';
 import { ChangeDetectorRef, Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AsyncPipe } from '@angular/common';
 import { concat, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { SelectDescriptor } from '@models/controls';
-import { BaseControlDirective } from '@core/controls';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { appHelpers } from '@integration/helpers';
 
@@ -22,7 +23,9 @@ import { appHelpers } from '@integration/helpers';
 @Component({
     selector: 'app-select',
     templateUrl: './select.component.html',
-    styleUrls: ['./select.component.scss']
+    styleUrls: ['./select.component.scss'],
+    standalone: true,
+    imports: [AsyncPipe, ReactiveFormsModule, NgSelectModule]
 })
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 

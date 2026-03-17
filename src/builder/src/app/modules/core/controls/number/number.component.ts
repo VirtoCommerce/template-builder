@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { NgIf, NgClass } from '@angular/common';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { EnvironmentRef } from '@integration/services';
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { NumberDescriptor } from '@models/controls';
 
 @Component({
   selector: 'app-number',
   templateUrl: './number.component.html',
   styleUrls: ['./number.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, NgClass, MatSliderModule]
 })
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     private readonly windowRef = inject(EnvironmentRef);

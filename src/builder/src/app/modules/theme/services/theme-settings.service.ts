@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { HttpErrorResponse } from '@angular/common/http';
 import { map, Observable, of } from 'rxjs';
 
@@ -10,10 +10,8 @@ import { SettingsDataModel, SettingsSchemaModel } from '@theme/models';
 })
 export class ThemeSettingsService {
 
-    constructor(
-        private http: BuilderHttpClient,
-        private appConfig: AppConfig
-    ) { }
+    private readonly http = inject(BuilderHttpClient);
+    private readonly appConfig = inject(AppConfig);
 
     loadSettingsData(): Observable<SettingsDataModel | null> {
         const requestDescriptor = this.appConfig.getValue('settingsDataRequest');

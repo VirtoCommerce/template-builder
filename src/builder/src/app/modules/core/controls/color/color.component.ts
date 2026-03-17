@@ -1,7 +1,10 @@
-import { ConnectedPosition } from '@angular/cdk/overlay';
+import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { NgIf, NgStyle } from '@angular/common';
+import { ColorSketchModule } from 'ngx-color/sketch';
+import { ColorTwitterModule } from 'ngx-color/twitter';
 
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { ColorDescriptor } from '@models/controls';
 import { ColorEvent } from 'ngx-color';
 
@@ -14,7 +17,9 @@ import { ColorEvent } from 'ngx-color';
   selector: 'app-color',
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, NgStyle, OverlayModule, ColorSketchModule, ColorTwitterModule]
 })
 export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     private readonly cdr = inject(ChangeDetectorRef);

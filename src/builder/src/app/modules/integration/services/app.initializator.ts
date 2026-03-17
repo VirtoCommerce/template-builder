@@ -1,5 +1,5 @@
 import { ServerRequestDescriptor } from '@models/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { firstValueFrom, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -13,9 +13,8 @@ import { DefaultConfig } from './app.default-config';
 })
 export class AppInitializator {
 
-    constructor(
-        private config: AppConfig,
-        private http: BuilderHttpClient) { }
+    private readonly config = inject(AppConfig);
+    private readonly http = inject(BuilderHttpClient);
 
     init(): Promise<any> {
         // todo: dangerous! check that this is security

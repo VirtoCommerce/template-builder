@@ -1,6 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BuilderState } from '@editor/store/state';
 import { Store } from '@ngrx/store';
+import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
+import { PanelComponent } from '@core/components/panel/panel.component';
+import { IconComponent } from '@core/components/icon/icon.component';
+import { DynamicFormComponent } from '@core/dynamics/dynamic-form/dynamic-form.component';
+import { ContextMenuComponent } from '@core/components/context-menu/context-menu.component';
 
 import { ContextMenuAction, ModelChangedEventArgs  } from '@core/models';
 import { SectionModel, SectionSchema } from '@models/document';
@@ -14,7 +21,9 @@ import * as fromRoute from '@shared/routing/selectors';
     selector: 'app-edit-section',
     templateUrl: './edit-section.component.html',
     styleUrls: ['./edit-section.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgClass, AsyncPipe, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
 })
 export class EditSectionComponent implements OnInit {
 

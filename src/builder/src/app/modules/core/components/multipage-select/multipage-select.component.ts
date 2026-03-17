@@ -1,14 +1,21 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { MultipageSelectDescriptor } from '@core/models';
+import { ChevronComponent } from '../chevron/chevron.component';
+import { SeparatorComponent } from '../separator/separator.component';
+import { IconComponent } from '../icon/icon.component';
 
 // import { trigger, state, style, animate, transition } from '@angular/animations';
-
-import { MultipageSelectDescriptor } from '@core/models';
 
 @Component({
     selector: 'app-multipage-select',
     templateUrl: './multipage-select.component.html',
     styleUrls: ['./multipage-select.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, OverlayModule, NgScrollbarModule, ChevronComponent, SeparatorComponent, IconComponent],
     animations: [
         // trigger(
         //     'templatesAnimation',
@@ -60,8 +67,6 @@ export class MultipageSelectComponent implements OnInit {
     get currentLabel(): string {
         return this.current?.title || this.default?.title || '';
     }
-
-    constructor() { }
 
     ngOnInit(): void {
     }

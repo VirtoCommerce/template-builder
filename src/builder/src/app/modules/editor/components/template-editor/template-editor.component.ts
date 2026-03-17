@@ -1,6 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
-import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart } from '@angular/cdk/drag-drop';
+import { NgIf, NgFor, NgClass, NgStyle, AsyncPipe } from '@angular/common';
+import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
+import { PanelComponent } from '@core/components/panel/panel.component';
+import { CollapsibleListItemComponent } from '@core/components/collapsible-list-item/collapsible-list-item.component';
+import { IconComponent } from '@core/components/icon/icon.component';
+import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
+import { ContextMenuComponent } from '@core/components/context-menu/context-menu.component';
+import { DragHandleComponent } from '@core/components/drag-handle/drag-handle.component';
+import { SectionItemComponent } from '@editor/controls/section-item/section-item.component';
+import { SectionChildrenListComponent } from '@editor/controls/section-children-list/section-children-list.component';
 
 import { ContextMenuAction, ReorderItemsModel } from '@core/models';
 import { SectionModel, SectionSchema } from '@models/document';
@@ -19,6 +28,8 @@ import { domHelpers } from '@core/helpers';
     templateUrl: './template-editor.component.html',
     styleUrls: ['./template-editor.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass, NgStyle, AsyncPipe, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
 })
 export class TemplateEditorComponent implements OnInit {
 

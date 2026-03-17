@@ -1,9 +1,11 @@
 import { Directive, ViewContainerRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ActivatedRouteSnapshot, ResolveEnd, Router } from "@angular/router";
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from "@angular/router";
+import { filter } from "rxjs";
 
 @Directive({
-    selector: '[toolbar-placeholder]'
+    selector: '[toolbar-placeholder]',
+    standalone: true
 })
 export class ToolbarPlaceholderDirective {
 
@@ -13,20 +15,25 @@ export class ToolbarPlaceholderDirective {
     private currentToolbar: any;
 
     constructor() {
-        this.router.events.pipe(takeUntilDestroyed()).subscribe(e => {
-            if (e instanceof ResolveEnd) {
-                const toolbar = this.findToolbar(e.state.root);
+        this.router.events.pipe(
+            filter(e => e instanceof NavigationEnd),
+            takeUntilDestroyed()
+        ).subscribe(() => this.updateToolbar());
 
-                if (toolbar === null) {
-                    this.viewContainerRef.clear();
-                }
-                else if (toolbar !== this.currentToolbar) {
-                    this.viewContainerRef.clear();
-                    this.viewContainerRef.createComponent(toolbar);
-                    this.currentToolbar = toolbar;
-                }
-            }
-        });
+        // Handle case where initial navigation already completed before this directive was created
+        this.updateToolbar();
+    }
+
+    private updateToolbar(): void {
+        const toolbar = this.findToolbar(this.router.routerState.snapshot.root);
+
+        if (toolbar === null) {
+            this.viewContainerRef.clear();
+        } else if (toolbar !== this.currentToolbar) {
+            this.viewContainerRef.clear();
+            this.viewContainerRef.createComponent(toolbar);
+            this.currentToolbar = toolbar;
+        }
     }
 
     private findToolbar(node: ActivatedRouteSnapshot): any {

@@ -1,12 +1,17 @@
 import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, inject } from '@angular/core';
+import { NgIf, NgFor, NgClass, NgStyle } from '@angular/common';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { ContextMenuAction, ContextMenuActionType } from '@core/models';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
     selector: 'app-context-menu',
     templateUrl: './context-menu.component.html',
     styleUrls: ['./context-menu.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass, NgStyle, OverlayModule, IconComponent]
 })
 export class ContextMenuComponent implements OnInit, AfterViewInit {
 

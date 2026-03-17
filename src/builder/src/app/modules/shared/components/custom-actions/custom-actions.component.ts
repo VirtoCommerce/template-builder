@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { ActionButtonDescriptor } from '@core/models';
+import { ActionsDropdownComponent } from '@core/components/actions-dropdown/actions-dropdown.component';
 
 @Component({
     selector: 'app-custom-actions',
     templateUrl: './custom-actions.component.html',
     styleUrls: ['./custom-actions.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ActionsDropdownComponent]
 })
 export class CustomActionsComponent implements OnInit {
 
@@ -32,8 +35,6 @@ export class CustomActionsComponent implements OnInit {
             alias: ''
         }
     ];
-
-    constructor() { }
 
     ngOnInit(): void {
     }

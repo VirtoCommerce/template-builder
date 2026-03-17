@@ -1,13 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { CheckboxDescriptor } from '@models/controls';
 
 @Component({
-  selector: 'app-checkbox',
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-checkbox',
+    templateUrl: './checkbox.component.html',
+    styleUrls: ['./checkbox.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, MatCheckboxModule]
 })
 export class CheckboxComponent extends BaseControlDirective<CheckboxDescriptor> {
     raiseValueChanged(value: boolean) {

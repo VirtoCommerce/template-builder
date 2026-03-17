@@ -1,12 +1,15 @@
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
 
 @Component({
     selector: 'app-paste-content',
     templateUrl: './paste-content.component.html',
     styleUrls: ['./paste-content.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ReactiveFormsModule, MatDialogModule, IconButtonComponent]
 })
 export class PasteContentComponent implements OnInit {
 

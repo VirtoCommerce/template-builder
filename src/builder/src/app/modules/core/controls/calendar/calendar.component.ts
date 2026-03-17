@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { NgIf } from '@angular/common';
+import { MatDatepickerModule, MatNativeDateModule } from 'ngv-datepicker';
 
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { CalendarDescriptor } from '@models/controls';
 import moment from 'moment';
 import * as chrono from 'chrono-node';
@@ -16,10 +16,12 @@ import * as chrono from 'chrono-node';
  */
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, MatDatepickerModule, MatNativeDateModule]
 })
 export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> {
 

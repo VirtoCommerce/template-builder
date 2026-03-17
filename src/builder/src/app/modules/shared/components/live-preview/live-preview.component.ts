@@ -9,15 +9,22 @@ import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
 import * as fromRoute from '@shared/routing';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-live-preview',
     templateUrl: './live-preview.component.html',
-    styleUrls: ['./live-preview.component.scss']
+    styleUrls: ['./live-preview.component.scss'],
+    standalone: true,
+    imports: [NgClass, NgIf, AsyncPipe]
 })
 export class LivePreviewComponent implements OnInit {
 
     private readonly destroyRef = inject(DestroyRef);
+    private readonly store = inject(Store<BuilderState>);
+    private readonly sanitizer = inject(DomSanitizer);
+    private readonly eventsBus = inject(EventsBusService);
+    private readonly config = inject(AppConfig);
 
     @ViewChild('frame', { static: false }) frame: ElementRef | undefined;
 
@@ -38,13 +45,6 @@ export class LivePreviewComponent implements OnInit {
 
     previewUrl!: SafeResourceUrl;
     url!: string;
-
-    constructor(
-        private store: Store<BuilderState>,
-        private sanitizer: DomSanitizer,
-        private eventsBus: EventsBusService,
-        private config: AppConfig
-    ) { }
 
     ngOnInit(): void {
 

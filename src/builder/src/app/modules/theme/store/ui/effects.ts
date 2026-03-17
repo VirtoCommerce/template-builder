@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { withLatestFrom, filter, mapTo, map, switchMapTo } from "rxjs/operators";
@@ -17,10 +17,8 @@ import { ActivatedRouteSnapshot } from "@angular/router";
     providedIn: 'root'
 })
 export class ThemeUiEffects {
-    constructor(
-        private store$: Store<BuilderState>,
-        private actions$: Actions
-    ) { }
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly actions$ = inject(Actions);
 
     gotoPresets$ = createEffect(() => this.actions$.pipe(
         ofType(actions.gotoPresets),

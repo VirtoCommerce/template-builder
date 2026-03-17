@@ -1,7 +1,7 @@
 import { from, map, tap } from 'rxjs';
 import { AssetsRequest, UploadAssetDescriptor } from '@models/index';
 import { AppConfig, EvaluatorService } from '@integration/services';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FilesDescriptor } from '@models/controls';
 import { AssetFile } from '../models';
 import { DataService } from './data.service';
@@ -14,10 +14,9 @@ import { appHelpers } from '@integration/helpers';
 })
 export class AssetsService {
 
-    constructor(
-        private data: DataService,
-        private appConfig: AppConfig,
-        private evaluator: EvaluatorService) { }
+    private readonly data = inject(DataService);
+    private readonly appConfig = inject(AppConfig);
+    private readonly evaluator = inject(EvaluatorService);
 
     uploadAsset(file: AssetFile, descriptor: UploadAssetDescriptor,
         context: any, progress: (value: number) => void, overridenRequestProps: Partial<AssetsRequest> | null = null): Observable<any> {

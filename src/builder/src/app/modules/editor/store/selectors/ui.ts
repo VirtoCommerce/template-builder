@@ -37,7 +37,7 @@ export const hoveredSectionId = createSelector(
 
 export const isLoading = createSelector(
     selectTemplateUIState,
-    state => state.isTemplateLoading || state.isSchemasLoading
+    state => !!(state?.isTemplateLoading || state?.isSchemasLoading)
 );
 
 export const selectAddSectionPaneGroupStates = createSelector(

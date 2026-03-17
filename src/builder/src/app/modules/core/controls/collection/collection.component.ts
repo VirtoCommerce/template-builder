@@ -1,10 +1,13 @@
 import { ModalService } from '@core/services';
 import { Component, DestroyRef, inject } from '@angular/core';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormArray, UntypedFormGroup, AbstractControl } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { CollectionDescriptor, ControlDescriptor } from '@models/controls';
 
 import { ContextMenuActionType, ControlContext } from '@core/models';
@@ -12,10 +15,20 @@ import { coreHelpers, formsHelpers } from '@core/helpers';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { appHelpers } from '@integration/helpers';
 
+import { ChevronComponent } from '@core/components/chevron/chevron.component';
+import { ContextMenuComponent } from '@core/components/context-menu/context-menu.component';
+import { DragHandleComponent } from '@core/components/drag-handle/drag-handle.component';
+import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
+import { ControlsListComponent } from '@core/dynamics/controls-list/controls-list.component';
+
 @Component({
     selector: 'app-collection',
     templateUrl: './collection.component.html',
-    styleUrls: ['./collection.component.scss']
+    styleUrls: ['./collection.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass, ReactiveFormsModule, DragDropModule,
+              ChevronComponent, ContextMenuComponent, DragHandleComponent,
+              IconButtonComponent, ControlsListComponent]
 })
 export class CollectionComponent extends BaseControlDirective<CollectionDescriptor> {
 
@@ -53,7 +66,7 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }
 
     getContext(item: UntypedFormGroup, index: number): ControlContext {
-        return { ...this.context, item: this.controlValue, index, element: item.value, parent: this.context /*, filter: null */ };
+        return { ...this.context, item: this.controlValue, index, element: item.value, parent: this.context };
     }
 
     override setControlValue(value: any): void {
@@ -91,21 +104,10 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         const title = (fromField && String(fromField)) ?? `Item ${this.titleIndex++}`;
         this.titleCache.set(item, title);
         return title;
-
-
-    // let result = item['___storedTitle'];
-
-    // if (!result) {
-    //     result = (!!this.descriptor?.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
-    //     item['___storedTitle'] = result;
-    // }
-    // return result;
-
-    // return (!!this.descriptor?.displayField && appHelpers.getValueByPath(item, this.descriptor.displayField)) || `item ${index + 1}`;
     }
 
     getDescriptors(): ControlDescriptor[] {
-        return this.descriptor?.element || []; // formsHelpers.mergeDescriptors(this.context.objects, this.descriptor);
+        return this.descriptor?.element || [];
     }
 
     canAddItem(): boolean {

@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { cutString, stripHtmlTags } from '@app/modules/integration/helpers/utils';
 import { BaseControlDescriptor, SectionPropertyDescriptor } from '@app/modules/models';
 import { SectionSchema } from '@models/document';
 import { isArray } from 'lodash-es';
+import { IconComponent } from '@core/components/icon/icon.component';
 
 @Component({
     selector: 'app-add-section-item',
     templateUrl: './add-section-item.component.html',
     styleUrls: ['./add-section-item.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgClass, IconComponent]
 })
 export class AddSectionItemComponent implements OnInit {
 
@@ -19,8 +23,6 @@ export class AddSectionItemComponent implements OnInit {
 
     @Output() onPreview = new EventEmitter();
     @Output() onAdd = new EventEmitter();
-
-    constructor() { }
 
     ngOnInit(): void {
     }

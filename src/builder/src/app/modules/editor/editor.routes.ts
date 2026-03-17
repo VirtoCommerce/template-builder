@@ -1,20 +1,24 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+import { provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
 import {
     TemplateEditorHostComponent,
     AddSectionComponent,
     EditSectionComponent,
     ToolbarHostComponent
- } from '@editor/components';
-
-// import { AtmsListComponent, AtmsDetailsComponent } from '@atms/pages';
+} from '@editor/components';
 import { EditorModuleInfo } from '@models/modules';
+import { EditorFeatureName, editorReducers, EFFECTS } from './store';
 
-const routes: Routes = [
+export const EDITOR_ROUTES: Routes = [
     {
         path: '',
         component: TemplateEditorHostComponent,
+        providers: [
+            provideState(EditorFeatureName, editorReducers),
+            provideEffects(EFFECTS)
+        ],
         data: { module: EditorModuleInfo.name, toolbar: ToolbarHostComponent },
         children: [
             {
@@ -30,12 +34,12 @@ const routes: Routes = [
             {
                 path: 'settings',
                 component: EditSectionComponent,
-                data: { module: EditorModuleInfo.name, mode: EditorModuleInfo.mode.editSettings /* used in routing selectors */ }
+                data: { module: EditorModuleInfo.name, mode: EditorModuleInfo.mode.editSettings }
             },
             {
                 path: 'settings/:settingsType',
                 component: EditSectionComponent,
-                data: { module: EditorModuleInfo.name, mode: EditorModuleInfo.mode.editSettings /* used in routing selectors */ }
+                data: { module: EditorModuleInfo.name, mode: EditorModuleInfo.mode.editSettings }
             },
             {
                 path: ':sectionId',
@@ -48,20 +52,5 @@ const routes: Routes = [
                 data: { module: EditorModuleInfo.name, mode: 'edit-block' }
             }
         ]
-    },
-    // {
-    //     path: '',
-    //     component: ToolbarHostComponent,
-    //     outlet: 'toolbar'
-    // }
+    }
 ];
-
-@NgModule({
-    imports: [
-        RouterModule.forChild(routes)
-    ],
-    exports: [
-        RouterModule
-    ]
-})
-export class EditorRoutesModule { }

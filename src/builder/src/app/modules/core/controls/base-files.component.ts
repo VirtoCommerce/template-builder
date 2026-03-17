@@ -8,12 +8,12 @@ import { Subject } from 'rxjs';
 
 import { ControlContext, AssetFile } from '@core/models';
 import { ModalService, AssetsService, ClipboardService } from '@core/services';
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { FilesDescriptor } from '@models/controls';
 
 import { coreHelpers, formsHelpers } from '@core/helpers';
 
-@Directive()
+@Directive({ standalone: true })
 export abstract class BaseFilesComponent<T extends FilesDescriptor> extends BaseControlDirective<T> {
 
     private readonly destroyRef = inject(DestroyRef);
@@ -59,10 +59,6 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
 
     reorderItems(previous: number, current: number) {
         moveItemInArray(this.innerValue, previous, current);
-        // const value = this.innerValue;
-        // const item = value[previous];
-        // value.splice(previous, 1);
-        // value.splice(current, 0, item);
         this.raiseValueChanged();
     }
 
@@ -131,7 +127,6 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
                 file.progress = value;
             }).subscribe({
                 next: (_) => {
-                    // result of request is the same object as file
                     file.uploaded = true;
                     file.uploading = false;
                     file.previewUrl = this.data.getPreviewUrl(file, this.descriptor || {}, context);
@@ -202,7 +197,6 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     private convertValueToFile(item: any, index: number): AssetFile {
-        // here item is a custom model or string
         let result: AssetFile;
         if (typeof item === 'string') {
             result = <AssetFile>{
@@ -213,9 +207,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
             };
         } else if (item instanceof File) {
             result = <AssetFile>item;
-            // here result is a single model item with data property and default File properties
             if (this.descriptor?.element && this.descriptor.element.length) {
-                // need to generate 'data' property
                 result.data = coreHelpers.createDefaultObject(this.descriptor.element);
             }
         } else {
@@ -276,19 +268,13 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         const hasElement = !!this.descriptor?.element && this.descriptor.element.length > 0;
         const propertiesSet = this.descriptor?.urlField || this.descriptor?.filenameField;
 
-
         let result: any = {};
 
-        // no property names set, no element
         if (!hasElement && !propertiesSet) {
-            result = item.url || item.name; // return url
+            result = item.url || item.name;
         }
-
-        // property names set, no element
-        // no property names set, has element
-        // property names set, has element
         else if (hasElement || propertiesSet) {
-            result = <any>{  // return an object with url, filename and other data
+            result = <any>{
                 [this.descriptor?.filenameField || 'filename']: item.name,
                 ...(item.data || {}),
                 [this.descriptor?.urlField || 'url']: item.url || item.webkitRelativePath || item.name

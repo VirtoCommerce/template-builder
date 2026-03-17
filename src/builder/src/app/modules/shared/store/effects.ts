@@ -25,9 +25,6 @@ export class SharedEffects {
     private readonly eventsBus = inject(EventsBusService);
     private readonly notification = inject(NotificationsService);
     private readonly metaDataService = inject(MetaDataService);
-    private readonly appConfig = inject(AppConfig);
-    // broadcast shoud be injected to call constructor
-    private readonly _broadcast = inject(BroadcastPlatformService);
 
     raiseInitModule$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
@@ -203,29 +200,11 @@ export class SharedEffects {
         map(({ mode }) => router.go({ queryParams: { 'preview-mode': mode } }))
     ));
 
-    // setCurrentDirtyState$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.setCurrentDirtyState),
-    //     withLatestFrom(
-    //         this.store$.select(fromRoute.selectTemplateParameter),
-    //         this.store$.select(fromRoute.selectParentTemplateParameter),
-    //     ),
-    //     map(([{ dirty }, template, parent]) => parent
-    //         ? actions.setDirtyState({ dirty, template, parent })
-    //         : actions.setRootDirtyState({ dirty, template })
-    //     )
-    // ));
-
-    // executeNavigation$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.selectTemplate),
-    //     mapTo(actions.navigateToCurrentTemplate())
-    // ));
-
     onStartPreviewUrl$ = createEffect(() => this.actions$.pipe(
         ofType(actions.setLivePreviewUrl),
         withLatestFrom(
             this.store$.select(fromState.selectCurrentTemplateEntry)
         ),
-        // delay(1000), // todo: ad-hoc solution. we need to wait until the preview is completely loaded and then send messages
         filter(([, template]) => !!template?.previewUrl),
         tap(([, template]) => {
             this.eventsBus.emit({

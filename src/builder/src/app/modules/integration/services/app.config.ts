@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -14,14 +14,13 @@ export class AppConfig {
     private readonly SESSION_ID = 'sessionId';
     private _context: any = null;
 
+    private readonly env = inject(EnvironmentRef);
+    private readonly cookies = inject(CookieService);
+    private readonly evaluator = inject(EvaluatorService);
+
     // todo: check comments that it is true!
     private mergedConfig: any = {}; // 'config' in context, properties will be evaluated
     private settings: any = {}; // 'settings' in context, properties will not be evaluated
-
-    constructor(
-        private env: EnvironmentRef,
-        private cookies: CookieService,
-        private evaluator: EvaluatorService) { }
 
     initConfigWith(config: any) {
         Object.keys(config).forEach(key => {
@@ -127,25 +126,3 @@ export type OptionName = 'templatesListUrl'
     | 'publishPages'
     | 'saveGroupedPage'
     ;
-
-// 'fullPreviewUrl'
-//     | 'waitPreviewResponseTimeout'
-//     | 'pageRequest'
-//     | 'blocksSettingsRequest'
-//     | 'settingsSchemaRequest'
-//     | 'settingsDataRequest'
-//     | 'uploadThemeDraftRequest'
-//     | 'uploadThemeSettingsRequest'
-//     | 'uploadPageRequest'
-//     | 'uploadAssetsRequest'
-//     | 'filePath'
-//     | 'themeThumbUrl'
-//     | 'assetsUrlTemplate'
-//     | 'version'
-//     | 'hasPage'
-//     | 'links'
-//     | 'onPageChanged'
-//     | 'onThemeChanged'
-//     | 'onThemeDraftChanged';
-
-

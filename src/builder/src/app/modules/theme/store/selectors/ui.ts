@@ -19,7 +19,7 @@ export const selectGroupsState = createSelector(
 
 export const isLoading = createSelector(
     selectThemeUIState,
-    state => state.settingsLoading || state.schemaLoading
+    state => !!(state?.settingsLoading || state?.schemaLoading)
 );
 
 export const selectPresetsContext = createSelector(

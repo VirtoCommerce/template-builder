@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { of } from "rxjs";
 import { withLatestFrom, filter, switchMapTo, map, catchError, switchMap, tap } from "rxjs/operators";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -18,11 +18,9 @@ import { BuilderState } from "../state";
     providedIn: 'root'
 })
 export class ThemeDataEffects {
-    constructor(
-        private store$: Store<BuilderState>,
-        private actions$: Actions,
-        private service: ThemeSettingsService
-    ) { }
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly actions$ = inject(Actions);
+    private readonly service = inject(ThemeSettingsService);
 
     // flow: navigation complete -> check correct module
     // raise load data

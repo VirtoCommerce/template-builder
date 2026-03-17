@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { ActionsDropdownComponent } from '@core/components/actions-dropdown/actions-dropdown.component';
 
 import { ActionButtonDescriptor } from '@core/models';
 import { BuilderState } from '@shared/store';
@@ -11,7 +13,9 @@ import { tap } from 'rxjs';
     selector: 'app-preview-mode',
     templateUrl: './preview-mode.component.html',
     styleUrls: ['./preview-mode.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [AsyncPipe, ActionsDropdownComponent]
 })
 export class PreviewModeComponent implements OnInit {
 

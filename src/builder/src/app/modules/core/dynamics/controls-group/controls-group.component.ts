@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgIf, NgClass } from '@angular/common';
+import { MatRippleModule } from '@angular/material/core';
+import { ChevronComponent } from '@core/components/chevron/chevron.component';
 
 @Component({
     selector: 'app-controls-group',
     templateUrl: './controls-group.component.html',
     styleUrls: ['./controls-group.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgClass, MatRippleModule, ChevronComponent]
 })
 export class ControlsGroupComponent implements OnInit {
 
@@ -12,8 +17,6 @@ export class ControlsGroupComponent implements OnInit {
     @Input() opened: boolean = false;
 
     @Output() openedChanged = new EventEmitter<boolean>();
-
-    constructor() { }
 
     ngOnInit(): void {
     }

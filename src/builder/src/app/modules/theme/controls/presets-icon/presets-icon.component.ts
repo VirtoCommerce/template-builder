@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { NgIf, NgStyle } from '@angular/common';
+import { IconWithPreviewComponent } from '@core/components/icon-with-preview/icon-with-preview.component';
 
 @Component({
     selector: 'app-presets-icon',
     templateUrl: './presets-icon.component.html',
     styleUrls: ['./presets-icon.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgStyle, IconWithPreviewComponent]
 })
 export class PresetsIconComponent implements OnInit {
 
@@ -25,8 +29,6 @@ export class PresetsIconComponent implements OnInit {
         this.color = this.getTextColor();
         this.letter = value[0];
     }
-
-    constructor() { }
 
     ngOnInit(): void { }
 

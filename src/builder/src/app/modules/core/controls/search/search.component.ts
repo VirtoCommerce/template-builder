@@ -1,10 +1,12 @@
 import { ChangeDetectorRef, Component, DestroyRef, ElementRef, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgIf, NgFor, JsonPipe, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
 
 import { from, NextObserver, Subject } from 'rxjs';
 import { concatMap, debounceTime, map } from 'rxjs/operators';
 
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { AssetsService, DataService } from '@core/services';
 import { EnvironmentRef } from '@integration/services';
 import { DisplaySearchResult, SearchDescriptor } from '@models/controls';
@@ -14,7 +16,9 @@ import { appHelpers } from '@integration/helpers';
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss']
+    styleUrls: ['./search.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, JsonPipe, IconButtonComponent]
 })
 export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     private readonly destroyRef = inject(DestroyRef);

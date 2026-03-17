@@ -49,6 +49,7 @@
                         "allowedCommonJsDependencies": [
                             "easymde",
                             "element-resize-detector",
+                            "jsonpath",
                             "turndown"
                         ],
                         "customWebpackConfig": {

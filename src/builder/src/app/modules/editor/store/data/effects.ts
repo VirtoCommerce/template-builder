@@ -1,7 +1,7 @@
 import { SchemasList } from './../../models/schemas.model';
 import { validateItemUnderEdit, useSchemasAction } from './../actions/data';
 import { ModalService } from '@core/services';
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 
 import { of } from "rxjs";
 import { withLatestFrom, filter, map, catchError, switchMap, exhaustMap, tap } from "rxjs/operators";
@@ -32,13 +32,11 @@ import { SchemasService, TemplatesService } from "@editor/services";
     providedIn: 'root'
 })
 export class TemplateEditorDataEffects {
-    constructor(
-        private store$: Store<BuilderState>,
-        private actions$: Actions,
-        private schemas: SchemasService,
-        private templates: TemplatesService,
-        private modals: ModalService
-    ) { }
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly actions$ = inject(Actions);
+    private readonly schemas = inject(SchemasService);
+    private readonly templates = inject(TemplatesService);
+    private readonly modals = inject(ModalService);
 
     loadTemplateData$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),

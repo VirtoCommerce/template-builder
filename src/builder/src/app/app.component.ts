@@ -1,5 +1,7 @@
 import { Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 import * as actions from '@shared/store/actions';
 import * as sharedSelectors from '@shared/store/selectors';
@@ -9,11 +11,17 @@ import { BuilderState as SharedState } from '@shared/store';
 import { BuilderState as EditorState } from '@editor/store';
 import { BuilderState as ThemeState } from '@theme/store';
 
+import { ToolbarComponent } from './layout/toolbar/toolbar.component';
+import { PreviewAreaComponent } from './layout/preview-area/preview-area.component';
+import { FullscreenLoaderComponent } from './layout/fullscreen-loader/fullscreen-loader.component';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, AsyncPipe, RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
 })
 export class AppComponent implements OnInit {
 

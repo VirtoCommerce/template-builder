@@ -1,15 +1,20 @@
 import { GroupsStateModel, TabModel } from '@core/models';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { NgIf, NgFor } from '@angular/common';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
+import { ControlsTabComponent } from '@core/dynamics/controls-tab/controls-tab.component';
 
 @Component({
     selector: 'app-controls-tabs',
     templateUrl: './controls-tabs.component.html',
     styleUrls: ['./controls-tabs.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, ReactiveFormsModule, MatTabsModule, ControlsTabComponent]
 })
 export class ControlsTabsComponent implements OnInit {
 
@@ -22,8 +27,6 @@ export class ControlsTabsComponent implements OnInit {
     tabs: TabModel[] = [];
     hasTabs: boolean = false;
     singleList: boolean = false;
-
-    constructor() { }
 
     ngOnInit(): void {
         this.groupsState = {};

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { EnvironmentRef } from '@integration/services'
@@ -8,10 +8,9 @@ import { ClipboardModel } from '@core/models';
     providedIn: 'root'
 })
 export class ClipboardService {
-    constructor(
-        private clipboard: Clipboard,
-        private environment: EnvironmentRef
-    ) { }
+
+    private readonly clipboard = inject(Clipboard);
+    private readonly environment = inject(EnvironmentRef);
 
     copy(data: ClipboardModel) {
         this.copyString(JSON.stringify(data));

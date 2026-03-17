@@ -5,7 +5,7 @@ import { appHelpers } from "@app/modules/integration/helpers";
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
 
-@Directive()
+@Directive({ standalone: true })
 export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit, OnDestroy {
 
     private _descriptor: T | null = null;
@@ -35,9 +35,6 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     ngAfterContentInit(): void {
         if (this.descriptor?.autofocus) {
-            // child must not change the value of parent properties
-            // but focus change the parent form (un)touched property indirectly
-            // to avoid the ExpressionChangedAfterItHasBeenCheckedError focus should be changed outside the digest cycle
             setTimeout(() => {
                 this.setFocus();
             });
@@ -46,13 +43,6 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
 
     setControlValue(value: any) {
         if (!value && value !== 0 && value !== BigInt(0)) {
-            // https://www.typescriptlang.org/docs/handbook/2/narrowing.html
-            // 0
-            // NaN
-            // "" (the empty string)
-            // 0n (the bigint version of zero)
-            // null
-            // undefined
             value = null;
         }
         this.controlValue = value;

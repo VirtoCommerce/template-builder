@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BuilderState } from '@shared/routing';
 import * as fromRoute from '@shared/routing';
@@ -8,7 +9,9 @@ import * as fromRoute from '@shared/routing';
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [RouterOutlet]
 })
 export class SidebarComponent {
 

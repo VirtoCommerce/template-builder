@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { NgvMarkdownModule } from 'ngv-markdown';
 
 import { MarkdownModel } from 'dist/ngv-markdown/lib/markdown.model';
-import { BaseControlDirective } from '@core/controls';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { AssetsService } from '@core/services';
 import { MarkdownDescriptor } from '@models/controls';
 import { AssetFile } from '../../models';
@@ -10,7 +12,9 @@ import { AssetFile } from '../../models';
     selector: 'app-markdown',
     templateUrl: './markdown.component.html',
     styleUrls: ['./markdown.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgvMarkdownModule]
 })
 export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> {
 

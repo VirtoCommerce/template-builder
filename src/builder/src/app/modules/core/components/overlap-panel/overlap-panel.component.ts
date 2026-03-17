@@ -1,14 +1,22 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, HostBinding, HostListener } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, HostBinding, HostListener, inject } from '@angular/core';
 import { EnvironmentRef } from '@integration/services';
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
+import { NgIf, NgClass } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
     selector: 'app-overlap-panel',
     templateUrl: './overlap-panel.component.html',
-    styleUrls: ['./overlap-panel.component.scss']
+    styleUrls: ['./overlap-panel.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgClass, IconComponent]
 })
 export class OverlapPanelComponent implements OnInit {
+
+    private readonly windowRef = inject(EnvironmentRef);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly elementRef = inject(ElementRef);
 
     @Input() expandable = true;
     @HostBinding("class.inplace") @Input() skipTranslate: boolean | null = false;
@@ -23,11 +31,6 @@ export class OverlapPanelComponent implements OnInit {
     contentWidth: number | null = null;
     expanderPosition: number | null = null;
     isOpened = false; // todo: maybe should be stored in state or in url
-
-    constructor(
-        private windowRef: EnvironmentRef,
-        private cdr: ChangeDetectorRef,
-        private elementRef: ElementRef) { }
 
     ngOnInit(): void { }
 

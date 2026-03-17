@@ -5,17 +5,17 @@ export const selectThemeEditorFeature = (state: BuilderState) => state.themeEdit
 
 export const selectThemeUIState = createSelector(
     selectThemeEditorFeature,
-    state => state.ui
+    state => state?.ui
 );
 
 export const selectThemeDataState = createSelector(
     selectThemeEditorFeature,
-    state => state.data
+    state => state?.data
 );
 
 export const selectThemeDomainState = createSelector(
     selectThemeEditorFeature,
-    state => state.domain
+    state => state?.domain
 );
 
 export const selectPresetsFilter = createSelector(

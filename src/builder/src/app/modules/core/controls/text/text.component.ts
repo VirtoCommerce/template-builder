@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CKEditor4 } from 'ckeditor4-angular';
-import { BaseControlDirective } from '@core/controls';
+import { CKEditor4, CKEditorModule } from 'ckeditor4-angular';
+import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { TextDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-text',
     templateUrl: './text.component.html',
     styleUrls: ['./text.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [CKEditorModule]
 })
 export class TextComponent extends BaseControlDirective<TextDescriptor> {
     editorType = CKEditor4.EditorType.CLASSIC;

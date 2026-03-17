@@ -1,46 +1,25 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-
-import * as router from '@shared/routing/actions';
-import { ActivationStart, Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { LogoComponent } from '@core/components/logo/logo.component';
+import { ToolbarPlaceholderDirective } from './toolbar-placeholder.directive';
 
 @Component({
     selector: 'app-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss'],
+    standalone: true,
+    imports: [LogoComponent, ToolbarPlaceholderDirective]
 })
 export class ToolbarComponent implements OnInit {
 
     private readonly router = inject(Router);
     private readonly store = inject(Store);
 
-    // undoRedoButtons: ButtonDescriptor[] = [
-    //     { icon: 'undo', hint: 'Undo last action', type: null },
-    //     { icon: 'redo', hint: 'Redo canceled action', type: null }
-    // ];
-
-    // previewButtons: ButtonDescriptor[] = [
-    //     { icon: 'screen', hint: '', type: null },
-    //     { icon: 'tablet', hint: '', type: null },
-    //     { icon: 'mobile', hint: '', type: null },
-    //     { icon: 'preview', hint: '', type: null }
-    // ];
-
-    // @ViewChild(RouterOutlet) outlet!: RouterOutlet;
-
     ngOnInit() {
-        // this.router.events.subscribe(e => {
-        //     console.log('router event', e);
-        //     if (e instanceof ActivationStart && e.snapshot.outlet === "toolbar")
-        //         this.outlet.deactivate();
-        // });
     }
 
-
     routerOutletActivated(ro: RouterOutlet) {
-        // console.log('activated');
-        // if (!_shouldActivate(_router.url))
-        //     ro.deactivate();
     }
 
 }

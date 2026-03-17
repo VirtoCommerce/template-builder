@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgIf, NgClass } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
     selector: 'app-icon-button',
     templateUrl: './icon-button.component.html',
     styleUrls: ['./icon-button.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgClass, IconComponent]
 })
 export class IconButtonComponent implements OnInit {
 
@@ -14,8 +18,6 @@ export class IconButtonComponent implements OnInit {
     @Input() disabled: boolean = false;
 
     @Output() onClick = new EventEmitter<MouseEvent>();
-
-    constructor() { }
 
     ngOnInit(): void {
     }

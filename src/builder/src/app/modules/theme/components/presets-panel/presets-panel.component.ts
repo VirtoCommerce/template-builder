@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { NgIf, NgFor, NgClass, AsyncPipe, KeyValuePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
+import { PanelComponent } from '@core/components/panel/panel.component';
+import { IconComponent } from '@core/components/icon/icon.component';
+import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
+import { PresetsIconComponent } from '@theme/controls/presets-icon/presets-icon.component';
 
 import { BuilderState } from '@theme/store/state';
 
@@ -11,7 +17,9 @@ import * as fromRoute from '@shared/routing/selectors';
     selector: 'app-presets-panel',
     templateUrl: './presets-panel.component.html',
     styleUrls: ['./presets-panel.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, NgClass, AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, IconButtonComponent, PresetsIconComponent]
 })
 export class PresetsPanelComponent implements OnInit {
 

@@ -1,15 +1,21 @@
-import { CdkDragRelease, CdkDragSortEvent, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { NgFor, NgClass } from '@angular/common';
 import { BlockStatesList, SectionsSchemasList } from '@editor/models';
 import { ReorderItemsModel } from '@core/models';
 import { SectionModel } from '@models/document';
 import { domHelpers } from '@core/helpers';
+import { SectionItemComponent } from '@editor/controls/section-item/section-item.component';
+import { DragHandleComponent } from '@core/components/drag-handle/drag-handle.component';
+import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
 
 @Component({
     selector: 'app-section-children-list',
     templateUrl: './section-children-list.component.html',
     styleUrls: ['./section-children-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor, NgClass, DragDropModule, SectionItemComponent, DragHandleComponent, IconButtonComponent]
 })
 export class SectionChildrenListComponent implements OnInit {
 
@@ -36,8 +42,6 @@ export class SectionChildrenListComponent implements OnInit {
     @Output() addBlockClick = new EventEmitter();
     @Output() reorderBlocks = new EventEmitter<ReorderItemsModel>();
     @Output() executeAction = new EventEmitter<{ action: string, block: SectionModel }>();
-
-    constructor() { }
 
     ngOnInit(): void {
     }

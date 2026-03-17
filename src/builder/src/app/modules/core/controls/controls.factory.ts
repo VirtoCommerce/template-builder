@@ -1,40 +1,19 @@
 import { Injectable, Type } from "@angular/core";
 
-import * as editors from './index';
+import { BaseControlDirective } from './base-control.directive';
+import { UnknownEditorComponent } from './unknown-editor/unknown-editor.component';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ControlsFactory {
-    private controls: { [key: string]: Type<any> } = {};
+    private controls: { [key: string]: Type<BaseControlDirective<any>> } = {};
 
-    constructor() {
-        this.controls['calendar'] = editors.CalendarComponent;
-        this.controls['checkbox'] = editors.CheckboxComponent;
-        this.controls['color'] = editors.ColorComponent;
-        this.controls['files'] = editors.FilesComponent;
-        this.controls['images'] = editors.ImagesComponent;
-        this.controls['list'] = editors.CollectionComponent;
-        this.controls['markdown'] = editors.MarkdownComponent;
-        this.controls['number'] = editors.NumberComponent;
-        this.controls['object'] = editors.ObjectComponent;
-        this.controls['slider'] = editors.NumberComponent;
-        this.controls['select'] = editors.SelectComponent;
-        this.controls['string'] = editors.StringComponent;
-        this.controls['text'] = editors.TextComponent;
-        this.controls['search'] = editors.SearchComponent;
-
-        // this.controls['popup-list'] = editors.PopupListItemComponent;
-        // this.controls['url'] = editors.UrlItemComponent;
+    register(type: string, component: Type<BaseControlDirective<any>>): void {
+        this.controls[type] = component;
     }
 
     resolve(type: string): Type<any> {
-        const result = this.controls[type];
-
-        if (!result) {
-            return editors.UnknownEditorComponent;
-        }
-
-        return result;
+        return this.controls[type] ?? UnknownEditorComponent;
     }
 }

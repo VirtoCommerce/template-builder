@@ -1,4 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { NgIf, NgClass } from '@angular/common';
+import { IconComponent } from '@core/components/icon/icon.component';
+import { CheckboxComponent } from '@core/controls/checkbox/checkbox.component';
+import { ContextMenuComponent } from '@core/components/context-menu/context-menu.component';
 // import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { ContextMenuAction } from '@core/models';
@@ -10,6 +14,8 @@ import { ContextMenuHelper, helpers } from '@editor/helpers';
     templateUrl: './section-item.component.html',
     styleUrls: ['./section-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgClass, IconComponent, CheckboxComponent, ContextMenuComponent],
     // animations: [
     //     trigger('openClose', [
     //         state('open', style({ height: 'auto' })),

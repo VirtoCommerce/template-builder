@@ -8,11 +8,18 @@
     border-radius: .25rem;
     color: $icons-color;
     border: 1px solid rgba(18, 18, 18, 0.08);
-    @apply flex flex-row p-2 items-stretch w-full;
+    font-size: $default-font-size;
+    font-weight: 400;
+    letter-spacing: normal;
+    @apply p-2 w-full;
 
     &:hover {
         background: rgba(18, 18, 18, 0.04);
     }
+}
+
+.btn-inner {
+    @apply flex flex-row items-center w-full min-w-0;
 }
 
 ::ng-deep .menu-panel .mat-mdc-menu-content {
@@ -24,11 +31,17 @@
     height: 2.25rem;
     line-height: 2.25rem;
     border-radius: .25rem;
-    @apply flex flex-row items-center px-2;
+    @apply px-2;
+}
+
+.item-inner {
+    @apply flex flex-row items-center w-full;
+
     app-icon {
         @apply mr-2;
     }
 }
+
 .text, .text-item {
     color: $controls-text-color;
 }

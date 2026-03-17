@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { from, of } from 'rxjs';
@@ -29,20 +29,12 @@ import { SectionModel } from "@app/modules/models";
     providedIn: 'root'
 })
 export class TemplateEditorDomainEffects {
-    constructor(
-        private store$: Store<BuilderState>,
-        private actions$: Actions,
-        private clipboard: ClipboardService,
-        private modals: ModalService,
-        private eventsBus: EventsBusService,
-        private evaluator: EvaluatorService
-    ) {
-        // this.eventsBus.addStateSelector({
-        //     filter: msg => msg.type === 'navigate',
-        //     selector: selectors.selectCurrentTemplateModel,
-        //     reducer: (model, template) => ({ ...model, template })
-        // });
-    }
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly actions$ = inject(Actions);
+    private readonly clipboard = inject(ClipboardService);
+    private readonly modals = inject(ModalService);
+    private readonly eventsBus = inject(EventsBusService);
+    private readonly evaluator = inject(EvaluatorService);
 
     addItem$ = createEffect(() => this.actions$.pipe(
         ofType(actions.addItemAction),

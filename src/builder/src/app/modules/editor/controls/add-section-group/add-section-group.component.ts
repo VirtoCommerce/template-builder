@@ -1,12 +1,18 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { IconComponent } from '@core/components/icon/icon.component';
+import { ChevronComponent } from '@core/components/chevron/chevron.component';
+import { AddSectionItemComponent } from '@editor/controls/add-section-item/add-section-item.component';
 
 @Component({
     selector: 'app-add-section-group',
     templateUrl: './add-section-group.component.html',
     styleUrls: ['./add-section-group.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor, IconComponent, ChevronComponent, AddSectionItemComponent]
 })
 export class AddSectionGroupComponent implements OnInit {
 
@@ -18,9 +24,6 @@ export class AddSectionGroupComponent implements OnInit {
     @Output() onAdd = new EventEmitter<SectionSchema>();
     @Output() onPreview = new EventEmitter<SectionSchema>();
     @Output() onOpened = new EventEmitter();
-
-
-    constructor() { }
 
     ngOnInit(): void {
     }

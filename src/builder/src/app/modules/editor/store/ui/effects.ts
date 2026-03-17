@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
@@ -21,10 +21,8 @@ import * as selectors from "../selectors";
     providedIn: 'root'
 })
 export class TemplateEditorUiEffects {
-    constructor(
-        private store$: Store<BuilderState>,
-        private actions$: Actions
-    ) { }
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly actions$ = inject(Actions);
 
     navigateToAddSection$ = createEffect(() => this.actions$.pipe(
         ofType(actions.showBlankSections),
