@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeEditorComponent } from '@theme/components/theme-editor/theme-editor.component';
 
@@ -10,6 +10,5 @@ import { ThemeEditorComponent } from '@theme/components/theme-editor/theme-edito
     standalone: true,
     imports: [ThemeEditorComponent, RouterOutlet]
 })
-export class ThemeEditorHostComponent implements OnInit {
-    ngOnInit(): void { }
+export class ThemeEditorHostComponent {
 }

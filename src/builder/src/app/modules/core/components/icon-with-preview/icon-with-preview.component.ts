@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
@@ -9,10 +9,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     standalone: true,
     imports: [OverlayModule]
 })
-export class IconWithPreviewComponent implements OnInit {
+export class IconWithPreviewComponent {
 
     isOpen = false;
-
-    ngOnInit(): void { }
 
 }

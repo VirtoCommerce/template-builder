@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SpinnerComponent } from '@core/components/spinner/spinner.component';
 
 @Component({
@@ -9,6 +9,5 @@ import { SpinnerComponent } from '@core/components/spinner/spinner.component';
     standalone: true,
     imports: [SpinnerComponent]
 })
-export class FullscreenLoaderComponent implements OnInit {
-    ngOnInit(): void { }
+export class FullscreenLoaderComponent {
 }

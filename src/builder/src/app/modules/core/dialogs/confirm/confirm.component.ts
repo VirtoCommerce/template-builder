@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IconComponent } from '@core/components/icon/icon.component';
@@ -12,25 +12,15 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     standalone: true,
     imports: [MatDialogContent, MatDialogActions, IconComponent, IconButtonComponent]
 })
-export class ConfirmComponent implements OnInit {
+export class ConfirmComponent {
 
-    title: string;
-    icon: string;
+    private readonly dialogRef = inject(MatDialogRef<ConfirmComponent>);
+    private readonly data = inject(MAT_DIALOG_DATA);
 
-    confirmText: string;
-    declineText: string;
-
-    constructor(
-        private dialogRef: MatDialogRef<ConfirmComponent>,
-        @Inject(MAT_DIALOG_DATA) data: any
-    ) {
-        this.title = data.title;
-        this.icon = data.icon;
-        this.confirmText = data.confirmText || 'OK';
-        this.declineText = data.declineText || 'Cancel';
-    }
-
-    ngOnInit(): void { }
+    readonly title: string = this.data.title;
+    readonly icon: string = this.data.icon;
+    readonly confirmText: string = this.data.confirmText || 'OK';
+    readonly declineText: string = this.data.declineText || 'Cancel';
 
     confirm() {
         this.dialogRef.close(true);

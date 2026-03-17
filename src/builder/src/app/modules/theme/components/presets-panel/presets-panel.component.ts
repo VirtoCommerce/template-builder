@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgClass, AsyncPipe, KeyValuePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
@@ -21,15 +21,13 @@ import * as fromRoute from '@shared/routing/selectors';
     standalone: true,
     imports: [NgClass, AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, IconButtonComponent, PresetsIconComponent]
 })
-export class PresetsPanelComponent implements OnInit {
+export class PresetsPanelComponent {
 
     private readonly store$ = inject(Store<BuilderState>);
 
     filter$ = this.store$.select(fromTheme.selectPresetsFilter);
     viewModel$ = this.store$.select(fromTheme.selectPresetsContext);
     isHalfScreen$ = this.store$.select(fromRoute.isDesktop50);
-
-    ngOnInit(): void { }
 
     onBackClick() {
         this.store$.dispatch(actions.exitPresets());

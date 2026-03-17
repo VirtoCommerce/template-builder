@@ -1,5 +1,5 @@
 import { DisplayTextDescriptor } from '@models/controls';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
@@ -16,14 +16,12 @@ import { ControlHolderComponent } from '@core/dynamics/control-holder.component'
     standalone: true,
     imports: [ReactiveFormsModule, ControlHolderComponent]
 })
-export class ControlsListComponent implements OnInit {
+export class ControlsListComponent {
 
     // @Input() sectionModel!: SectionModel;
     @Input() currentForm!: UntypedFormGroup;
     @Input() context!: ControlContext;
     @Input() descriptors!: BaseControlDescriptor[]; // todo: controls order
-
-    ngOnInit(): void { }
 
     getContent(control: BaseControlDescriptor): string {
         const result = <DisplayTextDescriptor>control;

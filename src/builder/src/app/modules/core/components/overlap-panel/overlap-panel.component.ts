@@ -1,6 +1,6 @@
 import { AfterContentInit, AfterViewInit, ChangeDetectorRef, HostBinding, HostListener, inject } from '@angular/core';
 import { EnvironmentRef } from '@integration/services';
-import { Component, Input, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
@@ -12,7 +12,7 @@ import { IconComponent } from '../icon/icon.component';
     standalone: true,
     imports: [NgClass, IconComponent]
 })
-export class OverlapPanelComponent implements OnInit {
+export class OverlapPanelComponent {
 
     private readonly windowRef = inject(EnvironmentRef);
     private readonly cdr = inject(ChangeDetectorRef);
@@ -31,8 +31,6 @@ export class OverlapPanelComponent implements OnInit {
     contentWidth: number | null = null;
     expanderPosition: number | null = null;
     isOpened = false; // todo: maybe should be stored in state or in url
-
-    ngOnInit(): void { }
 
     ngAfterViewInit(): void {
         this._interval = setInterval(() => {

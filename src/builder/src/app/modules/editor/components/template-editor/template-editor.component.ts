@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
 import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
@@ -31,7 +31,7 @@ import { domHelpers } from '@core/helpers';
     standalone: true,
     imports: [NgClass, NgStyle, AsyncPipe, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
 })
-export class TemplateEditorComponent implements OnInit {
+export class TemplateEditorComponent {
 
     private readonly store = inject(Store<BuilderState>);
     private readonly helper = inject(ContextMenuHelper);
@@ -50,8 +50,6 @@ export class TemplateEditorComponent implements OnInit {
     currentHoverId: string | null = null;
 
     // templateKeyParameter$ = this.store.select(fromRoute.selectTemplateKeyParameter);
-
-    ngOnInit(): void { }
 
     addSectionClick() {
         this.store.dispatch(actions.showBlankSections({ sectionId: null, positionIndex: this.currentInsertIndex }));

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ActionsDropdownComponent } from '@core/components/actions-dropdown/actions-dropdown.component';
@@ -17,7 +17,7 @@ import { tap } from 'rxjs';
     standalone: true,
     imports: [AsyncPipe, ActionsDropdownComponent]
 })
-export class PreviewModeComponent implements OnInit {
+export class PreviewModeComponent {
 
     private readonly store = inject(Store<BuilderState>);
 
@@ -51,8 +51,6 @@ export class PreviewModeComponent implements OnInit {
     ];
 
     currentMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
-
-    ngOnInit(): void { }
 
     changePreviewMode(action: ActionButtonDescriptor) {
         this.store.dispatch(actions.changePreviewMode({ mode: action.alias || null }));

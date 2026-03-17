@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ElementRef, ViewChild } from '@angular/core';
 
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     standalone: true,
     imports: [ReactiveFormsModule, MatDialogContent, MatDialogActions, IconComponent, IconButtonComponent]
 })
-export class SaveTemplateComponent implements OnInit {
+export class SaveTemplateComponent {
 
     @ViewChild('selectAllInput') selectAllInput!: ElementRef<HTMLInputElement>;
 
@@ -30,8 +30,6 @@ export class SaveTemplateComponent implements OnInit {
         this.entries = data.entries;
         this.form = fb.group(result);
     }
-
-    ngOnInit(): void { }
 
     selectAll(event: Event) {
         console.log(event);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { ChevronComponent } from '../chevron/chevron.component';
 
@@ -10,7 +10,7 @@ import { ChevronComponent } from '../chevron/chevron.component';
     standalone: true,
     imports: [NgClass, NgStyle, ChevronComponent]
 })
-export class CollapsibleListItemComponent implements OnInit {
+export class CollapsibleListItemComponent {
 
     @Input() opened = false;
     @Input() expandable: boolean = false;
@@ -18,8 +18,6 @@ export class CollapsibleListItemComponent implements OnInit {
     @Input() highlight: boolean = false;
 
     @Output() openChanged = new EventEmitter<boolean>();
-
-    ngOnInit(): void { }
 
     onChevronClick() {
         this.openChanged.emit(!this.opened);

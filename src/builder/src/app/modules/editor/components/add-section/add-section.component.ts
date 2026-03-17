@@ -1,6 +1,6 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
@@ -23,7 +23,7 @@ import * as fromRoute from '@shared/routing/selectors';
     standalone: true,
     imports: [AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, AddSectionGroupComponent, AddSectionItemComponent]
 })
-export class AddSectionComponent implements OnInit {
+export class AddSectionComponent {
 
     private readonly store = inject(Store<BuilderState>);
 
@@ -31,8 +31,6 @@ export class AddSectionComponent implements OnInit {
     viewModel$ = this.store.select(fromState.selectAddItemContext);
     filter$ = this.store.select(fromState.selectCurrentSectionsFilter);
     isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
-
-    ngOnInit(): void { }
 
     onCancelClick() {
         this.store.dispatch(actions.closeAddItemPanel());

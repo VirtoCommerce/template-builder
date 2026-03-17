@@ -1,5 +1,5 @@
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, OnInit, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IconButtonComponent } from '@core/components/icon-button/icon-button.component';
 
@@ -11,28 +11,21 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     standalone: true,
     imports: [ReactiveFormsModule, MatDialogContent, MatDialogActions, IconButtonComponent]
 })
-export class PasteContentComponent implements OnInit {
+export class PasteContentComponent {
 
-    form: UntypedFormGroup;
+    private readonly dialogRef = inject(MatDialogRef<PasteContentComponent>);
+    private readonly data = inject(MAT_DIALOG_DATA);
 
-    constructor(
-        private dialogRef: MatDialogRef<PasteContentComponent>,
-        @Inject(MAT_DIALOG_DATA) data: any
-    ) {
-        let text = data.clipboardData;
+    readonly form: UntypedFormGroup = (() => {
+        let text = this.data.clipboardData;
         try {
-            // try format json
             const obj = JSON.parse(text);
             text = JSON.stringify(obj, null, 4);
         } catch {
             // ignore any error
         }
-        this.form = new UntypedFormGroup({
-            value: new UntypedFormControl(text)
-        });
-    }
-
-    ngOnInit(): void { }
+        return new UntypedFormGroup({ value: new UntypedFormControl(text) });
+    })();
 
     confirm() {
         const result = { ...this.form.value, accept: true };

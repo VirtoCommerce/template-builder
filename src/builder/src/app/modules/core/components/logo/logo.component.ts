@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-logo',
@@ -8,10 +8,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
     standalone: true,
     imports: []
 })
-export class LogoComponent implements OnInit {
+export class LogoComponent {
 
     @Input() version: string | null = null;
-
-    ngOnInit(): void { }
 
 }

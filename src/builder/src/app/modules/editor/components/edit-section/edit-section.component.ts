@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgClass, AsyncPipe } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BuilderState } from '@editor/store/state';
@@ -25,7 +25,7 @@ import * as fromRoute from '@shared/routing/selectors';
     standalone: true,
     imports: [NgClass, AsyncPipe, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
 })
-export class EditSectionComponent implements OnInit {
+export class EditSectionComponent {
 
     private readonly store = inject(Store<BuilderState>);
     private readonly helper = inject(ContextMenuHelper);
@@ -33,8 +33,6 @@ export class EditSectionComponent implements OnInit {
     viewModel$ = this.store.select(fromState.selectEditSectionContext);
     sectionName$ = this.store.select(fromState.selectCurrentItemName);
     isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
-
-    ngOnInit(): void { }
 
     onBackClick() {
         this.store.dispatch(actions.closeEditItemPanel());

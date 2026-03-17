@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatButton } from '@angular/material/button';
 import { MatMenu, MatMenuTrigger, MatMenuItem } from '@angular/material/menu';
@@ -14,7 +14,7 @@ import { ChevronComponent } from '../chevron/chevron.component';
     standalone: true,
     imports: [MatButton, MatMenu, MatMenuTrigger, MatMenuItem, IconComponent, ChevronComponent]
 })
-export class ActionsDropdownComponent implements OnInit {
+export class ActionsDropdownComponent {
 
     isOpened = false;
 
@@ -31,8 +31,6 @@ export class ActionsDropdownComponent implements OnInit {
     get activeItem(): ActionButtonDescriptor | null {
         return this.placeholder || this.actions.find(x => x.alias === this.active || (!x.alias && !this.active)) || null;
     }
-
-    ngOnInit(): void { }
 
     actionChoosed(action: ActionButtonDescriptor) {
         this.executeAction.emit(action);

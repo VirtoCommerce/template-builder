@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgStyle } from '@angular/common';
 import { IconWithPreviewComponent } from '@core/components/icon-with-preview/icon-with-preview.component';
 
@@ -10,7 +10,7 @@ import { IconWithPreviewComponent } from '@core/components/icon-with-preview/ico
     standalone: true,
     imports: [NgStyle, IconWithPreviewComponent]
 })
-export class PresetsIconComponent implements OnInit {
+export class PresetsIconComponent {
 
     private _name!: string;
     background!: string;
@@ -29,8 +29,6 @@ export class PresetsIconComponent implements OnInit {
         this.color = this.getTextColor();
         this.letter = value[0];
     }
-
-    ngOnInit(): void { }
 
     private stringToColour(): string {
         // return "#000000";

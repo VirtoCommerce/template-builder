@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter, AfterViewInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, AfterViewInit, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
@@ -20,7 +20,7 @@ import * as actions from '@theme/store/actions';
     standalone: true,
     imports: [AsyncPipe, PanelComponent, IconButtonComponent, ChevronComponent, DynamicFormComponent, SettingsPanelComponent]
 })
-export class ThemeEditorComponent implements OnInit {
+export class ThemeEditorComponent {
 
     private readonly store$ = inject(Store<any>);
 
@@ -32,7 +32,6 @@ export class ThemeEditorComponent implements OnInit {
     context = <any>{}; // todo: select from state
 
 
-    ngOnInit(): void { }
 
     toggleGroup(group: any) {
         this.store$.dispatch(actions.toggleGroup({ group }));
