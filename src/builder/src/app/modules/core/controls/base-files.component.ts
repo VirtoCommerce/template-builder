@@ -17,6 +17,10 @@ import { coreHelpers, formsHelpers } from '@core/helpers';
 export abstract class BaseFilesComponent<T extends FilesDescriptor> extends BaseControlDirective<T> {
 
     private readonly destroyRef = inject(DestroyRef);
+    private readonly modals = inject(ModalService);
+    private readonly data = inject(AssetsService);
+    private readonly clipboard = inject(ClipboardService);
+    private readonly cdr = inject(ChangeDetectorRef);
     private readonly elementReset$ = new Subject<void>();
     private previousExpanded: boolean | null = null;
 
@@ -29,14 +33,6 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     sortable = true;
     multiple = true;
 
-
-    constructor(
-        private modals: ModalService,
-        private data: AssetsService,
-        private clipboard: ClipboardService,
-        private cdr: ChangeDetectorRef) {
-        super();
-    }
 
     protected override initContent(): void {
         super.initContent();

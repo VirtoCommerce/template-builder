@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Subject, Observable, throwError, of } from 'rxjs';
@@ -12,14 +12,14 @@ import { AuthService } from './auth.service';
 })
 export class RefreshTokenInterceptor implements HttpInterceptor {
 
+    private readonly jwt = inject(JwtStorageService);
+    private readonly auth = inject(AuthService);
+    private readonly store = inject(Store);
+
     private refreshTokenInProgress = false;
 
-    private tokenRefreshedSource = new Subject<any>();
-    private tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
-
-    constructor(private jwt: JwtStorageService,
-        private auth: AuthService,
-        private store: Store) { }
+    private readonly tokenRefreshedSource = new Subject<any>();
+    private readonly tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
         return this.addAuthData(request).pipe(

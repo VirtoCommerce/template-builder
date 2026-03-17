@@ -1,10 +1,12 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { IndividualConfig, ToastrService } from "ngx-toastr";
 
 @Injectable({
     providedIn: "root"
 })
 export class NotificationsService {
+
+    private readonly toastr = inject(ToastrService);
 
     // todo: use options from config
     private _options = {
@@ -15,8 +17,6 @@ export class NotificationsService {
     };
     private _errorOptions = {};
     private _notifyOptions = {};
-
-    constructor(private toastr: ToastrService) { }
 
     successLeft(message: string, options: Partial<IndividualConfig> | undefined = undefined) {
         this.success(message, {

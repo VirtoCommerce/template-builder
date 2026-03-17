@@ -16,6 +16,8 @@ import { SectionModel } from '@models/document';
 export class DynamicFormComponent implements OnInit {
 
     private readonly destroyRef = inject(DestroyRef);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly zone = inject(NgZone);
     private readonly formReset$ = new Subject<void>();
 
     private _sectionModel!: SectionModel;
@@ -45,8 +47,6 @@ export class DynamicFormComponent implements OnInit {
     @Output() modelChanged = new EventEmitter<ModelChangedEventArgs>();
 
     form: UntypedFormGroup | null = null;
-
-    constructor(private cdr: ChangeDetectorRef, private zone: NgZone) { }
 
     ngOnInit(): void {
         this.generateForm();

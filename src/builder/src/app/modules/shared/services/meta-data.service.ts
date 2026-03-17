@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Injectable({
@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class MetaDataService {
 
-    constructor(private titleService: Title) { }
+    private readonly titleService = inject(Title);
 
     setTitle(title: string | null) {
         const suffix = 'Template Builder - VirtoCommerce';

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter, AfterViewInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ModelChangedEventArgs } from '@core/models';
@@ -14,6 +14,8 @@ import * as actions from '@theme/store/actions';
 })
 export class ThemeEditorComponent implements OnInit {
 
+    private readonly store$ = inject(Store<any>);
+
     editableGroup$ = this.store$.select(fromTheme.selectEditableGroup);
     settings$ = this.store$.select(fromTheme.selectCurrentSettings);
     schema$ = this.store$.select(fromTheme.selectSettingsSchema);
@@ -21,8 +23,6 @@ export class ThemeEditorComponent implements OnInit {
 
     context = <any>{}; // todo: select from state
 
-
-    constructor(private store$: Store<any>) { }
 
     ngOnInit(): void { }
 

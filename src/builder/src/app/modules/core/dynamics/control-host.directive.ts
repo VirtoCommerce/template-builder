@@ -1,8 +1,8 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import { Directive, ViewContainerRef, inject } from '@angular/core';
 
 @Directive({
     selector: '[appControlHost]'
 })
 export class ControlHostDirective {
-    constructor(public viewContainerRef: ViewContainerRef) { }
+    public readonly viewContainerRef = inject(ViewContainerRef);
 }

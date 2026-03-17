@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { CanActivate } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { filter, map, Observable, take, tap } from "rxjs";
@@ -11,7 +11,7 @@ import * as selectors from '@shared/store/selectors';
     providedIn: "root"
 })
 export class PreloadDataGuard implements CanActivate {
-    constructor(private store$: Store<BuilderState>) {}
+    private readonly store$ = inject(Store<BuilderState>);
 
     canActivate(): Observable<boolean>{
         return this.store$.select(selectors.selectTemplatesEntriesAsList).pipe(

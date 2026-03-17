@@ -1,5 +1,5 @@
 import { withLatestFrom } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
@@ -16,10 +16,10 @@ import { BuilderState } from '.';
 })
 export class RoutingEffects {
 
-    constructor(private actions$: Actions,
-        private store$: Store<BuilderState>,
-        private router: Router,
-        private location: Location) { }
+    private readonly actions$ = inject(Actions);
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly router = inject(Router);
+    private readonly location = inject(Location);
 
     // raiseLoadPageInfo$ = createEffect(() => this.actions$.pipe(
     //     ofType(ROUTER_NAVIGATION),

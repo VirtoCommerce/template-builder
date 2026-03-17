@@ -27,6 +27,8 @@ import { appHelpers } from '@integration/helpers';
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     private readonly destroyRef = inject(DestroyRef);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly data = inject(DataService);
 
     form!: UntypedFormGroup;
     options$!: Observable<any[]>;
@@ -34,13 +36,6 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     loading: boolean = false;
 
     @ViewChild('selectControl', { static: true }) select!: NgSelectComponent;
-
-    constructor(
-        private cdr: ChangeDetectorRef,
-        private data: DataService
-    ) {
-        super();
-    }
 
     raiseValueChanged(event: any) { }
 

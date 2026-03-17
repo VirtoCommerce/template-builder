@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { BuilderState } from '@theme/store/state';
@@ -13,9 +13,9 @@ import * as selectors from '@theme/store/selectors';
 })
 export class ToolbarHostComponent implements OnInit {
 
-    panels$ = this.store$.select(selectors.selectToolbarButtonsState);
+    private readonly store$ = inject(Store<BuilderState>);
 
-    constructor(private store$: Store<BuilderState>) { }
+    panels$ = this.store$.select(selectors.selectToolbarButtonsState);
 
     ngOnInit(): void {
     }

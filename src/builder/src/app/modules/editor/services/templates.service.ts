@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 
 import { BuilderHttpClient, AppConfig } from '@integration/services';
 import { PageModel, SectionModel, TemplateModel } from '@models/document';
@@ -13,7 +13,8 @@ import { } from '@integration/services';
 })
 export class TemplatesService {
 
-    constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
+    private readonly http = inject(BuilderHttpClient);
+    private readonly appConfig = inject(AppConfig);
 
     // this method requires templateId and parent to identify template, end template entry to fill out a request
     getTemplate(path: string, type: string, template: TemplateEntry, groupId: string): Observable<TemplateModel | null> {

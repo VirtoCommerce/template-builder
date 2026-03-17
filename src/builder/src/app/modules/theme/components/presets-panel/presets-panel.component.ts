@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { BuilderState } from '@theme/store/state';
@@ -15,11 +15,11 @@ import * as fromRoute from '@shared/routing/selectors';
 })
 export class PresetsPanelComponent implements OnInit {
 
+    private readonly store$ = inject(Store<BuilderState>);
+
     filter$ = this.store$.select(fromTheme.selectPresetsFilter);
     viewModel$ = this.store$.select(fromTheme.selectPresetsContext);
     isHalfScreen$ = this.store$.select(fromRoute.isDesktop50);
-
-    constructor(private store$: Store<BuilderState>) { }
 
     ngOnInit(): void { }
 

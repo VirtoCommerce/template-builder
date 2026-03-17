@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef, AfterViewChecked, inject } from '@angular/core';
 // import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 @Component({
@@ -8,13 +8,13 @@ import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetector
 })
 export class PanelComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
+    private readonly cdr = inject(ChangeDetectorRef);
+
     @ViewChild('panelFooterRef') panelFooterRef!: ElementRef;
     @ViewChild('panelBody') panelBody!: ElementRef;
     // @ViewChild(PerfectScrollbarDirective, { static: false }) perfectScrollbarDirectiveRef?: PerfectScrollbarDirective;
 
     hasFooter = true;
-
-    constructor(private cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
     }

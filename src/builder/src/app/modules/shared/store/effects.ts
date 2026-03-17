@@ -1,5 +1,5 @@
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { delay } from 'rxjs/operators';
@@ -14,23 +14,20 @@ import * as actions from "./actions";
 import * as fromRoute from '@shared/routing';
 import * as router from "@shared/routing/actions";
 import * as fromState from "@shared/store/selectors";
-import { TemplateEntry } from "../models";
 
 @Injectable({
     providedIn: "root"
 })
 export class SharedEffects {
-    constructor(private store$: Store<BuilderState>,
-        private actions$: Actions,
-        private templatesService: TemplatesService,
-        private eventsBus: EventsBusService,
-        private notification: NotificationsService,
-        private metaDataService: MetaDataService,
-        private appConfig: AppConfig,
-        broadcast: BroadcastPlatformService,
-    ) {
-        // broadcast shoud be injected to call constructor
-    }
+    private readonly store$ = inject(Store<BuilderState>);
+    private readonly actions$ = inject(Actions);
+    private readonly templatesService = inject(TemplatesService);
+    private readonly eventsBus = inject(EventsBusService);
+    private readonly notification = inject(NotificationsService);
+    private readonly metaDataService = inject(MetaDataService);
+    private readonly appConfig = inject(AppConfig);
+    // broadcast shoud be injected to call constructor
+    private readonly _broadcast = inject(BroadcastPlatformService);
 
     raiseInitModule$ = createEffect(() => this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),

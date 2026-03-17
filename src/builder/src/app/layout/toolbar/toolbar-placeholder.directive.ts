@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef } from "@angular/core";
+import { Directive, ViewContainerRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRouteSnapshot, ResolveEnd, Router } from "@angular/router";
 
@@ -7,9 +7,12 @@ import { ActivatedRouteSnapshot, ResolveEnd, Router } from "@angular/router";
 })
 export class ToolbarPlaceholderDirective {
 
+    private readonly router = inject(Router);
+    private readonly viewContainerRef = inject(ViewContainerRef);
+
     private currentToolbar: any;
 
-    constructor(private router: Router, private viewContainerRef: ViewContainerRef) {
+    constructor() {
         this.router.events.pipe(takeUntilDestroyed()).subscribe(e => {
             if (e instanceof ResolveEnd) {
                 const toolbar = this.findToolbar(e.state.root);

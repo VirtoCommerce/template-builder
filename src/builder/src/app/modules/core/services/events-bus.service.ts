@@ -1,4 +1,4 @@
-import { Injectable, Predicate } from "@angular/core";
+import { Injectable, Predicate, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Subject, Subscription, tap, filter } from "rxjs";
 import { EventBusArgs } from "../models";
@@ -13,12 +13,9 @@ export type Enricher = {
     providedIn: 'root'
 })
 export class EventsBusService {
-    private events$: Subject<any>;
+    private store$ = inject(Store);
+    private events$ = new Subject<any>();
     // private selectors: Enricher[] = [];
-
-    constructor(private store$: Store) {
-        this.events$ = new Subject();
-    }
 
     // addStateSelector(...selectors: Enricher[]) {
     //     this.selectors.push(...selectors);

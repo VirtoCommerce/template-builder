@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { BuilderState } from '@shared/routing';
@@ -12,10 +12,13 @@ import * as fromRoute from '@shared/routing';
 })
 export class SidebarComponent implements OnInit {
 
+    private readonly store = inject(Store<BuilderState>);
+    private readonly cdr = inject(ChangeDetectorRef);
+
     @HostBinding('class.hidden') isHidden: boolean = false;
     @HostBinding('class.desktop-50') desktop50: boolean = false;
 
-    constructor(private store: Store<BuilderState>, private cdr: ChangeDetectorRef) {
+    constructor() {
         // note! this subscription can be unsubscribed
         this.store.select(fromRoute.isFullscreenPreviewMode).pipe(takeUntilDestroyed()).subscribe(
             x => { this.isHidden = x; this.cdr.markForCheck(); }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { tap, Observable } from 'rxjs';
 import { BuilderHttpClient } from './builder-http.client';
 import { HttpHeaders } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class AuthService {
 
-    constructor(private http: BuilderHttpClient) { }
+    private readonly http = inject(BuilderHttpClient);
 
     refreshToken(token: string): Observable<any> {
         const url = '/connect/token'; // todo: move to settings/config

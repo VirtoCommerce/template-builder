@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,7 +11,8 @@ import { SchemasList, SectionsSchemasList } from '@editor/models';
 })
 export class SchemasService {
 
-    constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
+    private readonly http = inject(BuilderHttpClient);
+    private readonly appConfig = inject(AppConfig);
 
     getSchemas(): Observable<SchemasList | null> {
         const sectionsListUrl = this.appConfig.getValue('sectionsListUrl');

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { BuilderState } from '@editor/store/state';
 import { Store } from '@ngrx/store';
 
@@ -18,12 +18,12 @@ import * as fromRoute from '@shared/routing/selectors';
 })
 export class EditSectionComponent implements OnInit {
 
+    private readonly store = inject(Store<BuilderState>);
+    private readonly helper = inject(ContextMenuHelper);
+
     viewModel$ = this.store.select(fromState.selectEditSectionContext);
     sectionName$ = this.store.select(fromState.selectCurrentItemName);
     isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
-
-    constructor(private store: Store<BuilderState>,
-        private helper: ContextMenuHelper) { }
 
     ngOnInit(): void { }
 

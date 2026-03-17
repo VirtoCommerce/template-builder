@@ -18,6 +18,10 @@ import { appHelpers } from '@integration/helpers';
 })
 export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
     private readonly destroyRef = inject(DestroyRef);
+    private readonly environment = inject(EnvironmentRef);
+    private readonly cdk = inject(ChangeDetectorRef);
+    private readonly data = inject(DataService);
+    private readonly assets = inject(AssetsService);
     private searchEvent$ = new Subject<string | null>();
 
     @ViewChild('control') control!: ElementRef;
@@ -28,13 +32,6 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
         }
         super.setControlValue(value);
     }
-
-    constructor(
-        private environment: EnvironmentRef,
-        private cdk: ChangeDetectorRef,
-        private data: DataService,
-        private assets: AssetsService,
-    ) { super(); }
 
     override initContent() {
         this.searchEvent$.pipe(

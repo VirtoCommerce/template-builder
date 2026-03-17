@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MarkdownModel } from 'dist/ngv-markdown/lib/markdown.model';
 import { BaseControlDirective } from '@core/controls';
@@ -14,11 +14,9 @@ import { AssetFile } from '../../models';
 })
 export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> {
 
-    uploadImage = (file: File) => this.data.uploadAsset(<AssetFile>file, this.descriptor || {}, this.context, () => { }, { randomizeAssetName: true });
+    private readonly data = inject(AssetsService);
 
-    constructor(private data: AssetsService) {
-        super();
-    }
+    uploadImage = (file: File) => this.data.uploadAsset(<AssetFile>file, this.descriptor || {}, this.context, () => { }, { randomizeAssetName: true });
 
     override setControlValue(value: any): void {
         const isMarkdown = this.descriptor?.resultType === 'markdown';

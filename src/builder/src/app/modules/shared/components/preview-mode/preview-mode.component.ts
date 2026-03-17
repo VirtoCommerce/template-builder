@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ActionButtonDescriptor } from '@core/models';
@@ -14,6 +14,8 @@ import { tap } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewModeComponent implements OnInit {
+
+    private readonly store = inject(Store<BuilderState>);
 
     // todo: should be in config
     previewModes: ActionButtonDescriptor[] = [
@@ -45,8 +47,6 @@ export class PreviewModeComponent implements OnInit {
     ];
 
     currentMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
-
-    constructor(private store: Store<BuilderState>) { }
 
     ngOnInit(): void { }
 

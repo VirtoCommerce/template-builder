@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as router from '@shared/routing/actions';
@@ -10,6 +10,9 @@ import { ActivationStart, Router, RouterOutlet } from '@angular/router';
     styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
+
+    private readonly router = inject(Router);
+    private readonly store = inject(Store);
 
     // undoRedoButtons: ButtonDescriptor[] = [
     //     { icon: 'undo', hint: 'Undo last action', type: null },
@@ -24,8 +27,6 @@ export class ToolbarComponent implements OnInit {
     // ];
 
     // @ViewChild(RouterOutlet) outlet!: RouterOutlet;
-
-    constructor(private router: Router, private store: Store) { }
 
     ngOnInit() {
         // this.router.events.subscribe(e => {

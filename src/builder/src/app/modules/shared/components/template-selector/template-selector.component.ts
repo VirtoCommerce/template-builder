@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MultipageSelectDescriptor } from '@core/models';
@@ -18,6 +18,8 @@ import { map, of } from 'rxjs';
 })
 export class TemplateSelectorComponent implements OnInit {
 
+    private readonly store$ = inject(Store<BuilderState>);
+
     defaultTemplate = { title: 'Choose template', type: '', path: '', templateKey: '' };
 
     rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesWithState).pipe(
@@ -32,8 +34,6 @@ export class TemplateSelectorComponent implements OnInit {
         map(value => value?.map(x => this.convertTemplateToItem(x)) || null)
     );
 
-
-    constructor(private store$: Store<BuilderState>) { }
 
     ngOnInit(): void {
     }

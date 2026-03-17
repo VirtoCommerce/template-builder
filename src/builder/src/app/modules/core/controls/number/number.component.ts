@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 
 import { EnvironmentRef } from '@integration/services';
 import { BaseControlDirective } from '@core/controls';
@@ -11,11 +11,8 @@ import { NumberDescriptor } from '@models/controls';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
+    private readonly windowRef = inject(EnvironmentRef);
     @ViewChild('control') control!: ElementRef<HTMLInputElement>;
-
-    constructor(private windowRef: EnvironmentRef) {
-        super();
-    }
 
     onPaste(event: ClipboardEvent) {
         const value = (event.clipboardData || this.windowRef.nativeWindow.clipboardData).getData('text');

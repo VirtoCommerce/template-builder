@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 // import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { ContextMenuAction } from '@core/models';
@@ -21,6 +21,8 @@ import { ContextMenuHelper, helpers } from '@editor/helpers';
 })
 export class SectionItemComponent implements OnInit {
 
+    private readonly helper = inject(ContextMenuHelper);
+
     isHover: boolean = false;
     isIconHover: boolean = false;
 
@@ -38,8 +40,6 @@ export class SectionItemComponent implements OnInit {
     get displayCheckbox(): boolean {
         return (this.isIconHover && this.selectable) || this.selected;
     }
-
-    constructor(private helper: ContextMenuHelper) { }
 
     ngOnInit(): void {
 

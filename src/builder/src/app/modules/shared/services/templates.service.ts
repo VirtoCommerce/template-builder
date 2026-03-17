@@ -1,5 +1,5 @@
 import { ServerRequestDescriptor } from './../../models/http/server-request.descriptor';
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { map, Observable, switchMap, of, catchError } from 'rxjs';
 
 import { AppConfig } from '@integration/services';
@@ -11,7 +11,8 @@ import { TemplateEntry, TemplateEntryList } from '@shared/models';
 })
 export class TemplatesService {
 
-    constructor(private http: BuilderHttpClient, private appConfig: AppConfig) { }
+    private readonly http = inject(BuilderHttpClient);
+    private readonly appConfig = inject(AppConfig);
 
     getTemplatesList(): Observable<TemplateEntryList | null> {
         const templatesListUrl = this.appConfig.getValue('templatesListUrl');

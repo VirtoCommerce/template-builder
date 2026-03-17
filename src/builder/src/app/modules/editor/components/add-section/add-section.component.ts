@@ -1,6 +1,6 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { BuilderState } from '@editor/store/state';
@@ -17,12 +17,13 @@ import * as fromRoute from '@shared/routing/selectors';
 })
 export class AddSectionComponent implements OnInit {
 
+    private readonly store = inject(Store<BuilderState>);
+
     title$ = this.store.select(fromState.selectAddItemTitle)
     viewModel$ = this.store.select(fromState.selectAddItemContext);
     filter$ = this.store.select(fromState.selectCurrentSectionsFilter);
     isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
 
-    constructor(private store: Store<BuilderState>) { }
     ngOnInit(): void { }
 
     onCancelClick() {

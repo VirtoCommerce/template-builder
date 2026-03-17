@@ -13,10 +13,10 @@ import * as fromRoute from '@shared/routing';
 export class PreviewAreaComponent implements OnInit {
 
     private readonly destroyRef = inject(DestroyRef);
+    private readonly store = inject(Store<BuilderState>);
+    private readonly cdr = inject(ChangeDetectorRef);
 
     @HostBinding('class.desktop-50') desktop50: boolean = false;
-
-    constructor(private store: Store<BuilderState>, private cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.store.select(fromRoute.isDesktop50).pipe(

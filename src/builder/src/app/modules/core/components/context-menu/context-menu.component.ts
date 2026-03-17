@@ -1,5 +1,5 @@
 import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, inject } from '@angular/core';
 import { ContextMenuAction, ContextMenuActionType } from '@core/models';
 
 @Component({
@@ -18,10 +18,10 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
 
     @Output() onAction = new EventEmitter<ContextMenuActionType>();
 
+    private readonly cdr = inject(ChangeDetectorRef);
     isOpen = false;
     positions: ConnectedPosition[] = [];
 
-    constructor(private cdr: ChangeDetectorRef) { }
     ngAfterViewInit(): void {
         // this.overlay.positionChange.subscribe(x => {
         //     console.log(x);

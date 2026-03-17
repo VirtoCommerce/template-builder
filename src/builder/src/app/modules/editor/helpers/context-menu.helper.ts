@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { EditorServicesModule } from '@editor/editor-services.module';
 
 import { ClipboardService } from '@core/services';
@@ -9,7 +9,8 @@ import { Dictionary, SectionModel } from '@models/index';
     providedIn: EditorServicesModule
 })
 export class ContextMenuHelper {
-    private items: Dictionary<ContextMenuAction> = {
+    private readonly clipboard = inject(ClipboardService);
+    private readonly items: Dictionary<ContextMenuAction> = {
         '|': '|',
         'hide': {
             action: 'hide',
@@ -90,8 +91,6 @@ export class ContextMenuHelper {
             icon: 'refresh'
         }
     }
-
-    constructor(private clipboard: ClipboardService) { }
 
     getActions(actions: (string | [string, boolean])[]): ContextMenuAction[] {
         return actions.map(x => {

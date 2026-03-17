@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 
@@ -22,6 +22,9 @@ import { domHelpers } from '@core/helpers';
 })
 export class TemplateEditorComponent implements OnInit {
 
+    private readonly store = inject(Store<BuilderState>);
+    private readonly helper = inject(ContextMenuHelper);
+
     @ViewChild('container') container!: ElementRef<HTMLDivElement>;
 
     viewModel$ = this.store.select(fromState.editTemplateContext);
@@ -36,8 +39,6 @@ export class TemplateEditorComponent implements OnInit {
     currentHoverId: string | null = null;
 
     // templateKeyParameter$ = this.store.select(fromRoute.selectTemplateKeyParameter);
-
-    constructor(private store: Store<BuilderState>, private helper: ContextMenuHelper) { }
 
     ngOnInit(): void { }
 

@@ -1,5 +1,5 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 
 import { BaseControlDirective } from '@core/controls';
 import { ColorDescriptor } from '@models/controls';
@@ -17,6 +17,7 @@ import { ColorEvent } from 'ngx-color';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
+    private readonly cdr = inject(ChangeDetectorRef);
     isOpen = false;
 
     positions: ConnectedPosition[] = [{
@@ -32,10 +33,6 @@ export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
         overlayY: 'bottom',
         weight: 1
     }];
-
-    constructor(private cdr: ChangeDetectorRef) {
-        super();
-    }
 
     clearColor() {
         this.onValueChanged(this.descriptor?.clearValue || null);

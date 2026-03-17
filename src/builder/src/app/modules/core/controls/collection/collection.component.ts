@@ -20,6 +20,7 @@ import { appHelpers } from '@integration/helpers';
 export class CollectionComponent extends BaseControlDirective<CollectionDescriptor> {
 
     private readonly destroyRef = inject(DestroyRef);
+    private readonly modals = inject(ModalService);
     private readonly formReset$ = new Subject<void>();
     private titleCache = new WeakMap<object, string>();
     private titleIndex = 1;
@@ -49,10 +50,6 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
         } else {
             this.openedItem = item;
         }
-    }
-
-    constructor(private modals: ModalService) {
-        super();
     }
 
     getContext(item: UntypedFormGroup, index: number): ControlContext {

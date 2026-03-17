@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, inject } from '@angular/core';
 
 import * as actions from '@shared/store/actions';
 import * as sharedSelectors from '@shared/store/selectors';
@@ -17,11 +17,11 @@ import { BuilderState as ThemeState } from '@theme/store';
 })
 export class AppComponent implements OnInit {
 
+    private store$ = inject(Store<SharedState & EditorState & ThemeState>);
+
     isHttpLoading$ = this.store$.select(sharedSelectors.isHttpLoading);
     isEditorLoading$ = this.store$.select(editorSelectors.isLoading);
     isThemeLoading$ = this.store$.select(themeSelectors.isLoading);
-
-    constructor(private store$: Store<SharedState & EditorState & ThemeState>) { }
 
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
