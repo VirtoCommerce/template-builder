@@ -19,7 +19,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     context!: ControlContext;
     currentForm!: UntypedFormGroup;
 
-    @Input() controlValue: any;
+    @Input() controlValue: any = null;
     onValueChanged = (value: any) => this.defaultValueChanged(value);
     onControlTouched = (_: any) => { };
 
