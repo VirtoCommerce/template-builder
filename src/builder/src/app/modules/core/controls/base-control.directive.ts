@@ -1,4 +1,4 @@
-import { AfterContentInit, Directive, ElementRef, Input, OnInit, output } from "@angular/core";
+import { AfterContentInit, Directive, ElementRef, Input, OnInit, output, signal } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { appHelpers } from "@app/modules/integration/helpers";
 // import { FormGroup } from '@angular/forms';
@@ -19,7 +19,8 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     context!: ControlContext;
     currentForm!: UntypedFormGroup;
 
-    @Input() controlValue: any = null;
+    readonly controlValue = signal<any>(null);
+    @Input('controlValue') set controlValueInput(v: any) { this.controlValue.set(v ?? null); }
     onValueChanged = (value: any) => this.defaultValueChanged(value);
     onControlTouched = (_: any) => { };
 
@@ -41,7 +42,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
         if (!value && value !== 0 && value !== BigInt(0)) {
             value = null;
         }
-        this.controlValue = value;
+        this.controlValue.set(value);
         this.applyNewValue();
     }
 
@@ -80,7 +81,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     }
 
     protected defaultValueChanged(value: any) {
-        this.controlValue = value;
+        this.controlValue.set(value);
         this.valueChanged.emit(value);
     }
 

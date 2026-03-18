@@ -64,11 +64,11 @@ export class CollectionComponent extends BaseControlDirective<CollectionDescript
     }
 
     getContext(item: UntypedFormGroup, index: number): ControlContext {
-        return { ...this.context, item: this.controlValue, index, element: item.value, parent: this.context };
+        return { ...this.context, item: this.controlValue(), index, element: item.value, parent: this.context };
     }
 
     override setControlValue(value: any): void {
-        if (value !== this.controlValue || !this.form) {
+        if (value !== this.controlValue() || !this.form) {
             if (!value) {
                 value = [];
             }

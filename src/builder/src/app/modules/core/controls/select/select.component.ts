@@ -64,10 +64,10 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     }
 
     get selectControlValue(): any {
-        if (this.controlValue && Array.isArray(this.controlValue)) {
-            return this.controlValue.map((x: any) => this.convertItemToOption(x));
+        if (this.controlValue() && Array.isArray(this.controlValue())) {
+            return this.controlValue().map((x: any) => this.convertItemToOption(x));
         }
-        return this.convertItemToOption(this.controlValue);
+        return this.convertItemToOption(this.controlValue());
     }
 
     private updateOptions() {

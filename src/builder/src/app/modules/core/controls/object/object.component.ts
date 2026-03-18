@@ -28,7 +28,7 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
     expanded = false;
 
     getTitle(): string {
-        return (!!this.descriptor?.displayField && this.controlValue[this.descriptor.displayField]) || this.descriptor?.label || this.descriptor?.title || '[no title]';
+        return (!!this.descriptor?.displayField && this.controlValue()[this.descriptor.displayField]) || this.descriptor?.label || this.descriptor?.title || '[no title]';
     }
 
     getDescriptors(): ControlDescriptor[] {
@@ -40,11 +40,11 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
     }
 
     getContext(): ControlContext {
-        return { ...this.context, item: this.controlValue, parent: this.context /*, filter: null */ };
+        return { ...this.context, item: this.controlValue(), parent: this.context /*, filter: null */ };
     }
 
     override setControlValue(value: any) {
-        if (this.controlValue !== value || !this.objectForm) {
+        if (this.controlValue() !== value || !this.objectForm) {
             const descriptors = this.getDescriptors();
             // we don't need create default value for empty object. Only when create new section or list item
             // const v = value || coreHelpers.createDefaultObject(descriptors);
@@ -63,7 +63,7 @@ export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {
 
     override registerOnValueChanged(fn: any): void {
         this.onValueChanged = value => {
-            this.controlValue = value;
+            this.controlValue.set(value);
             fn(value);
         };
     }

@@ -36,7 +36,7 @@ export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> 
                 ? (isValueStringOrNull ? value : value?.html)
                 : '') || ''
         };
-        this.controlValue = result;
+        this.controlValue.set(result);
     }
 
     onInputValueChanged(event: MarkdownModel) {

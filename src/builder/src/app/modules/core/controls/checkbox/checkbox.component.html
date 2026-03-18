@@ -1,5 +1,5 @@
 <mat-checkbox
-  [checked]="controlValue"
+  [checked]="controlValue()"
   [title]="descriptor?.hint || ''"
   (change)="raiseValueChanged($event.checked)">
   {{descriptor?.label}}

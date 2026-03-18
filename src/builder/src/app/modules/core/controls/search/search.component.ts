@@ -70,11 +70,11 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
             error: (error) => {
                 console.error(error);
                 this.setControlValue(null);
-                this.onValueChanged(this.controlValue);
+                this.onValueChanged(this.controlValue());
             },
             complete: () => {
                 this.setControlValue(value);
-                this.onValueChanged(this.controlValue);
+                this.onValueChanged(this.controlValue());
                 this.cdk.detectChanges();
             }
         };
@@ -110,7 +110,7 @@ export class SearchComponent extends BaseControlDirective<SearchDescriptor> {
         if (!info || !info.path) {
             return null;
         }
-        return appHelpers.getValueByPath(this.controlValue.value, info.path);
+        return appHelpers.getValueByPath(this.controlValue().value, info.path);
     }
 
     isArrayDisplayInfo() {

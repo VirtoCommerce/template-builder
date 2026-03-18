@@ -151,7 +151,7 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
         const element = this.convertFileToValue(item);
         return {
             ...this.context,
-            item: this.controlValue,
+            item: this.controlValue(),
             index,
             element,
             file: item,
@@ -181,11 +181,11 @@ export abstract class BaseFilesComponent<T extends FilesDescriptor> extends Base
     }
 
     private getValue(): AssetFile[] {
-        let files = !this.controlValue
+        let files = !this.controlValue()
             ? this.multiple
                 ? []
                 : null
-            : this.controlValue;
+            : this.controlValue();
         if (!files) {
             return [];
         }

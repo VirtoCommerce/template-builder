@@ -1,7 +1,7 @@
 <div class="flex flex-row items-center justify-between w-full">
   <label [attr.title]="descriptor?.hint" class="pb-label">{{ descriptor?.label }}</label>
   @if (descriptor?.type === 'slider') {
-    <span>{{ controlValue }}</span>
+    <span>{{ controlValue() }}</span>
   }
 </div>
 
@@ -12,7 +12,7 @@
     [min]="descriptor?.min"
     [max]="descriptor?.max"
     [step]="descriptor?.step"
-    [value]="controlValue"
+    [value]="controlValue()"
     [placeholder]="descriptor?.placeholder || ''"
     (paste)="onPaste($event)"
     (keyup)="raiseOnChange($event.target)"
@@ -29,7 +29,7 @@
     [discrete]="descriptor?.thumb || false"
     [ngClass]="{ 'has-thumb': descriptor?.thumb }"
   >
-    <input matSliderThumb [value]="controlValue" (valueChange)="sliderChanged($event)" />
+    <input matSliderThumb [value]="controlValue()" (valueChange)="sliderChanged($event)" />
   </mat-slider>
 }
 

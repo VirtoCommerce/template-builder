@@ -49,7 +49,7 @@ export class TextComponent extends BaseControlDirective<TextDescriptor> {
 
     override registerOnValueChanged(fn: (_: any) => void) {
         this.onValueChanged = (newValue) => {
-            if (this.controlValue !== newValue) {
+            if (this.controlValue() !== newValue) {
                 fn(newValue);
             }
         }
