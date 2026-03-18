@@ -41,6 +41,10 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
     private component!: BaseControlDirective<BaseControlDescriptor>;
     private _context!: ControlContext;
     private _currentForm!: UntypedFormGroup;
+    private _hasPendingValue = false;
+    private _pendingValue: any = undefined;
+    private _pendingOnChange: ((v: any) => void) | null = null;
+    private _pendingOnTouched: ((_: any) => void) | null = null;
 
     readonly host = viewChild.required(ControlHostDirective);
 
@@ -83,6 +87,15 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
         this.component.descriptor = this.descriptor();
         this.component.currentForm = this.currentForm;
         this.component.context = this.context;
+        if (this._hasPendingValue) {
+            this.component.setControlValue(this._pendingValue);
+        }
+        if (this._pendingOnChange) {
+            this.component.registerOnValueChanged(this._pendingOnChange);
+        }
+        if (this._pendingOnTouched) {
+            this.component.registerOnControlTouched(this._pendingOnTouched);
+        }
         this.cdr.detectChanges();
     }
 
@@ -91,6 +104,9 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
     writeValue(obj: any): void {
         if (this.component) {
             this.component.setControlValue(obj);
+        } else {
+            this._pendingValue = obj;
+            this._hasPendingValue = true;
         }
     }
 
@@ -99,12 +115,16 @@ export class ControlHolderComponent implements OnInit, ControlValueAccessor {
             this.component.registerOnValueChanged((event) => {
                 fn(event);
             });
+        } else {
+            this._pendingOnChange = fn;
         }
     }
 
     registerOnTouched(fn: any): void {
         if (this.component) {
             this.component.registerOnControlTouched(fn);
+        } else {
+            this._pendingOnTouched = fn;
         }
     }
 }

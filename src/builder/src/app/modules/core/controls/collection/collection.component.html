@@ -2,6 +2,7 @@
 @if (descriptor?.info) {
   <p class="info">{{ descriptor?.info }}</p>
 }
+@if (form) {
 <div class="collection-wrapper" [formGroup]="form" cdkDropList (cdkDropListDropped)="reorderItems($event)">
   @for (item of collectionFormArray.controls; track item; let i = $index) {
     <div formArrayName="list">
@@ -15,18 +16,17 @@
           (mouseleave)="hoverItem = null"
           (click)="toggle(item)">
         <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem" />
-          <!-- <app-icon class="chevron">chevron_right</app-icon> -->
-          <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item) }}</label>
-        < [actions]="itemActions"
-            [visible]="hoverItem === item"
+        <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item) }}</label>
+        <app-context-menu [actions]="itemActions"
+                          [visible]="hoverItem === item"
           (onAction)="onActionClick($event, item, i)" />
           <app-drag-handle [visible]="hoverItem === item" cdkDragHandle />
         </div>
         @if (item === openedItem) {
           <div class="editor-wrapper">
-            < [currentForm]="$any(item)"
+            <app-controls-list [currentForm]="$any(item)"
               [descriptors]="getDescriptors()"
-            [context]="getContext($any(item), i)" />
+              [context]="getContext($any(item), i)" />
           </div>
         }
       </div>
@@ -40,3 +40,4 @@
       (click)="addItem()" />
   }
 </div>
+}
