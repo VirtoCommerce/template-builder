@@ -8,7 +8,6 @@ import { ObjectComponent } from './object/object.component';
 import { SearchComponent } from './search/search.component';
 import { SelectComponent } from './select/select.component';
 import { StringComponent } from './string/string.component';
-import { TextComponent } from './text/text.component';
 
 export function registerControls(): () => void {
     const factory = inject(ControlsFactory);
@@ -21,10 +20,11 @@ export function registerControls(): () => void {
         factory.register('slider', NumberComponent);
         factory.register('select', SelectComponent);
         factory.register('string', StringComponent);
-        factory.register('text', TextComponent);
         factory.register('search', SearchComponent);
 
         // Heavy controls — loaded lazily on first use
+        factory.registerLazy('text', () =>
+            import('./text/text.component').then(m => m.TextComponent));
         factory.registerLazy('calendar', () =>
             import('./calendar/calendar.component').then(m => m.CalendarComponent));
         factory.registerLazy('color', () =>
