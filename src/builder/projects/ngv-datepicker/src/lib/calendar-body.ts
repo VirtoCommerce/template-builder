@@ -19,6 +19,7 @@ import {
   SimpleChanges,
   OnDestroy,
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {take} from 'rxjs/operators';
 import {MatCalendarView} from './calendar.types';
 
@@ -61,6 +62,8 @@ export interface MatCalendarUserEvent<D> {
   selector: '[mat-calendar-body]',
   templateUrl: 'calendar-body.html',
   styleUrls: ['calendar-body.scss'],
+  standalone: true,
+  imports: [CommonModule],
   host: {
     'class': 'mat-calendar-body',
   },

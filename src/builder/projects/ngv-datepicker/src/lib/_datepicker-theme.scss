@@ -366,13 +366,13 @@ $clock-cell-size: 14.1666% !default;
 
 // Modern theme mixin: accepts either a full Angular Material theme map
 // (with `color` key) or a legacy color config map; normalizes and applies.
-@mixin theme($theme-or-color-config) {
+@mixin apply-theme($config) {
 // Normalize: accept either full theme map (with color key) or legacy color config map.
-    $theme: $theme-or-color-config;
+    $theme: $config;
 
-    @if meta.type-of($theme-or-color-config) !=map or not map.has-key($theme-or-color-config, color) {
+    @if meta.type-of($config) != map or not map.has-key($config, color) {
         $theme: (
-            color: $theme-or-color-config
+            color: $config
         );
 }
 

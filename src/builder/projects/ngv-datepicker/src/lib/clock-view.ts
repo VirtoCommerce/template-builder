@@ -13,6 +13,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MAT_DATE_FORMATS} from '@angular/material/core';
 import {
   DateAdapter,
@@ -38,6 +39,8 @@ export type ClockView = 'hour' | 'minute';
   selector: 'mat-clock-view',
   templateUrl: 'clock-view.html',
   exportAs: 'matClockView',
+  standalone: true,
+  imports: [CommonModule],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

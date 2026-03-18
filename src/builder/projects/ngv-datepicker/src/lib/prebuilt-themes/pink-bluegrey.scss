@@ -11,4 +11,4 @@ $theme: mat.m2-define-dark-theme((color: (primary: $primary,
                 warn: $warn,
             )));
 
-@include datepicker.theme($theme);
+@include datepicker.apply-theme($theme);

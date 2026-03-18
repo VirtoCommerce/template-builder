@@ -23,6 +23,7 @@ import {MatDatepickerBase, MatDatepickerControl} from './datepicker-base';
 /** Button that will close the datepicker and assign the current selection to the data model. */
 @Directive({
   selector: '[matDatepickerApply], [matDateRangePickerApply]',
+  standalone: true,
   host: {'(click)': '_applySelection()'},
 })
 export class MatDatepickerApply {
@@ -37,6 +38,7 @@ export class MatDatepickerApply {
 /** Button that will close the datepicker and discard the current selection. */
 @Directive({
   selector: '[matDatepickerCancel], [matDateRangePickerCancel]',
+  standalone: true,
   host: {'(click)': '_datepicker.close()'},
 })
 export class MatDatepickerCancel {
@@ -50,6 +52,8 @@ export class MatDatepickerCancel {
 @Component({
   selector: 'mat-datepicker-actions, mat-date-range-picker-actions',
   styleUrls: ['datepicker-actions.scss'],
+  standalone: true,
+  imports: [],
   template: `
     <ng-template>
       <div class="mat-datepicker-actions">

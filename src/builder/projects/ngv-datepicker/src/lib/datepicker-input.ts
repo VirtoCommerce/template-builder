@@ -37,6 +37,7 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
 /** Directive used to connect an input to a MatDatepicker. */
 @Directive({
   selector: 'input[matDatepicker]',
+    standalone: true,
   providers: [
     MAT_DATEPICKER_VALUE_ACCESSOR,
     MAT_DATEPICKER_VALIDATORS,

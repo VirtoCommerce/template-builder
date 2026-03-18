@@ -187,6 +187,7 @@ const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
 /** Input for entering the start date in a `mat-date-range-input`. */
 @Directive({
   selector: 'input[matStartDate]',
+  standalone: true,
   host: {
     'class': 'mat-start-date mat-date-range-input-inner',
     '[disabled]': 'disabled',
@@ -196,8 +197,8 @@ const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
     '[attr.id]': '_rangeInput.id',
     '[attr.aria-haspopup]': '_rangeInput.rangePicker ? "dialog" : null',
     '[attr.aria-owns]': '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
-    '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
-    '[attr.max]': '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()) : null',
+    '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()!) : null',
+    '[attr.max]': '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()!) : null',
     '(blur)': '_onBlur()',
     'type': 'text',
   },
@@ -288,6 +289,7 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements CanUpd
 /** Input for entering the end date in a `mat-date-range-input`. */
 @Directive({
   selector: 'input[matEndDate]',
+  standalone: true,
   host: {
     'class': 'mat-end-date mat-date-range-input-inner',
     '[disabled]': 'disabled',
@@ -296,8 +298,8 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements CanUpd
     '(keydown)': '_onKeydown($event)',
     '[attr.aria-haspopup]': '_rangeInput.rangePicker ? "dialog" : null',
     '[attr.aria-owns]': '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
-    '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
-    '[attr.max]': '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()) : null',
+    '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()!) : null',
+    '[attr.max]': '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()!) : null',
     '(blur)': '_onBlur()',
     'type': 'text',
   },

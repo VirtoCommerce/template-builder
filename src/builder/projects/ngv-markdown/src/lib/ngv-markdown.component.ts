@@ -15,7 +15,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MarkdownModel } from './markdown.model';
 import EasyMDE from 'easymde';
-import detector from 'element-resize-detector';
 import TurndownService from 'turndown';
 import { marked } from 'marked';
 
@@ -25,12 +24,15 @@ import { MARKDOWN_DATA_SERVICE, IMarkdownDataService } from './ngv-markdown-data
 
 @Component({
     selector: 'ngv-markdown',
+    standalone: true,
+    imports: [],
     templateUrl: './ngv-markdown.component.html',
     styleUrls: ['./ngv-markdown.component.scss']
 })
 export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private easyMDE: EasyMDE | null = null;
+    private resizeObserver: ResizeObserver | null = null;
     private turndown = new TurndownService({
         headingStyle: 'atx',
         // hr	Any Thematic break	* * *
@@ -63,6 +65,8 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.easyMDE?.toTextArea();
         this.easyMDE = null;
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = null;
     }
 
     ngAfterViewInit(): void {
@@ -203,9 +207,10 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private handleResizeElement() {
-        detector().listenTo(this.elementRef.nativeElement, () => {
+        this.resizeObserver = new ResizeObserver(() => {
             this.easyMDE?.codemirror.refresh();
         });
+        this.resizeObserver.observe(this.elementRef.nativeElement);
     }
 
     private _styles: string[] = [];

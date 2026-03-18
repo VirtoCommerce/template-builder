@@ -37,6 +37,7 @@ import {
   OnChanges,
   isDevMode,
 } from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MAT_DATE_FORMATS} from '@angular/material/core';
 import {Directionality} from '@angular/cdk/bidi';
 import {DateAdapter, MatDateFormats} from './core';
@@ -66,6 +67,8 @@ const DAYS_PER_WEEK = 7;
   selector: 'mat-month-view',
   templateUrl: 'month-view.html',
   exportAs: 'matMonthView',
+  standalone: true,
+  imports: [CommonModule, MatCalendarBody],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

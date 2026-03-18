@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
- import {
+import {
   Component,
   ChangeDetectionStrategy,
   ViewEncapsulation,
@@ -23,6 +23,7 @@
   SimpleChanges,
   isDevMode,
 } from '@angular/core';
+import {A11yModule} from '@angular/cdk/a11y';
 import {MatFormFieldControl, MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {ThemePalette} from '@angular/material/core';
 import {NgControl, ControlContainer} from '@angular/forms';
@@ -49,6 +50,8 @@ let nextUniqueId = 0;
   templateUrl: 'date-range-input.html',
   styleUrls: ['date-range-input.scss'],
   exportAs: 'matDateRangeInput',
+  standalone: true,
+  imports: [A11yModule],
   host: {
     'class': 'mat-date-range-input',
     '[class.mat-date-range-input-hide-placeholders]': '_shouldHidePlaceholders()',

@@ -6,7 +6,10 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import { ComponentPortal, ComponentType, Portal } from '@angular/cdk/portal';
+import { ComponentPortal, ComponentType, Portal, PortalModule } from '@angular/cdk/portal';
+import {A11yModule} from '@angular/cdk/a11y';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
 import {
     AfterContentInit,
     AfterViewChecked,
@@ -58,6 +61,8 @@ let uniqueId = 0;
     selector: 'mat-custom-header',
     templateUrl: 'mat-header.html',
     styleUrls: ['./mat-header.scss'],
+    standalone: true,
+    imports: [MatButtonModule, A11yModule],
     exportAs: 'matCalendarHeader',
     animations: [matDatepickerAnimations.controlActive],
     encapsulation: ViewEncapsulation.None,
@@ -285,6 +290,8 @@ export class MatCalendarHeader<D> {
     selector: 'mat-calendar',
     templateUrl: 'calendar.html',
     styleUrls: ['calendar.scss'],
+    standalone: true,
+    imports: [CommonModule, PortalModule, A11yModule, MatClockView, MatMonthView, MatYearView, MatMultiYearView],
     host: {
         'class': 'mat-calendar',
     },

@@ -1,6 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MatDatepickerModule, MatNativeDateModule } from 'ngv-datepicker';
+import {
+    MatCalendar,
+    MatDatepicker,
+    MatDatepickerActions,
+    MatDatepickerApply,
+    MatDatepickerCancel,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatNativeDateModule,
+} from 'ngv-datepicker';
+import { MatInputModule } from '@angular/material/input';
 
 import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { CalendarDescriptor } from '@models/controls';
@@ -21,7 +31,17 @@ import * as chrono from 'chrono-node';
     styleUrls: ['./calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [MatDatepickerModule, MatNativeDateModule]
+    imports: [
+        MatCalendar,
+        MatDatepicker,
+        MatDatepickerActions,
+        MatDatepickerApply,
+        MatDatepickerCancel,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatNativeDateModule,
+        MatInputModule,
+    ]
 })
 export class CalendarComponent extends BaseControlDirective<CalendarDescriptor> {
 

@@ -13,4 +13,4 @@ $theme: mat.m2-define-light-theme((color: (primary: $primary,
             )));
 
 // Include datepicker theme styles
-@include datepicker.theme($theme);
+@include datepicker.apply-theme($theme);

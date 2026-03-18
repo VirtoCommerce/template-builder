@@ -54,6 +54,8 @@ import {DateFilterFn} from './datepicker-input-base';
   selector: 'mat-multi-year-view',
   templateUrl: 'multi-year-view.html',
   exportAs: 'matMultiYearView',
+  standalone: true,
+  imports: [MatCalendarBody],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -22,7 +22,8 @@ import {
   ViewEncapsulation,
   ViewChild,
 } from '@angular/core';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatButtonModule} from '@angular/material/button';
+import {NgIf} from '@angular/common';
 import {merge, Observable, of as observableOf, Subscription} from 'rxjs';
 import {MatDatepickerIntl} from './datepicker-intl';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
@@ -30,6 +31,7 @@ import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 /** Can be used to override the icon of a `matDatepickerToggle`. */
 @Directive({
   selector: '[matDatepickerToggleIcon]',
+  standalone: true,
 })
 export class MatDatepickerToggleIcon {}
 
@@ -37,6 +39,8 @@ export class MatDatepickerToggleIcon {}
   selector: 'mat-datepicker-toggle',
   templateUrl: 'datepicker-toggle.html',
   styleUrls: ['datepicker-toggle.scss'],
+  standalone: true,
+  imports: [MatButtonModule, NgIf],
   host: {
     'class': 'mat-datepicker-toggle',
     '[attr.tabindex]': 'null',

@@ -16,7 +16,10 @@ import {
   ScrollStrategy,
   FlexibleConnectedPositionStrategy,
 } from '@angular/cdk/overlay';
-import {ComponentPortal, ComponentType, TemplatePortal} from '@angular/cdk/portal';
+import {ComponentPortal, ComponentType, TemplatePortal, PortalModule} from '@angular/cdk/portal';
+import {A11yModule} from '@angular/cdk/a11y';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -108,6 +111,8 @@ const _MatDatepickerContentBase = mixinColor(
   selector: 'mat-datepicker-content',
   templateUrl: 'datepicker-content.html',
   styleUrls: ['datepicker-content.scss'],
+  standalone: true,
+  imports: [CommonModule, A11yModule, PortalModule, MatButtonModule, MatCalendar],
   host: {
     'class': 'mat-datepicker-content',
     '[@transformPanel]': '_animationState',

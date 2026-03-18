@@ -79,9 +79,22 @@ export function template(value: string, ...args: any) {
     });
 }
 
+const EVAL_UTILS = {
+    combine,
+    getValueOrDefault,
+    getValueByPath,
+    stripHtmlTags,
+    toList,
+    cutString,
+    tryParseJson,
+    getItemValue,
+};
+
 export function evalInContext(expr: string, context: any): any {
     try {
-        return new Function(`return (${expr})`).call(context);
+        const keys = Object.keys(EVAL_UTILS);
+        const values = Object.values(EVAL_UTILS);
+        return new Function(...keys, `return (${expr})`).call(context, ...values);
     } catch(e) {
         console.log(expr, context, e);
     }

@@ -4,4 +4,3 @@
 
 export * from './lib/ngv-markdown-data.service';
 export * from './lib/ngv-markdown.component';
-export * from './lib/ngv-markdown.module';
