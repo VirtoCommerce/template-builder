@@ -1,4 +1,4 @@
-import * as jp from 'jsonpath';
+import { JSONPath } from 'jsonpath-plus';
 
 import { ValueDescriptorModel } from '@models/index';
 
@@ -96,7 +96,7 @@ export function getValueOrDefault(value: any, defaultValue: any = null) {
 }
 
 export function getValueByPath(model: any, path: any): any {
-    const value = jp.query(model, path);
+    const value = JSONPath({ path, json: model, wrap: true });
     const result = Array.isArray(value) ? value[0] : value;
     if (typeof result === 'function') {
         return null;
