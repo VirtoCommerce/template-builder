@@ -88,3 +88,64 @@ These are built with `ng-packagr` and resolved from `dist/` in development via t
 - **date-fns / moment / chrono-node** — Date handling
 - **lodash-es** — Utility functions
 - **jsonpath** — JSON querying for template data bindings
+
+## Angular 17 Patterns (applied throughout the codebase)
+
+### Dependency Injection
+Always use `inject()` function — never constructor injection:
+```typescript
+private readonly store = inject(Store<BuilderState>);
+private readonly destroyRef = inject(DestroyRef);
+```
+
+### Component Inputs / Outputs / Queries
+```typescript
+// Signal-based inputs (use for simple values)
+readonly label = input.required<string>();
+readonly opened = input(false);
+
+// Getter/setter @Input — keep when side effects are needed (e.g. generateForm, propagate to children)
+@Input({ required: true }) set descriptor(value: ...) { ... }
+
+// output() replaces @Output() + EventEmitter
+readonly onAdd = output<SectionItem>();
+
+// viewChild() replaces @ViewChild
+readonly frame = viewChild<ElementRef>('frame');
+readonly host = viewChild.required(ControlHostDirective);
+```
+
+### Control Flow
+Use `@if` / `@for` / `@switch` — never `*ngIf` / `*ngFor` / `[ngSwitch]`:
+```html
+@if (viewModel(); as vm) { ... }
+@for (item of items; track item) { ... }
+```
+
+### Signals & NgRx
+- `toSignal()` to bridge NgRx selectors → signals (removes `| async` from templates)
+- `signal()` for local synchronous state
+- Keep `Subject + debounceTime` for time-based streams (e.g. search debounce)
+```typescript
+readonly viewModel = toSignal(this.store.select(selectSomething), { initialValue: null });
+```
+
+### Lifecycle / Cleanup
+Use `takeUntilDestroyed()` for RxJS streams, `DestroyRef.onDestroy()` for imperative cleanup — no `ngOnDestroy`:
+```typescript
+private readonly destroyRef = inject(DestroyRef);
+// in ngAfterViewInit or ngOnInit:
+this.destroyRef.onDestroy(() => clearInterval(this._interval));
+someStream$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(...);
+```
+
+### Lazy Controls
+Heavy controls (text/CKEditor, calendar, color, markdown, files, images) are registered lazily in `ControlsFactory` via dynamic `import()`. Light controls are eager. See `controls-register.ts` and `control-holder.component.ts`.
+
+### @defer
+Use `@defer (on viewport; prefetch on idle)` for large visual lists (e.g. add-section items). Not applicable to `ViewContainerRef.createComponent()` patterns.
+
+### Template Style
+- Self-closing tags for all components, directives, `<router-outlet />`, `<ng-content />`, `<ng-template />` with no child content
+- `<textarea>` and `<app-root>` in `index.html` keep standard closing tags
+- No `AsyncPipe` — use `toSignal()` instead
