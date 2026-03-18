@@ -156,5 +156,6 @@ export class TemplateEditorComponent {
 
     onMouseLeave() {
         this.addButtonOpacity = 0;
+        this.currentInsertIndex = this.container().nativeElement.children.length;
     }
 }
