@@ -89,23 +89,38 @@ These are built with `ng-packagr` and resolved from `dist/` in development via t
 - **lodash-es** — Utility functions
 - **jsonpath** — JSON querying for template data bindings
 
-## Angular 17 Patterns (applied throughout the codebase)
+## Angular Patterns (applied throughout the codebase)
+
+> Migration status: Angular 17 complete → Angular 18 in progress
 
 ### Dependency Injection
-Always use `inject()` function — never constructor injection:
+Always use `inject()` function — never constructor injection.
+Exception: classes extending framework classes (e.g. `HttpClient`) must call `super(inject(X))`:
 ```typescript
 private readonly store = inject(Store<BuilderState>);
 private readonly destroyRef = inject(DestroyRef);
+
+// For subclasses:
+private readonly evaluator = inject(EvaluatorService);
+constructor() { super(inject(HttpHandler)); }
 ```
 
 ### Component Inputs / Outputs / Queries
 ```typescript
-// Signal-based inputs (use for simple values)
+// Signal-based inputs (use for simple values — no side effects)
 readonly label = input.required<string>();
 readonly opened = input(false);
 
 // Getter/setter @Input — keep when side effects are needed (e.g. generateForm, propagate to children)
 @Input({ required: true }) set descriptor(value: ...) { ... }
+
+// Mutable input (externally bound AND internally mutated) — signal + @Input alias:
+readonly controlValue = signal<any>(null);
+@Input('controlValue') set controlValueInput(v: any) { this.controlValue.set(v ?? null); }
+
+// Async-fetched input with internal cache — input() + private signal:
+readonly actions = input<T[] | null>(null);
+private readonly _cachedActions = signal<T[] | null>(null);
 
 // output() replaces @Output() + EventEmitter
 readonly onAdd = output<SectionItem>();
@@ -126,21 +141,26 @@ Use `@if` / `@for` / `@switch` — never `*ngIf` / `*ngFor` / `[ngSwitch]`:
 - `toSignal()` to bridge NgRx selectors → signals (removes `| async` from templates)
 - `signal()` for local synchronous state
 - Keep `Subject + debounceTime` for time-based streams (e.g. search debounce)
+- No `AsyncPipe` — use `toSignal()` or subscribe + signal
 ```typescript
 readonly viewModel = toSignal(this.store.select(selectSomething), { initialValue: null });
+// Observable stream → signal:
+readonly options = signal<any[]>([]);
+// in ngOnInit: concat(...streams).pipe(takeUntilDestroyed(...)).subscribe(v => this.options.set(v));
 ```
 
 ### Lifecycle / Cleanup
 Use `takeUntilDestroyed()` for RxJS streams, `DestroyRef.onDestroy()` for imperative cleanup — no `ngOnDestroy`:
 ```typescript
 private readonly destroyRef = inject(DestroyRef);
-// in ngAfterViewInit or ngOnInit:
 this.destroyRef.onDestroy(() => clearInterval(this._interval));
 someStream$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(...);
 ```
 
 ### Lazy Controls
 Heavy controls (text/CKEditor, calendar, color, markdown, files, images) are registered lazily in `ControlsFactory` via dynamic `import()`. Light controls are eager. See `controls-register.ts` and `control-holder.component.ts`.
+
+`ControlHolderComponent` buffers `writeValue` / `registerOnChange` / `registerOnTouched` calls that arrive before the lazy component is created (`_hasPendingValue`, `_pendingOnChange`, `_pendingOnTouched`), then applies them in `createComponent()`.
 
 ### @defer
 Use `@defer (on viewport; prefetch on idle)` for large visual lists (e.g. add-section items). Not applicable to `ViewContainerRef.createComponent()` patterns.
@@ -149,3 +169,26 @@ Use `@defer (on viewport; prefetch on idle)` for large visual lists (e.g. add-se
 - Self-closing tags for all components, directives, `<router-outlet />`, `<ng-content />`, `<ng-template />` with no child content
 - `<textarea>` and `<app-root>` in `index.html` keep standard closing tags
 - No `AsyncPipe` — use `toSignal()` instead
+- Guard `[formGroup]="form"` with `@if (form)` when form is initialized asynchronously (e.g. `collection.component.html`)
+
+### Angular Material MDC Style Overrides
+MDC components apply non-standard typography (e.g. `letter-spacing: 0.089em`). Override at component level:
+```scss
+::ng-deep .mdc-tab__text-label {
+    font-size: $default-font-size;
+    font-weight: 400;
+    letter-spacing: normal;
+}
+// Same pattern for mat-menu-item, mat-button, etc.
+```
+
+### ng-scrollbar (ngx-scrollbar v14)
+For `<ng-scrollbar>` to contain scroll within itself (not leak to window):
+```scss
+.parent-container {
+    flex: 1 1 0;      // flex-shrink must be 1, not 0
+    overflow: hidden;
+    ng-scrollbar { height: 100%; }
+}
+```
+API notes: `visibility` type is `'native' | 'hover' | 'visible'` (not `'always'`). All inputs are `InputSignal`. Global config via `provideScrollbarOptions()`.
