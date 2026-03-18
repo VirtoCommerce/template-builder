@@ -7,7 +7,6 @@ import { IconWithPreviewComponent } from '@core/components/icon-with-preview/ico
     templateUrl: './presets-icon.component.html',
     styleUrls: ['./presets-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgStyle, IconWithPreviewComponent]
 })
 export class PresetsIconComponent {

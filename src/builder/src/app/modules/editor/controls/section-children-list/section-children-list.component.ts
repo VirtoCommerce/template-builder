@@ -14,7 +14,6 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     templateUrl: './section-children-list.component.html',
     styleUrls: ['./section-children-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, DragDropModule, SectionItemComponent, DragHandleComponent, IconButtonComponent]
 })
 export class SectionChildrenListComponent {

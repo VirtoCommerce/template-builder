@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -53,17 +53,14 @@ export const appConfig: ApplicationConfig = {
             useClass: RefreshTokenInterceptor,
             multi: true
         },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: (config: AppInitializator) => () => config.init(),
-            deps: [AppInitializator],
-            multi: true
-        },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: registerControls,
-            multi: true
-        },
+        provideAppInitializer(() => {
+        const initializerFn = ((config: AppInitializator) => () => config.init())(inject(AppInitializator));
+        return initializerFn();
+      }),
+        provideAppInitializer(() => {
+        const initializerFn = (registerControls)();
+        return initializerFn();
+      }),
 
         importProvidersFrom(
             MatDialogModule,

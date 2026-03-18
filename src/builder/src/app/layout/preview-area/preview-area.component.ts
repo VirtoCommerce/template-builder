@@ -10,7 +10,6 @@ import { LivePreviewComponent } from '@shared/components/live-preview/live-previ
     templateUrl: './preview-area.component.html',
     styleUrls: ['./preview-area.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [LivePreviewComponent]
 })
 export class PreviewAreaComponent {

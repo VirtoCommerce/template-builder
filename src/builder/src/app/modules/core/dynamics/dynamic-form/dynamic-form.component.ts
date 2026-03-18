@@ -14,7 +14,6 @@ import { ControlsTabsComponent } from '@core/dynamics/controls-tabs/controls-tab
     selector: 'app-dynamic-form',
     templateUrl: './dynamic-form.component.html',
     styleUrls: ['./dynamic-form.component.scss'],
-    standalone: true,
     imports: [ReactiveFormsModule, ControlsTabsComponent]
 })
 export class DynamicFormComponent implements OnInit {

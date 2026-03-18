@@ -6,7 +6,6 @@ import { SpinnerComponent } from '@core/components/spinner/spinner.component';
     templateUrl: './fullscreen-loader.component.html',
     styleUrls: ['./fullscreen-loader.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [SpinnerComponent]
 })
 export class FullscreenLoaderComponent {

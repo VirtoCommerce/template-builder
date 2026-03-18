@@ -5,7 +5,8 @@ import { DynamicFormComponent } from './dynamic-form.component';
 
 @Component({
     selector: 'app-controls-tabs',
-    template: ''
+    template: '',
+    standalone: false
 })
 class FakeControlsTabs {
     @Input() attributes!: any;

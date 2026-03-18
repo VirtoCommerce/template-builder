@@ -8,7 +8,6 @@ import { ActionsDropdownComponent } from '@core/components/actions-dropdown/acti
     templateUrl: './custom-actions.component.html',
     styleUrls: ['./custom-actions.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ActionsDropdownComponent]
 })
 export class CustomActionsComponent {

@@ -8,7 +8,6 @@ import { ToolbarPlaceholderDirective } from './toolbar-placeholder.directive';
     selector: 'app-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrls: ['./toolbar.component.scss'],
-    standalone: true,
     imports: [LogoComponent, ToolbarPlaceholderDirective]
 })
 export class ToolbarComponent {

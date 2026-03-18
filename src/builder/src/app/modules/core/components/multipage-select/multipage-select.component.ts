@@ -14,36 +14,35 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './multipage-select.component.html',
     styleUrls: ['./multipage-select.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [OverlayModule, NgScrollbar, ChevronComponent, SeparatorComponent, IconComponent],
     animations: [
-        // trigger(
-        //     'templatesAnimation',
-        //     [
-        //         state('open', style({ transform: 'none' })),
-        //         state('*', style({ transform: 'translate(-100%)' })),
-        //         transition('open <=> *', animate('.2s ease-in')),
-        //     ]
-        // ),
-        // trigger(
-        //     'pagesAnimation',
-        //     [
-        //         transition(
-        //             ':enter',
-        //             [
-        //                 style({ transform: 'translate(100%)' }),
-        //                 animate('.2s ease-in', style({ transform: 'none' }))
-        //             ]
-        //         ),
-        //         transition(
-        //             ':leave',
-        //             [
-        //                 style({ transform: 'none' }),
-        //                 animate('.2s ease-in', style({ transform: 'translate(100%)' }))
-        //             ]
-        //         )
-        //     ]
-        // )
+    // trigger(
+    //     'templatesAnimation',
+    //     [
+    //         state('open', style({ transform: 'none' })),
+    //         state('*', style({ transform: 'translate(-100%)' })),
+    //         transition('open <=> *', animate('.2s ease-in')),
+    //     ]
+    // ),
+    // trigger(
+    //     'pagesAnimation',
+    //     [
+    //         transition(
+    //             ':enter',
+    //             [
+    //                 style({ transform: 'translate(100%)' }),
+    //                 animate('.2s ease-in', style({ transform: 'none' }))
+    //             ]
+    //         ),
+    //         transition(
+    //             ':leave',
+    //             [
+    //                 style({ transform: 'none' }),
+    //                 animate('.2s ease-in', style({ transform: 'translate(100%)' }))
+    //             ]
+    //         )
+    //     ]
+    // )
     ]
 })
 export class MultipageSelectComponent {

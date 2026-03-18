@@ -23,7 +23,6 @@ import { appHelpers } from '@integration/helpers';
     selector: 'app-select',
     templateUrl: './select.component.html',
     styleUrls: ['./select.component.scss'],
-    standalone: true,
     imports: [ReactiveFormsModule, NgSelectModule]
 })
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {

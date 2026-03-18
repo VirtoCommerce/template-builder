@@ -13,7 +13,6 @@ import { ControlsTabComponent } from '@core/dynamics/controls-tab/controls-tab.c
     templateUrl: './controls-tabs.component.html',
     styleUrls: ['./controls-tabs.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ReactiveFormsModule, MatTabGroup, MatTab, ControlsTabComponent]
 })
 export class ControlsTabsComponent implements OnInit {

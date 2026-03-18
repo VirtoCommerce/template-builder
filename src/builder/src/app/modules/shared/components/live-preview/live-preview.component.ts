@@ -14,7 +14,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
     selector: 'app-live-preview',
     templateUrl: './live-preview.component.html',
     styleUrls: ['./live-preview.component.scss'],
-    standalone: true,
     imports: [NgClass]
 })
 export class LivePreviewComponent implements OnInit {

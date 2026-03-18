@@ -14,16 +14,7 @@ import { ContextMenuHelper, helpers } from '@editor/helpers';
     templateUrl: './section-item.component.html',
     styleUrls: ['./section-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgClass, IconComponent, CheckboxComponent, ContextMenuComponent],
-    // animations: [
-    //     trigger('openClose', [
-    //         state('open', style({ height: 'auto' })),
-    //         state('closed', style({ height: '0' })),
-    //         transition('open => closed', [animate('1s')]),
-    //         transition('closed => open', [animate('1s')])
-    //     ])
-    // ]
+    imports: [NgClass, IconComponent, CheckboxComponent, ContextMenuComponent]
 })
 export class SectionItemComponent {
 

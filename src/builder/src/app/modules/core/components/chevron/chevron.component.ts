@@ -7,7 +7,6 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './chevron.component.html',
     styleUrls: ['./chevron.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, IconComponent]
 })
 export class ChevronComponent {

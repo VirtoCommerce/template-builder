@@ -19,7 +19,6 @@ import { FullscreenLoaderComponent } from './layout/fullscreen-loader/fullscreen
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
 })
 export class AppComponent {

@@ -11,7 +11,6 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     templateUrl: './save-template.component.html',
     styleUrls: ['./save-template.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ReactiveFormsModule, MatDialogContent, MatDialogActions, IconComponent, IconButtonComponent]
 })
 export class SaveTemplateComponent {

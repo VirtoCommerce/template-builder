@@ -24,7 +24,6 @@ import { MARKDOWN_DATA_SERVICE, IMarkdownDataService } from './ngv-markdown-data
 
 @Component({
     selector: 'ngv-markdown',
-    standalone: true,
     imports: [],
     templateUrl: './ngv-markdown.component.html',
     styleUrls: ['./ngv-markdown.component.scss']

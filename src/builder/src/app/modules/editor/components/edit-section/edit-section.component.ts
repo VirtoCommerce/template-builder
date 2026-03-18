@@ -23,7 +23,6 @@ import * as fromRoute from '@shared/routing/selectors';
     templateUrl: './edit-section.component.html',
     styleUrls: ['./edit-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
 })
 export class EditSectionComponent {

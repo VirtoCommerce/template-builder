@@ -50,19 +50,18 @@ export class MatDatepickerCancel {
  * to the bottom of a datepicker or date range picker.
  */
 @Component({
-  selector: 'mat-datepicker-actions, mat-date-range-picker-actions',
-  styleUrls: ['datepicker-actions.scss'],
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'mat-datepicker-actions, mat-date-range-picker-actions',
+    styleUrls: ['datepicker-actions.scss'],
+    imports: [],
+    template: `
     <ng-template>
       <div class="mat-datepicker-actions">
         <ng-content></ng-content>
       </div>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None
 })
 export class MatDatepickerActions implements AfterViewInit, OnDestroy {
   @ViewChild(TemplateRef) _template!: TemplateRef<unknown>;

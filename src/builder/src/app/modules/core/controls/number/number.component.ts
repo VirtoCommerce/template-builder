@@ -7,12 +7,11 @@ import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { NumberDescriptor } from '@models/controls';
 
 @Component({
-  selector: 'app-number',
-  templateUrl: './number.component.html',
-  styleUrls: ['./number.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgClass, MatSlider, MatSliderThumb]
+    selector: 'app-number',
+    templateUrl: './number.component.html',
+    styleUrls: ['./number.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgClass, MatSlider, MatSliderThumb]
 })
 export class NumberComponent extends BaseControlDirective<NumberDescriptor> {
     private readonly windowRef = inject(EnvironmentRef);

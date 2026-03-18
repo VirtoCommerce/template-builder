@@ -25,7 +25,6 @@ import { ControlsListComponent } from '@core/dynamics/controls-list/controls-lis
     selector: 'app-collection',
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],
-    standalone: true,
     imports: [NgClass, ReactiveFormsModule, DragDropModule, ChevronComponent, ContextMenuComponent, DragHandleComponent, IconButtonComponent, ControlsListComponent]
 })
 export class CollectionComponent extends BaseControlDirective<CollectionDescriptor> {

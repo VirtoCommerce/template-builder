@@ -19,7 +19,6 @@ import * as fromRoute from '@shared/routing/selectors';
     templateUrl: './presets-panel.component.html',
     styleUrls: ['./presets-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, IconButtonComponent, PresetsIconComponent]
 })
 export class PresetsPanelComponent {

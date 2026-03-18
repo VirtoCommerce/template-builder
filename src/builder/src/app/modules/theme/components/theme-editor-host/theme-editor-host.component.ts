@@ -7,7 +7,6 @@ import { ThemeEditorComponent } from '@theme/components/theme-editor/theme-edito
     templateUrl: './theme-editor-host.component.html',
     styleUrls: ['./theme-editor-host.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ThemeEditorComponent, RouterOutlet]
 })
 export class ThemeEditorHostComponent {

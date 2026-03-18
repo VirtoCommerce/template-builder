@@ -30,7 +30,6 @@ import * as chrono from 'chrono-node';
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     providers: [MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER],
     imports: [
         MatCalendar,

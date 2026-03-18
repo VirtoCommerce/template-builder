@@ -5,7 +5,6 @@ import { NgScrollbar } from 'ngx-scrollbar';
     selector: 'app-panel',
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.scss'],
-    standalone: true,
     imports: [NgScrollbar]
 })
 export class PanelComponent implements AfterViewInit {

@@ -13,7 +13,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
     templateUrl: './preview-mode.component.html',
     styleUrls: ['./preview-mode.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ActionsDropdownComponent]
 })
 export class PreviewModeComponent {

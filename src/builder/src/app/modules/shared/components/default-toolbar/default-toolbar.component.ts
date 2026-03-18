@@ -13,7 +13,6 @@ import { ActionsPanelComponent } from '@shared/components/actions-panel/actions-
     templateUrl: './default-toolbar.component.html',
     styleUrls: ['./default-toolbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [PreviewModeComponent, TemplateSelectorComponent, ActionsPanelComponent]
 })
 export class DefaultToolbarComponent {

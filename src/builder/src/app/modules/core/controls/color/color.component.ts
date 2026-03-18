@@ -14,12 +14,11 @@ import { ColorEvent } from 'ngx-color';
  */
 
 @Component({
-  selector: 'app-color',
-  templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgStyle, OverlayModule, ColorSketchModule, ColorTwitterModule]
+    selector: 'app-color',
+    templateUrl: './color.component.html',
+    styleUrls: ['./color.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgStyle, OverlayModule, ColorSketchModule, ColorTwitterModule]
 })
 export class ColorComponent extends BaseControlDirective<ColorDescriptor> {
     private readonly cdr = inject(ChangeDetectorRef);

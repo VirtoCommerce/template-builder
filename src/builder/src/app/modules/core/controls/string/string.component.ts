@@ -10,7 +10,6 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     templateUrl: './string.component.html',
     styleUrls: ['./string.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [KeyValuePipe, IconButtonComponent]
 })
 export class StringComponent extends BaseControlDirective<StringDescriptor> {

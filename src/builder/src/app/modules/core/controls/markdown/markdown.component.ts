@@ -13,7 +13,6 @@ import { AssetFile } from '../../models';
     templateUrl: './markdown.component.html',
     styleUrls: ['./markdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgvMarkdownComponent]
 })
 export class MarkdownComponent extends BaseControlDirective<MarkdownDescriptor> {

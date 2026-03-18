@@ -14,7 +14,6 @@ import { DefaultToolbarComponent } from '@shared/components/default-toolbar/defa
     templateUrl: './toolbar-host.component.html',
     styleUrls: ['./toolbar-host.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [DefaultToolbarComponent]
 })
 export class ToolbarHostComponent {

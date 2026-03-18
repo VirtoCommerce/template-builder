@@ -61,12 +61,11 @@ let uniqueId = 0;
     selector: 'mat-custom-header',
     templateUrl: 'mat-header.html',
     styleUrls: ['./mat-header.scss'],
-    standalone: true,
     imports: [MatButton, MatIconButton],
     exportAs: 'matCalendarHeader',
     animations: [matDatepickerAnimations.controlActive],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatCalendarHeader<D> {
     _buttonDescriptionId = `mat-calendar-button-${uniqueId++}`;
@@ -290,7 +289,6 @@ export class MatCalendarHeader<D> {
     selector: 'mat-calendar',
     templateUrl: 'calendar.html',
     styleUrls: ['calendar.scss'],
-    standalone: true,
     imports: [CdkPortalOutlet, CdkMonitorFocus, MatClockView, MatMonthView, MatYearView, MatMultiYearView],
     host: {
         'class': 'mat-calendar',
@@ -298,7 +296,7 @@ export class MatCalendarHeader<D> {
     exportAs: 'matCalendar',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER],
+    providers: [MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER]
 })
 export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges {
     /** An input indicating the type of the header component, if set. */

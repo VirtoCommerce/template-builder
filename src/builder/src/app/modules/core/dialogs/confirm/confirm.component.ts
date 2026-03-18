@@ -9,7 +9,6 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     templateUrl: './confirm.component.html',
     styleUrls: ['./confirm.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [MatDialogContent, MatDialogActions, IconComponent, IconButtonComponent]
 })
 export class ConfirmComponent {

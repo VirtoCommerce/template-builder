@@ -10,7 +10,6 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './context-menu.component.html',
     styleUrls: ['./context-menu.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, NgStyle, OverlayModule, IconComponent]
 })
 export class ContextMenuComponent {

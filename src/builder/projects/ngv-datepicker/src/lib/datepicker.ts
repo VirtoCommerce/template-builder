@@ -22,7 +22,6 @@ import { Directionality } from '@angular/cdk/bidi';
     selector: 'mat-datepicker',
     template: '',
     exportAs: 'matDatepicker',
-    standalone: true,
     imports: [],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,

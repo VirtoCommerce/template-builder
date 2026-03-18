@@ -11,7 +11,6 @@ import { IconComponent } from '@core/components/icon/icon.component';
     templateUrl: './add-section-item.component.html',
     styleUrls: ['./add-section-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, IconComponent]
 })
 export class AddSectionItemComponent {

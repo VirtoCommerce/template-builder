@@ -36,18 +36,17 @@ export type ClockView = 'hour' | 'minute';
  * @docs-private
  */
 @Component({
-  selector: 'mat-clock-view',
-  templateUrl: 'clock-view.html',
-  exportAs: 'matClockView',
-  standalone: true,
-  imports: [],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    role: 'clock',
-    '(mousedown)': '_handleMousedown($event)'
-  },
-  preserveWhitespaces: false
+    selector: 'mat-clock-view',
+    templateUrl: 'clock-view.html',
+    exportAs: 'matClockView',
+    imports: [],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        role: 'clock',
+        '(mousedown)': '_handleMousedown($event)'
+    },
+    preserveWhitespaces: false
 })
 export class MatClockView<D> implements AfterViewInit, AfterContentInit {
   /**

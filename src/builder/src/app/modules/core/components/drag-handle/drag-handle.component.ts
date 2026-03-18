@@ -7,7 +7,6 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './drag-handle.component.html',
     styleUrls: ['./drag-handle.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgStyle, IconComponent]
 })
 export class DragHandleComponent {

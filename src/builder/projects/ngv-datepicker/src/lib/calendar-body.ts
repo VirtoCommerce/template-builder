@@ -59,17 +59,16 @@ export interface MatCalendarUserEvent<D> {
  * @docs-private
  */
 @Component({
-  selector: '[mat-calendar-body]',
-  templateUrl: 'calendar-body.html',
-  styleUrls: ['calendar-body.scss'],
-  standalone: true,
-  imports: [],
-  host: {
-    'class': 'mat-calendar-body',
-  },
-  exportAs: 'matCalendarBody',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: '[mat-calendar-body]',
+    templateUrl: 'calendar-body.html',
+    styleUrls: ['calendar-body.scss'],
+    imports: [],
+    host: {
+        'class': 'mat-calendar-body',
+    },
+    exportAs: 'matCalendarBody',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatCalendarBody implements OnChanges, OnDestroy {
   /**

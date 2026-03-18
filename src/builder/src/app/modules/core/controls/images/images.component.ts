@@ -17,7 +17,6 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
     selector: 'app-images',
     templateUrl: './images.component.html',
     styleUrls: ['./images.component.scss'],
-    standalone: true,
     imports: [NgClass, NgStyle, DragDropModule, SpinnerComponent, FileUploadModule, ChevronComponent, IconComponent, DragHandleComponent, IconButtonComponent, ControlsListComponent]
 })
 export class ImagesComponent extends BaseFilesComponent<ImagesDescriptor> {

@@ -8,7 +8,6 @@ import { TextDescriptor } from '@models/controls';
     templateUrl: './text.component.html',
     styleUrls: ['./text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [CKEditorModule]
 })
 export class TextComponent extends BaseControlDirective<TextDescriptor> {

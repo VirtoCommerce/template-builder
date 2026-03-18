@@ -32,7 +32,6 @@ export interface MatDateRangePickerInput<D> extends MatDatepickerControl<D> {
     selector: 'mat-date-range-picker',
     template: '',
     exportAs: 'matDateRangePicker',
-    standalone: true,
     imports: [],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
@@ -40,7 +39,7 @@ export interface MatDateRangePickerInput<D> extends MatDatepickerControl<D> {
         MAT_RANGE_DATE_SELECTION_MODEL_PROVIDER,
         MAT_CALENDAR_RANGE_STRATEGY_PROVIDER,
         { provide: MatDatepickerBase, useExisting: MatDateRangePicker },
-    ],
+    ]
 })
 export class MatDateRangePicker<D> extends MatDatepickerBase<
     MatDateRangePickerInput<D>,

@@ -13,7 +13,6 @@ import { ControlHolderComponent } from '@core/dynamics/control-holder.component'
     templateUrl: './controls-list.component.html',
     styleUrls: ['./controls-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ReactiveFormsModule, ControlHolderComponent]
 })
 export class ControlsListComponent {

@@ -10,7 +10,6 @@ import { CheckboxDescriptor } from '@models/controls';
     templateUrl: './checkbox.component.html',
     styleUrls: ['./checkbox.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [MatCheckbox]
 })
 export class CheckboxComponent extends BaseControlDirective<CheckboxDescriptor> {

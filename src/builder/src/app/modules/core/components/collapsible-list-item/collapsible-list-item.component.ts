@@ -7,7 +7,6 @@ import { ChevronComponent } from '../chevron/chevron.component';
     templateUrl: './collapsible-list-item.component.html',
     styleUrls: ['./collapsible-list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, NgStyle, ChevronComponent]
 })
 export class CollapsibleListItemComponent {

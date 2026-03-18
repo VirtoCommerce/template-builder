@@ -64,13 +64,12 @@ const DAYS_PER_WEEK = 7;
  * @docs-private
  */
 @Component({
-  selector: 'mat-month-view',
-  templateUrl: 'month-view.html',
-  exportAs: 'matMonthView',
-  standalone: true,
-  imports: [MatCalendarBody],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mat-month-view',
+    templateUrl: 'month-view.html',
+    exportAs: 'matMonthView',
+    imports: [MatCalendarBody],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;

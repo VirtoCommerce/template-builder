@@ -7,7 +7,6 @@ import { IconComponent } from '../icon/icon.component';
     templateUrl: './icon-button.component.html',
     styleUrls: ['./icon-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, IconComponent]
 })
 export class IconButtonComponent {

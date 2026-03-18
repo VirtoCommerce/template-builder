@@ -5,7 +5,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     templateUrl: './logo.component.html',
     styleUrls: ['./logo.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: []
 })
 export class LogoComponent {

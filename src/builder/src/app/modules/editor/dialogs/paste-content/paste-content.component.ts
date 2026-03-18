@@ -8,7 +8,6 @@ import { IconButtonComponent } from '@core/components/icon-button/icon-button.co
     templateUrl: './paste-content.component.html',
     styleUrls: ['./paste-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ReactiveFormsModule, MatDialogContent, MatDialogActions, IconButtonComponent]
 })
 export class PasteContentComponent {

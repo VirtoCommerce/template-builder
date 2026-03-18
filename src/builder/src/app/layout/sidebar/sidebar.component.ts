@@ -10,7 +10,6 @@ import * as fromRoute from '@shared/routing';
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [RouterOutlet]
 })
 export class SidebarComponent {

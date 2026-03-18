@@ -21,7 +21,6 @@ import * as fromRoute from '@shared/routing/selectors';
     templateUrl: './add-section.component.html',
     styleUrls: ['./add-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, AddSectionGroupComponent, AddSectionItemComponent]
 })
 export class AddSectionComponent {

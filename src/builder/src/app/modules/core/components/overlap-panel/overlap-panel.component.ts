@@ -8,7 +8,6 @@ import { IconComponent } from '../icon/icon.component';
     selector: 'app-overlap-panel',
     templateUrl: './overlap-panel.component.html',
     styleUrls: ['./overlap-panel.component.scss'],
-    standalone: true,
     imports: [NgClass, IconComponent]
 })
 export class OverlapPanelComponent {

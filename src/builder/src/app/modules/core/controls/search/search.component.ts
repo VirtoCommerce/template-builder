@@ -17,7 +17,6 @@ import { appHelpers } from '@integration/helpers';
     selector: 'app-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss'],
-    standalone: true,
     imports: [JsonPipe, IconButtonComponent]
 })
 export class SearchComponent extends BaseControlDirective<SearchDescriptor> {

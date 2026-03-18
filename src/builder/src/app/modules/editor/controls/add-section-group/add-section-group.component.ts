@@ -11,7 +11,6 @@ import { AddSectionItemComponent } from '@editor/controls/add-section-item/add-s
     templateUrl: './add-section-group.component.html',
     styleUrls: ['./add-section-group.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [IconComponent, ChevronComponent, AddSectionItemComponent]
 })
 export class AddSectionGroupComponent {

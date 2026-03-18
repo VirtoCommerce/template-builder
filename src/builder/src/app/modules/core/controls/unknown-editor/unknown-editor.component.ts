@@ -5,12 +5,11 @@ import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { BaseControlDescriptor } from '@models/controls';
 
 @Component({
-  selector: 'app-unknown-editor',
-  templateUrl: './unknown-editor.component.html',
-  styleUrls: ['./unknown-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [JsonPipe]
+    selector: 'app-unknown-editor',
+    templateUrl: './unknown-editor.component.html',
+    styleUrls: ['./unknown-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [JsonPipe]
 })
 export class UnknownEditorComponent extends BaseControlDirective<BaseControlDescriptor> {
 }

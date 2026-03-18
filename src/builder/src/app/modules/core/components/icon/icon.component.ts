@@ -6,7 +6,6 @@ import { MatIcon } from '@angular/material/icon';
     templateUrl: './icon.component.html',
     styleUrls: ['./icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [MatIcon]
 })
 export class IconComponent {

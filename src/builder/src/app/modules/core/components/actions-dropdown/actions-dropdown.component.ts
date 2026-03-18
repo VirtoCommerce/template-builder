@@ -11,7 +11,6 @@ import { ChevronComponent } from '../chevron/chevron.component';
     templateUrl: './actions-dropdown.component.html',
     styleUrls: ['./actions-dropdown.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [MatButton, MatMenu, MatMenuTrigger, MatMenuItem, IconComponent, ChevronComponent]
 })
 export class ActionsDropdownComponent {

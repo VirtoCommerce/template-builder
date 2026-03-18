@@ -17,7 +17,6 @@ import { map } from 'rxjs';
     templateUrl: './template-selector.component.html',
     styleUrls: ['./template-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [MultipageSelectComponent]
 })
 export class TemplateSelectorComponent {

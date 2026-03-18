@@ -13,10 +13,9 @@ import { ChevronComponent } from '@core/components/chevron/chevron.component';
 import { ControlsListComponent } from '@core/dynamics/controls-list/controls-list.component';
 
 @Component({
-  selector: 'app-object',
-  templateUrl: './object.component.html',
+    selector: 'app-object',
+    templateUrl: './object.component.html',
     styleUrls: ['./object.component.scss'],
-    standalone: true,
     imports: [NgClass, ChevronComponent, ControlsListComponent]
 })
 export class ObjectComponent extends BaseControlDirective<ObjectDescriptor> {

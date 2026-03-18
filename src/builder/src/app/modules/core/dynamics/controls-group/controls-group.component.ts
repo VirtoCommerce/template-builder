@@ -8,7 +8,6 @@ import { ChevronComponent } from '@core/components/chevron/chevron.component';
     templateUrl: './controls-group.component.html',
     styleUrls: ['./controls-group.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [NgClass, MatRipple, ChevronComponent]
 })
 export class ControlsGroupComponent {

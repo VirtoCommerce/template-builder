@@ -8,7 +8,6 @@ import { IconButtonComponent } from '../icon-button/icon-button.component';
     templateUrl: './action-buttons.component.html',
     styleUrls: ['./action-buttons.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [IconButtonComponent]
 })
 export class ActionButtonsComponent {

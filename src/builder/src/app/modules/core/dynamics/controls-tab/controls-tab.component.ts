@@ -11,7 +11,6 @@ import { ControlsGroupComponent } from '@core/dynamics/controls-group/controls-g
     templateUrl: './controls-tab.component.html',
     styleUrls: ['./controls-tab.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ReactiveFormsModule, ControlsListComponent, ControlsGroupComponent]
 })
 export class ControlsTabComponent {

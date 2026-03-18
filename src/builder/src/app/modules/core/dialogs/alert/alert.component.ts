@@ -6,7 +6,6 @@ import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } fro
     templateUrl: './alert.component.html',
     styleUrls: ['./alert.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [MatDialogContent, MatDialogActions]
 })
 export class AlertComponent {

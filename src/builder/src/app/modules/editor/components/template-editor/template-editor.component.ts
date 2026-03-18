@@ -28,8 +28,6 @@ import { domHelpers } from '@core/helpers';
     selector: 'app-template-editor',
     templateUrl: './template-editor.component.html',
     styleUrls: ['./template-editor.component.scss'],
-    // changeDetection: ChangeDetectionStrategy.OnPush
-    standalone: true,
     imports: [NgClass, NgStyle, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
 })
 export class TemplateEditorComponent {

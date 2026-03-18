@@ -7,7 +7,6 @@ import { TemplateEditorComponent } from '@editor/components/template-editor/temp
     templateUrl: './template-editor-host.component.html',
     styleUrls: ['./template-editor-host.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [RouterOutlet, TemplateEditorComponent]
 })
 export class TemplateEditorHostComponent {

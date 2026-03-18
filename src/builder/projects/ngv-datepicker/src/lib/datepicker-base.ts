@@ -108,22 +108,21 @@ const _MatDatepickerContentBase = mixinColor(
  * @docs-private
  */
 @Component({
-  selector: 'mat-datepicker-content',
-  templateUrl: 'datepicker-content.html',
-  styleUrls: ['datepicker-content.scss'],
-  standalone: true,
-  imports: [CdkTrapFocus, CdkPortalOutlet, MatButton, MatCalendar],
-  host: {
-    'class': 'mat-datepicker-content',
-    '[@transformPanel]': '_animationState',
-    '(@transformPanel.done)': '_animationDone.next()',
-    '[class.mat-datepicker-content-touch]': 'datepicker.touchUi',
-  },
-  animations: [matDatepickerAnimations.transformPanel, matDatepickerAnimations.fadeInCalendar],
-  exportAs: 'matDatepickerContent',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  inputs: ['color'],
+    selector: 'mat-datepicker-content',
+    templateUrl: 'datepicker-content.html',
+    styleUrls: ['datepicker-content.scss'],
+    imports: [CdkTrapFocus, CdkPortalOutlet, MatButton, MatCalendar],
+    host: {
+        'class': 'mat-datepicker-content',
+        '[@transformPanel]': '_animationState',
+        '(@transformPanel.done)': '_animationDone.next()',
+        '[class.mat-datepicker-content-touch]': 'datepicker.touchUi',
+    },
+    animations: [matDatepickerAnimations.transformPanel, matDatepickerAnimations.fadeInCalendar],
+    exportAs: 'matDatepickerContent',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    inputs: ['color']
 })
 export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
   extends _MatDatepickerContentBase

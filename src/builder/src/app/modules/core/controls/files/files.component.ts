@@ -16,7 +16,6 @@ import { ControlsListComponent } from '@core/dynamics/controls-list/controls-lis
     selector: 'app-files',
     templateUrl: './files.component.html',
     styleUrls: ['./files.component.scss'],
-    standalone: true,
     imports: [NgClass, NgStyle, DragDropModule, MatProgressBar, FileUploadModule, ChevronComponent, IconComponent, DragHandleComponent, IconButtonComponent, ControlsListComponent]
 })
 export class FilesComponent extends BaseFilesComponent<FilesDescriptor> {

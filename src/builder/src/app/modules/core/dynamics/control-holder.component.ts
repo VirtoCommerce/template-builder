@@ -23,13 +23,12 @@ import { BaseControlDescriptor } from '@models/controls';
     selector: 'app-control-holder',
     template: `<ng-template appControlHost />`,
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => ControlHolderComponent),
-        multi: true,
-    }],
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ControlHolderComponent),
+            multi: true,
+        }],
     styleUrls: ['./control-holder.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ControlHostDirective]
 })
 export class ControlHolderComponent implements OnInit, ControlValueAccessor {

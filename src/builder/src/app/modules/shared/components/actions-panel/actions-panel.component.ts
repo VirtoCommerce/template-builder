@@ -9,7 +9,6 @@ import { ActionButtonsComponent } from '@core/components/action-buttons/action-b
     templateUrl: './actions-panel.component.html',
     styleUrls: ['./actions-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [ActionButtonsComponent]
 })
 export class ActionsPanelComponent {

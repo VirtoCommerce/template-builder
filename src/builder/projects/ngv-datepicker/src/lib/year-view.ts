@@ -53,13 +53,12 @@ import {DateFilterFn} from './datepicker-input-base';
  * @docs-private
  */
 @Component({
-  selector: 'mat-year-view',
-  templateUrl: 'year-view.html',
-  exportAs: 'matYearView',
-  standalone: true,
-  imports: [MatCalendarBody],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mat-year-view',
+    templateUrl: 'year-view.html',
+    exportAs: 'matYearView',
+    imports: [MatCalendarBody],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;

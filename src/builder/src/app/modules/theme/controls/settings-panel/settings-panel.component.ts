@@ -10,7 +10,6 @@ import { IconComponent } from '@core/components/icon/icon.component';
     templateUrl: './settings-panel.component.html',
     styleUrls: ['./settings-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [OverlapPanelComponent, PanelComponent, DynamicFormComponent, IconComponent]
 })
 export class SettingsPanelComponent {

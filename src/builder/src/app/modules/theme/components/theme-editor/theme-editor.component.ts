@@ -17,7 +17,6 @@ import * as actions from '@theme/store/actions';
     templateUrl: './theme-editor.component.html',
     styleUrls: ['./theme-editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [PanelComponent, IconButtonComponent, ChevronComponent, DynamicFormComponent, SettingsPanelComponent]
 })
 export class ThemeEditorComponent {
