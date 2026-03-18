@@ -40,7 +40,7 @@ export type ClockView = 'hour' | 'minute';
   templateUrl: 'clock-view.html',
   exportAs: 'matClockView',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

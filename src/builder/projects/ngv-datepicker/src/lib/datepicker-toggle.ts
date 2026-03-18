@@ -22,7 +22,7 @@ import {
   ViewEncapsulation,
   ViewChild,
 } from '@angular/core';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {merge, Observable, of as observableOf, Subscription} from 'rxjs';
 import {MatDatepickerIntl} from './datepicker-intl';
@@ -40,7 +40,7 @@ export class MatDatepickerToggleIcon {}
   templateUrl: 'datepicker-toggle.html',
   styleUrls: ['datepicker-toggle.scss'],
   standalone: true,
-  imports: [MatButtonModule, NgIf],
+  imports: [MatIconButton],
   host: {
     'class': 'mat-datepicker-toggle',
     '[attr.tabindex]': 'null',

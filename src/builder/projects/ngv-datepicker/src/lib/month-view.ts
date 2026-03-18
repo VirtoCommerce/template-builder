@@ -68,7 +68,7 @@ const DAYS_PER_WEEK = 7;
   templateUrl: 'month-view.html',
   exportAs: 'matMonthView',
   standalone: true,
-  imports: [CommonModule, MatCalendarBody],
+  imports: [MatCalendarBody],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

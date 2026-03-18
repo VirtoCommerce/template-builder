@@ -11,6 +11,7 @@ import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from 'ngv-datepicker';
 import { ToastrModule } from 'ngx-toastr';
 
 import { APP_ROUTES } from './app.routes';
@@ -66,6 +67,7 @@ export const appConfig: ApplicationConfig = {
 
         importProvidersFrom(
             MatDialogModule,
+            MatNativeDateModule,
             ToastrModule.forRoot()
         )
     ]

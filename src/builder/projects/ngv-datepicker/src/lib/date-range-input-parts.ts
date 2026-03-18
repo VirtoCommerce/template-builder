@@ -191,7 +191,7 @@ const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
   host: {
     'class': 'mat-start-date mat-date-range-input-inner',
     '[disabled]': 'disabled',
-    '(input)': '_onInput($event.target.value)',
+      '(input)': '_onInput($any($event.target).value)',
     '(change)': '_onChange()',
     '(keydown)': '_onKeydown($event)',
     '[attr.id]': '_rangeInput.id',
@@ -293,7 +293,7 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements CanUpd
   host: {
     'class': 'mat-end-date mat-date-range-input-inner',
     '[disabled]': 'disabled',
-    '(input)': '_onInput($event.target.value)',
+      '(input)': '_onInput($any($event.target).value)',
     '(change)': '_onChange()',
     '(keydown)': '_onKeydown($event)',
     '[attr.aria-haspopup]': '_rangeInput.rangePicker ? "dialog" : null',

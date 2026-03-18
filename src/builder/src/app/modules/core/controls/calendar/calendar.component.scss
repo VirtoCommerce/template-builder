@@ -1,5 +1,11 @@
+@import '../../../../../layout/mixins';
+
 :host {
     @apply flex flex-col;
+
+    ::ng-deep mat-custom-header button {
+        @include mdc-button-typography;
+    }
 
     ::ng-deep .mat-clock {
         // no way to override calculated properties

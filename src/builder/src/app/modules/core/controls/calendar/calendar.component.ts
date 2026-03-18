@@ -8,7 +8,7 @@ import {
     MatDatepickerCancel,
     MatDatepickerInput,
     MatDatepickerToggle,
-    MatNativeDateModule,
+    MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
 } from 'ngv-datepicker';
 import { MatInputModule } from '@angular/material/input';
 
@@ -31,6 +31,7 @@ import * as chrono from 'chrono-node';
     styleUrls: ['./calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
+    providers: [MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER],
     imports: [
         MatCalendar,
         MatDatepicker,
@@ -39,7 +40,6 @@ import * as chrono from 'chrono-node';
         MatDatepickerCancel,
         MatDatepickerInput,
         MatDatepickerToggle,
-        MatNativeDateModule,
         MatInputModule,
     ]
 })

@@ -63,7 +63,7 @@ export interface MatCalendarUserEvent<D> {
   templateUrl: 'calendar-body.html',
   styleUrls: ['calendar-body.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   host: {
     'class': 'mat-calendar-body',
   },

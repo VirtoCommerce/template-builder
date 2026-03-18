@@ -23,12 +23,12 @@ import {
   SimpleChanges,
   isDevMode,
 } from '@angular/core';
-import {A11yModule} from '@angular/cdk/a11y';
+
 import {MatFormFieldControl, MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {ThemePalette} from '@angular/material/core';
 import {NgControl, ControlContainer} from '@angular/forms';
 import {Subject, merge, Subscription} from 'rxjs';
-import {FocusOrigin} from '@angular/cdk/a11y';
+import {FocusOrigin, CdkMonitorFocus} from '@angular/cdk/a11y';
 import {coerceBooleanProperty, BooleanInput} from '@angular/cdk/coercion';
 import {DateAdapter} from './core';
 import {
@@ -51,7 +51,7 @@ let nextUniqueId = 0;
   styleUrls: ['date-range-input.scss'],
   exportAs: 'matDateRangeInput',
   standalone: true,
-  imports: [A11yModule],
+  imports: [CdkMonitorFocus],
   host: {
     'class': 'mat-date-range-input',
     '[class.mat-date-range-input-hide-placeholders]': '_shouldHidePlaceholders()',

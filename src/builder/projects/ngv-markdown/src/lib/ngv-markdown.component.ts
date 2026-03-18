@@ -160,7 +160,7 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
                 const uploader = this.getUploader();
                 if (!!uploader && file) {
                     uploader(file).subscribe(result => {
-                        this.easyMDE?.codemirror.replaceSelection(`![${result.name}](${result.url})`);
+                        this.ngZone.run(() => this.easyMDE?.codemirror.replaceSelection(`![${result.name}](${result.url})`));
                     });
                 }
             }
@@ -202,7 +202,7 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
         this.easyMDE?.codemirror.on("change", () => {
             const markdown: string | null = this.easyMDE?.value() || null;
             const html = markdown ? marked(markdown) : null;
-            this.valueChanged.emit({ markdown, html });
+            this.ngZone.run(() => this.valueChanged.emit({ markdown, html }));
         });
     }
 

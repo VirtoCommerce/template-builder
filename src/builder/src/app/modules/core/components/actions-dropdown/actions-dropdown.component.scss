@@ -1,4 +1,5 @@
-@import '../../../../../layout/variables.scss';
+@import '../../../../../layout/variables';
+@import '../../../../../layout/mixins';
 
 :host {
     display: block;
@@ -8,9 +9,7 @@
     border-radius: .25rem;
     color: $icons-color;
     border: 1px solid rgba(18, 18, 18, 0.08);
-    font-size: $default-font-size;
-    font-weight: 400;
-    letter-spacing: normal;
+    @include mdc-button-typography;
     @apply p-2 w-full;
 
     &:hover {
