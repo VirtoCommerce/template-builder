@@ -1,5 +1,5 @@
 import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
-import { Component, Input, input, output, ChangeDetectionStrategy, ChangeDetectorRef, viewChild, inject } from '@angular/core';
+import { Component, input, output, signal, ChangeDetectionStrategy, viewChild } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ContextMenuAction, ContextMenuActionType } from '@core/models';
@@ -15,7 +15,7 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class ContextMenuComponent {
 
-    @Input() actions: ContextMenuAction[] | null = null;
+    readonly actions = input<ContextMenuAction[] | null>(null);
     readonly visible = input(false);
     readonly getActions = input<(() => Promise<ContextMenuAction[]>) | null>(null);
 
@@ -23,7 +23,7 @@ export class ContextMenuComponent {
 
     readonly onAction = output<ContextMenuActionType>();
 
-    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly _cachedActions = signal<ContextMenuAction[] | null>(null);
     isOpen = false;
     positions: ConnectedPosition[] = [];
 
@@ -35,16 +35,16 @@ export class ContextMenuComponent {
     }
 
     getActionsList(): ContextMenuAction[] {
-        const getActionsFn = this.getActions();
-        if (!this.actions && getActionsFn) {
-            getActionsFn().then((actions: ContextMenuAction[]) => {
-                this.actions = actions;
-                this.cdr.detectChanges();
-            }).catch(() => {
-                this.cdr.detectChanges();
-            });
+        const staticActions = this.actions();
+        if (staticActions) {
+            return staticActions;
         }
-        return this.actions || [];
+        const getActionsFn = this.getActions();
+        if (!this._cachedActions() && getActionsFn) {
+            getActionsFn().then(actions => this._cachedActions.set(actions))
+                         .catch(() => {});
+        }
+        return this._cachedActions() || [];
     }
 
     showActions() {
@@ -52,8 +52,8 @@ export class ContextMenuComponent {
     }
 
     hideActions() {
-        if (!!this.getActions()) {
-            this.actions = null;
+        if (this.getActions()) {
+            this._cachedActions.set(null);
         }
         this.isOpen = false;
     }
