@@ -21,12 +21,12 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-builders/custom-webpack:browser",
+                    "builder": "@angular-devkit/build-angular:application",
                     "options": {
                         "outputPath": "dist/template-builder",
                         "index": "src/index.html",
-                        "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "browser": "src/main.ts",
+                        "polyfills": ["src/polyfills.ts"],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
@@ -45,16 +45,7 @@
                             "node_modules/easymde/dist/easymde.min.css",
                             "src/styles.scss"
                         ],
-                        "scripts": [],
-                        "allowedCommonJsDependencies": [
-                            "easymde",
-                            "element-resize-detector",
-                            "jsonpath",
-                            "turndown"
-                        ],
-                        "customWebpackConfig": {
-                            "path": "./webpack.config.js"
-                        }
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
@@ -79,24 +70,21 @@
                             "outputHashing": "all"
                         },
                         "development": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "vendorChunk": true,
                             "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true
+                            "sourceMap": true
                         }
                     },
                     "defaultConfiguration": "production"
                 },
                 "serve": {
-                    "builder": "@angular-builders/custom-webpack:dev-server",
+                    "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "template-builder:build:production"
+                            "buildTarget": "template-builder:build:production"
                         },
                         "development": {
-                            "browserTarget": "template-builder:build:development"
+                            "buildTarget": "template-builder:build:development"
                         }
                     },
                     "defaultConfiguration": "development"

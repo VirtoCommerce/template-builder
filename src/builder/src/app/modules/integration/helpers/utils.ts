@@ -80,14 +80,12 @@ export function template(value: string, ...args: any) {
 }
 
 export function evalInContext(expr: string, context: any): any {
-    return function () {
-        try{
-            return eval(expr);
-        } catch(e) {
-            console.log(expr, context, e);
-        }
-        return null;
-    }.call(context);
+    try {
+        return new Function(`return (${expr})`).call(context);
+    } catch(e) {
+        console.log(expr, context, e);
+    }
+    return null;
 }
 
 export function getValueOrDefault(value: any, defaultValue: any = null) {
