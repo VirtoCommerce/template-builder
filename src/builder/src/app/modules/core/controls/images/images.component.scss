@@ -1,4 +1,4 @@
-@import '../../../../../layout/variables.scss';
+@use '../../../../../layout/variables' as *;
 
 file-upload {
     @apply bg-white flex flex-row justify-items-stretch;

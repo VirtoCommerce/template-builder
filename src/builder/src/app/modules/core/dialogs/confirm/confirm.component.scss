@@ -1,4 +1,4 @@
-@import '../../../../../layout/variables.scss';
+@use '../../../../../layout/variables' as *;
 
 [mat-dialog-content] {
     color: $content-color;

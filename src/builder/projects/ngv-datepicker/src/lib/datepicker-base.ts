@@ -44,7 +44,7 @@ import {
   SimpleChanges,
   isDevMode,
 } from '@angular/core';
-import {CanColor, mixinColor, ThemePalette} from '@angular/material/core';
+import {ThemePalette} from '@angular/material/core';
 import {merge, Subject, Observable, Subscription} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
 import {_getFocusedElementPierceShadowDom} from '@angular/cdk/platform';
@@ -92,13 +92,6 @@ export const MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   useFactory: MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY,
 };
 
-// Boilerplate for applying mixins to MatDatepickerContent.
-/** @docs-private */
-const _MatDatepickerContentBase = mixinColor(
-  class {
-    constructor(public _elementRef: ElementRef) {}
-  },
-);
 
 /**
  * Component used as the content for the datepicker overlay. We use this instead of using
@@ -122,12 +115,11 @@ const _MatDatepickerContentBase = mixinColor(
     exportAs: 'matDatepickerContent',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    inputs: ['color']
 })
 export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
-  extends _MatDatepickerContentBase
-  implements OnInit, AfterViewInit, OnDestroy, CanColor
+  implements OnInit, AfterViewInit, OnDestroy
 {
+  @Input() color: ThemePalette;
   private _subscriptions = new Subscription();
   private _model!: MatDateSelectionModel<S, D>;
 
@@ -162,7 +154,6 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
   _actionsPortal: TemplatePortal | null = null;
 
   constructor(
-    elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
     private _globalModel: MatDateSelectionModel<S, D>,
     private _dateAdapter: DateAdapter<D>,
@@ -171,7 +162,6 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
     private _rangeSelectionStrategy: MatDateRangeSelectionStrategy<D>,
     intl: MatDatepickerIntl,
   ) {
-    super(elementRef);
     this._closeButtonText = intl.closeCalendarLabel;
   }
 

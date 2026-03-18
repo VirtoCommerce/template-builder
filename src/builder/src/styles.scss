@@ -1,15 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-@import './layout/variables.scss';
-@import './layout/material-theme.scss';
-@import './layout/external.scss';
-@import './layout/toastr.scss';
-@import './layout/controls.scss';
-@import './layout/dialogs.scss';
-@import './layout/extras.scss';
-@import '../dist/ngv-datepicker/prebuilt-themes/indigo-pink.css';
+@use './layout/variables' as *;
+@use './layout/material-theme';
+@use './layout/external';
+@use './layout/toastr';
+@use './layout/controls';
+@use './layout/dialogs';
+@use './layout/extras';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
     font-family: 'Inter', sans-serif;

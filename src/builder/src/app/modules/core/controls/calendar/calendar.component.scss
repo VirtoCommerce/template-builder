@@ -1,4 +1,4 @@
-@import '../../../../../layout/mixins';
+@use '../../../../../layout/mixins' as *;
 
 :host {
     @apply flex flex-col;

@@ -1,5 +1,5 @@
-@import '../../../../../layout/variables';
-@import '../../../../../layout/mixins';
+@use '../../../../../layout/variables' as *;
+@use '../../../../../layout/mixins' as *;
 
 :host {
     ::ng-deep .mat-mdc-tab-group .mdc-tab-indicator__content--underline {

@@ -1,4 +1,4 @@
-@import '../../../../../layout/variables.scss';
+@use '../../../../../layout/variables' as *;
 
 :host {
     @apply w-full flex items-stretch;

@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as *;
 
 /// Resets MDC button typography overrides.
 /// MDC applies non-standard letter-spacing (0.089em) and font tweaks — use this mixin

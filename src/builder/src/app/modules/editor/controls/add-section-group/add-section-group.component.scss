@@ -1,4 +1,4 @@
-@import '../../../../../layout/variables.scss';
+@use '../../../../../layout/variables' as *;
 
 .group {
     @apply flex flex-row items-center cursor-pointer space-x-1;

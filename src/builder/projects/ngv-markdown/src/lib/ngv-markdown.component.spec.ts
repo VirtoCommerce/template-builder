@@ -8,7 +8,7 @@ describe('NgvMarkdownComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [NgvMarkdownComponent]
+            imports: [NgvMarkdownComponent]
         })
             .compileComponents();
     });

@@ -14,7 +14,6 @@ import {
   Inject,
   OnInit,
   Injector,
-  InjectFlags,
   DoCheck,
 } from '@angular/core';
 import {
@@ -23,18 +22,16 @@ import {
   NgForm,
   FormGroupDirective,
   NgControl,
+  FormControl,
   ValidatorFn,
   Validators,
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
 import {
-  CanUpdateErrorState,
-  mixinErrorState,
   MAT_DATE_FORMATS,
   ErrorStateMatcher,
 } from '@angular/material/core';
-import {BACKSPACE} from '@angular/cdk/keycodes';
 import {
   DateAdapter,
   MatDateFormats,
@@ -79,7 +76,18 @@ abstract class MatDateRangeInputPartBase<D>
   ngControl!: NgControl;
 
   /** @docs-private */
-  abstract updateErrorState(): void;
+  errorState: boolean = false;
+
+  updateErrorState(): void {
+    const oldState = this.errorState;
+    const parent = this._parentFormGroup || this._parentForm;
+    const control = (this.ngControl?.control as FormControl) ?? null;
+    const newState = this._defaultErrorStateMatcher.isErrorState(control, parent);
+    if (newState !== oldState) {
+      this.errorState = newState;
+      this.stateChanges.next();
+    }
+  }
 
   protected abstract override _validator: ValidatorFn | null;
   protected abstract override _assignValueToModel(value: D | null): void;
@@ -106,7 +114,7 @@ abstract class MatDateRangeInputPartBase<D>
     // validator. We work around it here by injecting the `NgControl` in `ngOnInit`, after
     // everything has been resolved.
     // tslint:disable-next-line:no-bitwise
-    const ngControl = this._injector.get(NgControl, null, InjectFlags.Self | InjectFlags.Optional);
+    const ngControl = this._injector.get(NgControl, null, { self: true, optional: true });
 
     if (ngControl) {
       this.ngControl = ngControl;
@@ -182,7 +190,6 @@ abstract class MatDateRangeInputPartBase<D>
   }
 }
 
-const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
 
 /** Input for entering the start date in a `mat-date-range-input`. */
 @Directive({
@@ -211,7 +218,7 @@ const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
   outputs: ['dateChange', 'dateInput'],
   inputs: ['errorStateMatcher'],
 })
-export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements CanUpdateErrorState {
+export class MatStartDate<D> extends MatDateRangeInputPartBase<D> {
   /** Validator that checks that the start date isn't after the end date. */
   private _startValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const start = this._dateAdapter.getValidDateOrNull(
@@ -312,7 +319,7 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements CanUpd
   outputs: ['dateChange', 'dateInput'],
   inputs: ['errorStateMatcher'],
 })
-export class MatEndDate<D> extends _MatDateRangeInputBase<D> implements CanUpdateErrorState {
+export class MatEndDate<D> extends MatDateRangeInputPartBase<D> {
   /** Validator that checks that the end date isn't before the start date. */
   private _endValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const end = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
@@ -372,7 +379,7 @@ export class MatEndDate<D> extends _MatDateRangeInputBase<D> implements CanUpdat
 
   override _onKeydown(event: KeyboardEvent) {
     // If the user is pressing backspace on an empty end input, move focus back to the start.
-    if (event.keyCode === BACKSPACE && !this._elementRef.nativeElement.value) {
+    if (event.key === 'Backspace' && !this._elementRef.nativeElement.value) {
       this._rangeInput._startInput.focus();
     }
 

@@ -1,15 +1,12 @@
 import {
     Component,
-    OnInit,
-    AfterViewInit,
     ElementRef,
     NgZone,
-    Input,
-    Optional,
-    Output,
-    EventEmitter,
-    OnDestroy,
-    Inject
+    DestroyRef,
+    inject,
+    afterNextRender,
+    input,
+    output,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -28,11 +25,17 @@ import { MARKDOWN_DATA_SERVICE, IMarkdownDataService } from './ngv-markdown-data
     templateUrl: './ngv-markdown.component.html',
     styleUrls: ['./ngv-markdown.component.scss']
 })
-export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NgvMarkdownComponent {
+
+    private readonly elementRef = inject(ElementRef);
+    private readonly ngZone = inject(NgZone);
+    private readonly http = inject(HttpClient);
+    private readonly dataService = inject<IMarkdownDataService>(MARKDOWN_DATA_SERVICE, { optional: true });
+    private readonly destroyRef = inject(DestroyRef);
 
     private easyMDE: EasyMDE | null = null;
     private resizeObserver: ResizeObserver | null = null;
-    private turndown = new TurndownService({
+    private readonly turndown = new TurndownService({
         headingStyle: 'atx',
         // hr	Any Thematic break	* * *
         // bulletListMarker	-, +, or *	*
@@ -45,83 +48,77 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
         // preformattedCode	false or true	false
     });
 
-    @Input() styles: string[] | string = [];
-    @Input() value!: MarkdownModel;
-    @Input() options: any | null;
-    @Input() uploader: ((file: File) => Observable<{ url: string, name: string }>) | null = null;
+    readonly styles = input<string[] | string>([]);
+    readonly value = input.required<MarkdownModel>();
+    readonly options = input<any>(null);
+    readonly uploader = input<((file: File) => Observable<{ url: string, name: string }>) | null>(null);
 
-    @Output() valueChanged = new EventEmitter<MarkdownModel>();
+    readonly valueChanged = output<MarkdownModel>();
 
-    constructor(
-        private elementRef: ElementRef,
-        private ngZone: NgZone,
-        private http: HttpClient,
-        @Optional() @Inject(MARKDOWN_DATA_SERVICE) private dataService: IMarkdownDataService) { }
-
-    ngOnInit(): void {
-    }
-
-    ngOnDestroy(): void {
-        this.easyMDE?.toTextArea();
-        this.easyMDE = null;
-        this.resizeObserver?.disconnect();
-        this.resizeObserver = null;
-    }
-
-    ngAfterViewInit(): void {
-        this.ngZone.runOutsideAngular(() => {
-            const element = document.createElement('textarea');
-            this.elementRef.nativeElement.appendChild(element);
-            this.easyMDE = new EasyMDE({
-                element,
-                status: ["lines", "words"],
-                toolbar: [
-                    'bold',
-                    'italic',
-                    'heading',
-                    '|',
-                    'quote',
-                    'unordered-list',
-                    'ordered-list',
-                    '|',
-                    'link',
-                    'image',
-                    // '|',
-                    // 'preview',
-                    // 'side-by-side',
-                    // 'fullscreen',
-                    '|',
-                    'guide',
-                    // 'strikethrough',
-                    // 'code',
-                    // 'table',
-                    // 'redo',
-                    // 'undo',
-                    // 'heading-bigger',
-                    // 'heading-smaller',
-                    // 'heading-1',
-                    // 'heading-2',
-                    // 'heading-3',
-                    // 'clean-block',
-                    // 'horizontal-rule',
-                ],
-                spellChecker: false,
-                ...this.options || {}
+    constructor() {
+        afterNextRender(() => {
+            this.ngZone.runOutsideAngular(() => {
+                const element = document.createElement('textarea');
+                this.elementRef.nativeElement.appendChild(element);
+                this.easyMDE = new EasyMDE({
+                    element,
+                    status: ["lines", "words"],
+                    toolbar: [
+                        'bold',
+                        'italic',
+                        'heading',
+                        '|',
+                        'quote',
+                        'unordered-list',
+                        'ordered-list',
+                        '|',
+                        'link',
+                        'image',
+                        // '|',
+                        // 'preview',
+                        // 'side-by-side',
+                        // 'fullscreen',
+                        '|',
+                        'guide',
+                        // 'strikethrough',
+                        // 'code',
+                        // 'table',
+                        // 'redo',
+                        // 'undo',
+                        // 'heading-bigger',
+                        // 'heading-smaller',
+                        // 'heading-1',
+                        // 'heading-2',
+                        // 'heading-3',
+                        // 'clean-block',
+                        // 'horizontal-rule',
+                    ],
+                    spellChecker: false,
+                    ...this.options() || {}
+                });
+                this.setValue();
+                this.prepareEditor();
+                this.handlePasteValue();
+                this.handleChangeValue();
+                this.handleResizeElement();
+                this.prepareStyles();
             });
-            this.setValue();
-            this.prepareEditor();
-            this.handlePasteValue();
-            this.handleChangeValue();
-            this.handleResizeElement();
-            this.prepareStyles();
+        });
+
+        this.destroyRef.onDestroy(() => {
+            this.easyMDE?.toTextArea();
+            this.easyMDE = null;
+            this.resizeObserver?.disconnect();
+            this.resizeObserver = null;
         });
     }
 
     private setValue(): void {
         if (this.easyMDE) {
-            const mdValue = !!this.value?.markdown
-                ? this.value.markdown
-                : this.turndown.turndown(this.value.html || '');
+            const v = this.value();
+            const mdValue = !!v?.markdown
+                ? v.markdown
+                : this.turndown.turndown(v?.html || '');
             this.easyMDE.value(mdValue);
         }
     }
@@ -194,13 +191,13 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private getUploader() {
-        return this.dataService ? this.dataService.saveFile : this.uploader;
+        return this.dataService ? this.dataService.saveFile.bind(this.dataService) : this.uploader();
     }
 
     private handleChangeValue() {
         this.easyMDE?.codemirror.on("change", () => {
             const markdown: string | null = this.easyMDE?.value() || null;
-            const html = markdown ? marked(markdown) : null;
+            const html = markdown ? marked(markdown) as unknown as string : null;
             this.ngZone.run(() => this.valueChanged.emit({ markdown, html }));
         });
     }
@@ -215,8 +212,9 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
     private _styles: string[] = [];
 
     private prepareStyles() {
-        if (!!this.styles) {
-            const items = Array.isArray(this.styles) ? this.styles : [this.styles];
+        const stylesValue = this.styles();
+        if (!!stylesValue) {
+            const items = Array.isArray(stylesValue) ? stylesValue : [stylesValue];
             const result = items.map((item, index) => {
                 const currentIndex = index;
                 this.http.get(item, { responseType: 'text' }).subscribe(css => {
@@ -238,7 +236,7 @@ export class NgvMarkdownComponent implements OnInit, AfterViewInit, OnDestroy {
                 const preview = <any>wrapper.nextSibling;
                 if (preview && this.easyMDE?.isSideBySideActive()) {
                     const value = this.easyMDE?.value();
-                    const html = marked(value || '');
+                    const html = marked(value || '') as unknown as string;
                     preview.innerHTML = html;
                     setTimeout(() => {
                         this._styles.forEach(item => {
