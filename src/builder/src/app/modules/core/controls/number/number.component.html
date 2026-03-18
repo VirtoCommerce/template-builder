@@ -28,8 +28,10 @@
     [step]="descriptor?.step"
     [discrete]="descriptor?.thumb || false"
     [ngClass]="{ 'has-thumb': descriptor?.thumb }"
-    ><input matSliderThumb [value]="controlValue" (valueChange)="sliderChanged($event)"></mat-slider>
-  }
+  >
+    <input matSliderThumb [value]="controlValue" (valueChange)="sliderChanged($event)" />
+  </mat-slider>
+}
 
   @if (descriptor?.info) {
     <p class="info">{{ descriptor?.info }}</p>

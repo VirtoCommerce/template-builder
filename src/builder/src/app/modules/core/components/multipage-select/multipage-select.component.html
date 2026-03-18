@@ -3,7 +3,7 @@
   <div class="grow text-left min-w-0 truncate">
     {{ currentLabel }}
   </div>
-  <app-chevron [opened]="isOpen" [vertical]="true"></app-chevron>
+  <app-chevron [opened]="isOpen" [vertical]="true" />
 </button>
 
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger"
@@ -27,7 +27,7 @@
             <div class="px-4 mb-2 text-gray-400">
               <h3 class="list-title">{{ titleText() }}</h3>
             </div>
-            <app-separator></app-separator>
+            <app-separator />
             <ng-scrollbar>
               @if (!!parentItems()?.length) {
                 <ul class="grow overflow-y-auto relative">
@@ -65,7 +65,7 @@
               <app-icon>chevron_left</app-icon>
               <h3 class="list-title">{{ titleText() }}</h3>
             </div>
-            <app-separator></app-separator>
+            <app-separator />
             <ng-scrollbar>
               @if (!!childrenItems()!.length) {
                 <ul class="grow overflow-y-auto">

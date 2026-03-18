@@ -12,13 +12,13 @@
       <app-checkbox
         [controlValue]="selected()"
         (valueChanged)="onCheckboxValueChanged($event)"
-      (click)="onCheckboxClick($event)"></app-checkbox>
+      (click)="onCheckboxClick($event)" />
     }
   </div>
   <div class="name" title="{{ getSectionName() }} ({{ section().id }})">{{ getSectionName() }}</div>
   @if (hasContextMenu()) {
     <app-context-menu [getActions]="getItemActions"
       [visible]="isHover"
-    (onAction)="onActionClick($event)"></app-context-menu>
+      (onAction)="onActionClick($event)" />
   }
 </div>

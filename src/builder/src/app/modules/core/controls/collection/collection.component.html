@@ -14,19 +14,19 @@
           (mouseenter)="hoverItem = item"
           (mouseleave)="hoverItem = null"
           (click)="toggle(item)">
-          <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem"></app-chevron>
+        <app-chevron class="toggler" [hoverable]="false" [opened]="item === openedItem" />
           <!-- <app-icon class="chevron">chevron_right</app-icon> -->
           <label [attr.title]="descriptor?.hint" class="pb-label">{{ getTitle(item) }}</label>
-          <app-context-menu [actions]="itemActions"
+        < [actions]="itemActions"
             [visible]="hoverItem === item"
-          (onAction)="onActionClick($event, item, i)"></app-context-menu>
-          <app-drag-handle [visible]="hoverItem === item" cdkDragHandle></app-drag-handle>
+          (onAction)="onActionClick($event, item, i)" />
+          <app-drag-handle [visible]="hoverItem === item" cdkDragHandle />
         </div>
         @if (item === openedItem) {
           <div class="editor-wrapper">
-            <app-controls-list [currentForm]="$any(item)"
+            < [currentForm]="$any(item)"
               [descriptors]="getDescriptors()"
-            [context]="getContext($any(item), i)"></app-controls-list>
+            [context]="getContext($any(item), i)" />
           </div>
         }
       </div>
@@ -37,6 +37,6 @@
       icon="add"
       skin="blue"
       [text]="descriptor?.addText || 'Add item'"
-    (click)="addItem()"></app-icon-button>
+      (click)="addItem()" />
   }
 </div>

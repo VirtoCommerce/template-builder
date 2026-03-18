@@ -7,11 +7,10 @@
     <div>
       <app-controls-list [currentForm]="objectForm"
         [descriptors]="getDescriptors()"
-      [context]="getContext()"></app-controls-list>
+        [context]="getContext()" />
       @if (descriptor?.info) {
         <p class="info pl-6 pr-2">{{ descriptor?.info }}</p>
       }
     </div>
   }
 </div>
-<!-- <app-overlap-panel></app-overlap-panel> -->

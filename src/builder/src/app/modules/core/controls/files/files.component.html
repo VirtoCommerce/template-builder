@@ -30,29 +30,33 @@
             <div class="file-item" [ngClass]="{ 'has-extra-props': descriptor?.element && descriptor?.element?.length }">
               @if (descriptor?.element && descriptor?.element?.length) {
                 <app-chevron
-                [opened]="selectedFile === file" (click)="selectFile($any(file))"></app-chevron>
+                [opened]="selectedFile === file" (click)="selectFile($any(file))" />
               }
               <app-icon class="file-type">attachment</app-icon>
               <div class="file-name" [title]="file.name" (click)="selectFile($any(file))">{{ file.name }}</div>
               <app-icon class="delete-icon" (click)="deleteFile($any(file))">delete</app-icon>
               @if (sortable) {
                 <app-drag-handle cdkDragHandle (mousedown)="onStartDrag()"
-                (mouseup)="onReleaseDrag()"></app-drag-handle>
+                (mouseup)="onReleaseDrag()" />
               }
             </div>
             <ng-container>
               @if ($any(file).uploading) {
-                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                <mat-progress-bar mode="indeterminate" />
               }
               @if ($any(file).error) {
-                <div class="error">{{ $any(file).error }}<br /><span class="reload"
-                (click)="uploadItem($any(file))">reload</span></div>
+                <div class="error">
+                    {{ $any(file).error }}<br />
+                    <span class="reload" (click)="uploadItem($any(file))">
+                        reload
+                    </span>
+                </div>
               }
               @if (selectedFile === file && elementForm && descriptor && !isDrag) {
                 <div class="selected-file-properties">
                   <app-controls-list [currentForm]="elementForm"
                     [descriptors]="descriptor.element"
-                  [context]="getContext($any(file))"></app-controls-list>
+                    [context]="getContext($any(file))" />
                 </div>
               }
             </ng-container>
@@ -63,7 +67,7 @@
     @if (innerValue.length > (descriptor?.collapseThreshold || 6)) {
       <app-icon-button class="show-all"
         [text]="expanded ? 'Show less' : 'Show all'"
-      (click)="toggleList()"></app-icon-button>
+      (click)="toggleList()" />
     }
   </div>
 }

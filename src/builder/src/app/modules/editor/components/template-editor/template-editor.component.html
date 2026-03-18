@@ -10,8 +10,7 @@
               [section]="vm.settings"
               [selectable]="false"
               [hasContextMenu]="false"
-              (itemClick)="onSettingsClick(schema!)">
-            </app-section-item>
+              (itemClick)="onSettingsClick(schema!)" />
           }
         </div>
       }
@@ -46,11 +45,10 @@
                   (itemClick)="!vm.selectMode && onSectionClick(section)"
                   (itemHover)="onSectionHover(section)"
                   (actionClick)="onActionClick($event, section)"
-                  (itemSelectChanged)="onItemSelectChanged($event, section, vm.templateState!.key)">
-                </app-section-item>
+                  (itemSelectChanged)="onItemSelectChanged($event, section, vm.templateState!.key)" />
                 <app-drag-handle cdkDragHandle
                   [cdkDragHandleDisabled]="!((!vm.selectMode && section.id === currentHoverId) || vm.sectionsState[section.id].selected)"
-                [visible]="(!vm.selectMode && section.id === currentHoverId) || vm.sectionsState[section.id].selected"></app-drag-handle>
+                [visible]="(!vm.selectMode && section.id === currentHoverId) || vm.sectionsState[section.id].selected" />
               </div>
             </div>
             <app-section-children-list [section]="section"
@@ -61,8 +59,7 @@
               (addBlockClick)="addBlockClick(section)"
               (reorderBlocks)="reorderBlocks($event)"
               (executeAction)="onActionClick($event.action, section, $event.block)"
-              (checkChanged)="onBlockSelectChanged($event.selected, $event.blockId, section.id, vm.templateState!.key)">
-            </app-section-children-list>
+              (checkChanged)="onBlockSelectChanged($event.selected, $event.blockId, section.id, vm.templateState!.key)" />
             <div class="section-placeholder" *cdkDragPlaceholder></div>
             <span class="drag-preview" *cdkDragPreview>{{ vm.selectedSectionsCount === 1 ||
               vm.selectedSectionsCount === 0 ? '1 section' : ( vm.selectedSectionsCount + ' sections')
@@ -85,8 +82,7 @@
               [section]="vm.settings"
               [selectable]="false"
               [hasContextMenu]="false"
-              (itemClick)="onSettingsClick(schema)">
-            </app-section-item>
+              (itemClick)="onSettingsClick(schema)" />
           }
         </div>
       }
@@ -97,10 +93,11 @@
       <div [attr.title]="templateName()" class="template-name">{{ templateName() }}</div>
       <app-context-menu [visible]="true"
         [getActions]="getPageActions"
-      (onAction)="onActionClick($event.action)"></app-context-menu>
+        (onAction)="onActionClick($event.action)" />
     </div>
   </div>
   <div footer-content>
-    <app-icon-button icon="add" skin="blue" text="Add block" (click)="addSectionClick()"></app-icon-button>
+    <app-icon-button icon="add" skin="blue" text="Add block"
+                     (click)="addSectionClick()" />
   </div>
 </app-panel>

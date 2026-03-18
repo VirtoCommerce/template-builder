@@ -1,12 +1,10 @@
-<app-preview-mode></app-preview-mode>
-<!-- <app-custom-actions></app-custom-actions> -->
+<app-preview-mode />
 <div class="grow flex justify-center p-0">
   @if (displayTemplateSelector) {
-    <app-template-selector></app-template-selector>
+    <app-template-selector />
   }
 </div>
 @if (panels()) {
   <app-actions-panel [panels]="panels()!"
-    (actionExecuted)="onActionExecuted($event)">
-  </app-actions-panel>
+    (actionExecuted)="onActionExecuted($event)" />
 }

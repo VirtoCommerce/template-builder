@@ -4,7 +4,7 @@
       <app-dynamic-form [context]="vm.editContext"
         [descriptors]="vm.schema.settings"
         [sectionModel]="vm.model"
-      (modelChanged)="onModelChanged($event)"></app-dynamic-form>
+        (modelChanged)="onModelChanged($event)" />
     }
     <ng-container title-content>
       <div class="title pl-2">
@@ -16,21 +16,24 @@
             <div class="whitespace-normal">{{ sectionName() }}</div>
             @if (!vm.isEditSettings) {
               <div class="section-info">
-                <span [cdkCopyToClipboard]="vm.model.type">Type: {{ vm.schema.name || vm.schema.type ||
-                  vm.model.type }}
-                  <app-icon [smallSize]="true" [inline]="true">content_copy</app-icon></span><br />
-                  <span [cdkCopyToClipboard]="vm.model.id">ID: {{ vm.model.id }}
-                    <app-icon [smallSize]="true" [inline]="true">content_copy</app-icon></span>
-                  </div>
-                }
+                <span [cdkCopyToClipboard]="vm.model.type">
+                  Type: {{ vm.schema.name || vm.schema.type || vm.model.type }}
+                  <app-icon [smallSize]="true" [inline]="true">content_copy</app-icon>
+                </span><br />
+                <span [cdkCopyToClipboard]="vm.model.id">
+                    ID: {{ vm.model.id }}
+                    <app-icon [smallSize]="true" [inline]="true">content_copy</app-icon>
+                </span>
               </div>
-              @if (!vm.isEditSettings) {
-                <app-context-menu [visible]="true"
-                  [getActions]="getItemActionsFactory(vm.model, vm.schema)"
-                (onAction)="onContextMenuAction($event, vm.section, vm.block)"></app-context-menu>
-              }
             }
           </div>
-        </ng-container>
-      </app-panel>
-    </app-overlap-panel>
+          @if (!vm.isEditSettings) {
+            <app-context-menu [visible]="true"
+                  [getActions]="getItemActionsFactory(vm.model, vm.schema)"
+                  (onAction)="onContextMenuAction($event, vm.section, vm.block)" />
+          }
+        }
+      </div>
+    </ng-container>
+  </app-panel>
+</app-overlap-panel>

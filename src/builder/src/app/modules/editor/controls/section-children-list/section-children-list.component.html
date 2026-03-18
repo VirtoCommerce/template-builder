@@ -16,11 +16,10 @@
         [section]="block"
         (itemClick)="onItemClick(block)"
         (actionClick)="onActionExecuted($event, block)"
-        (itemSelectChanged)="onItemSelectChanged($event, block.id)">
-      </app-section-item>
+        (itemSelectChanged)="onItemSelectChanged($event, block.id)" />
       <app-drag-handle cdkDragHandle
         [cdkDragHandleDisabled]="!((!selectMode() && block.id === currentHoverId) || states[block.id].selected || false)"
-      [visible]="(!selectMode() && block.id === currentHoverId) || states[block.id].selected || false"></app-drag-handle>
+      [visible]="(!selectMode() && block.id === currentHoverId) || states[block.id].selected || false" />
       <div class="section-placeholder" *cdkDragPlaceholder></div>
       <span class="drag-preview" *cdkDragPreview>
         {{
@@ -34,4 +33,4 @@
 <app-icon-button icon="add"
   skin="blue"
   text="Add block"
-(click)="onAddBlockClick()"></app-icon-button>
+  (click)="onAddBlockClick()" />

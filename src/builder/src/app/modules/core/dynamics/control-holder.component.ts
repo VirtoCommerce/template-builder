@@ -21,7 +21,7 @@ import { BaseControlDescriptor } from '@models/controls';
 
 @Component({
     selector: 'app-control-holder',
-    template: `<ng-template appControlHost></ng-template>`,
+    template: `<ng-template appControlHost />`,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => ControlHolderComponent),

@@ -1,10 +1,10 @@
 <div class="flex flex-col h-screen">
-  <app-toolbar></app-toolbar>
+  <app-toolbar />
   <div class="flex flex-row grow">
-    <router-outlet></router-outlet>
-    <app-preview-area></app-preview-area>
+    <router-outlet />
+    <app-preview-area />
   </div>
 </div>
 @if (isHttpLoading() || isEditorLoading() || isThemeLoading()) {
-  <app-fullscreen-loader></app-fullscreen-loader>
+  <app-fullscreen-loader />
 }

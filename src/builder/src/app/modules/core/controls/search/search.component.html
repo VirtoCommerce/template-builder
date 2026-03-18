@@ -5,8 +5,7 @@
 }
 
 @if (descriptor?.button) {
-  <app-icon-button class="my-4"
-  (click)="doRequest()" [text]="getButtonText()" skin="outline-blue"></app-icon-button>
+  <app-icon-button class="my-4" (click)="doRequest()" [text]="getButtonText()" skin="outline-blue" />
 }
 
 @if (!!controlValue.__nodata) {

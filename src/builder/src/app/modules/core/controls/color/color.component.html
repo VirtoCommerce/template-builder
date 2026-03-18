@@ -24,7 +24,7 @@
           [color]="controlValue || ''"
           [presetColors]="descriptor?.presets || []"
           [disableAlpha]="descriptor?.disableAlpha || false"
-        (onChangeComplete)="changeColor($event)"></color-sketch>
+        (onChangeComplete)="changeColor($event)" />
       }
       @if (descriptor?.colorMode === 'presets') {
         <color-twitter
@@ -32,7 +32,7 @@
           triangle="hide"
           [color]="controlValue || ''"
           [colors]="descriptor?.presets || []"
-        (onChangeComplete)="changeColor($event)"></color-twitter>
+        (onChangeComplete)="changeColor($event)" />
       }
       <div class="m-4 flex flex-row-reverse space-x-4 space-x-reverse">
         <button (click)="applyColor()">Ok</button>
@@ -48,7 +48,7 @@
       [color]="controlValue || ''"
       [presetColors]="descriptor?.presets || []"
       [disableAlpha]="descriptor?.disableAlpha || false"
-    (onChangeComplete)="changeColor($event)"></color-sketch>
+    (onChangeComplete)="changeColor($event)" />
   }
   @if (descriptor?.colorMode === 'presets') {
     <color-twitter
@@ -56,6 +56,6 @@
       [className]="'inline-color-picker'"
       [color]="controlValue || ''"
       [colors]="descriptor?.presets || []"
-    (onChangeComplete)="changeColor($event)"></color-twitter>
+    (onChangeComplete)="changeColor($event)" />
   }
 }

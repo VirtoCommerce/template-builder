@@ -4,7 +4,7 @@
       <app-icon>{{ group().icon }}</app-icon>
     }
     <div class="name">{{ group().name }}</div>
-    <app-chevron [opened]="opened()" [vertical]="true"></app-chevron>
+    <app-chevron [opened]="opened()" [vertical]="true" />
   </div>
   @if (opened()) {
     <ul>
@@ -14,8 +14,7 @@
             [inPreview]="item.type === underPreviewType()"
             [child]="true"
             (onPreview)="raiseOnPreview(item)"
-            (onAdd)="raiseOnAdd(item)">
-          </app-add-section-item>
+            (onAdd)="raiseOnAdd(item)" />
         </li>
       }
     </ul>

@@ -18,7 +18,7 @@
               (click)="previewPreset(preset.key)">
               <app-presets-icon [name]="$any(preset.key)"
                 [icon]="$any(preset.value).icon"
-              [preview]="$any(preset.value).preview"></app-presets-icon>
+              [preview]="$any(preset.value).preview" />
               <div class="item-name" title="{{ preset.key }}">{{ preset.key }}</div>
               <app-icon-button text="Apply" skin="solid-blue" (onClick)="usePreset(preset.key)">
               </app-icon-button>

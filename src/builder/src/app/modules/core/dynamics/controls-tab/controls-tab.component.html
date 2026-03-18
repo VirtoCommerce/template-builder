@@ -2,8 +2,7 @@
   @if (tab().ungrouped && tab().ungrouped.length) {
     <app-controls-list [currentForm]="currentForm()"
       [descriptors]="tab().ungrouped"
-      [context]="context()">
-    </app-controls-list>
+      [context]="context()" />
   }
   @for (group of tab().groups; track group) {
     <app-controls-group

@@ -3,7 +3,7 @@
      #trigger="cdkOverlayOrigin"
      (mouseenter)="isOpen=true"
      (mouseleave)="isOpen=false">
-    <ng-content></ng-content>
+    <ng-content />
 </div>
 
 <ng-template cdkConnectedOverlay
@@ -11,5 +11,5 @@
              [cdkConnectedOverlayOpen]="isOpen"
              (detach)="isOpen=false"
              (overlayOutsideClick)="isOpen=false">
-    <ng-content select="[preview-body]"></ng-content>
+    <ng-content select="[preview-body]" />
 </ng-template>
