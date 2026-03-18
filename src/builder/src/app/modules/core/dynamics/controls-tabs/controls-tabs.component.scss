@@ -4,6 +4,11 @@
     ::ng-deep .mat-mdc-tab-group .mdc-tab-indicator__content--underline {
         border-color: $active-color;
     }
+    ::ng-deep .mdc-tab__text-label {
+        font-size: $default-font-size;
+        font-weight: 400;
+        letter-spacing: normal;
+    }
     ::ng-deep .mdc-tab--active .mdc-tab__text-label {
         color: $active-color;
     }
