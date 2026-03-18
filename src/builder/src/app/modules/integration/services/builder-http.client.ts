@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { tap, catchError, map, Observable, of, switchMap } from 'rxjs';
 
@@ -22,11 +22,11 @@ export class BuilderHttpClient extends HttpClient {
 
     private _cache: Map<string, any> = new Map();
 
-    constructor(
-        handler: HttpHandler,
-        private evaluator: EvaluatorService,
-        private appConfig: AppConfig) {
-        super(handler);
+    private readonly evaluator = inject(EvaluatorService);
+    private readonly appConfig = inject(AppConfig);
+
+    constructor() {
+        super(inject(HttpHandler));
     }
 
     doRequest<T>(request: CustomRequests, additionalOptions: any = null, context: any = null): Observable<T | null> {

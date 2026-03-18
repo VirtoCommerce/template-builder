@@ -6,7 +6,7 @@
                groupBy="group"
                formControlName="value"
                #selectControl
-               [items]="options$ | async"
+               [items]="options()"
                [multiple]="descriptor?.multiple || false"
                [placeholder]="descriptor?.placeholder || ''"
                [searchable]="descriptor?.searchable || false"

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { EventsBusService } from "@app/modules/core/services";
 import { Store } from "@ngrx/store";
 
@@ -8,10 +8,12 @@ import * as actions from "@editor/store/actions";
     providedIn: 'root'
 })
 export class BroadcastPlatformService {
-    private channel = new BroadcastChannel('vc-module-content-channel');
+    private readonly store = inject(Store);
+    private readonly eventsBus = inject(EventsBusService);
+    private readonly channel = new BroadcastChannel('vc-module-content-channel');
 
-    constructor(eventsBus: EventsBusService, private store: Store) {
-        eventsBus.on(args => args.target === 'platform', (data: any) => {
+    constructor() {
+        this.eventsBus.on(args => args.target === 'platform', (data: any) => {
             this.channel.postMessage(data.payload);
         });
 

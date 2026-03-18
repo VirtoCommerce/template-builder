@@ -3,9 +3,8 @@ import { switchMap } from 'rxjs';
 import { tap } from 'rxjs';
 import { of } from 'rxjs';
 import { DataService } from '@core/services';
-import { ChangeDetectorRef, Component, DestroyRef, viewChild, inject } from '@angular/core';
+import { Component, DestroyRef, signal, viewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AsyncPipe } from '@angular/common';
 import { concat, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -25,22 +24,21 @@ import { appHelpers } from '@integration/helpers';
     templateUrl: './select.component.html',
     styleUrls: ['./select.component.scss'],
     standalone: true,
-    imports: [AsyncPipe, ReactiveFormsModule, NgSelectModule]
+    imports: [ReactiveFormsModule, NgSelectModule]
 })
 export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
 
     private readonly destroyRef = inject(DestroyRef);
-    private readonly cdr = inject(ChangeDetectorRef);
     private readonly data = inject(DataService);
 
     form!: UntypedFormGroup;
-    options$!: Observable<any[]>;
+    readonly options = signal<any[]>([]);
     searchEvent$ = new Subject<string>();
     loading: boolean = false;
 
     readonly select = viewChild.required(NgSelectComponent);
 
-    raiseValueChanged(event: any) { }
+    raiseValueChanged(_event: any) { }
 
     compareWith = (itemInSelect: any, itemInSource: any) => {
         const vA = (itemInSelect.value || itemInSelect)[this.descriptor?.equalKey || 'value'] || itemInSelect.value || itemInSelect;
@@ -90,7 +88,9 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             options.push(of(appHelpers.evalInContext(this.descriptor.optionsSelector, this.context)));
         }
 
-        this.options$ = concat(...options);
+        concat(...options).pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(items => this.options.set(items));
     }
 
     unselect(item: any) {
