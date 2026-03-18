@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, AfterViewInit, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 
 import { ModelChangedEventArgs } from '@core/models';
@@ -18,16 +18,16 @@ import * as actions from '@theme/store/actions';
     styleUrls: ['./theme-editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, PanelComponent, IconButtonComponent, ChevronComponent, DynamicFormComponent, SettingsPanelComponent]
+    imports: [PanelComponent, IconButtonComponent, ChevronComponent, DynamicFormComponent, SettingsPanelComponent]
 })
 export class ThemeEditorComponent {
 
     private readonly store$ = inject(Store<any>);
 
-    editableGroup$ = this.store$.select(fromTheme.selectEditableGroup);
-    settings$ = this.store$.select(fromTheme.selectCurrentSettings);
-    schema$ = this.store$.select(fromTheme.selectSettingsSchema);
-    uiState$ = this.store$.select(fromTheme.selectGroupsState);
+    readonly editableGroup = toSignal(this.store$.select(fromTheme.selectEditableGroup), { initialValue: null });
+    readonly settings = toSignal(this.store$.select(fromTheme.selectCurrentSettings), { initialValue: null });
+    readonly schema = toSignal(this.store$.select(fromTheme.selectSettingsSchema), { initialValue: null });
+    readonly uiState = toSignal(this.store$.select(fromTheme.selectGroupsState), { initialValue: null });
 
     context = <any>{}; // todo: select from state
 

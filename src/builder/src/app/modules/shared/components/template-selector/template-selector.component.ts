@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { MultipageSelectComponent } from '@core/components/multipage-select/multipage-select.component';
 
@@ -10,7 +10,7 @@ import { BuilderState } from '@shared/store';
 import * as fromState from '@shared/store';
 import * as actions from '@shared/store/actions';
 
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-template-selector',
@@ -18,7 +18,7 @@ import { map, of } from 'rxjs';
     styleUrls: ['./template-selector.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, MultipageSelectComponent]
+    imports: [MultipageSelectComponent]
 })
 export class TemplateSelectorComponent {
 
@@ -26,17 +26,17 @@ export class TemplateSelectorComponent {
 
     defaultTemplate = { title: 'Choose template', type: '', path: '', templateKey: '' };
 
-    rootTemplates$ = this.store$.select(fromState.selectTemplatesEntriesWithState).pipe(
+    readonly rootTemplates = toSignal(this.store$.select(fromState.selectTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || [])
-    );
-    currentTemplate$ = this.store$.select(fromState.selectCurrentTemplateEntry).pipe(
+    ), { initialValue: [] as MultipageSelectDescriptor[] });
+    readonly currentTemplate = toSignal(this.store$.select(fromState.selectCurrentTemplateEntry).pipe(
         map(value => !!value ? this.convertTemplateToItem({ entry: value, state: null }) : null)
-    );
-    currentFilter$ = this.store$.select(fromState.selectCurrentFilter);
-    listTitle$ = this.store$.select(fromState.selectRootTemplateTitle);
-    childrenItems$ = this.store$.select(fromState.selectCurrentChildrenTemplatesEntriesWithState).pipe(
+    ), { initialValue: null });
+    readonly currentFilter = toSignal(this.store$.select(fromState.selectCurrentFilter), { initialValue: null });
+    readonly listTitle = toSignal(this.store$.select(fromState.selectRootTemplateTitle), { initialValue: null });
+    readonly childrenItems = toSignal(this.store$.select(fromState.selectCurrentChildrenTemplatesEntriesWithState).pipe(
         map(value => value?.map(x => this.convertTemplateToItem(x)) || null)
-    );
+    ), { initialValue: null });
 
     onTemplateSelected(item: MultipageSelectDescriptor) {
         if (item.hasChildren) {

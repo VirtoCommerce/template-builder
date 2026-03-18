@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 
 import * as sharedSelectors from '@shared/store/selectors';
@@ -20,15 +20,15 @@ import { FullscreenLoaderComponent } from './layout/fullscreen-loader/fullscreen
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
+    imports: [RouterOutlet, ToolbarComponent, PreviewAreaComponent, FullscreenLoaderComponent]
 })
 export class AppComponent {
 
     private store$ = inject(Store<SharedState & EditorState & ThemeState>);
 
-    isHttpLoading$ = this.store$.select(sharedSelectors.isHttpLoading);
-    isEditorLoading$ = this.store$.select(editorSelectors.isLoading);
-    isThemeLoading$ = this.store$.select(themeSelectors.isLoading);
+    readonly isHttpLoading = toSignal(this.store$.select(sharedSelectors.isHttpLoading));
+    readonly isEditorLoading = toSignal(this.store$.select(editorSelectors.isLoading), { initialValue: false });
+    readonly isThemeLoading = toSignal(this.store$.select(themeSelectors.isLoading), { initialValue: false });
 
     @HostListener('window:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {

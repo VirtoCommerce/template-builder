@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ActionsDropdownComponent } from '@core/components/actions-dropdown/actions-dropdown.component';
 
@@ -7,7 +6,7 @@ import { ActionButtonDescriptor } from '@core/models';
 import { BuilderState } from '@shared/store';
 import * as fromRoute from '@shared/routing';
 import * as actions from '@shared/store/actions';
-import { tap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-preview-mode',
@@ -15,7 +14,7 @@ import { tap } from 'rxjs';
     styleUrls: ['./preview-mode.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, ActionsDropdownComponent]
+    imports: [ActionsDropdownComponent]
 })
 export class PreviewModeComponent {
 
@@ -50,7 +49,7 @@ export class PreviewModeComponent {
         }
     ];
 
-    currentMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
+    currentMode = toSignal(this.store.select(fromRoute.selectPreviewModeParameter));
 
     changePreviewMode(action: ActionButtonDescriptor) {
         this.store.dispatch(actions.changePreviewMode({ mode: action.alias || null }));

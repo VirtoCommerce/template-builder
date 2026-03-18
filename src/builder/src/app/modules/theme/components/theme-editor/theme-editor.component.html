@@ -8,8 +8,8 @@
     </div>
   </div>
   <div class="flex flex-col">
-    @if (uiState$|async; as uiState) {
-      @if (schema$|async; as schema) {
+    @if (uiState(); as uiState) {
+      @if (schema(); as schema) {
         @for (group of schema; track group) {
           <div class="group">
             <div (click)="toggleGroup(group)" class="list-item group-title">
@@ -21,7 +21,7 @@
               </div>
             </div>
             @if (uiState[group.name].opened) {
-              @if (settings$|async; as settings) {
+              @if (settings(); as settings) {
                 <app-dynamic-form [sectionModel]="$any(settings)"
                   [descriptors]="group.settings"
                   [context]="context"
@@ -34,8 +34,8 @@
     }
   </div>
 </app-panel>
-@if (editableGroup$|async; as editableGroup) {
-  @if (settings$|async; as settings) {
+@if (editableGroup(); as editableGroup) {
+  @if (settings(); as settings) {
     <app-settings-panel [context]="context"
       [group]="editableGroup"
       [settings]="settings"

@@ -1,6 +1,6 @@
 <app-panel>
   <div class="p-4">
-    @if (viewModel$|async; as vm) {
+    @if (viewModel(); as vm) {
       @if (vm.settingsSchemas.top.length) {
         <div class="settings-container top"
           >
@@ -22,7 +22,7 @@
         @for (section of vm.template!.content; track section) {
           <app-collapsible-list-item [expandable]="vm.sectionsState[section.id].canHaveChildren || false"
             [opened]="vm.sectionsState[section.id].expanded"
-            [hovered]="(hoveredSectionId$ | async) === section.id"
+            [hovered]="hoveredSectionId() === section.id"
             [highlight]="vm.sectionsState[section.id].selected"
                                                [ngClass]="{
                                                     dragging: vm.sectionsState[section.id].isDragging,
@@ -94,7 +94,7 @@
   </div>
   <div title-content class="w-full">
     <div class="w-full flex flex-row pl-2">
-      <div [attr.title]="templateName$|async" class="template-name">{{ templateName$ | async }}</div>
+      <div [attr.title]="templateName()" class="template-name">{{ templateName() }}</div>
       <app-context-menu [visible]="true"
         [getActions]="getPageActions"
       (onAction)="onActionClick($event.action)"></app-context-menu>

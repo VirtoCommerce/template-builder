@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 
 import { BuilderState } from '@theme/store/state';
@@ -13,13 +13,13 @@ import * as selectors from '@theme/store/selectors';
     styleUrls: ['./toolbar-host.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, DefaultToolbarComponent]
+    imports: [DefaultToolbarComponent]
 })
 export class ToolbarHostComponent {
 
     private readonly store$ = inject(Store<BuilderState>);
 
-    panels$ = this.store$.select(selectors.selectToolbarButtonsState);
+    readonly panels = toSignal(this.store$.select(selectors.selectToolbarButtonsState), { initialValue: null });
 
     onActionExecuted(action: string) {
         this.store$.dispatch(actions.executeAction({ action }));

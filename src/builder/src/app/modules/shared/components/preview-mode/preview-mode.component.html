@@ -1,5 +1,5 @@
 <app-actions-dropdown
     panelClass="preview-mode-panel"
     [actions]="previewModes"
-    [active]="currentMode$|async"
+    [active]="currentMode()"
     (executeAction)="changePreviewMode($event)"></app-actions-dropdown>

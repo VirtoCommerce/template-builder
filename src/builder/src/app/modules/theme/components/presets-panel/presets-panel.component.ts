@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NgClass, AsyncPipe, KeyValuePipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
 import { PanelComponent } from '@core/components/panel/panel.component';
@@ -19,15 +20,15 @@ import * as fromRoute from '@shared/routing/selectors';
     styleUrls: ['./presets-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgClass, AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, IconButtonComponent, PresetsIconComponent]
+    imports: [NgClass, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, IconButtonComponent, PresetsIconComponent]
 })
 export class PresetsPanelComponent {
 
     private readonly store$ = inject(Store<BuilderState>);
 
-    filter$ = this.store$.select(fromTheme.selectPresetsFilter);
-    viewModel$ = this.store$.select(fromTheme.selectPresetsContext);
-    isHalfScreen$ = this.store$.select(fromRoute.isDesktop50);
+    readonly filter = toSignal(this.store$.select(fromTheme.selectPresetsFilter), { initialValue: '' });
+    readonly viewModel = toSignal(this.store$.select(fromTheme.selectPresetsContext));
+    readonly isHalfScreen = toSignal(this.store$.select(fromRoute.isDesktop50), { initialValue: false });
 
     onBackClick() {
         this.store$.dispatch(actions.exitPresets());

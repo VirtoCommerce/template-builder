@@ -7,14 +7,15 @@ import { AppConfig } from '@integration/services';
 
 import { BuilderState } from '@shared/store';
 import * as fromRoute from '@shared/routing';
-import { NgClass, AsyncPipe } from '@angular/common';
+import { NgClass } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-live-preview',
     templateUrl: './live-preview.component.html',
     styleUrls: ['./live-preview.component.scss'],
     standalone: true,
-    imports: [NgClass, AsyncPipe]
+    imports: [NgClass]
 })
 export class LivePreviewComponent implements OnInit {
 
@@ -30,9 +31,9 @@ export class LivePreviewComponent implements OnInit {
     private readonly pendingMessages: any[] = [];
 
 
-    isPresetPreviewMode$ = this.store.select(fromRoute.isPresetPreviewMode);
-    previewPresetName$ = this.store.select(fromRoute.selectPresetParameter);
-    previewMode$ = this.store.select(fromRoute.selectPreviewModeParameter);
+    isPresetPreviewMode = toSignal(this.store.select(fromRoute.isPresetPreviewMode), { initialValue: false });
+    previewPresetName = toSignal(this.store.select(fromRoute.selectPresetParameter), { initialValue: null });
+    previewMode = toSignal(this.store.select(fromRoute.selectPreviewModeParameter), { initialValue: null });
 
     previewUrl!: SafeResourceUrl;
     url!: string;

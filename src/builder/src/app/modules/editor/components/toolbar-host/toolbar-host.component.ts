@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 
 import { AppConfig } from '@integration/services';
@@ -15,20 +15,20 @@ import { DefaultToolbarComponent } from '@shared/components/default-toolbar/defa
     styleUrls: ['./toolbar-host.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, DefaultToolbarComponent]
+    imports: [DefaultToolbarComponent]
 })
 export class ToolbarHostComponent {
 
     private readonly store$ = inject(Store<BuilderState>);
     private readonly appConfig = inject(AppConfig);
 
-    panels$ = this.store$.select(selectors.selectToolbarButtonsState(
+    readonly panels = toSignal(this.store$.select(selectors.selectToolbarButtonsState(
         {
             useTheme: !this.appConfig.getValue('skipTheme'),
             useDrafts: !!this.appConfig.getValue('publish'),
             useExternalPreview: !!this.appConfig.getValue('externalPreview')
         }
-    ));
+    )), { initialValue: null });
 
     onActionExecuted(action: string) {
         this.store$.dispatch(actions.executeToolbarAction({ action }));

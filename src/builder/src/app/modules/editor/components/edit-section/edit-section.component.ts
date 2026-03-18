@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NgClass, AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NgClass } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BuilderState } from '@editor/store/state';
 import { Store } from '@ngrx/store';
@@ -23,16 +24,16 @@ import * as fromRoute from '@shared/routing/selectors';
     styleUrls: ['./edit-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgClass, AsyncPipe, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
+    imports: [NgClass, ClipboardModule, OverlapPanelComponent, PanelComponent, IconComponent, DynamicFormComponent, ContextMenuComponent]
 })
 export class EditSectionComponent {
 
     private readonly store = inject(Store<BuilderState>);
     private readonly helper = inject(ContextMenuHelper);
 
-    viewModel$ = this.store.select(fromState.selectEditSectionContext);
-    sectionName$ = this.store.select(fromState.selectCurrentItemName);
-    isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
+    readonly viewModel = toSignal(this.store.select(fromState.selectEditSectionContext));
+    readonly sectionName = toSignal(this.store.select(fromState.selectCurrentItemName));
+    readonly isHalfScreen = toSignal(this.store.select(fromRoute.isDesktop50), { initialValue: false });
 
     onBackClick() {
         this.store.dispatch(actions.closeEditItemPanel());

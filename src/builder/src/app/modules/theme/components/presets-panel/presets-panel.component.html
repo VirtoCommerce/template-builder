@@ -1,13 +1,13 @@
-<app-overlap-panel [skipTranslate]="isHalfScreen$|async" [expandable]="false">
+<app-overlap-panel [skipTranslate]="isHalfScreen()" [expandable]="false">
   <app-panel>
     <div class="flex flex-col">
-      @if (viewModel$|async; as vm) {
+      @if (viewModel(); as vm) {
         <div class="search-holder"
-          [ngClass]="{ 'not-found': (filter$|async) && !(vm.presets|keyvalue).length }">
+          [ngClass]="{ 'not-found': filter() && !(vm.presets|keyvalue).length }">
           <input placeholder="Search preset by name"
             class="search"
             type="search"
-            [value]="filter$|async"
+            [value]="filter()"
             (keyup)="applyPresetsFilter($event)"
             (search)="applyPresetsFilter($event)" />
           </div>
@@ -24,7 +24,7 @@
               </app-icon-button>
             </div>
           }
-          @if ((filter$|async) && !(vm.presets|keyvalue).length) {
+          @if (filter() && !(vm.presets|keyvalue).length) {
             <div class="no-presets">
               No presets found
             </div>

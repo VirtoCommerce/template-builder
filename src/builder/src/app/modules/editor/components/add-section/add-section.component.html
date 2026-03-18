@@ -1,13 +1,13 @@
-<app-overlap-panel [skipTranslate]="isHalfScreen$|async" [expandable]="false">
+<app-overlap-panel [skipTranslate]="isHalfScreen()" [expandable]="false">
   <app-panel>
     <div>
       <ul class="flex flex-col">
-        @if (viewModel$|async; as vm) {
+        @if (viewModel(); as vm) {
           <li class="search-holder">
             <input placeholder="Search in library"
               class="search"
               type="search"
-              [value]="filter$|async"
+              [value]="filter()"
               (keyup)="applySectionsFilter($event)"
               (search)="applySectionsFilter($event)" />
             </li>
@@ -39,7 +39,7 @@
                 }
               </li>
             }
-            @if ((filter$|async) && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length) {
+            @if (filter() && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length) {
               <li class="p-4 text-gray-300">
                 {{ !!vm.parentSection ? 'No blocks found' : 'No sections found' }}
               </li>
@@ -51,7 +51,7 @@
         <div class="title">
           <app-icon class="back-icon" [hoverable]="true" (click)="onCancelClick()" title="Cancel">chevron_left
           </app-icon>
-          <div>{{ title$|async }}</div>
+          <div>{{ title() }}</div>
         </div>
       </ng-container>
     </app-panel>

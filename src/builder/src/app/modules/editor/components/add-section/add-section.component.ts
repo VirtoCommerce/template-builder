@@ -1,7 +1,8 @@
 import { ItemsGroup } from '@core/models';
 import { SectionSchema } from '@models/document';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe, KeyValuePipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { KeyValuePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { OverlapPanelComponent } from '@core/components/overlap-panel/overlap-panel.component';
 import { PanelComponent } from '@core/components/panel/panel.component';
@@ -21,16 +22,16 @@ import * as fromRoute from '@shared/routing/selectors';
     styleUrls: ['./add-section.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [AsyncPipe, KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, AddSectionGroupComponent, AddSectionItemComponent]
+    imports: [KeyValuePipe, OverlapPanelComponent, PanelComponent, IconComponent, AddSectionGroupComponent, AddSectionItemComponent]
 })
 export class AddSectionComponent {
 
     private readonly store = inject(Store<BuilderState>);
 
-    title$ = this.store.select(fromState.selectAddItemTitle)
-    viewModel$ = this.store.select(fromState.selectAddItemContext);
-    filter$ = this.store.select(fromState.selectCurrentSectionsFilter);
-    isHalfScreen$ = this.store.select(fromRoute.isDesktop50);
+    readonly title = toSignal(this.store.select(fromState.selectAddItemTitle));
+    readonly viewModel = toSignal(this.store.select(fromState.selectAddItemContext));
+    readonly filter = toSignal(this.store.select(fromState.selectCurrentSectionsFilter));
+    readonly isHalfScreen = toSignal(this.store.select(fromRoute.isDesktop50), { initialValue: false });
 
     onCancelClick() {
         this.store.dispatch(actions.closeAddItemPanel());

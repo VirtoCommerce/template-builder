@@ -1,6 +1,6 @@
-<app-overlap-panel [skipTranslate]="isHalfScreen$|async" [expandable]="!(isHalfScreen$|async)">
+<app-overlap-panel [skipTranslate]="isHalfScreen()" [expandable]="!isHalfScreen()">
   <app-panel>
-    @if (viewModel$|async; as vm) {
+    @if (viewModel(); as vm) {
       <app-dynamic-form [context]="vm.editContext"
         [descriptors]="vm.schema.settings"
         [sectionModel]="vm.model"
@@ -10,10 +10,10 @@
       <div class="title pl-2">
         <app-icon class="back-icon" (click)="onBackClick()" [hoverable]="true" title="Back">chevron_left
         </app-icon>
-        @if (viewModel$|async; as vm) {
+        @if (viewModel(); as vm) {
           <div class="edit-section-title"
             [ngClass]="{ 'invisible-section': vm.model.hidden, 'name-only': vm.isEditSettings }">
-            <div class="whitespace-normal">{{ sectionName$|async }}</div>
+            <div class="whitespace-normal">{{ sectionName() }}</div>
             @if (!vm.isEditSettings) {
               <div class="section-info">
                 <span [cdkCopyToClipboard]="vm.model.type">Type: {{ vm.schema.name || vm.schema.type ||

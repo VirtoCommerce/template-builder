@@ -1,5 +1,6 @@
 import { Component, ElementRef, viewChild, inject } from '@angular/core';
-import { NgClass, NgStyle, AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NgClass, NgStyle } from '@angular/common';
 import { CdkDrag, CdkDragRelease, CdkDragSortEvent, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 import { PanelComponent } from '@core/components/panel/panel.component';
@@ -29,7 +30,7 @@ import { domHelpers } from '@core/helpers';
     styleUrls: ['./template-editor.component.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush
     standalone: true,
-    imports: [NgClass, NgStyle, AsyncPipe, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
+    imports: [NgClass, NgStyle, DragDropModule, PanelComponent, CollapsibleListItemComponent, IconComponent, IconButtonComponent, ContextMenuComponent, DragHandleComponent, SectionItemComponent, SectionChildrenListComponent]
 })
 export class TemplateEditorComponent {
 
@@ -38,10 +39,10 @@ export class TemplateEditorComponent {
 
     readonly container = viewChild.required<ElementRef<HTMLDivElement>>('container');
 
-    viewModel$ = this.store.select(fromState.editTemplateContext);
+    readonly viewModel = toSignal(this.store.select(fromState.editTemplateContext));
 
-    hoveredSectionId$ = this.store.select(fromState.hoveredSectionId);
-    templateName$ = this.store.select(fromState.selectCurrentTemplateName);
+    readonly hoveredSectionId = toSignal(this.store.select(fromState.hoveredSectionId));
+    readonly templateName = toSignal(this.store.select(fromState.selectCurrentTemplateName));
 
     addButtonTop = '0';
     addLineTop = '0';
