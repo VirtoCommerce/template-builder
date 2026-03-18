@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, OnInit, viewChild, inject } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, signal, viewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
@@ -6,9 +6,7 @@ import { EventsBusService } from '@core/services';
 import { AppConfig } from '@integration/services';
 
 import { BuilderState } from '@shared/store';
-import * as fromState from '@shared/store';
 import * as fromRoute from '@shared/routing';
-import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
@@ -28,15 +26,8 @@ export class LivePreviewComponent implements OnInit {
 
     readonly frame = viewChild<ElementRef>('frame');
 
-    private previewLoadedSource = new BehaviorSubject<boolean>(false);
-    private previewLoaded$ = new Observable<boolean>(observer => {
-        this.previewLoadedSource.subscribe(result => {
-            if (result) {
-                observer.next(true);
-                observer.complete();
-            }
-        });
-    });
+    private readonly previewLoaded = signal(false);
+    private readonly pendingMessages: any[] = [];
 
 
     isPresetPreviewMode$ = this.store.select(fromRoute.isPresetPreviewMode);
@@ -65,7 +56,8 @@ export class LivePreviewComponent implements OnInit {
         const sub = this.eventsBus.on(args => args.target === 'preview', msg => {
             switch (msg.payload?.type) {
                 case 'preview-loaded':
-                    this.previewLoadedSource.next(true);
+                    this.previewLoaded.set(true);
+                    this.pendingMessages.splice(0).forEach(msg => this.doSend(msg));
                     break;
                 default:
                     this.sendMessage(msg.payload);
@@ -78,15 +70,20 @@ export class LivePreviewComponent implements OnInit {
     }
 
     private sendMessage(msg: any) {
-        this.previewLoaded$.subscribe(() => {
-            if (this.frame()) {
-                const frame = this.frame()!.nativeElement as HTMLIFrameElement;
-                const message = { ...msg, source: 'builder' };
-                if (message.type !== 'hover') {
-                    console.log(message);
-                }
-                frame.contentWindow?.postMessage(message, this.url);
-            }
-        });
+        if (this.previewLoaded()) {
+            this.doSend(msg);
+        } else {
+            this.pendingMessages.push(msg);
+        }
+    }
+
+    private doSend(msg: any) {
+        const frame = this.frame()?.nativeElement as HTMLIFrameElement | undefined;
+        if (!frame) return;
+        const message = { ...msg, source: 'builder' };
+        if (message.type !== 'hover') {
+            console.log(message);
+        }
+        frame.contentWindow?.postMessage(message, this.url);
     }
 }
