@@ -20,20 +20,20 @@ $clock-cell-size: 14.1666% !default;
 
 @mixin _color($palette) {
   .mat-custom-controls {
-    background-color: mat.get-color-from-palette($palette);
-    color: mat.get-color-from-palette($palette, default-contrast);
+    background-color: mat.m2-get-color-from-palette($palette);
+    color: mat.m2-get-color-from-palette($palette, default-contrast);
   }
 
   @include date-range-colors(
-    mat.get-color-from-palette($palette, default, $range-fade-amount));
+    mat.m2-get-color-from-palette($palette, default, $range-fade-amount));
 
   .mat-calendar-body-selected {
-    background-color: mat.get-color-from-palette($palette);
-    color: mat.get-color-from-palette($palette, default-contrast);
+    background-color: mat.m2-get-color-from-palette($palette);
+    color: mat.m2-get-color-from-palette($palette, default-contrast);
   }
 
   .mat-calendar-body-disabled > .mat-calendar-body-selected {
-    $background: mat.get-color-from-palette($palette);
+    $background: mat.m2-get-color-from-palette($palette);
 
     @if (meta.type-of($background) == color) {
       background-color: color.adjust($background, $alpha: -$selected-fade-amount);
@@ -47,7 +47,7 @@ $clock-cell-size: 14.1666% !default;
 
   .mat-calendar-body-today.mat-calendar-body-selected {
     box-shadow: inset 0 0 0 $selected-today-box-shadow-width
-                mat.get-color-from-palette($palette, default-contrast);
+                mat.m2-get-color-from-palette($palette, default-contrast);
   }
 
   .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover,
@@ -55,7 +55,7 @@ $clock-cell-size: 14.1666% !default;
   .cdk-program-focused .mat-calendar-body-active {
     & > .mat-calendar-body-cell-content {
       @include _unselected-cell {
-        background-color: mat.get-color-from-palette($palette, 0.3);
+        background-color: mat.m2-get-color-from-palette($palette, 0.3);
       }
     }
   }
@@ -69,13 +69,13 @@ $clock-cell-size: 14.1666% !default;
 }
 
 @mixin color($config-or-theme) {
-  $config: mat.get-color-config($config-or-theme);
+  $config: mat.m2-get-color-config($config-or-theme);
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
-  $disabled-color: mat.get-color-from-palette($foreground, disabled-text);
+  $disabled-color: mat.m2-get-color-from-palette($foreground, disabled-text);
 
   .mat-calendar-arrow {
-    border-top-color: mat.get-color-from-palette($foreground, icon);
+    border-top-color: mat.m2-get-color-from-palette($foreground, icon);
   }
 
   // The prev/next buttons need a bit more specificity to
@@ -83,24 +83,24 @@ $clock-cell-size: 14.1666% !default;
   .mat-datepicker-toggle,
   .mat-datepicker-content .mat-calendar-next-button,
   .mat-datepicker-content .mat-calendar-previous-button {
-    color: mat.get-color-from-palette($foreground, icon);
+    color: mat.m2-get-color-from-palette($foreground, icon);
   }
 
   .mat-calendar-table-header {
-    color: mat.get-color-from-palette($foreground, hint-text);
+    color: mat.m2-get-color-from-palette($foreground, hint-text);
   }
 
   .mat-calendar-table-header-divider::after {
-    background: mat.get-color-from-palette($foreground, divider);
+    background: mat.m2-get-color-from-palette($foreground, divider);
   }
 
   .mat-calendar-body-label {
-    color: mat.get-color-from-palette($foreground, secondary-text);
+    color: mat.m2-get-color-from-palette($foreground, secondary-text);
   }
 
   .mat-calendar-body-cell-content,
   .mat-date-range-input-separator {
-    color: mat.get-color-from-palette($foreground, text);
+    color: mat.m2-get-color-from-palette($foreground, text);
     border-color: transparent;
   }
 
@@ -115,7 +115,7 @@ $clock-cell-size: 14.1666% !default;
   }
 
   .mat-calendar-body-in-preview {
-    $divider-color: mat.get-color-from-palette($foreground, divider);
+    $divider-color: mat.m2-get-color-from-palette($foreground, divider);
 
     @if meta.type-of($divider-color) == color {
     // Increase visibility for dashed preview range by boosting alpha.
@@ -131,13 +131,13 @@ $clock-cell-size: 14.1666% !default;
     @include _unselected-cell {
       // Note: though it's not text, the border is a hint about the fact that this is today's date,
       // so we use the hint color.
-      border-color: mat.get-color-from-palette($foreground, hint-text);
+      border-color: mat.m2-get-color-from-palette($foreground, hint-text);
     }
   }
 
   .mat-calendar-body-disabled > .mat-calendar-body-today {
     @include _unselected-cell {
-      $color: mat.get-color-from-palette($foreground, hint-text);
+      $color: mat.m2-get-color-from-palette($foreground, hint-text);
 
       @if (meta.type-of($color) == color) {
         border-color: color.adjust($color, $alpha: -$today-fade-amount);
@@ -156,8 +156,8 @@ $clock-cell-size: 14.1666% !default;
 
   .mat-datepicker-content {
     @include private.private-theme-elevation(4, $config);
-    background-color: mat.get-color-from-palette($background, card);
-    color: mat.get-color-from-palette($foreground, text);
+    background-color: mat.m2-get-color-from-palette($background, card);
+    color: mat.m2-get-color-from-palette($foreground, text);
 
     &.mat-accent {
       @include _color(map.get($config, accent));
@@ -173,19 +173,19 @@ $clock-cell-size: 14.1666% !default;
   }
 
   .mat-datepicker-toggle-active {
-    color: mat.get-color-from-palette(map.get($config, primary), text);
+    color: mat.m2-get-color-from-palette(map.get($config, primary), text);
 
     &.mat-accent {
-      color: mat.get-color-from-palette(map.get($config, accent), text);
+      color: mat.m2-get-color-from-palette(map.get($config, accent), text);
     }
 
     &.mat-warn {
-      color: mat.get-color-from-palette(map.get($config, warn), text);
+      color: mat.m2-get-color-from-palette(map.get($config, warn), text);
     }
   }
 
   .mat-date-range-input-inner[disabled] {
-    color: mat.get-color-from-palette($foreground, disabled-text);
+    color: mat.m2-get-color-from-palette($foreground, disabled-text);
   }
 
   mat-clock-view {
@@ -217,7 +217,7 @@ $clock-cell-size: 14.1666% !default;
     height: 2%;
     margin: -1%;
     border-radius: 50%;
-    background-color: mat.get-color-from-palette(map.get($config, primary), text);
+    background-color: mat.m2-get-color-from-palette(map.get($config, primary), text);
   }
 
   .mat-clock-hand {
@@ -229,7 +229,7 @@ $clock-cell-size: 14.1666% !default;
     width: 1px;
     /*height: $clock-hand-size;*/
     margin: 0 auto;
-    background-color: mat.get-color-from-palette(map.get($config, primary), text);
+    background-color: mat.m2-get-color-from-palette(map.get($config, primary), text);
     transform-origin: bottom;
 
     &::before {
@@ -240,7 +240,7 @@ $clock-cell-size: 14.1666% !default;
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: mat.get-color-from-palette(map.get($config, primary), text);
+      background-color: mat.m2-get-color-from-palette(map.get($config, primary), text);
     }
   }
 
@@ -293,17 +293,17 @@ $clock-cell-size: 14.1666% !default;
     &.mat-clock-cell-selected {
       color: white;
     // lighten(...,5) -> color.adjust with relative lightness increase
-        background-color: color.adjust(mat.get-color-from-palette(map.get($config, primary), text), $lightness: 5%);
+        background-color: color.adjust(mat.m2-get-color-from-palette(map.get($config, primary), text), $lightness: 5%);
     }
   }
 }
 
 @mixin typography($config-or-theme) {
   $config: typography.private-typography-to-2014-config(
-      mat.get-typography-config($config-or-theme));
+      mat.m2-get-typography-config($config-or-theme));
 
   .mat-calendar {
-    font-family: mat.font-family($config);
+    font-family: mat.m2-font-family($config);
   }
 
   .mat-calendar-body {
@@ -313,15 +313,15 @@ $clock-cell-size: 14.1666% !default;
   .mat-calendar-body-label,
   .mat-calendar-period-button {
     font: {
-      size: mat.font-size($config, button);
-      weight: mat.font-weight($config, button);
+      size: mat.m2-font-size($config, button);
+      weight: mat.m2-font-weight($config, button);
     }
   }
 
   .mat-calendar-table-header th {
     font: {
       size: $calendar-weekday-table-font-size;
-      weight: mat.font-weight($config, body-1);
+      weight: mat.m2-font-weight($config, body-1);
     }
   }
 }
@@ -376,9 +376,9 @@ $clock-cell-size: 14.1666% !default;
         );
 }
 
-$color: mat.get-color-config($theme);
-$density: mat.get-density-config($theme);
-$typography: mat.get-typography-config($theme);
+$color: mat.m2-get-color-config($theme);
+$density: mat.m2-get-density-config($theme);
+$typography: mat.m2-get-typography-config($theme);
 
   @if $color {
       @include color($color);

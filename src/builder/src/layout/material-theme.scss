@@ -3,7 +3,7 @@
 // todo: i think style should not be overriten, it must be redefined
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-$custom-typography: mat.define-typography-config($font-family: 'Inter');
+$custom-typography: mat.m2-define-typography-config($font-family: 'Inter');
 @include mat.all-component-typographies($custom-typography);
 @include mat.core();
 

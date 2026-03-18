@@ -1,4 +1,4 @@
-import { TypedAction } from "@ngrx/store/src/models";
+import { Action } from "@ngrx/store";
 
 import * as editorHelpers from './editor.helpers';
 import * as actions from "@editor/store/actions";
@@ -7,7 +7,7 @@ import * as sharedActions from "@shared/store/actions";
 export function pasteDataIntoTemplate(
     action: any, // actions.pasteFromClipboard
     context: any // selectors.changeTemplateContext
-): TypedAction<any>[] {
+): Action[] {
     const value = action.value;
     const { template, sectionsSchemas, templateKey, templateEntry } = context;
     const direction = action.action === 'paste-after'
@@ -53,7 +53,7 @@ function pasteBlockIntoSection(
     templateKey: string,
     value: any,
     direction: number
-): TypedAction<any>[] {
+): Action[] {
     let accept = false;
     try {
         const blocks = sectionsSchemas[action.section.type].blocks;
@@ -104,7 +104,7 @@ function pasteSectionIntoTemplate(
     templateKey: string,
     value: any,
     direction: number
-): TypedAction<any>[] {
+): Action[] {
     if ((!action.section || !!sectionsSchemas[action.section.type]) &&
         (!templateEntry.sections || !templateEntry.sections.length || templateEntry.sections?.includes(value.content.type))) {
         const changedTemplate = editorHelpers.insertSection(template!, action.section?.id || null, value.content, direction);
