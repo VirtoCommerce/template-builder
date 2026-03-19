@@ -1,11 +1,9 @@
 import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
-import { switchMap } from 'rxjs';
-import { tap } from 'rxjs';
 import { of } from 'rxjs';
 import { DataService } from '@core/services';
-import { Component, DestroyRef, signal, viewChild, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { concat, Observable, Subject } from 'rxjs';
+import { Component, computed, DestroyRef, signal, viewChild, inject } from '@angular/core';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { SelectDescriptor } from '@models/controls';
@@ -31,9 +29,21 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
     private readonly data = inject(DataService);
 
     form!: UntypedFormGroup;
-    readonly options = signal<any[]>([]);
     searchEvent$ = new Subject<string>();
-    loading: boolean = false;
+
+    private readonly searchQuery = signal<string | null>(null);
+
+    readonly optionsResource = rxResource({
+        params: () => this.searchQuery(),
+        stream: ({ params: query }) => this.doRequest(query)
+    });
+
+    readonly effectiveOptions = computed<any[]>(() => {
+        if (this.descriptor?.optionsSelector) {
+            return appHelpers.evalInContext(this.descriptor.optionsSelector, this.context) as any[] ?? [];
+        }
+        return this.optionsResource.value() as any[] ?? [];
+    });
 
     readonly select = viewChild.required(NgSelectComponent);
 
@@ -50,7 +60,14 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
         this.form = new UntypedFormGroup({
             value: new UntypedFormControl(this.selectControlValue)
         });
-        this.updateOptions();
+
+        if (this.descriptor?.searchable) {
+            this.searchEvent$.pipe(
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            ).subscribe(q => this.searchQuery.set(q));
+        }
+
         this.form.valueChanges.pipe(
             takeUntilDestroyed(this.destroyRef)
         ).subscribe({
@@ -65,31 +82,6 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             return this.controlValue().map((x: any) => this.convertItemToOption(x));
         }
         return this.convertItemToOption(this.controlValue());
-    }
-
-    private updateOptions() {
-
-        const options = [
-            of(this.descriptor?.options || []), // start value
-            this.doRequest(null), // initial loaded items
-        ];
-
-        if (this.descriptor?.searchable) {
-            options.push(
-                this.searchEvent$.pipe(
-                    distinctUntilChanged(),
-                    tap(() => this.loading = true),
-                    switchMap(searchQuery => this.doRequest(searchQuery))
-                ));
-        }
-
-        if (this.descriptor?.optionsSelector) {
-            options.push(of(appHelpers.evalInContext(this.descriptor.optionsSelector, this.context)));
-        }
-
-        concat(...options).pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(items => this.options.set(items));
     }
 
     unselect(item: any) {
@@ -116,11 +108,6 @@ export class SelectComponent extends BaseControlDirective<SelectDescriptor> {
             const context = { ...this.context, __searchQuery: filter };
             result = this.data.doRequest(this.descriptor.request, context).pipe(
                 map(items => items?.map((x: any) => this.convertItemToOption(x)) || []),
-                tap(() => this.loading = false),
-                // tap(() => {
-                //     const value = this.select.itemsList.findItem(this.controlValue);
-                //     this.select.itemsList.select(value);
-                // })
             );
         }
         return result.pipe(
