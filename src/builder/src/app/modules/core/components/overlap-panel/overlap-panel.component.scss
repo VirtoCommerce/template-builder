@@ -1,6 +1,7 @@
 :host {
     @apply absolute h-full inset-y-0 left-8 -right-8 flex flex-col;
     box-shadow: 0 0 4.187rem rgba(36, 36, 36, .1);
+    z-index: 1;
     &.inplace {
         @apply left-0 right-0;
     }
