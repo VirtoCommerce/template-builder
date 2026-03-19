@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject, isDevMode, provideAppInitializer } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -39,6 +39,7 @@ export const appConfig: ApplicationConfig = {
         provideStoreDevtools({
             name: 'Builder',
             maxAge: 25,
+            logOnly: !isDevMode(),
             actionsBlocklist: [
                 '[shared] broadcast preview message',
                 '[template editor] hover section',
