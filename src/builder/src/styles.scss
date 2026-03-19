@@ -10,6 +10,11 @@
 @tailwind components;
 @tailwind utilities;
 
+ng-scrollbar {
+    --scrollbar-thumb-color: rgba(0, 0, 0, 0.2);
+    --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.35);
+}
+
 body {
     font-family: 'Inter', sans-serif;
     font-style: normal;
