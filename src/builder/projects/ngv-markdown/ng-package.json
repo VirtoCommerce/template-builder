@@ -3,5 +3,6 @@
   "dest": "../../dist/ngv-markdown",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["easymde", "turndown"]
 }

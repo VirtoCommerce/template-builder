@@ -11,7 +11,7 @@ import {CdkMonitorFocus} from '@angular/cdk/a11y';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {
     afterNextRender,
-    afterRender,
+    afterEveryRender,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -503,7 +503,7 @@ export class MatCalendar<D> implements OnChanges {
                             : this.startView();
         });
 
-        afterRender(() => {
+        afterEveryRender(() => {
             if (this._moveFocusOnNextTick) {
                 this._moveFocusOnNextTick = false;
                 this.focusActiveCell();

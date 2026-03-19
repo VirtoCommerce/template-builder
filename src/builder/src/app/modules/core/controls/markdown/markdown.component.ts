@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { NgvMarkdownComponent } from 'ngv-markdown';
 
-import { MarkdownModel } from 'dist/ngv-markdown/lib/markdown.model';
+import { MarkdownModel } from 'ngv-markdown';
 import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { AssetsService } from '@core/services';
 import { MarkdownDescriptor } from '@models/controls';
