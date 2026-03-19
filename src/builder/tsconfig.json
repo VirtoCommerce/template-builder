@@ -47,12 +47,12 @@
                 "src/app/modules/models/*"
             ],
             "ngv-markdown": [
-              "dist/ngv-markdown/ngv-markdown",
-              "dist/ngv-markdown"
+                "dist/ngv-markdown/ngv-markdown",
+                "dist/ngv-markdown"
             ],
             "ngv-datepicker": [
-              "dist/ngv-datepicker/ngv-datepicker",
-              "dist/ngv-datepicker"
+                "dist/ngv-datepicker/ngv-datepicker",
+                "dist/ngv-datepicker"
             ]
         }
     },
@@ -60,6 +60,7 @@
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
+        "typeCheckHostBindings": true,
         "strictTemplates": true
     }
 }
