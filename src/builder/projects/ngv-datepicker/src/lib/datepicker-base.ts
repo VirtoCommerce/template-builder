@@ -32,7 +32,6 @@ import {
   InjectionToken,
   NgZone,
   OnChanges,
-  OnDestroy,
   OnInit,
   OutputRef,
   SimpleChanges,
@@ -118,7 +117,7 @@ export const MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
-  implements OnInit, AfterViewInit, OnDestroy
+  implements OnInit, AfterViewInit
 {
   private readonly _changeDetectorRef = inject(ChangeDetectorRef);
   private readonly _globalModel = inject<MatDateSelectionModel<S, D>>(MatDateSelectionModel);
@@ -181,8 +180,6 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
       .subscribe(() => this._changeDetectorRef.markForCheck());
     this._calendar().focusActiveCell();
   }
-
-  ngOnDestroy() {}
 
   _queueUserSelection(date: D) {
     this._model.queue(date);
@@ -286,7 +283,7 @@ export abstract class MatDatepickerBase<
   C extends MatDatepickerControl<D>,
   S,
   D = ExtractDateTypeFromSelection<S>,
-> implements MatDatepickerPanel<C, S, D>, OnDestroy, OnChanges
+> implements MatDatepickerPanel<C, S, D>, OnChanges
 {
   private readonly _overlay = inject(Overlay);
   private readonly _ngZone = inject(NgZone);
@@ -516,8 +513,6 @@ export abstract class MatDatepickerBase<
 
     this.stateChanges.next(undefined);
   }
-
-  ngOnDestroy() {}
 
   /** Selects the given date */
   select(date: D): void {

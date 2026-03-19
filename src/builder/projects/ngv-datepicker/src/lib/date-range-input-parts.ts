@@ -7,12 +7,13 @@
  */
 
 import {
-    Directive,
-    InjectionToken,
+  Directive,
+  InjectionToken,
   Injector,
-    OnInit,
+  OnInit,
   DoCheck,
-    inject,
+  Signal,
+  inject,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -40,8 +41,8 @@ export interface MatDateRangeInputParent<D> {
     opened: boolean;
     id: string;
   };
-  _startInput: MatDateRangeInputPartBase<D>;
-  _endInput: MatDateRangeInputPartBase<D>;
+  _startInput: Signal<MatDateRangeInputPartBase<D> | undefined>;
+  _endInput: Signal<MatDateRangeInputPartBase<D> | undefined>;
   _groupDisabled: boolean;
   _handleChildValueChange(): void;
   _openDatepicker(): void;
@@ -160,15 +161,15 @@ abstract class MatDateRangeInputPartBase<D>
   }
 
   protected _shouldHandleChangeEvent({source}: DateSelectionModelChange<DateRange<D>>): boolean {
-    return source !== this._rangeInput._startInput && source !== this._rangeInput._endInput;
+    return source !== this._rangeInput._startInput() && source !== this._rangeInput._endInput();
   }
 
   protected override _assignValueProgrammatically(value: D | null) {
     super._assignValueProgrammatically(value);
     const opposite = (
-      this === this._rangeInput._startInput
-        ? this._rangeInput._endInput
-        : this._rangeInput._startInput
+      this === this._rangeInput._startInput()
+        ? this._rangeInput._endInput()
+        : this._rangeInput._startInput()
     ) as MatDateRangeInputPartBase<D> | undefined;
     opposite?._validatorOnChange();
   }
@@ -318,7 +319,7 @@ export class MatEndDate<D> extends MatDateRangeInputPartBase<D> {
   override _onKeydown(event: KeyboardEvent) {
     // If the user is pressing backspace on an empty end input, move focus back to the start.
     if (event.key === 'Backspace' && !this._elementRef.nativeElement.value) {
-      this._rangeInput._startInput.focus();
+      this._rangeInput._startInput()?.focus();
     }
 
     super._onKeydown(event);

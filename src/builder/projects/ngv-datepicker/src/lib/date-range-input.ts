@@ -11,14 +11,13 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
   Input,
-  ContentChild,
   AfterContentInit,
   ChangeDetectorRef,
   ElementRef,
   OnChanges,
-  OnDestroy,
   SimpleChanges,
   DestroyRef,
+  contentChild,
   effect,
   inject,
   input,
@@ -79,8 +78,7 @@ export class MatDateRangeInput<D>
     MatDateRangeInputParent<D>,
     MatDateRangePickerInput<D>,
     AfterContentInit,
-    OnChanges,
-    OnDestroy
+    OnChanges
 {
   private readonly _changeDetectorRef = inject(ChangeDetectorRef);
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -143,8 +141,8 @@ export class MatDateRangeInput<D>
    * @docs-private
    */
   get placeholder() {
-    const start = this._startInput?._getPlaceholder() || '';
-    const end = this._endInput?._getPlaceholder() || '';
+    const start = this._startInput()?._getPlaceholder() || '';
+    const end = this._endInput()?._getPlaceholder() || '';
     return start || end ? `${start} ${this.separator} ${end}` : '';
   }
 
@@ -159,8 +157,8 @@ export class MatDateRangeInput<D>
       this._rangePicker = rangePicker;
       this._closedSubscription.unsubscribe();
       this._closedSubscription = rangePicker.closedStream.subscribe(() => {
-        this._startInput?._onTouched();
-        this._endInput?._onTouched();
+        this._startInput()?._onTouched();
+        this._endInput()?._onTouched();
       });
       this._registerModel(this._model!);
     }
@@ -183,10 +181,10 @@ export class MatDateRangeInput<D>
     return this._dateFilter;
   }
   set dateFilter(value: DateFilterFn<D>) {
-    const start = this._startInput;
-    const end = this._endInput;
+    const start = this._startInput();
+    const end = this._endInput();
     const wasMatchingStart = start && start._matchesFilter(start.value);
-    const wasMatchingEnd = end && end._matchesFilter(start.value);
+    const wasMatchingEnd = end && end._matchesFilter(start?.value ?? null);
     this._dateFilter = value;
 
     if (start && start._matchesFilter(start.value) !== wasMatchingStart) {
@@ -232,8 +230,8 @@ export class MatDateRangeInput<D>
   /** Whether the input is disabled. */
   @Input()
   get disabled(): boolean {
-    return this._startInput && this._endInput
-      ? this._startInput.disabled && this._endInput.disabled
+    return this._startInput() && this._endInput()
+      ? this._startInput()!.disabled && this._endInput()!.disabled
       : this._groupDisabled;
   }
   set disabled(value: boolean) {
@@ -248,8 +246,8 @@ export class MatDateRangeInput<D>
 
   /** Whether the input is in an error state. */
   get errorState(): boolean {
-    if (this._startInput && this._endInput) {
-      return this._startInput.errorState || this._endInput.errorState;
+    if (this._startInput() && this._endInput()) {
+      return this._startInput()!.errorState || this._endInput()!.errorState;
     }
 
     return false;
@@ -257,8 +255,8 @@ export class MatDateRangeInput<D>
 
   /** Whether the datepicker input is empty. */
   get empty(): boolean {
-    const startEmpty = this._startInput ? this._startInput.isEmpty() : false;
-    const endEmpty = this._endInput ? this._endInput.isEmpty() : false;
+    const startEmpty = this._startInput() ? this._startInput()!.isEmpty() : false;
+    const endEmpty = this._endInput() ? this._endInput()!.isEmpty() : false;
     return startEmpty && endEmpty;
   }
 
@@ -277,8 +275,8 @@ export class MatDateRangeInput<D>
   /** End of the comparison range that should be shown in the calendar. */
   readonly comparisonEnd = input<D | null>(null);
 
-  @ContentChild(MatStartDate) _startInput!: MatStartDate<D>;
-  @ContentChild(MatEndDate) _endInput!: MatEndDate<D>;
+  readonly _startInput = contentChild<MatStartDate<D>>(MatStartDate);
+  readonly _endInput = contentChild<MatEndDate<D>>(MatEndDate);
 
   /**
    * Implemented as a part of `MatFormFieldControl`.
@@ -307,20 +305,20 @@ export class MatDateRangeInput<D>
   onContainerClick(): void {
     if (!this.focused && !this.disabled) {
       if (!this._model || !this._model.selection.start) {
-        this._startInput.focus();
+        this._startInput()!.focus();
       } else {
-        this._endInput.focus();
+        this._endInput()!.focus();
       }
     }
   }
 
   ngAfterContentInit() {
     if (isDevMode()) {
-      if (!this._startInput) {
+      if (!this._startInput()) {
         throw Error('mat-date-range-input must contain a matStartDate input');
       }
 
-      if (!this._endInput) {
+      if (!this._endInput()) {
         throw Error('mat-date-range-input must contain a matEndDate input');
       }
     }
@@ -331,7 +329,7 @@ export class MatDateRangeInput<D>
 
     // We don't need to unsubscribe from this, because we
     // know that the input streams will be completed on destroy.
-    merge(this._startInput.stateChanges, this._endInput.stateChanges).subscribe(() => {
+    merge(this._startInput()!.stateChanges, this._endInput()!.stateChanges).subscribe(() => {
       this.stateChanges.next(undefined);
     });
   }
@@ -341,8 +339,6 @@ export class MatDateRangeInput<D>
       this.stateChanges.next(undefined);
     }
   }
-
-  ngOnDestroy() {}
 
   /** Gets the date at which the calendar should start. */
   getStartValue(): D | null {
@@ -366,12 +362,12 @@ export class MatDateRangeInput<D>
 
   /** Gets the value that is used to mirror the state input. */
   _getInputMirrorValue() {
-    return this._startInput ? this._startInput.getMirrorValue() : '';
+    return this._startInput() ? this._startInput()!.getMirrorValue() : '';
   }
 
   /** Whether the input placeholders should be hidden. */
   _shouldHidePlaceholders() {
-    return this._startInput ? !this._startInput.isEmpty() : false;
+    return this._startInput() ? !this._startInput()!.isEmpty() : false;
   }
 
   /** Handles the value in one of the child inputs changing. */
@@ -410,23 +406,23 @@ export class MatDateRangeInput<D>
 
   /** Re-runs the validators on the start/end inputs. */
   private _revalidate() {
-    if (this._startInput) {
-      this._startInput._validatorOnChange();
+    if (this._startInput()) {
+      this._startInput()!._validatorOnChange();
     }
 
-    if (this._endInput) {
-      this._endInput._validatorOnChange();
+    if (this._endInput()) {
+      this._endInput()!._validatorOnChange();
     }
   }
 
   /** Registers the current date selection model with the start/end inputs. */
   private _registerModel(model: MatDateSelectionModel<DateRange<D>>) {
-    if (this._startInput) {
-      this._startInput._registerModel(model);
+    if (this._startInput()) {
+      this._startInput()!._registerModel(model);
     }
 
-    if (this._endInput) {
-      this._endInput._registerModel(model);
+    if (this._endInput()) {
+      this._endInput()!._registerModel(model);
     }
   }
 
