@@ -6,9 +6,8 @@ import { DynamicFormComponent } from './dynamic-form.component';
 @Component({
     selector: 'app-controls-tabs',
     template: '',
-    standalone: false
 })
-class FakeControlsTabs {
+class FakeControlsTabsComponent {
     @Input() attributes!: any;
 }
 
@@ -18,7 +17,7 @@ xdescribe('DynamicFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DynamicFormComponent, FakeControlsTabs ]
+      imports: [ DynamicFormComponent, FakeControlsTabsComponent ]
     })
     .compileComponents();
   });

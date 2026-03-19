@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, DestroyRef, HostBinding, HostListener, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, DestroyRef, HostBinding, HostListener, inject } from '@angular/core';
 import { EnvironmentRef } from '@integration/services';
 import { Component, input, ElementRef } from '@angular/core';
 import { NgClass } from '@angular/common';
@@ -10,7 +10,7 @@ import { IconComponent } from '../icon/icon.component';
     styleUrls: ['./overlap-panel.component.scss'],
     imports: [NgClass, IconComponent]
 })
-export class OverlapPanelComponent {
+export class OverlapPanelComponent implements AfterViewInit {
 
     private readonly windowRef = inject(EnvironmentRef);
     private readonly cdr = inject(ChangeDetectorRef);
