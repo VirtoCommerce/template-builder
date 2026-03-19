@@ -7,14 +7,12 @@
  */
 
 import {
-  Directive,
-  ElementRef,
-  Optional,
-  InjectionToken,
-  Inject,
-  OnInit,
+    Directive,
+    InjectionToken,
   Injector,
+    OnInit,
   DoCheck,
+    inject,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -28,14 +26,7 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import {
-  MAT_DATE_FORMATS,
-  ErrorStateMatcher,
-} from '@angular/material/core';
-import {
-  DateAdapter,
-  MatDateFormats,
-} from './core';
+import { ErrorStateMatcher } from '@angular/material/core';
 import {MatDatepickerInputBase, DateFilterFn} from './datepicker-input-base';
 import {DateRange, DateSelectionModelChange} from './date-selection-model';
 
@@ -72,6 +63,12 @@ abstract class MatDateRangeInputPartBase<D>
   extends MatDatepickerInputBase<DateRange<D>>
   implements OnInit, DoCheck
 {
+    readonly _rangeInput = inject(MAT_DATE_RANGE_INPUT_PARENT) as MatDateRangeInputParent<D>;
+    readonly _defaultErrorStateMatcher = inject(ErrorStateMatcher);
+    private readonly _injector = inject(Injector);
+    readonly _parentForm = inject(NgForm, { optional: true });
+    readonly _parentFormGroup = inject(FormGroupDirective, { optional: true });
+
   /** @docs-private */
   ngControl!: NgControl;
 
@@ -92,19 +89,6 @@ abstract class MatDateRangeInputPartBase<D>
   protected abstract override _validator: ValidatorFn | null;
   protected abstract override _assignValueToModel(value: D | null): void;
   protected abstract override _getValueFromModel(modelValue: DateRange<D>): D | null;
-
-  constructor(
-    @Inject(MAT_DATE_RANGE_INPUT_PARENT) public _rangeInput: MatDateRangeInputParent<D>,
-    elementRef: ElementRef<HTMLInputElement>,
-    public _defaultErrorStateMatcher: ErrorStateMatcher,
-    private _injector: Injector,
-    @Optional() public _parentForm: NgForm,
-    @Optional() public _parentFormGroup: FormGroupDirective,
-    @Optional() dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_DATE_FORMATS) dateFormats: MatDateFormats,
-  ) {
-    super(elementRef, dateAdapter, dateFormats);
-  }
 
   ngOnInit() {
     // We need the date input to provide itself as a `ControlValueAccessor` and a `Validator`, while
@@ -193,8 +177,7 @@ abstract class MatDateRangeInputPartBase<D>
 
 /** Input for entering the start date in a `mat-date-range-input`. */
 @Directive({
-  selector: 'input[matStartDate]',
-  standalone: true,
+    selector: 'input[matStartDate]',
   host: {
     'class': 'mat-start-date mat-date-range-input-inner',
     '[disabled]': 'disabled',
@@ -229,28 +212,6 @@ export class MatStartDate<D> extends MatDateRangeInputPartBase<D> {
       ? null
       : {'matStartDateInvalid': {'end': end, 'actual': start}};
   };
-
-  constructor(
-    @Inject(MAT_DATE_RANGE_INPUT_PARENT) rangeInput: MatDateRangeInputParent<D>,
-    elementRef: ElementRef<HTMLInputElement>,
-    defaultErrorStateMatcher: ErrorStateMatcher,
-    injector: Injector,
-    @Optional() parentForm: NgForm,
-    @Optional() parentFormGroup: FormGroupDirective,
-    @Optional() dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_DATE_FORMATS) dateFormats: MatDateFormats,
-  ) {
-    super(
-      rangeInput,
-      elementRef,
-      defaultErrorStateMatcher,
-      injector,
-      parentForm,
-      parentFormGroup,
-      dateAdapter,
-      dateFormats,
-    );
-  }
 
   protected _validator = Validators.compose([...super._getValidators(), this._startValidator]);
 
@@ -296,7 +257,6 @@ export class MatStartDate<D> extends MatDateRangeInputPartBase<D> {
 /** Input for entering the end date in a `mat-date-range-input`. */
 @Directive({
   selector: 'input[matEndDate]',
-  standalone: true,
   host: {
     'class': 'mat-end-date mat-date-range-input-inner',
     '[disabled]': 'disabled',
@@ -328,28 +288,6 @@ export class MatEndDate<D> extends MatDateRangeInputPartBase<D> {
       ? null
       : {'matEndDateInvalid': {'start': start, 'actual': end}};
   };
-
-  constructor(
-    @Inject(MAT_DATE_RANGE_INPUT_PARENT) rangeInput: MatDateRangeInputParent<D>,
-    elementRef: ElementRef<HTMLInputElement>,
-    defaultErrorStateMatcher: ErrorStateMatcher,
-    injector: Injector,
-    @Optional() parentForm: NgForm,
-    @Optional() parentFormGroup: FormGroupDirective,
-    @Optional() dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_DATE_FORMATS) dateFormats: MatDateFormats,
-  ) {
-    super(
-      rangeInput,
-      elementRef,
-      defaultErrorStateMatcher,
-      injector,
-      parentForm,
-      parentFormGroup,
-      dateAdapter,
-      dateFormats,
-    );
-  }
 
   protected _validator = Validators.compose([...super._getValidators(), this._endValidator]);
 

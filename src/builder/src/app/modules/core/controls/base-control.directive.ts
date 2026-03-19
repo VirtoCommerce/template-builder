@@ -5,7 +5,7 @@ import { appHelpers } from "@app/modules/integration/helpers";
 import { ControlContext } from '@core/models';
 import { BaseControlDescriptor } from '@models/controls';
 
-@Directive({ standalone: true })
+@Directive({ })
 export class BaseControlDirective<T extends BaseControlDescriptor> implements OnInit, AfterContentInit {
 
     private _descriptor: T | null = null;

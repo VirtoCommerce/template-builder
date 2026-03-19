@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, FactoryProvider, Injectable, Optional, SkipSelf, OnDestroy, isDevMode} from '@angular/core';
+import {Directive, FactoryProvider, Injectable, Optional, SkipSelf, OnDestroy} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {DateAdapter} from './core';
 

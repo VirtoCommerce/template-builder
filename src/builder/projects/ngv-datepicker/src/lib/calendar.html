@@ -9,9 +9,9 @@
           [dateFilter]="dateFilter"
           [maxDate]="maxDate"
           [minDate]="minDate"
-          [dateClass]="dateClass"
-          [comparisonStart]="comparisonStart"
-          [comparisonEnd]="comparisonEnd"
+          [dateClass]="dateClass()"
+          [comparisonStart]="comparisonStart()"
+          [comparisonEnd]="comparisonEnd()"
           (_userSelection)="_daySelected($event)">
       </mat-month-view>
     }
@@ -22,21 +22,21 @@
           [dateFilter]="dateFilter"
           [maxDate]="maxDate"
           [minDate]="minDate"
-          [dateClass]="dateClass"
+          [dateClass]="dateClass()"
           (monthSelected)="_monthSelectedInYearView($event)"
           (selectedChange)="hasOutput('month') ? _dateEmit($event) : _goToDateInView($event, 'month')">
       </mat-year-view>
     }
     @case ('multi-year') {
       <mat-multi-year-view
-          [yearsPerPage]="yearsPerPage"
-          [yearsPerRow]="yearsPerRow"
+          [yearsPerPage]="yearsPerPage()"
+          [yearsPerRow]="yearsPerRow()"
           [(activeDate)]="activeDate"
           [selected]="selected"
           [dateFilter]="dateFilter"
           [maxDate]="maxDate"
           [minDate]="minDate"
-          [dateClass]="dateClass"
+          [dateClass]="dateClass()"
           (yearSelected)="_yearSelectedInMultiYearView($event)"
           (selectedChange)="hasOutput('year') ? _dateEmit($event) : _goToDateInView($event, 'year')">
       </mat-multi-year-view>
@@ -47,9 +47,9 @@
           [selected]="$any(selected)"
           [(currentView)]="currentView"
           [dateFilter]="dateFilter"
-          [dateClass]="dateClass"
-          [clockStep]="clockStep"
-          [twelveHour]="twelveHour"
+          [dateClass]="dateClass()"
+          [clockStep]="clockStep()"
+          [twelveHour]="twelveHour()"
           (selectedChange)="setDate($event)"
           (hourSelected)="_hourSelectedInClockView($any($event))"
           (_userSelection)="_timeSelectedInClockView($event)">

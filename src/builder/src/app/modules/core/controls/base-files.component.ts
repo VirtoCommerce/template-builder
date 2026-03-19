@@ -13,7 +13,7 @@ import { FilesDescriptor } from '@models/controls';
 
 import { coreHelpers, formsHelpers } from '@core/helpers';
 
-@Directive({ standalone: true })
+@Directive({ })
 export abstract class BaseFilesComponent<T extends FilesDescriptor> extends BaseControlDirective<T> {
 
     private readonly destroyRef = inject(DestroyRef);

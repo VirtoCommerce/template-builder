@@ -78,8 +78,11 @@ mat-custom-header {
         line-height: 18px;
         min-width: 30px;
 
+        .mat-custom-control {
+          opacity: 0.35;
+        }
         .mat-custom-control-active {
-          font-weight: 500;
+          font-weight: 700;
           opacity: 1;
         }
       }
@@ -89,8 +92,8 @@ mat-custom-header {
   .mat-custom-prev-next {
     display: flex;
     flex-direction: row;
-    place-content: stretch space-between;
-    align-items: stretch;
+    place-content: center space-between;
+    align-items: center;
 
     padding: 1% 0;
 

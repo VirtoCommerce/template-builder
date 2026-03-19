@@ -6,32 +6,19 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
- import {
-  DOWN_ARROW,
-  END,
-  ENTER,
-  HOME,
-  LEFT_ARROW,
-  PAGE_DOWN,
-  PAGE_UP,
-  RIGHT_ARROW,
-  UP_ARROW,
-  SPACE,
-} from '@angular/cdk/keycodes';
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
+  DestroyRef,
   Input,
-  Optional,
-  Output,
-  ViewChild,
   ViewEncapsulation,
-  OnDestroy,
+  inject,
   isDevMode,
+  output,
+  viewChild,
 } from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Directionality} from '@angular/cdk/bidi';
 import {DateAdapter} from './core';
 import {
@@ -41,7 +28,6 @@ import {
   MatCalendarCellClassFunction,
 } from './calendar-body';
 import {createMissingDateImplError} from './datepicker-errors';
-import {Subscription} from 'rxjs';
 import {startWith} from 'rxjs/operators';
 import {DateRange} from './date-selection-model';
 import {DateFilterFn} from './datepicker-input-base';
@@ -58,8 +44,11 @@ import {DateFilterFn} from './datepicker-input-base';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
-  private _rerenderSubscription = Subscription.EMPTY;
+export class MatMultiYearView<D> {
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  readonly _dateAdapter = inject<DateAdapter<D>>(DateAdapter)!;
+  private readonly _dir = inject(Directionality, {optional: true});
+  private readonly _destroyRef = inject(DestroyRef);
 
   /** consts moved as inputs */
   @Input() yearsPerPage = 24;
@@ -136,19 +125,19 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   @Input() dateFilter!: DateFilterFn<D>;
 
   /** Function that can be used to add custom CSS classes to date cells. */
-  @Input() dateClass!: MatCalendarCellClassFunction<D>;
+  @Input() dateClass: MatCalendarCellClassFunction<D> | null = null;
 
   /** Emits when a new year is selected. */
-  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly selectedChange = output<D>();
 
   /** Emits the selected year. This doesn't imply a change on the selected date */
-  @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();
+  readonly yearSelected = output<D>();
 
   /** Emits when any date is activated. */
-  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  @ViewChild(MatCalendarBody) _matCalendarBody!: MatCalendarBody;
+  readonly _matCalendarBody = viewChild.required(MatCalendarBody);
 
   /** Grid of calendar cells representing the currently displayed years. */
   _years!: MatCalendarCell[][];
@@ -159,26 +148,16 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   /** The year of the selected date. Null if the selected date is null. */
   _selectedYear!: number | null;
 
-  constructor(
-    private _changeDetectorRef: ChangeDetectorRef,
-    @Optional() public _dateAdapter: DateAdapter<D>,
-    @Optional() private _dir?: Directionality,
-  ) {
+  constructor() {
     if (!this._dateAdapter && isDevMode()) {
       throw createMissingDateImplError('DateAdapter');
     }
 
     this._activeDate = this._dateAdapter.today();
-  }
 
-  ngAfterContentInit() {
-    this._rerenderSubscription = this._dateAdapter.localeChanges
-      .pipe(startWith(null))
+    this._dateAdapter.localeChanges
+      .pipe(startWith(null), takeUntilDestroyed(this._destroyRef))
       .subscribe(() => this._init());
-  }
-
-  ngOnDestroy() {
-    this._rerenderSubscription.unsubscribe();
   }
 
   /** Initializes this multi-year view. */
@@ -232,26 +211,26 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     const oldActiveDate = this._activeDate;
     const isRtl = this._isRtl();
 
-    switch (event.keyCode) {
-      case LEFT_ARROW:
+    switch (event.key) {
+      case 'ArrowLeft':
         this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, isRtl ? 1 : -1);
         break;
-      case RIGHT_ARROW:
+      case 'ArrowRight':
         this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, isRtl ? -1 : 1);
         break;
-      case UP_ARROW:
+      case 'ArrowUp':
         this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -this.yearsPerRow);
         break;
-      case DOWN_ARROW:
+      case 'ArrowDown':
         this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, this.yearsPerRow);
         break;
-      case HOME:
+      case 'Home':
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           -getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate, this.yearsPerPage),
         );
         break;
-      case END:
+      case 'End':
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           this.yearsPerPage -
@@ -259,20 +238,20 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
             1,
         );
         break;
-      case PAGE_UP:
+      case 'PageUp':
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           event.altKey ? -this.yearsPerPage * 10 : -this.yearsPerPage,
         );
         break;
-      case PAGE_DOWN:
+      case 'PageDown':
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           event.altKey ? this.yearsPerPage * 10 : this.yearsPerPage,
         );
         break;
-      case ENTER:
-      case SPACE:
+      case 'Enter':
+      case ' ':
         // Note that we only prevent the default action here while the selection happens in
         // `keyup` below. We can't do the selection here, because it can cause the calendar to
         // reopen if focus is restored immediately. We also can't call `preventDefault` on `keyup`
@@ -283,6 +262,7 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
         // Don't prevent default or focus active cell on keys that we don't explicitly handle.
         return;
     }
+
     if (this._dateAdapter.compareDate(oldActiveDate, this.activeDate)) {
       this.activeDateChange.emit(this.activeDate);
     }
@@ -294,7 +274,7 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Handles keyup events on the calendar body when calendar is in multi-year view. */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
-    if (event.keyCode === SPACE || event.keyCode === ENTER) {
+    if (event.key === ' ' || event.key === 'Enter') {
       if (this._selectionKeyPressed) {
         this._yearSelected({value: this._dateAdapter.getYear(this._activeDate), event});
       }
@@ -309,7 +289,7 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody._focusActiveCell();
+    this._matCalendarBody()._focusActiveCell();
   }
 
   /** Creates an MatCalendarCell for the given year. */

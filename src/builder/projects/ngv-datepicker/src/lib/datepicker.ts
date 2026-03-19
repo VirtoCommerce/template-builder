@@ -1,4 +1,3 @@
-import { Inject, Optional } from '@angular/core';
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -7,12 +6,9 @@ import { Inject, Optional } from '@angular/core';
  * found in the LICENSE file at https://angular.io/license
  */
 
-import { ChangeDetectionStrategy, Component, NgZone, ViewContainerRef, ViewEncapsulation } from '@angular/core';
-import { MAT_DATEPICKER_SCROLL_STRATEGY, MatDatepickerBase, MatDatepickerControl } from './datepicker-base';
-import { MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER, MatDateSelectionModel } from './date-selection-model';
-import { Overlay } from '@angular/cdk/overlay';
-import { DateAdapter } from './core';
-import { Directionality } from '@angular/cdk/bidi';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
+import {MatDatepickerBase, MatDatepickerControl} from './datepicker-base';
+import {MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER} from './date-selection-model';
 
 // TODO(mmalerba): We use a component instead of a directive here so the user can use implicit
 // template reference variables (e.g. #d vs #d="matDatepicker"). We can change this to a directive
@@ -30,16 +26,4 @@ import { Directionality } from '@angular/cdk/bidi';
         { provide: MatDatepickerBase, useExisting: MatDatepicker },
     ]
 })
-export class MatDatepicker<D> extends MatDatepickerBase<MatDatepickerControl<D>, D | null, D> {
-    constructor(
-        overlay: Overlay,
-        ngZone: NgZone,
-        viewContainerRef: ViewContainerRef,
-        @Inject(MAT_DATEPICKER_SCROLL_STRATEGY) scrollStrategy: any,
-        @Optional() dateAdapter: DateAdapter<D>,
-        @Optional() dir: Directionality,
-        model: MatDateSelectionModel<D | null, D>,
-    ) {
-        super(overlay, ngZone, viewContainerRef, scrollStrategy, dateAdapter, dir, model);
-    }
-}
+export class MatDatepicker<D> extends MatDatepickerBase<MatDatepickerControl<D>, D | null, D> {}

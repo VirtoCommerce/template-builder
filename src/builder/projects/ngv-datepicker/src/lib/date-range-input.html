@@ -11,7 +11,7 @@
 
   <span
     class="mat-date-range-input-separator"
-    [class.mat-date-range-input-separator-hidden]="_shouldHideSeparator()">{{separator}}</span>
+    [class.mat-date-range-input-separator-hidden]="_shouldHideSeparator()">{{separator()}}</span>
 
   <div class="mat-date-range-input-end-wrapper">
     <ng-content select="input[matEndDate]"></ng-content>

@@ -75,16 +75,16 @@
             <span>{{ _minuteButtonText }}</span>
           </button>
         </div>
-        @if (calendar.twelveHour) {
+        @if (calendar.twelveHour()) {
           <div class="mat-custom-time-ampm">
-            <button mat-button type="button" class="mat-calendar-control"
+            <button mat-button type="button" class="mat-custom-control"
             [@controlActive]="_isAM ? 'active' : ''"
             [class.mat-custom-control-active]="_isAM"
             [attr.aria-label]="_intl.setToAMLabel"
             (click)="toggleAmPm(true)">
               AM
             </button>
-            <button mat-button type="button" class="mat-calendar-control"
+            <button mat-button type="button" class="mat-custom-control"
             [@controlActive]="!_isAM ? 'active' : ''"
             [class.mat-custom-control-active]="!_isAM"
             [attr.aria-label]="_intl.setToPMLabel"

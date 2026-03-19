@@ -7,15 +7,16 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   Directive,
-  OnDestroy,
   TemplateRef,
-  ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
+  afterNextRender,
+  inject,
+  viewChild,
 } from '@angular/core';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {MatDatepickerBase, MatDatepickerControl} from './datepicker-base';
@@ -23,11 +24,10 @@ import {MatDatepickerBase, MatDatepickerControl} from './datepicker-base';
 /** Button that will close the datepicker and assign the current selection to the data model. */
 @Directive({
   selector: '[matDatepickerApply], [matDateRangePickerApply]',
-  standalone: true,
   host: {'(click)': '_applySelection()'},
 })
 export class MatDatepickerApply {
-  constructor(private _datepicker: MatDatepickerBase<MatDatepickerControl<unknown>, unknown, unknown>) {}
+  private readonly _datepicker = inject<MatDatepickerBase<MatDatepickerControl<unknown>, unknown, unknown>>(MatDatepickerBase);
 
   _applySelection() {
     this._datepicker._applyPendingSelection();
@@ -38,11 +38,10 @@ export class MatDatepickerApply {
 /** Button that will close the datepicker and discard the current selection. */
 @Directive({
   selector: '[matDatepickerCancel], [matDateRangePickerCancel]',
-  standalone: true,
   host: {'(click)': '_datepicker.close()'},
 })
 export class MatDatepickerCancel {
-  constructor(public _datepicker: MatDatepickerBase<MatDatepickerControl<unknown>, unknown, unknown>) {}
+  readonly _datepicker = inject<MatDatepickerBase<MatDatepickerControl<unknown>, unknown, unknown>>(MatDatepickerBase);
 }
 
 /**
@@ -63,26 +62,26 @@ export class MatDatepickerCancel {
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class MatDatepickerActions implements AfterViewInit, OnDestroy {
-  @ViewChild(TemplateRef) _template!: TemplateRef<unknown>;
+export class MatDatepickerActions {
+  private readonly _datepicker = inject<MatDatepickerBase<MatDatepickerControl<unknown>, unknown, unknown>>(MatDatepickerBase);
+  private readonly _viewContainerRef = inject(ViewContainerRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  readonly _template = viewChild.required<TemplateRef<unknown>>(TemplateRef);
   private _portal!: TemplatePortal;
 
-  constructor(
-    private _datepicker: MatDatepickerBase<MatDatepickerControl<unknown>, unknown, unknown>,
-    private _viewContainerRef: ViewContainerRef,
-  ) {}
+  constructor() {
+    afterNextRender(() => {
+      this._portal = new TemplatePortal(this._template(), this._viewContainerRef);
+      this._datepicker.registerActions(this._portal);
+    });
 
-  ngAfterViewInit() {
-    this._portal = new TemplatePortal(this._template, this._viewContainerRef);
-    this._datepicker.registerActions(this._portal);
-  }
+    this._destroyRef.onDestroy(() => {
+      this._datepicker.removeActions(this._portal);
 
-  ngOnDestroy() {
-    this._datepicker.removeActions(this._portal);
-
-    // Needs to be null checked since we initialize it in `ngAfterViewInit`.
-    if (this._portal && this._portal.isAttached) {
-      this._portal?.detach();
-    }
+      // Needs to be null checked since we initialize it in afterNextRender.
+      if (this._portal && this._portal.isAttached) {
+        this._portal.detach();
+      }
+    });
   }
 }

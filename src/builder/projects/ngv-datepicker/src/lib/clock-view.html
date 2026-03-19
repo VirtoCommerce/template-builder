@@ -2,11 +2,11 @@
   <div class="mat-clock-center"></div>
   <div class="mat-clock-hand" [style]="_hand"></div>
 
-  <div class="mat-clock-hours" [class.active]="inHourView">
+  <div class="mat-clock-hours" [class.active]="inHourView()">
     @for (item of _hours; track item.value) {
       <div class="mat-clock-cell"
         [class]="item.cssClasses"
-        [class.mat-clock-cell-selected]="_selectedHour == item.value"
+        [class.mat-clock-cell-selected]="_selectedHour === item.value"
         [class.mat-clock-cell-disabled]="!item.enabled"
         [style.top.%]="item.top"
         [style.left.%]="item.left"
@@ -16,11 +16,11 @@
     }
   </div>
 
-  <div class="mat-clock-minutes" [class.active]="!inHourView">
+  <div class="mat-clock-minutes" [class.active]="!inHourView()">
     @for (item of _minutes; track item.value) {
       <div class="mat-clock-cell"
         [class]="item.cssClasses"
-        [class.mat-clock-cell-selected]="_selectedMinute == item.value"
+        [class.mat-clock-cell-selected]="_selectedMinute === item.value"
         [class.mat-clock-cell-disabled]="!item.enabled"
         [style.top.%]="item.top"
         [style.left.%]="item.left">

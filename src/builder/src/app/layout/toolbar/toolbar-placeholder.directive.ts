@@ -4,8 +4,7 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
 
 @Directive({
-    selector: '[toolbar-placeholder]',
-    standalone: true
+    selector: '[toolbar-placeholder]'
 })
 export class ToolbarPlaceholderDirective {
 

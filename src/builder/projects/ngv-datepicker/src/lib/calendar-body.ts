@@ -9,17 +9,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation,
   NgZone,
-  OnChanges,
-  SimpleChanges,
-  OnDestroy,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  output,
 } from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {take} from 'rxjs/operators';
 import {MatCalendarView} from './calendar.types';
 
@@ -68,9 +66,13 @@ export interface MatCalendarUserEvent<D> {
     },
     exportAs: 'matCalendarBody',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatCalendarBody implements OnChanges, OnDestroy {
+export class MatCalendarBody {
+  private readonly _elementRef = inject(ElementRef<HTMLElement>);
+  private readonly _ngZone = inject(NgZone);
+  private readonly _destroyRef = inject(DestroyRef);
+
   /**
    * Used to skip the next focus event when rendering the preview range.
    * We need a flag like this, because some browsers fire focus events asynchronously.
@@ -78,74 +80,83 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
   private _skipNextFocus: boolean = false;
 
   /** The label for the table. (e.g. "Jan 2017"). */
-  @Input() label!: string;
+  readonly label = input.required<string>();
 
   /** The cells to display in the table. */
-  @Input() rows!: MatCalendarCell[][];
+  readonly rows = input.required<MatCalendarCell[][]>();
 
   /** The value in the table that corresponds to today. */
-  @Input() todayValue!: number;
+  readonly todayValue = input.required<number>();
 
   /** Start value of the selected date range. */
-  @Input() startValue!: number;
+  readonly startValue = input.required<number>();
 
   /** End value of the selected date range. */
-  @Input() endValue!: number;
+  readonly endValue = input.required<number>();
 
   /** The minimum number of free cells needed to fit the label in the first row. */
-  @Input() labelMinRequiredCells!: number;
+  readonly labelMinRequiredCells = input.required<number>();
 
   /** The number of columns in the table. */
-  @Input() numCols: number = 7;
+  readonly numCols = input<number>(7);
 
   /** The cell number of the active cell in the table. */
-  @Input() activeCell: number = 0;
+  readonly activeCell = input<number>(0);
 
   /** Whether a range is being selected. */
-  @Input() isRange: boolean = false;
+  readonly isRange = input<boolean>(false);
 
   /**
    * The aspect ratio (width / height) to use for the cells in the table. This aspect ratio will be
    * maintained even as the table resizes.
    */
-  @Input() cellAspectRatio: number = 1;
+  readonly cellAspectRatio = input<number>(1);
 
   /** Start of the comparison range. */
-  @Input() comparisonStart: number | null = null;
+  readonly comparisonStart = input<number | null>(null);
 
   /** End of the comparison range. */
-  @Input() comparisonEnd: number | null = null;
+  readonly comparisonEnd = input<number | null>(null);
 
   /** Start of the preview range. */
-  @Input() previewStart: number | null = null;
+  readonly previewStart = input<number | null>(null);
 
   /** End of the preview range. */
-  @Input() previewEnd: number | null = null;
+  readonly previewEnd = input<number | null>(null);
 
   /** Emits when a new value is selected. */
-  @Output() readonly selectedValueChange = new EventEmitter<MatCalendarUserEvent<number>>();
+  readonly selectedValueChange = output<MatCalendarUserEvent<number>>();
 
   /** Emits when the preview has changed as a result of a user action. */
-  @Output() readonly previewChange = new EventEmitter<
-    MatCalendarUserEvent<MatCalendarCell | null>
-  >();
+  readonly previewChange = output<MatCalendarUserEvent<MatCalendarCell | null>>();
 
   /** The number of blank cells to put at the beginning for the first row. */
-  _firstRowOffset: number = 0;
+  readonly _firstRowOffset = computed(() => {
+    const rows = this.rows();
+    const numCols = this.numCols();
+    return rows && rows.length && rows[0].length ? numCols - rows[0].length : 0;
+  });
 
   /** Padding for the individual date cells. */
-  _cellPadding!: string;
+  readonly _cellPadding = computed(() => `${(50 * this.cellAspectRatio()) / this.numCols()}%`);
 
   /** Width of an individual cell. */
-  _cellWidth!: string;
+  readonly _cellWidth = computed(() => `${100 / this.numCols()}%`);
 
-  constructor(private _elementRef: ElementRef<HTMLElement>, private _ngZone: NgZone) {
-    _ngZone.runOutsideAngular(() => {
-      const element = _elementRef.nativeElement;
+  constructor() {
+    const element = this._elementRef.nativeElement;
+    this._ngZone.runOutsideAngular(() => {
       element.addEventListener('mouseenter', this._enterHandler, true);
       element.addEventListener('focus', this._enterHandler, true);
       element.addEventListener('mouseleave', this._leaveHandler, true);
       element.addEventListener('blur', this._leaveHandler, true);
+    });
+
+    this._destroyRef.onDestroy(() => {
+      element.removeEventListener('mouseenter', this._enterHandler, true);
+      element.removeEventListener('focus', this._enterHandler, true);
+      element.removeEventListener('mouseleave', this._leaveHandler, true);
+      element.removeEventListener('blur', this._leaveHandler, true);
     });
   }
 
@@ -158,44 +169,19 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
 
   /** Returns whether a cell should be marked as selected. */
   _isSelected(value: number) {
-    return this.startValue === value || this.endValue === value;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    const columnChanges = changes['numCols'];
-    const {rows, numCols} = this;
-
-    if (changes['rows'] || columnChanges) {
-      this._firstRowOffset = rows && rows.length && rows[0].length ? numCols - rows[0].length : 0;
-    }
-
-    if (changes['cellAspectRatio'] || columnChanges || !this._cellPadding) {
-      this._cellPadding = `${(50 * this.cellAspectRatio) / numCols}%`;
-    }
-
-    if (columnChanges || !this._cellWidth) {
-      this._cellWidth = `${100 / numCols}%`;
-    }
-  }
-
-  ngOnDestroy() {
-    const element = this._elementRef.nativeElement;
-    element.removeEventListener('mouseenter', this._enterHandler, true);
-    element.removeEventListener('focus', this._enterHandler, true);
-    element.removeEventListener('mouseleave', this._leaveHandler, true);
-    element.removeEventListener('blur', this._leaveHandler, true);
+    return this.startValue() === value || this.endValue() === value;
   }
 
   /** Returns whether a cell is active. */
   _isActiveCell(rowIndex: number, colIndex: number): boolean {
-    let cellNumber = rowIndex * this.numCols + colIndex;
+    let cellNumber = rowIndex * this.numCols() + colIndex;
 
     // Account for the fact that the first row may not have as many cells.
     if (rowIndex) {
-      cellNumber -= this._firstRowOffset;
+      cellNumber -= this._firstRowOffset();
     }
 
-    return cellNumber == this.activeCell;
+    return cellNumber == this.activeCell();
   }
 
   /** Focuses the active cell after the microtask queue is empty. */
@@ -219,22 +205,22 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
 
   /** Gets whether a value is the start of the main range. */
   _isRangeStart(value: number) {
-    return isStart(value, this.startValue, this.endValue);
+    return isStart(value, this.startValue(), this.endValue());
   }
 
   /** Gets whether a value is the end of the main range. */
   _isRangeEnd(value: number) {
-    return isEnd(value, this.startValue, this.endValue);
+    return isEnd(value, this.startValue(), this.endValue());
   }
 
   /** Gets whether a value is within the currently-selected range. */
   _isInRange(value: number): boolean {
-    return isInRange(value, this.startValue, this.endValue, this.isRange);
+    return isInRange(value, this.startValue(), this.endValue(), this.isRange());
   }
 
   /** Gets whether a value is the start of the comparison range. */
   _isComparisonStart(value: number) {
-    return isStart(value, this.comparisonStart, this.comparisonEnd);
+    return isStart(value, this.comparisonStart(), this.comparisonEnd());
   }
 
   /** Whether the cell is a start bridge cell between the main and comparison ranges. */
@@ -243,10 +229,10 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
       return false;
     }
 
-    let previousCell: MatCalendarCell | undefined = this.rows[rowIndex][colIndex - 1];
+    let previousCell: MatCalendarCell | undefined = this.rows()[rowIndex][colIndex - 1];
 
     if (!previousCell) {
-      const previousRow = this.rows[rowIndex - 1];
+      const previousRow = this.rows()[rowIndex - 1];
       previousCell = previousRow && previousRow[previousRow.length - 1];
     }
 
@@ -259,10 +245,10 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
       return false;
     }
 
-    let nextCell: MatCalendarCell | undefined = this.rows[rowIndex][colIndex + 1];
+    let nextCell: MatCalendarCell | undefined = this.rows()[rowIndex][colIndex + 1];
 
     if (!nextCell) {
-      const nextRow = this.rows[rowIndex + 1];
+      const nextRow = this.rows()[rowIndex + 1];
       nextCell = nextRow && nextRow[0];
     }
 
@@ -271,12 +257,12 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
 
   /** Gets whether a value is the end of the comparison range. */
   _isComparisonEnd(value: number) {
-    return isEnd(value, this.comparisonStart, this.comparisonEnd);
+    return isEnd(value, this.comparisonStart(), this.comparisonEnd());
   }
 
   /** Gets whether a value is within the current comparison range. */
   _isInComparisonRange(value: number) {
-    return isInRange(value, this.comparisonStart, this.comparisonEnd, this.isRange);
+    return isInRange(value, this.comparisonStart(), this.comparisonEnd(), this.isRange());
   }
 
   /**
@@ -292,22 +278,22 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
   _isComparisonIdentical(value: number) {
     // Note that we don't need to null check the start/end
     // here, because the `value` will always be defined.
-    return this.comparisonStart === this.comparisonEnd && value === this.comparisonStart;
+    return this.comparisonStart() === this.comparisonEnd() && value === this.comparisonStart();
   }
 
   /** Gets whether a value is the start of the preview range. */
   _isPreviewStart(value: number) {
-    return isStart(value, this.previewStart, this.previewEnd);
+    return isStart(value, this.previewStart(), this.previewEnd());
   }
 
   /** Gets whether a value is the end of the preview range. */
   _isPreviewEnd(value: number) {
-    return isEnd(value, this.previewStart, this.previewEnd);
+    return isEnd(value, this.previewStart(), this.previewEnd());
   }
 
   /** Gets whether a value is inside the preview range. */
   _isInPreview(value: number) {
-    return isInRange(value, this.previewStart, this.previewEnd, this.isRange);
+    return isInRange(value, this.previewStart(), this.previewEnd(), this.isRange());
   }
 
   /**
@@ -321,7 +307,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
     }
 
     // We only need to hit the zone when we're selecting a range.
-    if (event.target && this.isRange) {
+    if (event.target && this.isRange()) {
       const cell = this._getCellFromElement(event.target as HTMLElement);
 
       if (cell) {
@@ -336,7 +322,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
    */
   private _leaveHandler = (event: Event) => {
     // We only need to hit the zone when we're selecting a range.
-    if (this.previewEnd !== null && this.isRange) {
+    if (this.previewEnd() !== null && this.isRange()) {
       // Only reset the preview end value when leaving cells. This looks better, because
       // we have a gap between the cells and the rows and we don't want to remove the
       // range just for it to show up again when the user moves a few pixels to the side.
@@ -361,7 +347,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
       const col = cell.getAttribute('data-mat-col');
 
       if (row && col) {
-        return this.rows[parseInt(row)][parseInt(col)];
+        return this.rows()[parseInt(row)][parseInt(col)];
       }
     }
 

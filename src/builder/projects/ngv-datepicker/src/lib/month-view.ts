@@ -6,38 +6,20 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {hasModifierKey} from '@angular/cdk/keycodes';
 import {
-  DOWN_ARROW,
-  END,
-  ENTER,
-  HOME,
-  LEFT_ARROW,
-  PAGE_DOWN,
-  PAGE_UP,
-  RIGHT_ARROW,
-  UP_ARROW,
-  SPACE,
-  ESCAPE,
-  hasModifierKey,
-} from '@angular/cdk/keycodes';
-import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Inject,
+  DestroyRef,
   Input,
-  Optional,
-  Output,
   ViewEncapsulation,
-  ViewChild,
-  OnDestroy,
-  SimpleChanges,
-  OnChanges,
+  inject,
   isDevMode,
+  output,
+  viewChild,
 } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MAT_DATE_FORMATS} from '@angular/material/core';
 import {Directionality} from '@angular/cdk/bidi';
 import {DateAdapter, MatDateFormats} from './core';
@@ -48,7 +30,6 @@ import {
   MatCalendarCellClassFunction,
 } from './calendar-body';
 import {createMissingDateImplError} from './datepicker-errors';
-import {Subscription} from 'rxjs';
 import {startWith} from 'rxjs/operators';
 import {DateRange} from './date-selection-model';
 import {
@@ -71,8 +52,15 @@ const DAYS_PER_WEEK = 7;
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
-  private _rerenderSubscription = Subscription.EMPTY;
+export class MatMonthView<D> {
+  readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly _dateFormats = inject<MatDateFormats>(MAT_DATE_FORMATS, {optional: true})!;
+  readonly _dateAdapter = inject<DateAdapter<D>>(DateAdapter)!;
+  private readonly _dir = inject(Directionality, {optional: true});
+  private readonly _rangeStrategy = inject<MatDateRangeSelectionStrategy<D>>(
+    MAT_DATE_RANGE_SELECTION_STRATEGY, {optional: true},
+  );
+  private readonly _destroyRef = inject(DestroyRef);
 
   /** Flag used to filter out space/enter keyup events that originated outside of the view. */
   private _selectionKeyPressed!: boolean;
@@ -139,23 +127,38 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   @Input() dateClass: MatCalendarCellClassFunction<D> | null = null;
 
   /** Start of the comparison range. */
-  @Input() comparisonStart: D | null = null;
+  @Input()
+  get comparisonStart(): D | null {
+    return this._comparisonStart;
+  }
+  set comparisonStart(value: D | null) {
+    this._comparisonStart = value;
+    this._setRanges(this._selected);
+  }
+  private _comparisonStart: D | null = null;
 
   /** End of the comparison range. */
-  @Input() comparisonEnd: D | null = null;
+  @Input()
+  get comparisonEnd(): D | null {
+    return this._comparisonEnd;
+  }
+  set comparisonEnd(value: D | null) {
+    this._comparisonEnd = value;
+    this._setRanges(this._selected);
+  }
+  private _comparisonEnd: D | null = null;
 
   /** Emits when a new date is selected. */
-  @Output() readonly selectedChange: EventEmitter<D | null> = new EventEmitter<D | null>();
+  readonly selectedChange = output<D | null>();
 
   /** Emits when any date is selected. */
-  @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
-    new EventEmitter<MatCalendarUserEvent<D | null>>();
+  readonly _userSelection = output<MatCalendarUserEvent<D | null>>();
 
   /** Emits when any date is activated. */
-  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  @ViewChild(MatCalendarBody) _matCalendarBody!: MatCalendarBody;
+  readonly _matCalendarBody = viewChild.required(MatCalendarBody);
 
   /** The label for this month (e.g. "January 2017"). */
   _monthLabel!: string;
@@ -193,15 +196,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   /** The names of the weekdays. */
   _weekdays: {long: string; narrow: string}[] | null = null;
 
-  constructor(
-    readonly _changeDetectorRef: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
-    @Optional() public _dateAdapter: DateAdapter<D>,
-    @Optional() private _dir?: Directionality,
-    @Inject(MAT_DATE_RANGE_SELECTION_STRATEGY)
-    @Optional()
-    private _rangeStrategy?: MatDateRangeSelectionStrategy<D>,
-  ) {
+  constructor() {
     if (isDevMode()) {
       if (!this._dateAdapter) {
         throw createMissingDateImplError('DateAdapter');
@@ -212,24 +207,10 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     }
 
     this._activeDate = this._dateAdapter.today();
-  }
 
-  ngAfterContentInit() {
-    this._rerenderSubscription = this._dateAdapter.localeChanges
-      .pipe(startWith(null))
+    this._dateAdapter.localeChanges
+      .pipe(startWith(null), takeUntilDestroyed(this._destroyRef))
       .subscribe(() => this._init());
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    const comparisonChange = changes['comparisonStart'] || changes['comparisonEnd'];
-
-    if (comparisonChange && !comparisonChange.firstChange) {
-      this._setRanges(this.selected);
-    }
-  }
-
-  ngOnDestroy() {
-    this._rerenderSubscription.unsubscribe();
   }
 
   /** Handles when a new date is selected. */
@@ -267,51 +248,47 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /** Handles keydown events on the calendar body when calendar is in month view. */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {
-    // TODO(mmalerba): We currently allow keyboard navigation to disabled dates, but just prevent
-    // disabled ones from being selected. This may not be ideal, we should look into whether
-    // navigation should skip over disabled dates, and if so, how to implement that efficiently.
-
     const oldActiveDate = this._activeDate;
     const isRtl = this._isRtl();
 
-    switch (event.keyCode) {
-      case LEFT_ARROW:
+    switch (event.key) {
+      case 'ArrowLeft':
         this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, isRtl ? 1 : -1);
         break;
-      case RIGHT_ARROW:
+      case 'ArrowRight':
         this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, isRtl ? -1 : 1);
         break;
-      case UP_ARROW:
+      case 'ArrowUp':
         this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, -7);
         break;
-      case DOWN_ARROW:
+      case 'ArrowDown':
         this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, 7);
         break;
-      case HOME:
+      case 'Home':
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
           1 - this._dateAdapter.getDate(this._activeDate),
         );
         break;
-      case END:
+      case 'End':
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
           this._dateAdapter.getNumDaysInMonth(this._activeDate) -
             this._dateAdapter.getDate(this._activeDate),
         );
         break;
-      case PAGE_UP:
+      case 'PageUp':
         this.activeDate = event.altKey
           ? this._dateAdapter.addCalendarYears(this._activeDate, -1)
           : this._dateAdapter.addCalendarMonths(this._activeDate, -1);
         break;
-      case PAGE_DOWN:
+      case 'PageDown':
         this.activeDate = event.altKey
           ? this._dateAdapter.addCalendarYears(this._activeDate, 1)
           : this._dateAdapter.addCalendarMonths(this._activeDate, 1);
         break;
-      case ENTER:
-      case SPACE:
+      case 'Enter':
+      case ' ':
         this._selectionKeyPressed = true;
 
         if (this._canSelect(this._activeDate)) {
@@ -323,7 +300,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
           event.preventDefault();
         }
         return;
-      case ESCAPE:
+      case 'Escape':
         // Abort the current range selection if the user presses escape mid-selection.
         if (this._previewEnd != null && !hasModifierKey(event)) {
           this._previewStart = this._previewEnd = null;
@@ -349,7 +326,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /** Handles keyup events on the calendar body when calendar is in month view. */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
-    if (event.keyCode === SPACE || event.keyCode === ENTER) {
+    if (event.key === ' ' || event.key === 'Enter') {
       if (this._selectionKeyPressed && this._canSelect(this._activeDate)) {
         this._dateSelected({value: this._dateAdapter.getDate(this._activeDate), event});
       }
@@ -386,7 +363,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell(movePreview?: boolean) {
-    this._matCalendarBody._focusActiveCell(movePreview);
+    this._matCalendarBody()._focusActiveCell(movePreview);
   }
 
   /** Called when the user has activated a new cell and the preview needs to be updated. */

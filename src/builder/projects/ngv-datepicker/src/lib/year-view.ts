@@ -7,32 +7,18 @@
  */
 
 import {
-  DOWN_ARROW,
-  END,
-  ENTER,
-  HOME,
-  LEFT_ARROW,
-  PAGE_DOWN,
-  PAGE_UP,
-  RIGHT_ARROW,
-  UP_ARROW,
-  SPACE,
-} from '@angular/cdk/keycodes';
-import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Inject,
+  DestroyRef,
   Input,
-  Optional,
-  Output,
-  ViewChild,
   ViewEncapsulation,
-  OnDestroy,
+  inject,
   isDevMode,
+  output,
+  viewChild,
 } from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MAT_DATE_FORMATS} from '@angular/material/core';
 import {Directionality} from '@angular/cdk/bidi';
 import {DateAdapter, MatDateFormats} from './core';
@@ -43,7 +29,6 @@ import {
   MatCalendarCellClassFunction,
 } from './calendar-body';
 import {createMissingDateImplError} from './datepicker-errors';
-import {Subscription} from 'rxjs';
 import {startWith} from 'rxjs/operators';
 import {DateRange} from './date-selection-model';
 import {DateFilterFn} from './datepicker-input-base';
@@ -60,8 +45,12 @@ import {DateFilterFn} from './datepicker-input-base';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MatYearView<D> implements AfterContentInit, OnDestroy {
-  private _rerenderSubscription = Subscription.EMPTY;
+export class MatYearView<D> {
+  readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly _dateFormats = inject<MatDateFormats>(MAT_DATE_FORMATS, {optional: true})!;
+  readonly _dateAdapter = inject<DateAdapter<D>>(DateAdapter)!;
+  private readonly _dir = inject(Directionality, {optional: true});
+  private readonly _destroyRef = inject(DestroyRef);
 
   /** Flag used to filter out space/enter keyup events that originated outside of the view. */
   private _selectionKeyPressed: boolean = false;
@@ -123,19 +112,19 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   @Input() dateFilter!: DateFilterFn<D>;
 
   /** Function that can be used to add custom CSS classes to date cells. */
-  @Input() dateClass!: MatCalendarCellClassFunction<D>;
+  @Input() dateClass: MatCalendarCellClassFunction<D> | null = null;
 
   /** Emits when a new month is selected. */
-  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly selectedChange = output<D>();
 
   /** Emits the selected month. This doesn't imply a change on the selected date */
-  @Output() readonly monthSelected: EventEmitter<D> = new EventEmitter<D>();
+  readonly monthSelected = output<D>();
 
   /** Emits when any date is activated. */
-  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  @ViewChild(MatCalendarBody) _matCalendarBody!: MatCalendarBody;
+  readonly _matCalendarBody = viewChild.required(MatCalendarBody);
 
   /** Grid of calendar cells representing the months of the year. */
   _months!: MatCalendarCell[][];
@@ -152,12 +141,7 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
    */
   _selectedMonth: number | null = null;
 
-  constructor(
-    readonly _changeDetectorRef: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
-    @Optional() public _dateAdapter: DateAdapter<D>,
-    @Optional() private _dir?: Directionality,
-  ) {
+  constructor() {
     if (isDevMode()) {
       if (!this._dateAdapter) {
         throw createMissingDateImplError('DateAdapter');
@@ -168,16 +152,10 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
     }
 
     this._activeDate = this._dateAdapter.today();
-  }
 
-  ngAfterContentInit() {
-    this._rerenderSubscription = this._dateAdapter.localeChanges
-      .pipe(startWith(null))
+    this._dateAdapter.localeChanges
+      .pipe(startWith(null), takeUntilDestroyed(this._destroyRef))
       .subscribe(() => this._init());
-  }
-
-  ngOnDestroy() {
-    this._rerenderSubscription.unsubscribe();
   }
 
   /** Handles when a new month is selected. */
@@ -208,52 +186,48 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Handles keydown events on the calendar body when calendar is in year view. */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {
-    // TODO(mmalerba): We currently allow keyboard navigation to disabled dates, but just prevent
-    // disabled ones from being selected. This may not be ideal, we should look into whether
-    // navigation should skip over disabled dates, and if so, how to implement that efficiently.
-
     const oldActiveDate = this._activeDate;
     const isRtl = this._isRtl();
 
-    switch (event.keyCode) {
-      case LEFT_ARROW:
+    switch (event.key) {
+      case 'ArrowLeft':
         this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, isRtl ? 1 : -1);
         break;
-      case RIGHT_ARROW:
+      case 'ArrowRight':
         this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, isRtl ? -1 : 1);
         break;
-      case UP_ARROW:
+      case 'ArrowUp':
         this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, -4);
         break;
-      case DOWN_ARROW:
+      case 'ArrowDown':
         this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, 4);
         break;
-      case HOME:
+      case 'Home':
         this.activeDate = this._dateAdapter.addCalendarMonths(
           this._activeDate,
           -this._dateAdapter.getMonth(this._activeDate),
         );
         break;
-      case END:
+      case 'End':
         this.activeDate = this._dateAdapter.addCalendarMonths(
           this._activeDate,
           11 - this._dateAdapter.getMonth(this._activeDate),
         );
         break;
-      case PAGE_UP:
+      case 'PageUp':
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           event.altKey ? -10 : -1,
         );
         break;
-      case PAGE_DOWN:
+      case 'PageDown':
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           event.altKey ? 10 : 1,
         );
         break;
-      case ENTER:
-      case SPACE:
+      case 'Enter':
+      case ' ':
         // Note that we only prevent the default action here while the selection happens in
         // `keyup` below. We can't do the selection here, because it can cause the calendar to
         // reopen if focus is restored immediately. We also can't call `preventDefault` on `keyup`
@@ -276,7 +250,7 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Handles keyup events on the calendar body when calendar is in year view. */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
-    if (event.keyCode === SPACE || event.keyCode === ENTER) {
+    if (event.key === ' ' || event.key === 'Enter') {
       if (this._selectionKeyPressed) {
         this._monthSelected({value: this._dateAdapter.getMonth(this._activeDate), event});
       }
@@ -303,7 +277,7 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody._focusActiveCell();
+    this._matCalendarBody()._focusActiveCell();
   }
 
   /**

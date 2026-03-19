@@ -7,21 +7,19 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {DOWN_ARROW} from '@angular/cdk/keycodes';
 import {
+  afterNextRender,
+  DestroyRef,
   Directive,
   ElementRef,
-  EventEmitter,
-  Inject,
+  inject,
   Input,
-  OnDestroy,
-  Optional,
-  Output,
-  AfterViewInit,
   OnChanges,
+  output,
   SimpleChanges,
   isDevMode,
 } from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -69,8 +67,13 @@ export type DateFilterFn<D> = (date: D | null, unit?: DateUnit) => boolean;
 /** Base class for datepicker inputs. */
 @Directive()
 export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection<S>>
-  implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator
+  implements ControlValueAccessor, OnChanges, Validator
 {
+  protected readonly _elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  public readonly _dateAdapter = inject<DateAdapter<D>>(DateAdapter, {optional: true})!;
+  private readonly _dateFormats = inject<MatDateFormats>(MAT_DATE_FORMATS, {optional: true})!;
+  private readonly _destroyRef = inject(DestroyRef);
+
   /** Whether the component has been initialized. */
   private _isInitialized: boolean = false;
 
@@ -112,14 +115,10 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   private _disabled: boolean = false;
 
   /** Emits when a `change` event is fired on this `<input>`. */
-  @Output() readonly dateChange: EventEmitter<MatDatepickerInputEvent<D, S>> = new EventEmitter<
-    MatDatepickerInputEvent<D, S>
-  >();
+  readonly dateChange = output<MatDatepickerInputEvent<D, S>>();
 
   /** Emits when an `input` event is fired on this `<input>`. */
-  @Output() readonly dateInput: EventEmitter<MatDatepickerInputEvent<D, S>> = new EventEmitter<
-    MatDatepickerInputEvent<D, S>
-  >();
+  readonly dateInput = output<MatDatepickerInputEvent<D, S>>();
 
   /** Emits when the internal state has changed */
   readonly stateChanges = new Subject<void>();
@@ -138,7 +137,6 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
 
   private _cvaOnChange: (value: any) => void = () => {};
   private _valueChangesSubscription = Subscription.EMPTY;
-  private _localeSubscription = Subscription.EMPTY;
 
   /**
    * Since the value is kept on the model which is assigned in an Input,
@@ -240,11 +238,7 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   /** Whether the last value set on the input was valid. */
   protected _lastValueValid = false;
 
-  constructor(
-    protected _elementRef: ElementRef<HTMLInputElement>,
-    @Optional() public _dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
-  ) {
+  constructor() {
     if (isDevMode()) {
       if (!this._dateAdapter) {
         throw createMissingDateImplError('DateAdapter');
@@ -255,25 +249,24 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     }
 
     // Update the displayed date when the locale changes.
-    this._localeSubscription = _dateAdapter.localeChanges.subscribe(() => {
-      this._assignValueProgrammatically(this.value);
-    });
-  }
+    this._dateAdapter.localeChanges
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe(() => this._assignValueProgrammatically(this.value));
 
-  ngAfterViewInit() {
-    this._isInitialized = true;
+    this._destroyRef.onDestroy(() => {
+      this._valueChangesSubscription.unsubscribe();
+      this.stateChanges.complete();
+    });
+
+    afterNextRender(() => {
+      this._isInitialized = true;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (dateInputsHaveChanged(changes, this._dateAdapter, this.getUnit())) {
       this.stateChanges.next(undefined);
     }
-  }
-
-  ngOnDestroy() {
-    this._valueChangesSubscription.unsubscribe();
-    this._localeSubscription.unsubscribe();
-    this.stateChanges.complete();
   }
 
   getUnit(): DateUnit {
@@ -319,7 +312,7 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   }
 
   _onKeydown(event: KeyboardEvent) {
-    const isAltDownArrow = event.altKey && event.keyCode === DOWN_ARROW;
+    const isAltDownArrow = event.altKey && event.key === 'ArrowDown';
 
     if (isAltDownArrow && !this._elementRef.nativeElement.readOnly) {
       this._openPopup();

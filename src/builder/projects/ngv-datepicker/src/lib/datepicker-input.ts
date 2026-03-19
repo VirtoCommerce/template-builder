@@ -6,16 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, ElementRef, forwardRef, Inject, Input, OnDestroy, Optional} from '@angular/core';
+import {Directive, forwardRef, inject, Input} from '@angular/core';
 import {NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidatorFn, Validators} from '@angular/forms';
-import {MAT_DATE_FORMATS, ThemePalette} from '@angular/material/core';
+import {ThemePalette} from '@angular/material/core';
 import {MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {MAT_INPUT_VALUE_ACCESSOR} from '@angular/material/input';
 import {Subscription} from 'rxjs';
-import {
-  DateAdapter,
-  MatDateFormats,
-} from './core';
 import {MatDatepickerInputBase, DateFilterFn} from './datepicker-input-base';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 import {DateSelectionModelChange} from './date-selection-model';
@@ -37,7 +33,6 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
 /** Directive used to connect an input to a MatDatepicker. */
 @Directive({
   selector: 'input[matDatepicker]',
-    standalone: true,
   providers: [
     MAT_DATEPICKER_VALUE_ACCESSOR,
     MAT_DATEPICKER_VALIDATORS,
@@ -62,15 +57,17 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
 })
 export class MatDatepickerInput<D>
   extends MatDatepickerInputBase<D | null, D>
-  implements MatDatepickerControl<D | null>, OnDestroy
+  implements MatDatepickerControl<D | null>
 {
-  private _closedSubscription = Subscription.EMPTY;
+  private readonly _formField = inject<MatFormField>(MAT_FORM_FIELD, {optional: true});
+  private _closedSubscription: {unsubscribe(): void} = Subscription.EMPTY;
 
   /** The datepicker that this input is associated with. */
   @Input()
   set matDatepicker(datepicker: MatDatepickerPanel<MatDatepickerControl<D>, D | null, D>) {
     if (datepicker) {
       this._datepicker = datepicker;
+      this._closedSubscription.unsubscribe();
       this._closedSubscription = datepicker.closedStream.subscribe(() => this._onTouched());
       this._registerModel(datepicker.registerInput(this));
     }
@@ -125,13 +122,8 @@ export class MatDatepickerInput<D>
   /** The combined form control validator for this input. */
   protected _validator: ValidatorFn | null;
 
-  constructor(
-    elementRef: ElementRef<HTMLInputElement>,
-    @Optional() dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_DATE_FORMATS) dateFormats: MatDateFormats,
-    @Optional() @Inject(MAT_FORM_FIELD) private _formField?: MatFormField,
-  ) {
-    super(elementRef, dateAdapter, dateFormats);
+  constructor() {
+    super();
     this._validator = Validators.compose(super._getValidators());
   }
 
@@ -139,7 +131,7 @@ export class MatDatepickerInput<D>
    * Gets the element that the datepicker popup should be connected to.
    * @return The element to connect the popup to.
    */
-  getConnectedOverlayOrigin(): ElementRef {
+  getConnectedOverlayOrigin(): import('@angular/core').ElementRef {
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
   }
 
@@ -160,11 +152,6 @@ export class MatDatepickerInput<D>
   /** Gets the value at which the calendar should start. */
   getStartValue(): D | null {
     return this.value;
-  }
-
-  override ngOnDestroy() {
-    super.ngOnDestroy();
-    this._closedSubscription.unsubscribe();
   }
 
   /** Opens the associated datepicker. */

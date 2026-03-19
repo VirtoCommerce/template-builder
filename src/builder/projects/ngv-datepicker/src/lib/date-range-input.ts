@@ -11,17 +11,19 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
   Input,
-  Optional,
-  OnDestroy,
   ContentChild,
   AfterContentInit,
   ChangeDetectorRef,
-  Self,
   ElementRef,
-  Inject,
   OnChanges,
+  OnDestroy,
   SimpleChanges,
+  DestroyRef,
+  effect,
+  inject,
+  input,
   isDevMode,
+  untracked,
 } from '@angular/core';
 
 import {MatFormFieldControl, MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
@@ -80,7 +82,41 @@ export class MatDateRangeInput<D>
     OnChanges,
     OnDestroy
 {
-  private _closedSubscription = Subscription.EMPTY;
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _dateAdapter = inject<DateAdapter<D>>(DateAdapter, {optional: true})!;
+  private readonly _formField = inject<MatFormField>(MAT_FORM_FIELD, {optional: true});
+  private readonly _destroyRef = inject(DestroyRef);
+
+  private _closedSubscription: {unsubscribe(): void} = Subscription.EMPTY;
+
+  constructor() {
+    if (!this._dateAdapter && isDevMode()) {
+      throw createMissingDateImplError('DateAdapter');
+    }
+
+    // The datepicker module can be used both with MDC and non-MDC form fields. We have
+    // to conditionally add the MDC input class so that the range picker looks correctly.
+    if (this._formField?._elementRef.nativeElement.classList.contains('mat-mdc-form-field')) {
+      const classList = this._elementRef.nativeElement.classList;
+      classList.add('mat-mdc-input-element');
+      classList.add('mat-mdc-form-field-input-control');
+    }
+
+    // TODO(crisbeto): remove `as any` after #18206 lands.
+    this.ngControl = inject(ControlContainer, {optional: true, self: true}) as any;
+
+    this._destroyRef.onDestroy(() => {
+      this._closedSubscription.unsubscribe();
+      this.stateChanges.complete();
+    });
+
+    effect(() => {
+      this.comparisonStart();
+      this.comparisonEnd();
+      untracked(() => this.stateChanges.next(undefined));
+    });
+  }
 
   /** Current value of the range input. */
   get value() {
@@ -233,13 +269,13 @@ export class MatDateRangeInput<D>
   private _model: MatDateSelectionModel<DateRange<D>> | undefined;
 
   /** Separator text to be shown between the inputs. */
-  @Input() separator = '–';
+  readonly separator = input('–');
 
   /** Start of the comparison range that should be shown in the calendar. */
-  @Input() comparisonStart: D | null = null;
+  readonly comparisonStart = input<D | null>(null);
 
   /** End of the comparison range that should be shown in the calendar. */
-  @Input() comparisonEnd: D | null = null;
+  readonly comparisonEnd = input<D | null>(null);
 
   @ContentChild(MatStartDate) _startInput!: MatStartDate<D>;
   @ContentChild(MatEndDate) _endInput!: MatEndDate<D>;
@@ -255,29 +291,6 @@ export class MatDateRangeInput<D>
   readonly stateChanges = new Subject<void>();
 
   type: any; // unused prop in the range
-
-  constructor(
-    private _changeDetectorRef: ChangeDetectorRef,
-    private _elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() control: ControlContainer,
-    @Optional() private _dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_FORM_FIELD) private _formField?: MatFormField,
-  ) {
-    if (!_dateAdapter && isDevMode()) {
-      throw createMissingDateImplError('DateAdapter');
-    }
-
-    // The datepicker module can be used both with MDC and non-MDC form fields. We have
-    // to conditionally add the MDC input class so that the range picker looks correctly.
-    if (_formField?._elementRef.nativeElement.classList.contains('mat-mdc-form-field')) {
-      const classList = _elementRef.nativeElement.classList;
-      classList.add('mat-mdc-input-element');
-      classList.add('mat-mdc-form-field-input-control');
-    }
-
-    // TODO(crisbeto): remove `as any` after #18206 lands.
-    this.ngControl = control as any;
-  }
 
   /**
    * Implemented as a part of `MatFormFieldControl`.
@@ -329,10 +342,7 @@ export class MatDateRangeInput<D>
     }
   }
 
-  ngOnDestroy() {
-    this._closedSubscription.unsubscribe();
-    this.stateChanges.complete();
-  }
+  ngOnDestroy() {}
 
   /** Gets the date at which the calendar should start. */
   getStartValue(): D | null {

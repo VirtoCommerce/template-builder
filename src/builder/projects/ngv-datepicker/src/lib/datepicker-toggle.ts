@@ -6,24 +6,22 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
-  AfterContentInit,
-  Attribute,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  Directive,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  ViewEncapsulation,
-  ViewChild,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    Directive,
+    HostAttributeToken,
+    Input,
+    ViewEncapsulation,
+    contentChild,
+    inject,
+    viewChild,
 } from '@angular/core';
+import {outputToObservable} from '@angular/core/rxjs-interop';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {NgIf} from '@angular/common';
 import {merge, Observable, of as observableOf, Subscription} from 'rxjs';
 import {MatDatepickerIntl} from './datepicker-intl';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
@@ -31,7 +29,6 @@ import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 /** Can be used to override the icon of a `matDatepickerToggle`. */
 @Directive({
   selector: '[matDatepickerToggleIcon]',
-  standalone: true,
 })
 export class MatDatepickerToggleIcon {}
 
@@ -55,13 +52,25 @@ export class MatDatepickerToggleIcon {}
     },
     exportAs: 'matDatepickerToggle',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDestroy {
+export class MatDatepickerToggle<D> {
+  readonly _intl = inject(MatDatepickerIntl);
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly _destroyRef = inject(DestroyRef);
+
   private _stateChanges = Subscription.EMPTY;
+  private _datepicker!: MatDatepickerPanel<MatDatepickerControl<any>, D>;
 
   /** Datepicker instance that the button will toggle. */
-  @Input('for') datepicker!: MatDatepickerPanel<MatDatepickerControl<any>, D>;
+  @Input('for')
+  get datepicker(): MatDatepickerPanel<MatDatepickerControl<any>, D> {
+    return this._datepicker;
+  }
+  set datepicker(value: MatDatepickerPanel<MatDatepickerControl<any>, D>) {
+    this._datepicker = value;
+    this._watchStateChanges();
+  }
 
   /** Tabindex for the toggle. */
   @Input() tabIndex: number | null;
@@ -75,7 +84,6 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
     if (this._disabled === undefined && this.datepicker) {
       return this.datepicker.disabled;
     }
-
     return !!this._disabled;
   }
   set disabled(value: boolean) {
@@ -87,32 +95,17 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
   @Input() disableRipple!: boolean;
 
   /** Custom icon set by the consumer. */
-  @ContentChild(MatDatepickerToggleIcon) _customIcon!: MatDatepickerToggleIcon;
+  readonly _customIcon = contentChild(MatDatepickerToggleIcon);
 
   /** Underlying button element. */
-  @ViewChild('button') _button!: MatButton;
+  readonly _button = viewChild.required<MatButton>('button');
 
-  constructor(
-    public _intl: MatDatepickerIntl,
-    private _changeDetectorRef: ChangeDetectorRef,
-    @Attribute('tabindex') defaultTabIndex: string,
-  ) {
+  constructor() {
+    const defaultTabIndex = inject(new HostAttributeToken('tabindex'), { optional: true });
     const parsedTabIndex = Number(defaultTabIndex);
     this.tabIndex = parsedTabIndex || parsedTabIndex === 0 ? parsedTabIndex : null;
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['datepicker']) {
-      this._watchStateChanges();
-    }
-  }
-
-  ngOnDestroy() {
-    this._stateChanges.unsubscribe();
-  }
-
-  ngAfterContentInit() {
-    this._watchStateChanges();
+    this._destroyRef.onDestroy(() => this._stateChanges.unsubscribe());
   }
 
   _open(event: Event): void {
@@ -129,7 +122,7 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
         ? this.datepicker.datepickerInput.stateChanges
         : observableOf();
     const datepickerToggled = this.datepicker
-      ? merge(this.datepicker.openedStream, this.datepicker.closedStream)
+      ? merge(outputToObservable(this.datepicker.openedStream), outputToObservable(this.datepicker.closedStream))
       : observableOf();
 
     this._stateChanges.unsubscribe();
@@ -140,6 +133,4 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
       datepickerToggled,
     ).subscribe(() => this._changeDetectorRef.markForCheck());
   }
-
-  static ngAcceptInputType_disabled: BooleanInput;
 }
