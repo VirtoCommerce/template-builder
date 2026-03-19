@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/template-builder",
+            "outputPath": { "base": "dist", "browser": "" },
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -43,7 +43,7 @@
               "src/demo"
             ],
             "styles": [
-              "dist/ngv-datepicker/prebuilt-themes/indigo-pink.css",
+              ".dist-libs/ngv-datepicker/prebuilt-themes/indigo-pink.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/@angular/cdk/overlay-prebuilt.css",
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

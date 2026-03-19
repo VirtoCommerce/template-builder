@@ -47,12 +47,12 @@
                 "src/app/modules/models/*"
             ],
             "ngv-markdown": [
-                "dist/ngv-markdown/ngv-markdown",
-                "dist/ngv-markdown"
+                ".dist-libs/ngv-markdown/ngv-markdown",
+                ".dist-libs/ngv-markdown"
             ],
             "ngv-datepicker": [
-                "dist/ngv-datepicker/ngv-datepicker",
-                "dist/ngv-datepicker"
+                ".dist-libs/ngv-datepicker/ngv-datepicker",
+                ".dist-libs/ngv-datepicker"
             ]
         }
     },

@@ -19,7 +19,7 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     context!: ControlContext;
     currentForm!: UntypedFormGroup;
 
-    protected readonly _controlValueInput = input<any>(null, { alias: 'controlValue' });
+    readonly _controlValueInput = input<any>(null, { alias: 'controlValue' });
     readonly controlValue = linkedSignal(() => this._controlValueInput() ?? null);
     onValueChanged = (value: any) => this.defaultValueChanged(value);
     onControlTouched = (_: any) => { };

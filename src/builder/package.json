@@ -5,7 +5,7 @@
         "watch": "ng build --watch --configuration development",
         "build": "ng build ngv-markdown && ng build ngv-datepicker && npm run build:datepicker:themes && ng build",
         "build:datepicker": "ng build ngv-datepicker && npm run build:datepicker:themes",
-        "build:datepicker:themes": "sass --load-path=node_modules --silence-deprecation=global-builtin --silence-deprecation=import --silence-deprecation=if-function projects/ngv-datepicker/src/lib/prebuilt-themes:dist/ngv-datepicker/prebuilt-themes --style=compressed",
+        "build:datepicker:themes": "sass --load-path=node_modules --silence-deprecation=global-builtin --silence-deprecation=import --silence-deprecation=if-function projects/ngv-datepicker/src/lib/prebuilt-themes:.dist-libs/ngv-datepicker/prebuilt-themes --style=compressed",
         "ng": "ng",
         "start": "ng serve",
         "test": "ng test",
