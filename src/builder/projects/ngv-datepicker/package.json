@@ -2,12 +2,12 @@
   "name": "ngv-datepicker",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/animations": ">=19.0.0 <20.0.0",
-    "@angular/cdk": ">=19.0.0 <20.0.0",
-    "@angular/common": ">=19.0.0 <20.0.0",
-    "@angular/core": ">=19.0.0 <20.0.0",
-    "@angular/forms": ">=19.0.0 <20.0.0",
-    "@angular/material": ">=19.0.0 <20.0.0",
+    "@angular/animations": ">=20.0.0 <21.0.0",
+    "@angular/cdk": ">=20.0.0 <21.0.0",
+    "@angular/common": ">=20.0.0 <21.0.0",
+    "@angular/core": ">=20.0.0 <21.0.0",
+    "@angular/forms": ">=20.0.0 <21.0.0",
+    "@angular/material": ">=20.0.0 <21.0.0",
     "rxjs": ">=7.5.0 <8.0.0"
   },
   "devDependencies": {

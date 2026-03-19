@@ -1306,10 +1306,10 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@ctrl/tinycolor@^3.6.0":
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.6.1.tgz#b6c75a56a1947cc916ea058772d666a2c8932f31"
-  integrity sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==
+"@ctrl/tinycolor@^4.1.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-4.2.0.tgz#ba5d0b917303c0b3d3c14c4865cdc6ded25ac05f"
+  integrity sha512-kzyuwOAQnXJNLS9PSyrk0CWk35nWJW/zl/6KvnTBMFK65gm7U1/Z5BqjxeapjZCIhQcM/DsrEmcbRwDyXyXK4A==
 
 "@discoveryjs/json-ext@0.6.3":
   version "0.6.3"
@@ -1835,10 +1835,10 @@
   resolved "https://registry.yarnpkg.com/@inquirer/type/-/type-3.0.10.tgz#11ed564ec78432a200ea2601a212d24af8150d50"
   integrity sha512-BvziSRxfz5Ov8ch0z/n3oijRSEcEsHnhggm4xFZe93DHcUCTlutlq9Ox4SVENAfcRD22UQq7T/atg9Wr3k09eA==
 
-"@iplab/ngx-file-upload@^19.0.4":
-  version "19.0.4"
-  resolved "https://registry.yarnpkg.com/@iplab/ngx-file-upload/-/ngx-file-upload-19.0.4.tgz#214746d8b5e4855378427ff567733c0db7454b7d"
-  integrity sha512-xiAsQa43Z+P52wSx8dkzYP8iGuZ1qomdfDzQqLc84plYl9HFMk4vdSHISLoel9aE32qxWkcfZ/VWaRHDfPiyLg==
+"@iplab/ngx-file-upload@^20.0.1":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@iplab/ngx-file-upload/-/ngx-file-upload-20.0.1.tgz#399602fed6cd2fe31c4180578d051555744cdc74"
+  integrity sha512-oL5N2Wdh0r5z+pThlN6kI3xN6NEq5EPYAiAN6jxbQaU/4Fkb5qdopmZxrt8cBThUhAwItcgslbK9dX4eU5zzTw==
   dependencies:
     tslib "^2.3.0"
 
@@ -2279,12 +2279,12 @@
     "@napi-rs/nice-win32-ia32-msvc" "1.1.1"
     "@napi-rs/nice-win32-x64-msvc" "1.1.1"
 
-"@ng-select/ng-select@^14.9.0":
-  version "14.9.0"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-14.9.0.tgz#8f9f09d37bd856f17dd0af06f1c485108b180658"
-  integrity sha512-f/E3EaSVwdKmwvZL43nS961bGaXR90F0Gtb8vA+ub8Hfwqjr1NTI6X7+yu5iMkqfy5ZW5cJdoGvo+kv8zcAkjQ==
+"@ng-select/ng-select@^20.7.0":
+  version "20.7.0"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-20.7.0.tgz#0fa734d4ee69c8ab3453073ded3c57ee9aa013f2"
+  integrity sha512-tOAhUnb4LFjTnn9gi6e6tSrUDi1GqCzjwnubBIxxa2XFHXqGOjYlqIMkPcSRByF4G9olzdZM38nLUtZOO3YKqg==
   dependencies:
-    tslib "^2.3.1"
+    tslib "^2.8.1"
 
 "@ngrx/effects@^20.1.0":
   version "20.1.0"
@@ -6263,26 +6263,26 @@ ng-packagr@^20.3.2:
   optionalDependencies:
     rollup "^4.24.0"
 
-ngx-color@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-color/-/ngx-color-9.0.0.tgz#7e58da081a3563c53607fc10090a61cfa27eaffc"
-  integrity sha512-zyAFux+FRI4cACZ7g8DQQsBbNMhqmFkhtUPaxhkiVHhPzWU1iqXP8MqWH6By3guNOCch5oYrYNBWlHToklbdDg==
+ngx-color@^10.1.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-color/-/ngx-color-10.1.0.tgz#a3083548fba9fd9e02c2e7e0a954eb6cf17e010f"
+  integrity sha512-yuxlE1LfN+PABIO4hv0Gw5ksq8g9XkMJKrGPn2SWbrre/gsH+kkyyn3rwSCurinnLCnw7czqenwQUtnBJm8yww==
   dependencies:
-    "@ctrl/tinycolor" "^3.6.0"
+    "@ctrl/tinycolor" "^4.1.0"
     material-colors "^1.2.6"
     tslib "^2.3.0"
 
-ngx-cookie-service@^19.1.2:
-  version "19.1.2"
-  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-19.1.2.tgz#d96c073705bfd9740609b6635bb2a23973a1760d"
-  integrity sha512-4BFbc5BA7/ryuQVZUfDMHcjdgkHeW8obqfCCknoOEaplefjzlVvMQUx9Hywfjbc8POzZeZD2csS43Hs7rscJcA==
+ngx-cookie-service@^20.1.1:
+  version "20.1.1"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-20.1.1.tgz#ea1873f56e7775f7b7a2393735cfdff4db981489"
+  integrity sha512-jGjjIqu+Kt8De6YjDqTQOaUHKB7gYs0eaDuLyXfNhfKnA78lA7D7oWcaIzjkmXhRqTnh2/ex1UHmZHN9MX0yoQ==
   dependencies:
     tslib "^2.8.0"
 
-ngx-scrollbar@^18.0.0:
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-scrollbar/-/ngx-scrollbar-18.0.0.tgz#dbf9c300b9e33ee55d631e474d436afe2db8cf46"
-  integrity sha512-+ykmY491x+nzXvnecJvZHvDz0YWuX1r7SYMxNG4RVHXm5Z68P/8kd/3ryLD6DXdNWmJawd4NGvqq2ZkUKb/g3A==
+ngx-scrollbar@^19.1.4:
+  version "19.1.4"
+  resolved "https://registry.yarnpkg.com/ngx-scrollbar/-/ngx-scrollbar-19.1.4.tgz#8812868fb6c17c25ad7201d0755b51a98ad298c3"
+  integrity sha512-VzmLli1Uq+tZ40s5BpBDVO5mxjeNL7L7JbVluuokKsrIfi1GmXmkx69iz0zruyVWmyzU5VeuiqhMobPYazGKOQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -7895,7 +7895,7 @@ ts-interface-checker@^0.1.9:
   resolved "https://registry.yarnpkg.com/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz#784fd3d679722bc103b1b4b8030bcddb5db2a699"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
 
-tslib@2.8.1, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.3.1, tslib@^2.4.0, tslib@^2.8.0:
+tslib@2.8.1, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.8.0, tslib@^2.8.1:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
