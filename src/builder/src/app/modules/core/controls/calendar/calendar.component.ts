@@ -14,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 
 import { BaseControlDirective } from '@core/controls/base-control.directive';
 import { CalendarDescriptor } from '@models/controls';
-import moment from 'moment';
 import * as chrono from 'chrono-node';
 
 /**

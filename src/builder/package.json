@@ -12,6 +12,10 @@
     "lint": "ng lint"
   },
   "private": true,
+  "workspaces": [
+    "projects/ngv-markdown",
+    "projects/ngv-datepicker"
+  ],
   "dependencies": {
     "@angular/animations": "^19.2.20",
     "@angular/cdk": "^19.2.19",
@@ -20,7 +24,6 @@
     "@angular/core": "^19.2.20",
     "@angular/forms": "^19.2.20",
     "@angular/material": "^19.2.19",
-    "@angular/material-moment-adapter": "^19.2.19",
     "@angular/platform-browser": "^19.2.20",
     "@angular/platform-browser-dynamic": "^19.2.20",
     "@angular/router": "^19.2.20",
@@ -34,19 +37,14 @@
     "chrono-node": "^2.9.0",
     "ckeditor4": "^4.25.1",
     "ckeditor4-angular": "^5.2.1",
-    "date-fns": "^3.6.0",
-    "date-fns-tz": "^3.2.0",
-    "easymde": "^2.18.0",
     "jsonpath-plus": "^10.4.0",
     "lodash-es": "^4.17.21",
-    "moment": "^2.29.3",
     "ngx-color": "^9.0.0",
     "ngx-cookie-service": "^19.1.2",
     "ngx-scrollbar": "^18.0.0",
     "ngx-toastr": "^19.1.0",
     "rxjs": "^7.8.2",
     "tslib": "^2.4.0",
-    "turndown": "^7.1.1",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {

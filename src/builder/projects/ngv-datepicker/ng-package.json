@@ -7,11 +7,12 @@
       "../../node_modules/"
     ]
   },
-"assets": [
+  "assets": [
     "src/lib/**/*.scss",
     "src/lib/prebuilt-themes/*.scss"
-],
+  ],
   "allowedNonPeerDependencies": [
-    ".*"
+    "date-fns",
+    "date-fns-tz"
   ]
 }

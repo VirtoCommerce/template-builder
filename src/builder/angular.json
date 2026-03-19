@@ -27,7 +27,7 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "src/polyfills.ts"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -104,8 +104,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
@@ -154,7 +156,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngv-markdown/src/test.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/ngv-markdown/tsconfig.spec.json",
             "karmaConfig": "projects/ngv-markdown/karma.conf.js"
           }
@@ -194,7 +199,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngv-datepicker/src/test.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/ngv-datepicker/tsconfig.spec.json",
             "karmaConfig": "projects/ngv-datepicker/karma.conf.js"
           }

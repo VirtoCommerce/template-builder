@@ -1,8 +1,14 @@
 {
   "name": "ngv-markdown",
   "version": "0.0.1",
-  "peerDependencies": { },
+  "peerDependencies": {
+    "@angular/common": ">=19.0.0 <20.0.0",
+    "@angular/core": ">=19.0.0 <20.0.0",
+    "rxjs": ">=7.5.0 <8.0.0"
+  },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "easymde": "^2.18.0",
+    "tslib": "^2.3.0",
+    "turndown": "^7.1.1"
   }
 }
