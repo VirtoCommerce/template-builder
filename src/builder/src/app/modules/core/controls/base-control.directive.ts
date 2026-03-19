@@ -1,4 +1,4 @@
-import { AfterContentInit, Directive, ElementRef, Input, OnInit, output, signal } from "@angular/core";
+import { AfterContentInit, Directive, ElementRef, input, linkedSignal, OnInit, output } from "@angular/core";
 import { UntypedFormGroup } from "@angular/forms";
 import { appHelpers } from "@app/modules/integration/helpers";
 // import { FormGroup } from '@angular/forms';
@@ -19,8 +19,8 @@ export class BaseControlDirective<T extends BaseControlDescriptor> implements On
     context!: ControlContext;
     currentForm!: UntypedFormGroup;
 
-    readonly controlValue = signal<any>(null);
-    @Input('controlValue') set controlValueInput(v: any) { this.controlValue.set(v ?? null); }
+    protected readonly _controlValueInput = input<any>(null, { alias: 'controlValue' });
+    readonly controlValue = linkedSignal(() => this._controlValueInput() ?? null);
     onValueChanged = (value: any) => this.defaultValueChanged(value);
     onControlTouched = (_: any) => { };
 
