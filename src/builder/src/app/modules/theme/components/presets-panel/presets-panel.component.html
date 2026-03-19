@@ -2,12 +2,13 @@
   <app-panel>
     <div class="flex flex-col">
       @if (viewModel(); as vm) {
+        @let currentFilter = filter();
         <div class="search-holder"
-          [ngClass]="{ 'not-found': filter() && !(vm.presets|keyvalue).length }">
+          [ngClass]="{ 'not-found': currentFilter && !(vm.presets|keyvalue).length }">
           <input placeholder="Search preset by name"
             class="search"
             type="search"
-            [value]="filter()"
+            [value]="currentFilter"
             (keyup)="applyPresetsFilter($event)"
             (search)="applyPresetsFilter($event)" />
           </div>
@@ -24,7 +25,7 @@
               </app-icon-button>
             </div>
           }
-          @if (filter() && !(vm.presets|keyvalue).length) {
+          @if (currentFilter && !(vm.presets|keyvalue).length) {
             <div class="no-presets">
               No presets found
             </div>

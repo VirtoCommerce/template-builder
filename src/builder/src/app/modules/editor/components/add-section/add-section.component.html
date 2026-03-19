@@ -3,11 +3,12 @@
     <div>
       <ul class="flex flex-col">
         @if (viewModel(); as vm) {
+          @let currentFilter = filter();
           <li class="search-holder">
             <input placeholder="Search in library"
               class="search"
               type="search"
-              [value]="filter()"
+              [value]="currentFilter"
               (keyup)="applySectionsFilter($event)"
               (search)="applySectionsFilter($event)" />
             </li>
@@ -39,7 +40,7 @@
                 }
               </li>
             }
-            @if (filter() && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length) {
+            @if (currentFilter && !(vm.groups|keyvalue).length && !(vm.items|keyvalue).length) {
               <li class="p-4 text-gray-300">
                 {{ !!vm.parentSection ? 'No blocks found' : 'No sections found' }}
               </li>

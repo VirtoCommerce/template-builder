@@ -1,3 +1,4 @@
+@let currentSettings = settings();
 <app-panel>
   <div title-content>
     <div class="grow pl-2">
@@ -21,8 +22,8 @@
               </div>
             </div>
             @if (uiState[group.name].opened) {
-              @if (settings(); as settings) {
-                <app-dynamic-form [sectionModel]="$any(settings)"
+              @if (currentSettings) {
+                <app-dynamic-form [sectionModel]="$any(currentSettings)"
                   [descriptors]="group.settings"
                   [context]="context"
                 (modelChanged)="onSettingsChanged($event)" />
@@ -35,10 +36,10 @@
   </div>
 </app-panel>
 @if (editableGroup(); as editableGroup) {
-  @if (settings(); as settings) {
+  @if (currentSettings) {
     <app-settings-panel [context]="context"
       [group]="editableGroup"
-      [settings]="settings"
+      [settings]="currentSettings"
       (backClick)="onBackClick(editableGroup)"
     (settingsChanged)="onSettingsChanged($event)" />
   }
